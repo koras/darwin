@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,110 +14,160 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MaterialApp(home: MergeGame()),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+ImageItem? findImageById(String id) {
+  return allImages.firstWhere((image) => image.id == id);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+String? getMergeResult(String firstId, String secondId) {
+  // Проверяем правила в обоих направлениях (A+B и B+A)
+  final rule = mergeRules.firstWhereOrNull(
+    (rule) =>
+        (rule.firstImageId == firstId && rule.secondImageId == secondId) ||
+        (rule.firstImageId == secondId && rule.secondImageId == firstId),
+  );
+  return rule?.resultImageId;
+}
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+class MergeGame extends StatefulWidget {
+  @override
+  _MergeGameState createState() => _MergeGameState();
+}
+
+class _MergeGameState extends State<MergeGame> {
+  // Выбранные картинки для игры (например, 3 из всех)
+  late List<ImageItem> gameImages;
+
+  // Позиции и видимость
+  final Map<String, Offset> positions = {};
+  final Map<String, bool> isVisible = {};
+  String? resultImageId;
+
+  @override
+  void initState() {
+    super.initState();
+    // Выбираем случайные картинки для уровня
+    gameImages = [...allImages.take(3)]; // Берём первые 3 для примера
+
+    // Инициализируем позиции и видимость
+    for (var i = 0; i < gameImages.length; i++) {
+      final img = gameImages[i];
+      positions[img.id] = Offset(100 + i * 150, 200);
+      isVisible[img.id] = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      body: Stack(
+        children: [
+          // Рисуем все видимые картинки
+          for (final img in gameImages)
+            if (isVisible[img.id]!)
+              Positioned(
+                left: positions[img.id]!.dx,
+                top: positions[img.id]!.dy,
+                child: GestureDetector(
+                  onPanUpdate: (details) {
+                    setState(() {
+                      positions[img.id] = positions[img.id]! + details.delta;
+                      checkCollisions();
+                    });
+                  },
+                  child: Image.asset(img.assetPath, width: 100, height: 100),
+                ),
+              ),
+
+          // Результат слияния (если есть)
+          if (resultImageId != null)
+            Positioned(
+              left: _getCenterX(),
+              top: _getCenterY(),
+              child: Image.asset(
+                findImageById(resultImageId!)!.assetPath,
+                width: 50,
+                height: 50,
+              ),
             ),
-          ],
-        ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  void checkCollisions() {
+    final visibleImages =
+        gameImages.where((img) => isVisible[img.id]!).toList();
+
+    // Проверяем все пары
+    for (int i = 0; i < visibleImages.length; i++) {
+      for (int j = i + 1; j < visibleImages.length; j++) {
+        final img1 = visibleImages[i];
+        final img2 = visibleImages[j];
+
+        final distance = (positions[img1.id]! - positions[img2.id]!).distance;
+
+        if (distance < 100) {
+          // Дистанция для слияния
+          final resultId = getMergeResult(img1.id, img2.id);
+          if (resultId != null) {
+            setState(() {
+              isVisible[img1.id] = false;
+              isVisible[img2.id] = false;
+              resultImageId = resultId;
+            });
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  double _getCenterX() {
+    final visible = gameImages.where((img) => !isVisible[img.id]!);
+    if (visible.length != 2) return 200;
+    return (positions[visible.first.id]!.dx + positions[visible.last.id]!.dx) /
+        2;
+  }
+
+  double _getCenterY() {
+    final visible = gameImages.where((img) => !isVisible[img.id]!);
+    if (visible.length != 2) return 300;
+    return (positions[visible.first.id]!.dy + positions[visible.last.id]!.dy) /
+        2;
+  }
+}
+
+final List<ImageItem> allImages = [
+  ImageItem('apple', 'assets/images/apple.png'),
+  ImageItem('banana', 'assets/images/banana.png'),
+  ImageItem('orange', 'assets/images/orange.png'),
+  ImageItem('fruit_basket', 'assets/images/fruit_basket.png'),
+  ImageItem('smoothie', 'assets/images/smoothie.png'),
+];
+
+final List<MergeRule> mergeRules = [
+  MergeRule('apple', 'banana', 'fruit_basket'),
+  MergeRule('banana', 'orange', 'smoothie'),
+];
+
+class ImageItem {
+  final String id;
+  final String assetPath;
+
+  ImageItem(this.id, this.assetPath);
+}
+
+class MergeRule {
+  final String firstImageId;
+  final String secondImageId;
+  final String resultImageId;
+
+  MergeRule(this.firstImageId, this.secondImageId, this.resultImageId);
 }
