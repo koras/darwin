@@ -41,6 +41,24 @@ class MergeGame extends StatefulWidget {
 }
 
 class _MergeGameState extends State<MergeGame> {
+  double _toolboxHeightPercentage = 0.3; // Начальная высота панели (30% экрана)
+
+  // Геттер для вычисления высоты игрового поля
+  double get _gameAreaHeight =>
+      MediaQuery.of(context).size.height * _gameAreaPercentage;
+
+  // Геттер для высоты панели инструментов
+  double get _toolboxHeight =>
+      MediaQuery.of(context).size.height * (1 - _gameAreaPercentage);
+
+  // double _gameAreaHeight = 400; // Высота игрового поля (можно менять)
+  // final List<ImageItem> _selectedImages = []; // Картинки на игровом поле
+  //final List<ImageItem> _toolboxImages = []; // Картинки в панели инструментов
+
+  double _gameAreaPercentage = 0.7; // Начальная высота (70%)
+  final List<ImageItem> _selectedImages = [];
+  final List<ImageItem> _toolboxImages = allImages.take(5).toList();
+
   // Выбранные картинки для игры (например, 3 из всех)
   late List<ImageItem> gameImages;
 
@@ -52,53 +70,234 @@ class _MergeGameState extends State<MergeGame> {
   @override
   void initState() {
     super.initState();
-    // Выбираем случайные картинки для уровня
-    gameImages = [...allImages.take(3)]; // Берём первые 3 для примера
 
-    // Инициализируем позиции и видимость
-    for (var i = 0; i < gameImages.length; i++) {
-      final img = gameImages[i];
-      positions[img.id] = Offset(100 + i * 150, 200);
-      isVisible[img.id] = true;
-    }
+    // Заполняем панель инструментов (например, первые 5 картинок)
+    _toolboxImages.addAll(allImages.take(5));
+
+    // // Выбираем случайные картинки для уровня
+    // gameImages = [...allImages.take(3)]; // Берём первые 3 для примера
+
+    // // Инициализируем позиции и видимость
+    // for (var i = 0; i < gameImages.length; i++) {
+    //   final img = gameImages[i];
+    //   positions[img.id] = Offset(100 + i * 150, 200);
+    //   isVisible[img.id] = true;
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final toolboxHeight = screenHeight * _toolboxHeightPercentage;
+    final itemSize =
+        MediaQuery.of(context).size.width / 4 -
+        12; // 4 элемента в ряд с отступами
+
+    // final gameAreaHeight = screenHeight * _gameAreaPercentage;
+    // final toolboxHeight = screenHeight * (1 - _gameAreaPercentage);
+    // Widget _buildDraggableImage(ImageItem img) {
+    //   return Positioned(
+    //     left: img.position.dx,
+    //     top: img.position.dy,
+    //     child: GestureDetector(
+    //       onPanUpdate: (details) {
+    //         setState(() => img.position += details.delta);
+    //       },
+    //       child: Image.asset(img.assetPath, width: 80, height: 80),
+    //     ),
+    //   );
+    // }
+
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          // Рисуем все видимые картинки
-          for (final img in gameImages)
-            if (isVisible[img.id]!)
-              Positioned(
-                left: positions[img.id]!.dx,
-                top: positions[img.id]!.dy,
-                child: GestureDetector(
-                  onPanUpdate: (details) {
+          // Основное игровое поле (автоматически занимает оставшееся пространство)
+          // Expanded(
+          //   child: Container(
+          //     color: Colors.grey[200],
+          //     child: Stack(
+          //       children:
+          //           _selectedImages
+          //               .map((img) => _buildDraggableImage(img))
+          //               .toList(),
+          //     ),
+          //   ),
+          // ),
+          Expanded(
+            child: Container(
+              color: Colors.grey[200],
+              child: Center(child: Text("Игровая зона")),
+            ),
+          ),
+          // Панель инструментов (статичные картинки)
+
+          // Нижняя панель с ручкой для растягивания
+          // Нижняя панель
+          SizedBox(
+            height: toolboxHeight,
+            child: Column(
+              children: [
+                // Полоса для растягивания
+                GestureDetector(
+                  onVerticalDragUpdate: (details) {
                     setState(() {
-                      positions[img.id] = positions[img.id]! + details.delta;
-                      checkCollisions();
+                      _toolboxHeightPercentage -=
+                          details.delta.dy / screenHeight;
+                      _toolboxHeightPercentage = _toolboxHeightPercentage.clamp(
+                        0.15,
+                        0.4,
+                      );
                     });
                   },
-                  child: Image.asset(img.assetPath, width: 100, height: 100),
+                  child: Container(
+                    height: 24,
+                    color: Colors.blueGrey[300],
+                    child: Center(
+                      child: Container(
+                        width: 60,
+                        height: 4,
+                        color: Colors.blueGrey[500],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
 
-          // Результат слияния (если есть)
-          if (resultImageId != null)
-            Positioned(
-              left: _getCenterX(),
-              top: _getCenterY(),
-              child: Image.asset(
-                findImageById(resultImageId!)!.assetPath,
-                width: 50,
-                height: 50,
-              ),
+                // Скроллируемая область с фиксированными элементами
+                Expanded(
+                  child: Container(
+                    color: Colors.blueGrey[100],
+                    child: GridView.builder(
+                      padding: EdgeInsets.all(8),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4, // 4 элемента в ряд
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                        childAspectRatio: 1, // Квадратные элементы
+                      ),
+                      itemCount: _toolboxImages.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: itemSize,
+                          height: itemSize,
+                          child: _buildToolboxItem(
+                            _toolboxImages[index],
+                            itemSize,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
         ],
       ),
     );
+  }
+
+  // Widget _buildToolboxPanel(BuildContext context, double size) {
+  //   return SizedBox(
+  //     height: height,
+  //     child: Column(
+  //       children: [
+  //         // Верхняя полоса для растягивания
+  //         _buildDragHandle(),
+
+  //         // Скроллируемая область с элементами
+  //         Expanded(
+  //           child: Container(
+  //             color: Colors.blueGrey[100],
+  //             child: GridView.builder(
+  //               padding: EdgeInsets.all(8),
+  //               scrollDirection: Axis.horizontal,
+  //               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //                 crossAxisCount: 2,
+  //                 mainAxisSpacing: 8,
+  //                 crossAxisSpacing: 8,
+  //                 childAspectRatio: 1,
+  //               ),
+  //               itemCount: _toolboxImages.length,
+  //               itemBuilder: (context, index) {
+  //                 return _buildToolboxItem(_toolboxImages[index], itemSize);
+  //               },
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget _buildDragHandle() {
+    return GestureDetector(
+      onVerticalDragUpdate: (details) {
+        setState(() {
+          final screenHeight = MediaQuery.of(context).size.height;
+          _toolboxHeightPercentage -= details.delta.dy / screenHeight;
+          _toolboxHeightPercentage = _toolboxHeightPercentage.clamp(0.15, 0.7);
+        });
+      },
+      child: Container(
+        height: 24,
+        color: Colors.blueGrey[300],
+        child: Center(
+          child: Container(width: 60, height: 4, color: Colors.blueGrey[500]),
+        ),
+      ),
+    );
+  }
+  // Полоса для растягивания
+
+  Widget _buildToolboxItem(ImageItem img, double size) {
+    return GestureDetector(
+      onTap: () => print("Добавлен ${img.id}"), // Замените на вашу логику
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 2, spreadRadius: 1),
+          ],
+        ), // Добавлена закрывающая скобка
+
+        child: Container(
+          width: size,
+          height: size,
+
+          child: Image.asset(
+            img.assetPath,
+            fit: BoxFit.contain,
+            //  width: 40,
+            //   height: 40
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _addImageToGameField(ImageItem img) {
+    setState(() {
+      _selectedImages.add(
+        ImageItem(
+          img.id,
+          img.assetPath,
+          position: Offset(
+            MediaQuery.of(context).size.width / 2 - 40,
+            _gameAreaHeight / 2 - 40,
+          ),
+        ),
+      );
+    });
+  }
+
+  void _updateImagePosition(String id, Offset newPosition) {
+    setState(() {
+      final img = _selectedImages.firstWhere((img) => img.id == id);
+      img.position = newPosition;
+    });
   }
 
   void checkCollisions() {
@@ -161,7 +360,8 @@ class ImageItem {
   final String id;
   final String assetPath;
 
-  ImageItem(this.id, this.assetPath);
+  Offset position;
+  ImageItem(this.id, this.assetPath, {this.position = Offset.zero});
 }
 
 class MergeRule {
@@ -170,4 +370,25 @@ class MergeRule {
   final String resultImageId;
 
   MergeRule(this.firstImageId, this.secondImageId, this.resultImageId);
+}
+
+class DraggableImage extends StatelessWidget {
+  final ImageItem image;
+  final Function(Offset) onDragEnd;
+
+  const DraggableImage({required this.image, required this.onDragEnd});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: image.position.dx,
+      top: image.position.dy,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          onDragEnd(image.position + details.delta);
+        },
+        child: Image.asset(image.assetPath, width: 80, height: 80),
+      ),
+    );
+  }
 }
