@@ -249,9 +249,9 @@ class _MergeGameState extends State<MergeGame> {
   }
   // Полоса для растягивания
 
-  Widget _buildToolboxItem(ImageItem img, double size) {
+  Widget _buildToolboxItem(ImageItem imgItem, double size) {
     return GestureDetector(
-      onTap: () => print("Добавлен ${img.id}"), // Замените на вашу логику
+      onTap: () => print("Добавлен ${imgItem.id}"), // Замените на вашу логику
       child: Container(
         width: size,
         height: size,
@@ -263,16 +263,37 @@ class _MergeGameState extends State<MergeGame> {
           ],
         ), // Добавлена закрывающая скобка
 
-        child: Container(
-          width: size,
-          height: size,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Картинка (занимает большую часть пространства)
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  imgItem.assetPath,
+                  fit: BoxFit.contain,
+                  width: size - 20,
+                  height: size - 20,
+                ),
+              ),
+            ),
 
-          child: Image.asset(
-            img.assetPath,
-            fit: BoxFit.contain,
-            //  width: 40,
-            //   height: 40
-          ),
+            // Текстовая подпись
+            Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Text(
+                imgItem.slug, // Преобразуем item_1 в "item 1"
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -282,6 +303,7 @@ class _MergeGameState extends State<MergeGame> {
     setState(() {
       _selectedImages.add(
         ImageItem(
+          img.id,
           img.id,
           img.assetPath,
           position: Offset(
@@ -344,11 +366,11 @@ class _MergeGameState extends State<MergeGame> {
 }
 
 final List<ImageItem> allImages = [
-  ImageItem('apple', 'assets/images/apple.png'),
-  ImageItem('banana', 'assets/images/banana.png'),
-  ImageItem('orange', 'assets/images/orange.png'),
-  ImageItem('fruit_basket', 'assets/images/fruit_basket.png'),
-  ImageItem('smoothie', 'assets/images/smoothie.png'),
+  ImageItem('apple', 'apple', 'assets/images/apple.png'),
+  ImageItem('banana', 'banana', 'assets/images/banana.png'),
+  ImageItem('orange', 'orange', 'assets/images/orange.png'),
+  ImageItem('fruit_basket', 'fruit_basket', 'assets/images/fruit_basket.png'),
+  ImageItem('smoothie', 'smoothie', 'assets/images/smoothie.png'),
 ];
 
 final List<MergeRule> mergeRules = [
@@ -358,10 +380,10 @@ final List<MergeRule> mergeRules = [
 
 class ImageItem {
   final String id;
+  final String slug;
   final String assetPath;
-
   Offset position;
-  ImageItem(this.id, this.assetPath, {this.position = Offset.zero});
+  ImageItem(this.id, this.slug, this.assetPath, {this.position = Offset.zero});
 }
 
 class MergeRule {
