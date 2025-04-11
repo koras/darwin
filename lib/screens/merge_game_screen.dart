@@ -5,6 +5,9 @@ import '../logic/merge_logic.dart';
 import '../models/game_item.dart';
 import '../models/image_item.dart';
 import '../models/merge_rule.dart';
+import '../widgets/game_grid.dart';
+import '../utils/ui_helpers.dart';
+import '../logic/game_field_manager.dart';
 
 class MergeGame extends StatefulWidget {
   @override
@@ -33,9 +36,10 @@ class _MergeGameState extends State<MergeGame> {
   late double cellSize;
   GameItem? _draggedItem;
   Offset? _dragStartPosition;
+  late FieldManager _fieldManager;
 
   double _gameAreaPercentage = 0.7; // Начальная высота (70%)
-  final List<ImageItem> _selectedImages = [];
+
   final List<ImageItem> _toolboxImages = allImages.take(5).toList();
 
   // Выбранные картинки для игры (например, 3 из всех)
@@ -55,6 +59,7 @@ class _MergeGameState extends State<MergeGame> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
     // final screenHeight = MediaQuery.of(context).size.height;
     final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
 
@@ -79,8 +84,8 @@ class _MergeGameState extends State<MergeGame> {
                 child: Stack(
                   children: [
                     // Сетка
-                    _buildGrid(),
-
+                    // _buildGrid(),
+                    GameGrid(rows: 5, columns: 5),
                     // Элементы на поле
                     ..._gameItems.map((item) => _buildGameItem(item)),
 
@@ -229,7 +234,7 @@ class _MergeGameState extends State<MergeGame> {
   }
 
   Widget _buildGameItem(GameItem item) {
-    print(' элемент на поле  ${item.slug}');
+    //  print(' элемент на поле  ${item.slug}');
 
     return Positioned(
       left: item.gridX * cellSize + cellSize * 0.1,
@@ -285,29 +290,6 @@ class _MergeGameState extends State<MergeGame> {
     }
   }
 
-  void _checkForMergeOld(GameItem movedItem) {
-    // Проверяем соседние ячейки
-    for (int dx = -1; dx <= 1; dx++) {
-      for (int dy = -1; dy <= 1; dy++) {
-        if (dx == 0 && dy == 0) continue;
-
-        final nx = movedItem.gridX + dx;
-        final ny = movedItem.gridY + dy;
-
-        if (nx >= 0 && nx < gridColumns && ny >= 0 && ny < gridRows) {
-          final neighbor = _gameItems.firstWhereOrNull(
-            (item) => item.gridX == nx && item.gridY == ny && !item.isDragging,
-          );
-
-          if (neighbor != null) {
-            _tryMergeItems(movedItem, neighbor);
-            return;
-          }
-        }
-      }
-    }
-  }
-
   void _tryMergeItems(GameItem item1, GameItem item2) {
     final resultId = getMergeResult(item1.id, item2.id);
 
@@ -330,106 +312,22 @@ class _MergeGameState extends State<MergeGame> {
         );
       });
 
-      _showMessage('Получено: ${resultItem.slug}');
+      showGameMessage(context, 'Получено: ${resultItem.slug}');
     }
   }
 
-  void _showMessage(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(text), duration: const Duration(seconds: 2)),
-    );
-  }
-
-  Widget _buildDraggableItem(GameItem item) {
-    final posX = item.gridX * cellSize + cellSize * 0.1;
-    final posY = item.gridY * cellSize + cellSize * 0.1;
-
-    return Positioned(
-      left: posX + item.dragOffset.dx,
-      top: posY + item.dragOffset.dy,
-      child: GestureDetector(
-        // onPanStart: (_) {
-        //   setState(() {
-        //     item.isDragging = true;
-        //   });
-        // },
-        onPanUpdate: (details) {
-          setState(() {
-            item.dragOffset += details.delta;
-          });
-        },
-
-        onPanEnd: (_) => _stopDragging(item),
-        child: Container(
-          width: cellSize * 0.8,
-          height: cellSize * 0.8,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(item.isDragging ? 0.4 : 0.2),
-                blurRadius: 8,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: Image.asset(item.assetPath, fit: BoxFit.contain),
-        ),
-      ),
-    );
-  }
-
-  void _stopDragging(GameItem item) {
-    setState(() {
-      final posX = item.gridX * cellSize + cellSize * 0.1 + item.dragOffset.dx;
-      final posY = item.gridY * cellSize + cellSize * 0.1 + item.dragOffset.dy;
-
-      final newX = (posX / cellSize).round();
-      final newY = (posY / cellSize).round();
-
-      if (_isCellEmpty(newX, newY)) {
-        item.gridX = newX;
-        item.gridY = newY;
-      }
-
-      item.dragOffset = Offset.zero;
-      item.isDragging = false;
-      _draggedItem = null;
-      _checkForMerge(item);
-    });
-  }
-
-  Widget _buildGrid() {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 5,
-        childAspectRatio: 1,
-      ),
-      itemCount: 25,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.all(1),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.withOpacity(0.3)),
-          ),
-        );
-      },
-    );
-  }
-
-  void _addToGameField(ImageItem item) {
+  void _addToGameFieldOld(ImageItem item) {
     print("Добавляем элемент ${item.id}");
 
     // Проверка ограничений
     if (_gameItems.length >= maxItems) {
-      _showMessage('Максимум $maxItems элементов на поле');
+      showGameMessage(context, 'Максимум $maxItems элементов на поле');
       return;
     }
 
     final sameTypeCount = _gameItems.where((i) => i.id == item.id).length;
     if (sameTypeCount >= maxSameType) {
-      _showMessage('Максимум $maxSameType элементов одного типа');
+      showGameMessage(context, 'Максимум $maxSameType элементов одного типа');
       return;
     }
 
@@ -453,7 +351,7 @@ class _MergeGameState extends State<MergeGame> {
       }
     }
 
-    _showMessage('Нет свободных ячеек');
+    showGameMessage(context, 'Нет свободных ячеек');
   }
 
   bool _isCellEmpty(int x, int y) {
@@ -467,7 +365,19 @@ class _MergeGameState extends State<MergeGame> {
   Widget _buildToolboxItem(ImageItem imgItem, double size) {
     return GestureDetector(
       // print("Добавлен ${imgItem.id}")
-      onTap: () => {_addToGameField(imgItem)}, // Замените на вашу логику
+      onTap:
+          () => {
+            //   _addToGameField(imgItem)
+            _fieldManager.tryAddItem(
+              context: context,
+              item: imgItem,
+              onAdd: (newItem) {
+                setState(() {
+                  _gameItems.add(newItem);
+                });
+              },
+            ),
+          }, // Замените на вашу логику
       child: Container(
         width: size,
         height: size,
@@ -515,29 +425,6 @@ class _MergeGameState extends State<MergeGame> {
     );
   }
 
-  void _addImageToGameField(ImageItem img) {
-    setState(() {
-      _selectedImages.add(
-        ImageItem(
-          img.id,
-          img.id,
-          img.assetPath,
-          position: Offset(
-            MediaQuery.of(context).size.width / 2 - 40,
-            _gameAreaHeight / 2 - 40,
-          ),
-        ),
-      );
-    });
-  }
-
-  void _updateImagePosition(String id, Offset newPosition) {
-    setState(() {
-      final img = _selectedImages.firstWhere((img) => img.id == id);
-      img.position = newPosition;
-    });
-  }
-
   void checkCollisions() {
     final visibleImages =
         gameImages.where((img) => isVisible[img.id]!).toList();
@@ -564,19 +451,5 @@ class _MergeGameState extends State<MergeGame> {
         }
       }
     }
-  }
-
-  double _getCenterX() {
-    final visible = gameImages.where((img) => !isVisible[img.id]!);
-    if (visible.length != 2) return 200;
-    return (positions[visible.first.id]!.dx + positions[visible.last.id]!.dx) /
-        2;
-  }
-
-  double _getCenterY() {
-    final visible = gameImages.where((img) => !isVisible[img.id]!);
-    if (visible.length != 2) return 300;
-    return (positions[visible.first.id]!.dy + positions[visible.last.id]!.dy) /
-        2;
   }
 }

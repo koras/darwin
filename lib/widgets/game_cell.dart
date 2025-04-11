@@ -35,10 +35,3 @@ class GameCell extends StatelessWidget {
     );
   }
 }
-
-// class GameCell {
-//   final ImageItem? item;
-//   GameCell.empty() : item = null;
-//   GameCell.withItem(this.item);
-//   bool get isEmpty => item == null;
-// }
