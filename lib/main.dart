@@ -51,8 +51,8 @@ class _MergeGameState extends State<MergeGame> {
       MediaQuery.of(context).size.height * _gameAreaPercentage;
 
   // Геттер для высоты панели инструментов
-  double get _toolboxHeight =>
-      MediaQuery.of(context).size.height * (1 - _gameAreaPercentage);
+  // double get _toolboxHeight =>
+  //     MediaQuery.of(context).size.height * (1 - _gameAreaPercentage);
 
   final List<GameItem> _gameItems = [];
 
@@ -64,6 +64,7 @@ class _MergeGameState extends State<MergeGame> {
   final int gridRows = 5;
   late double cellSize;
   GameItem? _draggedItem;
+  Offset? _dragStartPosition;
 
   double _gameAreaPercentage = 0.7; // Начальная высота (70%)
   final List<ImageItem> _selectedImages = [];
@@ -99,38 +100,23 @@ class _MergeGameState extends State<MergeGame> {
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              color: Colors.grey[200],
-              child: Stack(
-                children: [
-                  // Сетка 5x7
-                  GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 5,
-                          childAspectRatio: 1,
-                        ),
-                    itemCount: 25,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.all(1),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey.withOpacity(0.3),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+            child: GestureDetector(
+              onPanUpdate: _handleDragUpdate,
+              onPanEnd: _handleDragEnd,
+              child: Container(
+                color: Colors.grey[200],
+                child: Stack(
+                  children: [
+                    // Сетка
+                    _buildGrid(),
 
-                  // Элементы на поле
-                  ..._gameItems
-                      .where((item) => item != _draggedItem)
-                      .map((item) => _buildGameItem(item)),
+                    // Элементы на поле
+                    ..._gameItems.map((item) => _buildGameItem(item)),
 
-                  if (_draggedItem != null) _buildDraggableItem(_draggedItem!),
-                ],
+                    // Перетаскиваемый элемент (если есть)
+                    if (_draggedItem != null) _buildDraggingItem(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -199,15 +185,69 @@ class _MergeGameState extends State<MergeGame> {
     );
   }
 
+  Widget _buildDraggingItem() {
+    print('смена позиции');
+    return Positioned(
+      left:
+          _draggedItem!.gridX * cellSize +
+          cellSize * 0.1 +
+          _draggedItem!.dragOffset.dx,
+      top:
+          _draggedItem!.gridY * cellSize +
+          cellSize * 0.1 +
+          _draggedItem!.dragOffset.dy,
+      child: Container(
+        width: cellSize * 0.8,
+        height: cellSize * 0.8,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              blurRadius: 8,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        child: Image.asset(_draggedItem!.assetPath, fit: BoxFit.contain),
+      ),
+    );
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (_draggedItem != null) {
+      final item = _draggedItem!;
+      final newX =
+          ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
+      final newY =
+          ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
+
+      setState(() {
+        // Сбрасываем смещение
+        item.dragOffset = Offset.zero;
+        // Если клетка свободна - перемещаем элемент
+        if (_isCellEmpty(newX, newY)) {
+          item.gridX = newX;
+          item.gridY = newY;
+        }
+        // Возвращаем элемент на поле (в новую или старую позицию)
+        _gameItems.add(item);
+        _draggedItem = null;
+
+        // Проверяем возможные слияния
+        _checkForMerge(item);
+      });
+    }
+  }
+
   Widget _buildGameItem(GameItem item) {
-    final posX = item.gridX * cellSize + cellSize * 0.1;
-    final posY = item.gridY * cellSize + cellSize * 0.1;
+    print(' элемент на поле  ${item.slug}');
 
     return Positioned(
-      left: posX,
-      top: posY,
+      left: item.gridX * cellSize + cellSize * 0.1,
+      top: item.gridY * cellSize + cellSize * 0.1,
       child: GestureDetector(
-        onPanStart: (_) => _startDragging(item),
+        onPanStart: (details) => _startDragging(item, details.globalPosition),
         child: Container(
           width: cellSize * 0.8,
           height: cellSize * 0.8,
@@ -227,14 +267,39 @@ class _MergeGameState extends State<MergeGame> {
     );
   }
 
-  void _startDragging(GameItem item) {
+  void _startDragging(GameItem item, Offset startPosition) {
+
+    print('_startDragging перетаскиваем элемент ${item.slug}  ')
+
     setState(() {
       _draggedItem = item;
-      item.isDragging = true;
+      _dragStartPosition = startPosition;
+      // Сразу удаляем элемент из исходного положения
+      _gameItems.remove(item);
     });
   }
 
+  void _handleDragUpdate(DragUpdateDetails details) {
+    if (_draggedItem != null) {
+      setState(() {
+        _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
+      });
+    }
+  }
+
+  // Проверяем возможные слияния для перемещенного элемента
   void _checkForMerge(GameItem movedItem) {
+    for (final item in _gameItems) {
+      if (item != movedItem &&
+          (item.gridX - movedItem.gridX).abs() <= 1 &&
+          (item.gridY - movedItem.gridY).abs() <= 1) {
+        _tryMergeItems(movedItem, item);
+        return;
+      }
+    }
+  }
+
+  void _checkForMergeOld(GameItem movedItem) {
     // Проверяем соседние ячейки
     for (int dx = -1; dx <= 1; dx++) {
       for (int dy = -1; dy <= 1; dy++) {
@@ -348,18 +413,17 @@ class _MergeGameState extends State<MergeGame> {
     });
   }
 
-  // Сетка для визуального ориентира (необязательно)
-  Widget _buildGrid(double cellSize) {
+  Widget _buildGrid() {
     return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 5,
         childAspectRatio: 1,
       ),
       itemCount: 25,
       itemBuilder: (context, index) {
         return Container(
-          margin: EdgeInsets.all(1),
+          margin: const EdgeInsets.all(1),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.withOpacity(0.3)),
           ),
