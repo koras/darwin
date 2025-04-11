@@ -103,6 +103,9 @@ class _MergeGameState extends State<MergeGame> {
             child: GestureDetector(
               onPanUpdate: _handleDragUpdate,
               onPanEnd: _handleDragEnd,
+
+              onPanStart: _handleGlobalDragStart,
+
               child: Container(
                 color: Colors.grey[200],
                 child: Stack(
@@ -185,6 +188,23 @@ class _MergeGameState extends State<MergeGame> {
     );
   }
 
+  void _handleGlobalDragStart(DragStartDetails details) {
+    final touchPosition = details.globalPosition;
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final localPosition = renderBox.globalToLocal(touchPosition);
+
+    final touchedX = (localPosition.dx / cellSize).floor();
+    final touchedY = (localPosition.dy / cellSize).floor();
+
+    final touchedItem = _gameItems.firstWhereOrNull(
+      (item) => item.gridX == touchedX && item.gridY == touchedY,
+    );
+
+    if (touchedItem != null) {
+      _startDragging(touchedItem, touchPosition);
+    }
+  }
+
   Widget _buildDraggingItem() {
     print('смена позиции');
     return Positioned(
@@ -247,7 +267,6 @@ class _MergeGameState extends State<MergeGame> {
       left: item.gridX * cellSize + cellSize * 0.1,
       top: item.gridY * cellSize + cellSize * 0.1,
       child: GestureDetector(
-        onPanStart: (details) => _startDragging(item, details.globalPosition),
         child: Container(
           width: cellSize * 0.8,
           height: cellSize * 0.8,
@@ -268,8 +287,7 @@ class _MergeGameState extends State<MergeGame> {
   }
 
   void _startDragging(GameItem item, Offset startPosition) {
-
-    print('_startDragging перетаскиваем элемент ${item.slug}  ')
+    print('_startDragging перетаскиваем элемент ${item.slug}  ');
 
     setState(() {
       _draggedItem = item;
