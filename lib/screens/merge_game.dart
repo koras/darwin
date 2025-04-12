@@ -72,6 +72,7 @@ class _MergeGameState extends State<MergeGame> {
     return Scaffold(
       body: Column(
         children: [
+          // игровое поле
           GameField(
             gameItems: _gameItems,
             draggedItem: _draggedItem,
@@ -80,6 +81,7 @@ class _MergeGameState extends State<MergeGame> {
             onDragUpdate: _handleDragUpdate,
             onDragEnd: _handleDragEnd,
           ),
+          // панель на которой находятся все фишки игры
           ToolboxPanel(
             height: toolboxHeight,
             toolboxImages: _toolboxImages,

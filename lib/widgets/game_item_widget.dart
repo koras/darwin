@@ -1,4 +1,3 @@
-// lib/widgets/game_item_widget.dart
 import 'package:flutter/material.dart';
 import '../models/game_item.dart';
 
