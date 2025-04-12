@@ -27,6 +27,7 @@ class GameItemWidget extends StatelessWidget {
               ),
             ],
           ),
+
           child: Image.asset(item.assetPath, fit: BoxFit.contain),
         ),
       ),

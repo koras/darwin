@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 // сетка поля
 class GameGrid extends StatelessWidget {
   final int rows;
-  final int columns;
+  final int columns; // Новый параметр
 
-  const GameGrid({Key? key, this.rows = 5, this.columns = 5}) : super(key: key);
+  const GameGrid({
+    Key? key,
+    this.rows = 5,
+    this.columns = 5, // По умолчанию 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

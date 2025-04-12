@@ -78,8 +78,10 @@ class _MergeGameState extends State<MergeGame> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
-    cellSize = screenSize.width / gridColumns; // Рассчитываем размер ячейки
 
+    cellSize =
+        (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
+    print("размер ячейки ${screenSize.width}  ${cellSize}  ${gridColumns}");
     return Scaffold(
       body: Stack(
         children: [
