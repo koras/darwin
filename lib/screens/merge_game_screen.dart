@@ -16,7 +16,7 @@ class MergeGame extends StatefulWidget {
 
 class _MergeGameState extends State<MergeGame> {
   double _toolboxHeightPercentage = 0.3; // Начальная высота панели (30% экрана)
-
+  late FieldManager _fieldManager;
   // Геттер для вычисления высоты игрового поля
   double get _gameAreaHeight =>
       MediaQuery.of(context).size.height * _gameAreaPercentage;
@@ -36,7 +36,6 @@ class _MergeGameState extends State<MergeGame> {
   late double cellSize;
   GameItem? _draggedItem;
   Offset? _dragStartPosition;
-  late FieldManager _fieldManager;
 
   double _gameAreaPercentage = 0.7; // Начальная высота (70%)
 
@@ -53,6 +52,14 @@ class _MergeGameState extends State<MergeGame> {
   @override
   void initState() {
     super.initState();
+
+    _fieldManager = FieldManager(
+      gameItems: _gameItems,
+      maxItems: maxItems,
+      maxSameType: maxSameType,
+      gridColumns: gridColumns,
+      gridRows: gridRows,
+    );
     _toolboxImages.addAll(allImages.take(5));
   }
 
