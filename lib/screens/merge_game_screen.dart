@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
-import '../logic/merge_logic.dart';
 import '../models/game_item.dart';
 import '../models/image_item.dart';
 import '../widgets/toolbox_item.dart';
-//import '../models/merge_rule.dart';
 import '../widgets/game_grid.dart';
-import '../utils/ui_helpers.dart';
 import '../logic/game_field_manager.dart';
 import '../logic/merge_handler.dart';
+import '../widgets/game_item_widget.dart';
+import '../widgets/dragging_item_widget.dart';
 
 class MergeGame extends StatefulWidget {
   @override
@@ -98,10 +97,17 @@ class _MergeGameState extends State<MergeGame> {
                     // _buildGrid(),
                     GameGrid(rows: 5, columns: 5),
                     // Элементы на поле
-                    ..._gameItems.map((item) => _buildGameItem(item)),
-
+                    ..._gameItems.map(
+                      (item) => GameItemWidget(item: item, cellSize: cellSize),
+                    ),
+                    //                    ..._gameItems.map((item) => _buildGameItem(item)),
                     // Перетаскиваемый элемент (если есть)
-                    if (_draggedItem != null) _buildDraggingItem(),
+                    if (_draggedItem != null)
+                      DraggingItemWidget(
+                        item: _draggedItem!,
+                        cellSize: cellSize,
+                      ),
+                    //_buildDraggingItem(),
                   ],
                 ),
               ),
@@ -201,34 +207,6 @@ class _MergeGameState extends State<MergeGame> {
     }
   }
 
-  Widget _buildDraggingItem() {
-    return Positioned(
-      left:
-          _draggedItem!.gridX * cellSize +
-          cellSize * 0.1 +
-          _draggedItem!.dragOffset.dx,
-      top:
-          _draggedItem!.gridY * cellSize +
-          cellSize * 0.1 +
-          _draggedItem!.dragOffset.dy,
-      child: Container(
-        width: cellSize * 0.8,
-        height: cellSize * 0.8,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              blurRadius: 8,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: Image.asset(_draggedItem!.assetPath, fit: BoxFit.contain),
-      ),
-    );
-  }
-
   void _handleDragEnd(DragEndDetails details) {
     if (_draggedItem != null) {
       final item = _draggedItem!;
@@ -253,32 +231,6 @@ class _MergeGameState extends State<MergeGame> {
         _checkForMerge(item);
       });
     }
-  }
-
-  Widget _buildGameItem(GameItem item) {
-    //  print(' элемент на поле  ${item.slug}');
-
-    return Positioned(
-      left: item.gridX * cellSize + cellSize * 0.1,
-      top: item.gridY * cellSize + cellSize * 0.1,
-      child: GestureDetector(
-        child: Container(
-          width: cellSize * 0.8,
-          height: cellSize * 0.8,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 4,
-                spreadRadius: 1,
-              ),
-            ],
-          ),
-          child: Image.asset(item.assetPath, fit: BoxFit.contain),
-        ),
-      ),
-    );
   }
 
   void _startDragging(GameItem item, Offset startPosition) {
@@ -312,32 +264,6 @@ class _MergeGameState extends State<MergeGame> {
       }
     }
   }
-
-  // void _tryMergeItems(GameItem item1, GameItem item2) {
-  //   final resultId = getMergeResult(item1.id, item2.id);
-
-  //   if (resultId != null) {
-  //     final resultItem = allImages.firstWhere((img) => img.id == resultId);
-  //     final mergeX = item1.gridX;
-  //     final mergeY = item1.gridY;
-
-  //     setState(() {
-  //       _gameItems.remove(item1);
-  //       _gameItems.remove(item2);
-  //       _gameItems.add(
-  //         GameItem(
-  //           id: resultItem.id,
-  //           slug: resultItem.slug,
-  //           assetPath: resultItem.assetPath,
-  //           gridX: mergeX,
-  //           gridY: mergeY,
-  //         ),
-  //       );
-  //     });
-
-  //     showGameMessage(context, 'Получено: ${resultItem.slug}');
-  //   }
-  // }
 
   bool _isCellEmpty(int x, int y) {
     if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) return false;
