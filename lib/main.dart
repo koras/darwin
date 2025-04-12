@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
+//import 'package:collection/collection.dart';
 
-import 'screens/merge_game_screen.dart';
-import 'models/image_item.dart';
+//import 'screens/merge_game_screen.dart';
+import 'screens/merge_game.dart';
+//import 'models/image_item.dart';
 
 void main() {
   runApp(const MyApp());
