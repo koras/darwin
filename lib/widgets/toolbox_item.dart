@@ -20,7 +20,6 @@ class ToolboxItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("123123123");
     return GestureDetector(
       onTap: () {
         fieldManager.tryAddItem(

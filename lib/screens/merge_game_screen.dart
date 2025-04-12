@@ -5,10 +5,11 @@ import '../logic/merge_logic.dart';
 import '../models/game_item.dart';
 import '../models/image_item.dart';
 import '../widgets/toolbox_item.dart';
-import '../models/merge_rule.dart';
+//import '../models/merge_rule.dart';
 import '../widgets/game_grid.dart';
 import '../utils/ui_helpers.dart';
 import '../logic/game_field_manager.dart';
+import '../logic/merge_handler.dart';
 
 class MergeGame extends StatefulWidget {
   @override
@@ -18,16 +19,8 @@ class MergeGame extends StatefulWidget {
 class _MergeGameState extends State<MergeGame> {
   double _toolboxHeightPercentage = 0.3; // Начальная высота панели (30% экрана)
   late FieldManager _fieldManager;
-  // Геттер для вычисления высоты игрового поля
-  double get _gameAreaHeight =>
-      MediaQuery.of(context).size.height * _gameAreaPercentage;
-
-  // Геттер для высоты панели инструментов
-  // double get _toolboxHeight =>
-  //     MediaQuery.of(context).size.height * (1 - _gameAreaPercentage);
 
   final List<GameItem> _gameItems = [];
-
   final int maxItems = 20;
   final int maxSameType = 3;
 
@@ -38,17 +31,15 @@ class _MergeGameState extends State<MergeGame> {
   GameItem? _draggedItem;
   Offset? _dragStartPosition;
 
-  double _gameAreaPercentage = 0.7; // Начальная высота (70%)
-
   final List<ImageItem> _toolboxImages = allImages.take(5).toList();
-
-  // Выбранные картинки для игры (например, 3 из всех)
   late List<ImageItem> gameImages;
 
   // Позиции и видимость
   final Map<String, Offset> positions = {};
   final Map<String, bool> isVisible = {};
   String? resultImageId;
+  // В классе _MergeGameState добавляем поле
+  late MergeHandler _mergeHandler;
 
   @override
   void initState() {
@@ -66,6 +57,15 @@ class _MergeGameState extends State<MergeGame> {
       rows: gridRows,
       columns: gridColumns,
     );
+
+    _mergeHandler = MergeHandler(
+      context: context,
+      gameItems: _gameItems,
+      onMergeComplete: (mergedItem) {
+        setState(() {}); // Обновляем UI после слияния
+      },
+    );
+
     _toolboxImages.addAll(allImages.take(5));
   }
 
@@ -89,9 +89,7 @@ class _MergeGameState extends State<MergeGame> {
             child: GestureDetector(
               onPanUpdate: _handleDragUpdate,
               onPanEnd: _handleDragEnd,
-
               onPanStart: _handleGlobalDragStart,
-
               child: Container(
                 color: Colors.grey[200],
                 child: Stack(
@@ -204,7 +202,6 @@ class _MergeGameState extends State<MergeGame> {
   }
 
   Widget _buildDraggingItem() {
-    print('смена позиции');
     return Positioned(
       left:
           _draggedItem!.gridX * cellSize +
@@ -309,144 +306,43 @@ class _MergeGameState extends State<MergeGame> {
       if (item != movedItem &&
           (item.gridX - movedItem.gridX).abs() <= 1 &&
           (item.gridY - movedItem.gridY).abs() <= 1) {
-        _tryMergeItems(movedItem, item);
+        //  _tryMergeItems(movedItem, item);
+        _mergeHandler.tryMergeItems(movedItem, item);
         return;
       }
     }
   }
 
-  void _tryMergeItems(GameItem item1, GameItem item2) {
-    final resultId = getMergeResult(item1.id, item2.id);
+  // void _tryMergeItems(GameItem item1, GameItem item2) {
+  //   final resultId = getMergeResult(item1.id, item2.id);
 
-    if (resultId != null) {
-      final resultItem = allImages.firstWhere((img) => img.id == resultId);
-      final mergeX = item1.gridX;
-      final mergeY = item1.gridY;
+  //   if (resultId != null) {
+  //     final resultItem = allImages.firstWhere((img) => img.id == resultId);
+  //     final mergeX = item1.gridX;
+  //     final mergeY = item1.gridY;
 
-      setState(() {
-        _gameItems.remove(item1);
-        _gameItems.remove(item2);
-        _gameItems.add(
-          GameItem(
-            id: resultItem.id,
-            slug: resultItem.slug,
-            assetPath: resultItem.assetPath,
-            gridX: mergeX,
-            gridY: mergeY,
-          ),
-        );
-      });
+  //     setState(() {
+  //       _gameItems.remove(item1);
+  //       _gameItems.remove(item2);
+  //       _gameItems.add(
+  //         GameItem(
+  //           id: resultItem.id,
+  //           slug: resultItem.slug,
+  //           assetPath: resultItem.assetPath,
+  //           gridX: mergeX,
+  //           gridY: mergeY,
+  //         ),
+  //       );
+  //     });
 
-      showGameMessage(context, 'Получено: ${resultItem.slug}');
-    }
-  }
-
-  void _addToGameFieldOld(ImageItem item) {
-    print("Добавляем элемент ${item.id}");
-
-    // Проверка ограничений
-    if (_gameItems.length >= maxItems) {
-      showGameMessage(context, 'Максимум $maxItems элементов на поле');
-      return;
-    }
-
-    final sameTypeCount = _gameItems.where((i) => i.id == item.id).length;
-    if (sameTypeCount >= maxSameType) {
-      showGameMessage(context, 'Максимум $maxSameType элементов одного типа');
-      return;
-    }
-
-    // Находим первую свободную ячейку
-    for (int y = 0; y < gridRows; y++) {
-      for (int x = 0; x < gridColumns; x++) {
-        if (_isCellEmpty(x, y)) {
-          setState(() {
-            _gameItems.add(
-              GameItem(
-                id: item.id,
-                slug: item.slug,
-                assetPath: item.assetPath,
-                gridX: x,
-                gridY: y,
-              ),
-            );
-          });
-          return;
-        }
-      }
-    }
-
-    showGameMessage(context, 'Нет свободных ячеек');
-  }
+  //     showGameMessage(context, 'Получено: ${resultItem.slug}');
+  //   }
+  // }
 
   bool _isCellEmpty(int x, int y) {
     if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) return false;
     return !_gameItems.any(
       (item) => item.gridX == x && item.gridY == y && !item.isDragging,
-    );
-  }
-
-  // Полоса для растягивания
-  Widget _buildToolboxItem(ImageItem imgItem, double size) {
-    return GestureDetector(
-      // print("Добавлен ${imgItem.id}")
-      onTap:
-          () => {
-            //   _addToGameField(imgItem)
-            _fieldManager.tryAddItem(
-              context: context,
-              item: imgItem,
-              onAdd: (newItem) {
-                setState(() {
-                  _gameItems.add(newItem);
-                });
-              },
-            ),
-          }, // Замените на вашу логику
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 2, spreadRadius: 1),
-          ],
-        ), // Добавлена закрывающая скобка
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Картинка (занимает большую часть пространства)
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Image.asset(
-                  imgItem.assetPath,
-                  fit: BoxFit.contain,
-                  width: size - 20,
-                  height: size - 20,
-                ),
-              ),
-            ),
-
-            // Текстовая подпись
-            Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: Text(
-                imgItem.slug, // Преобразуем item_1 в "item 1"
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
