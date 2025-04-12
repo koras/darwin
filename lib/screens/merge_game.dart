@@ -7,6 +7,7 @@ import '../logic/game_field_manager.dart';
 import '../logic/merge_handler.dart';
 import '../widgets/game_field.dart';
 import '../widgets/toolbox_panel.dart';
+import '../widgets/game_panel.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
