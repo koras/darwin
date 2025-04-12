@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import '../logic/merge_logic.dart';
 import '../models/game_item.dart';
 import '../models/image_item.dart';
+import '../widgets/toolbox_item.dart';
 import '../models/merge_rule.dart';
 import '../widgets/game_grid.dart';
 import '../utils/ui_helpers.dart';
@@ -54,11 +55,16 @@ class _MergeGameState extends State<MergeGame> {
     super.initState();
 
     _fieldManager = FieldManager(
-      gameItems: _gameItems,
+      getItems: () => _gameItems,
+      addItem: (GameItem newItem) {
+        setState(() {
+          _gameItems.add(newItem);
+        });
+      },
       maxItems: maxItems,
       maxSameType: maxSameType,
-      gridColumns: gridColumns,
-      gridRows: gridRows,
+      rows: gridRows,
+      columns: gridColumns,
     );
     _toolboxImages.addAll(allImages.take(5));
   }
@@ -151,10 +157,22 @@ class _MergeGameState extends State<MergeGame> {
                         return SizedBox(
                           width: itemSize,
                           height: itemSize,
-                          child: _buildToolboxItem(
-                            _toolboxImages[index],
-                            itemSize,
+
+                          // Полоса для растягивания
+                          child: ToolboxItemWidget(
+                            imgItem: _toolboxImages[index],
+                            size: itemSize,
+                            fieldManager: _fieldManager,
+                            context: context,
+                            onItemAdded: () {
+                              setState(() {}); // обновляем _gameItems
+                            },
                           ),
+
+                          // child: _buildToolboxItem(
+                          //   _toolboxImages[index],
+                          //   itemSize,
+                          // ),
                         );
                       },
                     ),
@@ -430,33 +448,5 @@ class _MergeGameState extends State<MergeGame> {
         ),
       ),
     );
-  }
-
-  void checkCollisions() {
-    final visibleImages =
-        gameImages.where((img) => isVisible[img.id]!).toList();
-
-    // Проверяем все пары
-    for (int i = 0; i < visibleImages.length; i++) {
-      for (int j = i + 1; j < visibleImages.length; j++) {
-        final img1 = visibleImages[i];
-        final img2 = visibleImages[j];
-
-        final distance = (positions[img1.id]! - positions[img2.id]!).distance;
-
-        if (distance < 100) {
-          // Дистанция для слияния
-          final resultId = getMergeResult(img1.id, img2.id);
-          if (resultId != null) {
-            setState(() {
-              isVisible[img1.id] = false;
-              isVisible[img2.id] = false;
-              resultImageId = resultId;
-            });
-            return;
-          }
-        }
-      }
-    }
   }
 }
