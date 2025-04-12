@@ -19,7 +19,7 @@ class GameGrid extends StatelessWidget {
       itemCount: rows * columns,
       itemBuilder: (context, index) {
         return Container(
-          margin: const EdgeInsets.all(1),
+          //     margin: const EdgeInsets.all(1),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.withOpacity(0.3)),
           ),

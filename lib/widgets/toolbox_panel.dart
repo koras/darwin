@@ -4,19 +4,15 @@ import '../models/image_item.dart';
 import '../logic/game_field_manager.dart';
 import 'toolbox_item.dart';
 
-// Виджет панели инструментов, содержащий элементы для перетаскивания на игровое поле
-class ToolboxPanel extends StatelessWidget {
-  final double height; // Текущая высота панели
-  final List<ImageItem>
-  toolboxImages; // Список изображений в панели инструментов
-  final FieldManager
-  fieldManager; // Менеджер игрового поля для управления элементами
-  final void Function(double newHeightPercentage)
-  onHeightChanged; // Колбэк при изменении высоты
-  final void Function() onItemAdded; // Колбэк при добавлении элемента на поле
+class ToolboxPanel extends StatefulWidget {
+  final double initialHeightPercentage; // Начальная высота в процентах
+  final List<ImageItem> toolboxImages;
+  final FieldManager fieldManager;
+  final void Function(double newHeightPercentage) onHeightChanged;
+  final void Function() onItemAdded;
 
   const ToolboxPanel({
-    required this.height,
+    this.initialHeightPercentage = 0.25, // Делаем параметр необязательным
     required this.toolboxImages,
     required this.fieldManager,
     required this.onHeightChanged,
@@ -25,25 +21,36 @@ class ToolboxPanel extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _ToolboxPanelState createState() => _ToolboxPanelState();
+}
+
+class _ToolboxPanelState extends State<ToolboxPanel> {
+  late double _currentHeightPercentage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentHeightPercentage = widget.initialHeightPercentage;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Получаем размер экрана для адаптивного дизайна
     final screenSize = MediaQuery.of(context).size;
-    // Рассчитываем размер каждого элемента (4 элемента в ряд с отступами)
+    final height = screenSize.height * _currentHeightPercentage;
     final itemSize = screenSize.width / 4 - 12;
 
     return SizedBox(
-      height: height, // Фиксированная высота панели
+      height: height,
       child: Column(
         children: [
-          // Верхняя панель для изменения высоты (перетаскиванием)
           GestureDetector(
             onVerticalDragUpdate: (details) {
-              // Рассчитываем новую высоту на основе движения пальца
-              final newHeightPercentage =
-                  height / screenSize.height -
-                  details.delta.dy / screenSize.height;
-              // Вызываем колбэк с новой высотой (ограниченной в диапазоне 15%-40%)
-              onHeightChanged(newHeightPercentage.clamp(0.15, 0.4));
+              setState(() {
+                _currentHeightPercentage = (_currentHeightPercentage -
+                        details.delta.dy / screenSize.height)
+                    .clamp(0.15, 0.4);
+              });
+              widget.onHeightChanged(_currentHeightPercentage);
             },
             child: Container(
               height: 24,
@@ -52,36 +59,33 @@ class ToolboxPanel extends StatelessWidget {
                 child: Container(
                   width: 60,
                   height: 4,
-                  color:
-                      Colors.blueGrey[500], // Визуальный индикатор для захвата
+                  color: Colors.blueGrey[500],
                 ),
               ),
             ),
           ),
-          // Основная область с элементами инструментов
           Expanded(
             child: Container(
-              color: Colors.blueGrey[100], // Фон панели инструментов
+              color: Colors.blueGrey[100],
               child: GridView.builder(
                 padding: EdgeInsets.all(8),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, // 4 элемента в ряд
-                  mainAxisSpacing: 8, // Вертикальные отступы
-                  crossAxisSpacing: 8, // Горизонтальные отступы
-                  childAspectRatio: 1, // Квадратные элементы
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 1,
                 ),
-                itemCount: toolboxImages.length, // Количество элементов
+                itemCount: widget.toolboxImages.length,
                 itemBuilder: (context, index) {
-                  // Создаем виджет для каждого элемента в панели инструментов
                   return SizedBox(
                     width: itemSize,
                     height: itemSize,
                     child: ToolboxItemWidget(
-                      imgItem: toolboxImages[index], // Данные изображения
-                      size: itemSize, // Размер элемента
-                      fieldManager: fieldManager, // Менеджер поля
-                      context: context, // Контекст для диалогов и т.д.
-                      onItemAdded: onItemAdded, // Колбэк при добавлении
+                      imgItem: widget.toolboxImages[index],
+                      size: itemSize,
+                      fieldManager: widget.fieldManager,
+                      context: context,
+                      onItemAdded: widget.onItemAdded,
                     ),
                   );
                 },
