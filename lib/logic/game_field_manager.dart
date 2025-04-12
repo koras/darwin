@@ -82,7 +82,6 @@ class FieldManager {
     //     }
     //   }
     // }
-    GameSnackbar.show(context, 'Нет свободных ячеек');
-    //  showGameMessage(context, 'Нет свободных ячеек');
+    //  GameSnackbar.show(context, 'Нет свободных ячеек');
   }
 }
