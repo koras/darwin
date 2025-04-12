@@ -2,6 +2,7 @@ import '../models/game_item.dart';
 import '../models/image_item.dart';
 import '../widgets/game_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class FieldManager {
   final List<GameItem> Function() getItems;
@@ -10,6 +11,7 @@ class FieldManager {
   final int maxSameType;
   final int rows;
   final int columns;
+  final Random _random = Random();
 
   FieldManager({
     required this.getItems,
@@ -37,24 +39,49 @@ class FieldManager {
       GameSnackbar.show(context, 'Максимум $maxSameType элементов одного типа');
       return;
     }
-
+    // Собираем список всех свободных ячеек
+    final List<Point<int>> freeCells = [];
     for (int y = 0; y < rows; y++) {
       for (int x = 0; x < columns; x++) {
         final isCellEmpty = !items.any((i) => i.gridX == x && i.gridY == y);
         if (isCellEmpty) {
-          final newItem = GameItem(
-            id: item.id,
-            slug: item.slug,
-            assetPath: item.assetPath,
-            gridX: x,
-            gridY: y,
-          );
-          addItem(newItem);
-          onAdd(newItem);
-          return;
+          freeCells.add(Point(x, y));
         }
       }
     }
+    if (freeCells.isEmpty) {
+      GameSnackbar.show(context, 'Нет свободных ячеек');
+      return;
+    }
+    // Выбираем случайную свободную ячейку
+    final randomCell = freeCells[_random.nextInt(freeCells.length)];
+    final newItem = GameItem(
+      id: item.id,
+      slug: item.slug,
+      assetPath: item.assetPath,
+      gridX: randomCell.x,
+      gridY: randomCell.y,
+    );
+
+    addItem(newItem);
+    onAdd(newItem);
+    // for (int y = 0; y < rows; y++) {
+    //   for (int x = 0; x < columns; x++) {
+    //     final isCellEmpty = !items.any((i) => i.gridX == x && i.gridY == y);
+    //     if (isCellEmpty) {
+    //       final newItem = GameItem(
+    //         id: item.id,
+    //         slug: item.slug,
+    //         assetPath: item.assetPath,
+    //         gridX: x,
+    //         gridY: y,
+    //       );
+    //       addItem(newItem);
+    //       onAdd(newItem);
+    //       return;
+    //     }
+    //   }
+    // }
     GameSnackbar.show(context, 'Нет свободных ячеек');
     //  showGameMessage(context, 'Нет свободных ячеек');
   }
