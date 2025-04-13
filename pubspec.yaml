@@ -35,6 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  provider: ^6.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,11 +63,7 @@ flutter:
 
 
   assets:
-    - assets/images/apple.png
-    - assets/images/banana.png
-    - assets/images/orange.png
-    - assets/images/fruit_basket.png
-    - assets/images/smoothie.png
+    - assets/images/
     - assets/icons/
 
   # To add assets to your application, add an assets section, like this:

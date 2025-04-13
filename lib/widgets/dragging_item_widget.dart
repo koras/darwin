@@ -20,16 +20,16 @@ class DraggingItemWidget extends StatelessWidget {
       child: Container(
         width: cellSize * 0.8,
         height: cellSize * 0.8,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              blurRadius: 8,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(8),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.4),
+        //     blurRadius: 8,
+        //     spreadRadius: 2,
+        //   ),
+        // ],
+        //     ),
         child: Image.asset(item.assetPath, fit: BoxFit.contain),
       ),
     );

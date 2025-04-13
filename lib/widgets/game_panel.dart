@@ -9,12 +9,11 @@ class GamePanel extends StatelessWidget {
   final String time;
   final VoidCallback onHintPressed;
   final VoidCallback onClearPressed;
-  final String scoreImagePath; // Путь к картинке для баллов
+  final String scoreImagePath;
 
   const GamePanel({
     required this.name,
     required this.stars,
-
     required this.taskDescription,
     required this.time,
     required this.onHintPressed,
@@ -26,36 +25,24 @@ class GamePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blueGrey[100],
-      padding: EdgeInsets.all(16),
+      //  color: Colors.blueGrey[100],
+      padding: EdgeInsets.only(left: 16.0, top: 40, right: 16.0),
       child: Column(
         children: [
+          //    SizedBox(height: 40),
           // Верхняя строка с кнопками и заголовком
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //      crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //   SizedBox(height: 30),
               // Левая часть - картинка баллов и кнопка подсказки
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Image.asset(
-                        IconsGame.star,
-                        height: 24, // Высота как у текста
-                        width: 24, // Ширина как у текста
-                      ),
-                      Text(
-                        stars.toString(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    time,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 30),
                   GestureDetector(
@@ -94,10 +81,26 @@ class GamePanel extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 30),
+                      Text(
+                        stars.toString(),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      Image.asset(
+                        IconsGame.star,
+                        height: 24, // Высота как у текста
+                        width: 24, // Ширина как у текста
+                      ),
+                    ],
                   ),
+
                   SizedBox(height: 30),
                   GestureDetector(
                     // 👈 Оборачиваем Image.asset в GestureDetector

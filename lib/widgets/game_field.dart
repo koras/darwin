@@ -70,12 +70,12 @@ class GameField extends StatelessWidget {
 
         child: Container(
           // Серый фон игрового поля
-          color: Colors.grey[200],
+          //     color: Colors.grey[200],
           // Stack позволяет накладывать виджеты друг на друга
           child: Stack(
             children: [
               // Отображаем сетку игрового поля (5x5)
-              GameGrid(rows: gridRows, columns: gridColumns),
+              //     GameGrid(rows: gridRows, columns: gridColumns),
               // Отображаем все игровые элементы с помощью GameItemWidget
               // Преобразуем каждый элемент списка gameItems в виджет
               ...gameItems.map(

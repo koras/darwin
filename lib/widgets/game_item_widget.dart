@@ -22,13 +22,13 @@ class GameItemWidget extends StatelessWidget {
               height: cellSize * 0.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 4,
-                    spreadRadius: 1,
-                  ),
-                ],
+                //   boxShadow: [
+                //    BoxShadow(
+                //   color: Colors.black.withOpacity(0.2),
+                //   blurRadius: 4,
+                //   spreadRadius: 1,
+                //     ),
+                //   ],
               ),
 
               child: Image.asset(item.assetPath, fit: BoxFit.contain),

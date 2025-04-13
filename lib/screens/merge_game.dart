@@ -22,8 +22,8 @@ class _MergeGameState extends State<MergeGame> {
 
   // Список игровых элементов на поле
   final List<GameItem> _gameItems = [];
-  final int maxItems = 20; // Максимальное количество элементов на поле
-  final int maxSameType = 3; // Максимальное количество элементов одного типа
+  final int maxItems = 120; // Максимальное количество элементов на поле
+  final int maxSameType = 30; // Максимальное количество элементов одного типа
 
   // Размеры игровой сетки
   final int gridColumns = 6;
@@ -78,28 +78,51 @@ class _MergeGameState extends State<MergeGame> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
-    print(' ');
+
     cellSize =
         (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
 
     return Scaffold(
+      //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
+      bottomNavigationBar: getBottomAppBar(context),
       body: Stack(
         children: [
+          // Фоновая картинка (добавьте этот виджет первым в Stack)
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  //  image: AssetImage('assets/images/background.png'),
+                  //       image: AssetImage('images/background.png'),
+                  image: Image.asset('assets/images/background.png').image,
+                  fit: BoxFit.fitWidth, // Растягиваем по ширине
+                  alignment: Alignment.topCenter, // Выравниваем по верху
+                  repeat:
+                      ImageRepeat
+                          .repeatY, // Повторяем по вертикали (клонируем вниз)
+                ),
+              ),
+            ),
+          ),
+
           // Панель инструментов (верхняя часть экрана)
           Positioned(
             top: 0,
             left: 0,
             right: 0,
-            height: screenSize.height * 0.18,
+            height: screenSize.height * 0.20,
             child: GamePanel(
               name: "Задание",
               stars: 100,
               taskDescription: "Соберите Сладкий подарок",
               time: "02:45",
               onHintPressed: () {
+                print("Логика подсказки");
+
                 // Логика подсказки
               },
               onClearPressed: () {
+                print("Логика очистки экрана");
                 // Логика очистки экрана
               },
               scoreImagePath:
@@ -108,9 +131,9 @@ class _MergeGameState extends State<MergeGame> {
           ),
           // Игровое поле (верхняя часть экрана)
           Positioned(
-            top: screenSize.height * 0.2, // 20% от верха экрана
+            top: screenSize.height * 0.15, // 20% от верха экрана
             bottom:
-                toolboxHeight + 20, // Оставляем место для панели инструментов
+                toolboxHeight - 20, // Оставляем место для панели инструментов
             left: 0,
             right: 0,
             child: GameField(
@@ -120,7 +143,7 @@ class _MergeGameState extends State<MergeGame> {
               draggedItem: _draggedItem,
               cellSize: cellSize,
               topOffset:
-                  MediaQuery.of(context).size.height * 0.2, // Передаём сдвиг
+                  MediaQuery.of(context).size.height * 0.15, // Передаём сдвиг
               onDragStart: _handleGlobalDragStart,
               onDragUpdate: _handleDragUpdate,
               onDragEnd: _handleDragEnd,
@@ -132,7 +155,7 @@ class _MergeGameState extends State<MergeGame> {
             bottom: 0,
             left: 0,
             right: 0,
-            height: toolboxHeight,
+            height: toolboxHeight + 20,
             child: ToolboxPanel(
               toolboxImages: _toolboxImages,
               fieldManager: _fieldManager,
@@ -237,4 +260,75 @@ class _MergeGameState extends State<MergeGame> {
       (item) => item.gridX == x && item.gridY == y && !item.isDragging,
     );
   }
+}
+
+BottomAppBar getBottomAppBar(BuildContext context) {
+  return BottomAppBar(
+    // color: AppColors.backgroundMenu, // Цвет фона BottomAppBar
+    shape:
+        CircularNotchedRectangle(), // Форма выреза (например, для FloatingActionButton)
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            // if (type != 'zodiac') {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => ZodiacDetail()),
+            //   );
+            // }
+          },
+          style: ElevatedButton.styleFrom(
+            //      backgroundColor: AppColors.backgroundMenu, // Цвет фона
+            foregroundColor: Colors.amberAccent, // Цвет текста
+            overlayColor: Colors.transparent, // Убирает эффект нажатия
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // SvgPicture.asset(
+              //   'assets/images/icons/orbit-svgrepo-com.svg',
+              //   // width: 24, // Ширина иконки
+              //   height: 40, // Высота иконки
+              //   color:
+              //       type == 'zodiac'
+              //           ? AppColors.onMenuButtonActive
+              //           : AppColors.onMenuButton,
+              // ), // Путь к вашей иконке
+            ],
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            // if (type != 'compatibility') {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => Compatibility()),
+            //   );
+            // }
+          },
+          style: ElevatedButton.styleFrom(
+            //     backgroundColor: AppColors.backgroundMenu, // Цвет фона
+            foregroundColor: Colors.amberAccent, // Цвет текста
+            overlayColor: Colors.transparent, // Убирает эффект нажатия
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // SvgPicture.asset(
+              //   'assets/images/icons/heart-svgrepo-com.svg',
+              //   // width: 24, // Ширина иконки
+              //   height: 40, // Высота иконки
+              //   color:
+              //       type == 'compatibility'
+              //           ? AppColors.onMenuButtonActive
+              //           : AppColors.onMenuButton,
+              // ), // Путь к вашей иконке
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }
