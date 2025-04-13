@@ -14,6 +14,7 @@ class GameField extends StatelessWidget {
   final GameItem? draggedItem;
   // Размер одной ячейки сетки
   final double cellSize;
+  final double topOffset; // Добавляем параметр для сдвига
   // Обработчик начала перетаскивания
   final Function(DragStartDetails) onDragStart;
   // Обработчик обновления позиции при перетаскивании
@@ -26,6 +27,7 @@ class GameField extends StatelessWidget {
     required this.gameItems,
     required this.draggedItem,
     required this.cellSize,
+    required this.topOffset,
     required this.onDragStart,
     required this.onDragUpdate,
     required this.onDragEnd,
@@ -39,11 +41,27 @@ class GameField extends StatelessWidget {
 
       child: GestureDetector(
         // При обновлении позиции пальца/мыши во время перетаскивания
-        onPanUpdate: onDragUpdate,
+        onPanUpdate: (details) {
+          // Корректируем координаты с учётом сдвига
+          final adjustedDetails = DragUpdateDetails(
+            globalPosition: details.globalPosition - Offset(0, topOffset),
+            localPosition: details.localPosition,
+            delta: details.delta,
+          );
+          onDragUpdate(adjustedDetails);
+        },
         // Когда пользователь отпускает элемент
         onPanEnd: onDragEnd,
         // Когда пользователь начинает перетаскивание
-        onPanStart: onDragStart,
+        onPanStart: (details) {
+          // Корректируем координаты с учётом сдвига
+          final adjustedDetails = DragStartDetails(
+            globalPosition: details.globalPosition - Offset(0, topOffset),
+            localPosition: details.localPosition,
+          );
+          onDragStart(adjustedDetails);
+        },
+
         child: Container(
           // Серый фон игрового поля
           color: Colors.grey[200],

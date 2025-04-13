@@ -82,20 +82,30 @@ class _MergeGameState extends State<MergeGame> {
 
     cellSize =
         (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
-    print("размер ячейки ${screenSize.width}  ${cellSize}  ${gridColumns}");
+
     return Scaffold(
       body: Stack(
         children: [
           // Панель инструментов (верхняя часть экрана)
 
           // Игровое поле (верхняя часть экрана)
-          GameField(
-            gameItems: _gameItems,
-            draggedItem: _draggedItem,
-            cellSize: cellSize,
-            onDragStart: _handleGlobalDragStart,
-            onDragUpdate: _handleDragUpdate,
-            onDragEnd: _handleDragEnd,
+          Positioned(
+            top:
+                MediaQuery.of(context).size.height * 0.2, // 20% от верха экрана
+            bottom:
+                toolboxHeight + 20, // Оставляем место для панели инструментов
+            left: 0,
+            right: 0,
+            child: GameField(
+              gameItems: _gameItems,
+              draggedItem: _draggedItem,
+              cellSize: cellSize,
+              topOffset:
+                  MediaQuery.of(context).size.height * 0.2, // Передаём сдвиг
+              onDragStart: _handleGlobalDragStart,
+              onDragUpdate: _handleDragUpdate,
+              onDragEnd: _handleDragEnd,
+            ),
           ),
 
           // Панель инструментов (нижняя часть экрана)
