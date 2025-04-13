@@ -22,8 +22,14 @@ class GameField extends StatelessWidget {
   // Обработчик окончания перетаскивания
   final Function(DragEndDetails) onDragEnd;
 
+  final int gridColumns;
+  final int gridRows;
+
   // Конструктор класса
   const GameField({
+    required this.gridColumns,
+    required this.gridRows,
+
     required this.gameItems,
     required this.draggedItem,
     required this.cellSize,
@@ -69,7 +75,7 @@ class GameField extends StatelessWidget {
           child: Stack(
             children: [
               // Отображаем сетку игрового поля (5x5)
-              GameGrid(rows: 7, columns: 7),
+              GameGrid(rows: gridRows, columns: gridColumns),
 
               // Отображаем все игровые элементы с помощью GameItemWidget
               // Преобразуем каждый элемент списка gameItems в виджет

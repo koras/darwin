@@ -17,7 +17,7 @@ class MergeGame extends StatefulWidget {
 
 class _MergeGameState extends State<MergeGame> {
   // Высота панели инструментов (30% от экрана по умолчанию)
-  double _toolboxHeightPercentage = 0.3;
+  double _toolboxHeightPercentage = 0.20;
   late FieldManager _fieldManager; // Менеджер игрового поля
 
   // Список игровых элементов на поле
@@ -26,8 +26,8 @@ class _MergeGameState extends State<MergeGame> {
   final int maxSameType = 3; // Максимальное количество элементов одного типа
 
   // Размеры игровой сетки
-  final int gridColumns = 7;
-  final int gridRows = 7;
+  final int gridColumns = 6;
+  final int gridRows = 6;
   late double cellSize; // Размер одной ячейки сетки
 
   GameItem? _draggedItem; // Элемент, который сейчас перетаскивается
@@ -79,7 +79,7 @@ class _MergeGameState extends State<MergeGame> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
-
+    print(' ');
     cellSize =
         (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
 
@@ -87,16 +87,36 @@ class _MergeGameState extends State<MergeGame> {
       body: Stack(
         children: [
           // Панель инструментов (верхняя часть экрана)
-
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: screenSize.height * 0.18,
+            child: GamePanel(
+              name: "Задание",
+              stars: 2501,
+              taskDescription: "Соберите Сладкий подарок",
+              time: "02:45",
+              onHintPressed: () {
+                // Логика подсказки
+              },
+              onClearPressed: () {
+                // Логика очистки экрана
+              },
+              scoreImagePath:
+                  'assets/images/score_icon.png', // Ваш путь к картинке
+            ),
+          ),
           // Игровое поле (верхняя часть экрана)
           Positioned(
-            top:
-                MediaQuery.of(context).size.height * 0.2, // 20% от верха экрана
+            top: screenSize.height * 0.2, // 20% от верха экрана
             bottom:
                 toolboxHeight + 20, // Оставляем место для панели инструментов
             left: 0,
             right: 0,
             child: GameField(
+              gridColumns: gridColumns,
+              gridRows: gridRows,
               gameItems: _gameItems,
               draggedItem: _draggedItem,
               cellSize: cellSize,
