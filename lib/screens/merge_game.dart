@@ -70,7 +70,6 @@ class _MergeGameState extends State<MergeGame> {
         setState(() {}); // Обновляем UI после слияния
       },
     );
-
     // Добавляем начальные изображения в панель инструментов
     _toolboxImages.addAll(allImages.take(5));
   }
@@ -94,7 +93,7 @@ class _MergeGameState extends State<MergeGame> {
             height: screenSize.height * 0.18,
             child: GamePanel(
               name: "Задание",
-              stars: 2501,
+              stars: 100,
               taskDescription: "Соберите Сладкий подарок",
               time: "02:45",
               onHintPressed: () {

@@ -58,21 +58,22 @@ class GamePanel extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 30),
-                  Image.asset(
-                    IconsGame.hint,
-                    height: 36, // Высота как у текста
-                    //   width: 36, // Ширина как у текста
+                  GestureDetector(
+                    // 👈 Оборачиваем Image.asset в GestureDetector
+                    onTap: onHintPressed, // Вешаем обработчик
+                    child: Image.asset(IconsGame.hint, height: 36),
                   ),
                 ],
               ),
 
               // Центральная часть - заголовок задания
               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     name,
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
@@ -80,23 +81,28 @@ class GamePanel extends StatelessWidget {
                   SizedBox(height: 4),
                   Text(
                     taskDescription,
-                    style: TextStyle(fontSize: 18, color: Colors.black87),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
                   ),
                 ],
               ),
 
               // Правая часть - время и кнопка очистки
               Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     time,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 30),
-                  Image.asset(
-                    IconsGame.clear,
-                    height: 36, // Высота как у текста
-                    //    width: 50, // Ширина как у текста
+                  GestureDetector(
+                    // 👈 Оборачиваем Image.asset в GestureDetector
+                    onTap: onClearPressed, // Вешаем обработчик
+                    child: Image.asset(IconsGame.clear, height: 36),
                   ),
                 ],
               ),

@@ -76,7 +76,6 @@ class GameField extends StatelessWidget {
             children: [
               // Отображаем сетку игрового поля (5x5)
               GameGrid(rows: gridRows, columns: gridColumns),
-
               // Отображаем все игровые элементы с помощью GameItemWidget
               // Преобразуем каждый элемент списка gameItems в виджет
               ...gameItems.map(
