@@ -66,7 +66,7 @@ class _ToolboxPanelState extends State<ToolboxPanel> {
           ),
           Expanded(
             child: Container(
-              color: Colors.blueGrey[100],
+              color: const Color.fromARGB(255, 255, 255, 255),
               child: GridView.builder(
                 padding: EdgeInsets.all(8),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

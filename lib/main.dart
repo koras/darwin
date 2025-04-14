@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/merge_game.dart';
+import 'screens/mergeGame.dart';
+import 'screens/mainMenu.dart';
 import './providers/appPoints.dart';
 import 'package:provider/provider.dart'; // Добавьте этот импорт
 
@@ -23,7 +24,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: MaterialApp(home: MergeGame()),
+
+      home: MaterialApp(home: StartPage()),
+      //  home: MaterialApp(home: MergeGame()),
     );
   }
 }
