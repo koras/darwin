@@ -8,6 +8,7 @@ import '../logic/merge_handler.dart';
 import '../widgets/game_field.dart';
 import '../widgets/toolbox_panel.dart';
 import '../widgets/game_panel.dart';
+import '../widgets/bottom_app_bar_widget.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
@@ -84,7 +85,7 @@ class _MergeGameState extends State<MergeGame> {
 
     return Scaffold(
       //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
-      bottomNavigationBar: getBottomAppBar(context),
+      bottomNavigationBar: const CustomBottomAppBar(),
       body: Stack(
         children: [
           // Фоновая картинка (добавьте этот виджет первым в Stack)
@@ -260,75 +261,4 @@ class _MergeGameState extends State<MergeGame> {
       (item) => item.gridX == x && item.gridY == y && !item.isDragging,
     );
   }
-}
-
-BottomAppBar getBottomAppBar(BuildContext context) {
-  return BottomAppBar(
-    // color: AppColors.backgroundMenu, // Цвет фона BottomAppBar
-    shape:
-        CircularNotchedRectangle(), // Форма выреза (например, для FloatingActionButton)
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            // if (type != 'zodiac') {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => ZodiacDetail()),
-            //   );
-            // }
-          },
-          style: ElevatedButton.styleFrom(
-            //      backgroundColor: AppColors.backgroundMenu, // Цвет фона
-            foregroundColor: Colors.amberAccent, // Цвет текста
-            overlayColor: Colors.transparent, // Убирает эффект нажатия
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // SvgPicture.asset(
-              //   'assets/images/icons/orbit-svgrepo-com.svg',
-              //   // width: 24, // Ширина иконки
-              //   height: 40, // Высота иконки
-              //   color:
-              //       type == 'zodiac'
-              //           ? AppColors.onMenuButtonActive
-              //           : AppColors.onMenuButton,
-              // ), // Путь к вашей иконке
-            ],
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // if (type != 'compatibility') {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => Compatibility()),
-            //   );
-            // }
-          },
-          style: ElevatedButton.styleFrom(
-            //     backgroundColor: AppColors.backgroundMenu, // Цвет фона
-            foregroundColor: Colors.amberAccent, // Цвет текста
-            overlayColor: Colors.transparent, // Убирает эффект нажатия
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // SvgPicture.asset(
-              //   'assets/images/icons/heart-svgrepo-com.svg',
-              //   // width: 24, // Ширина иконки
-              //   height: 40, // Высота иконки
-              //   color:
-              //       type == 'compatibility'
-              //           ? AppColors.onMenuButtonActive
-              //           : AppColors.onMenuButton,
-              // ), // Путь к вашей иконке
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
 }
