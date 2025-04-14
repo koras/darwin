@@ -1,6 +1,3 @@
 import '../models/merge_rule.dart';
 
-final List<MergeRule> mergeRules = [
-  MergeRule('apple', 'banana', 'fruit_basket'),
-  MergeRule('banana', 'orange', 'smoothie'),
-];
+final List<MergeRule> mergeRules = [MergeRule('water', 'water', 'cloud')];

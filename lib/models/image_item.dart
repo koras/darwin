@@ -10,9 +10,13 @@ class ImageItem {
 }
 
 final List<ImageItem> allImages = [
-  ImageItem('apple', 'apple', 'assets/images/apple.png'),
-  ImageItem('banana', 'banana', 'assets/images/banana.png'),
-  ImageItem('orange', 'orange', 'assets/images/orange.png'),
-  ImageItem('fruit_basket', 'fruit_basket', 'assets/images/fruit_basket.png'),
-  ImageItem('smoothie', 'smoothie', 'assets/images/smoothie.png'),
+  ImageItem('water', 'water', 'assets/images/water.png'),
+  ImageItem('cloud', 'cloud', 'assets/images/cloud.png'),
+  ImageItem('dnk', 'dnk', 'assets/images/dnk.png'),
+  ImageItem('man', 'man', 'assets/images/man.png'),
+  ImageItem('morning', 'morning', 'assets/images/morning.png'),
+  ImageItem('mushroom', 'mushroom', 'assets/images/mushroom.png'),
+  ImageItem('sky', 'sky', 'assets/images/sky.png'),
+  ImageItem('sugar', 'sugar', 'assets/images/sugar.png'),
+  ImageItem('wind', 'wind', 'assets/images/wind.png'),
 ];

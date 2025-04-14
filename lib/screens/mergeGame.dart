@@ -5,6 +5,7 @@ import '../models/game_item.dart';
 import '../models/image_item.dart';
 import '../logic/game_field_manager.dart';
 import '../logic/merge_handler.dart';
+import '../logic/merge_logic.dart';
 import '../widgets/game_field.dart';
 import '../widgets/toolbox_panel.dart';
 import '../widgets/game_panel.dart';
@@ -72,7 +73,7 @@ class _MergeGameState extends State<MergeGame> {
       },
     );
     // Добавляем начальные изображения в панель инструментов
-    _toolboxImages.addAll(allImages.take(5));
+    _toolboxImages.addAll(allImages.take(10));
   }
 
   @override
@@ -206,15 +207,19 @@ class _MergeGameState extends State<MergeGame> {
           ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
 
       setState(() {
-        item.dragOffset = Offset.zero; // Сбрасываем смещение
+        item.dragOffset = Offset.zero;
         if (_isCellEmpty(newX, newY)) {
-          // Если ячейка свободна - перемещаем элемент
+          // Теперь это корректный вызов метода
           item.gridX = newX;
           item.gridY = newY;
         }
-        _gameItems.add(item); // Возвращаем элемент на поле
+        _gameItems.add(item);
         _draggedItem = null;
-        _checkForMerge(item); // Проверяем возможность слияния
+
+        // Проверяем слияние только если элемент был перемещен в новую ячейку
+        if (newX != item.gridX || newY != item.gridY) {
+          _checkForMerge(item);
+        }
       });
     }
   }
@@ -239,26 +244,45 @@ class _MergeGameState extends State<MergeGame> {
   }
 
   // Проверка возможности слияния с соседними элементами
+  // Проверка возможности слияния элементов в одной ячейке
   void _checkForMerge(GameItem movedItem) {
-    for (final item in _gameItems) {
-      if (item != movedItem && // Не сравниваем с самим собой
-          (item.gridX - movedItem.gridX).abs() <= 1 && // Сосед по X
-          (item.gridY - movedItem.gridY).abs() <= 1) {
-        // Сосед по Y
-        _mergeHandler.tryMergeItems(movedItem, item); // Пробуем слить
-        return;
+    // Находим все элементы в текущей ячейке перемещенного элемента
+    final itemsInCell =
+        _gameItems
+            .where(
+              (item) =>
+                  item != movedItem &&
+                  item.gridX == movedItem.gridX &&
+                  item.gridY == movedItem.gridY,
+            )
+            .toList();
+
+    // Проверяем слияние с каждым элементом в ячейке
+    for (final item in itemsInCell) {
+      if (getMergeResult(movedItem.id, item.id) != null) {
+        _mergeHandler.tryMergeItems(movedItem, item);
+        return; // Сливаем только с одним элементом за раз
       }
     }
   }
 
+  bool _itemsOverlap(GameItem a, GameItem b, double threshold) {
+    // Рассчитываем центры элементов
+    final aCenter = Offset(a.gridX + 0.5, a.gridY + 0.5);
+    final bCenter = Offset(b.gridX + 0.5, b.gridY + 0.5);
+
+    // Расстояние между центрами
+    final distance = (aCenter - bCenter).distance;
+    print('distance ${distance}');
+    // Элементы считаются пересекающимися, если расстояние меньше порога
+    return distance < threshold;
+  }
+
   // Проверка, свободна ли ячейка
   bool _isCellEmpty(int x, int y) {
-    // Проверка выхода за границы
-    if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) return false;
-
-    // Проверяем, есть ли в этой ячейке другие элементы (кроме перетаскиваемого)
-    return !_gameItems.any(
-      (item) => item.gridX == x && item.gridY == y && !item.isDragging,
-    );
+    if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) {
+      return false; // Ячейка за границами считается занятой
+    }
+    return !_gameItems.any((item) => item.gridX == x && item.gridY == y);
   }
 }

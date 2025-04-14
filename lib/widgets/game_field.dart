@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Импорт моделей и виджетов
 import '../models/game_item.dart';
-import 'game_grid.dart';
+
 import 'game_item_widget.dart';
 import 'dragging_item_widget.dart';
 

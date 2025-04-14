@@ -8,37 +8,58 @@ class GameItemWidget extends StatelessWidget {
   const GameItemWidget({Key? key, required this.item, required this.cellSize})
     : super(key: key);
 
+  // Генерация спокойного цвета на основе строки
+  Color _generateCalmColor(String input) {
+    final hash = input.hashCode;
+    return HSLColor.fromAHSL(
+      1.0,
+      (hash % 360).toDouble(), // Hue (0-360)
+      0.4, // Saturation (умеренная для спокойных цветов)
+      0.7, // Lightness (не слишком темный и не слишком светлый)
+    ).toColor();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final double circleSize = cellSize * 0.7;
+    final double borderWidth = 2.0;
+    final borderColor = _generateCalmColor(item.slug);
+
     return Positioned(
-      left: item.gridX * cellSize + cellSize * 0.1,
-      top: item.gridY * cellSize + cellSize * 0.1,
+      left:
+          item.gridX * cellSize +
+          cellSize * 0.15, // Центрирование с учетом бордюра
+      top: item.gridY * cellSize + cellSize * 0.15,
       child: GestureDetector(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: cellSize * 0.8,
-              height: cellSize * 0.8,
+              width: circleSize,
+              height: circleSize,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                //   boxShadow: [
-                //    BoxShadow(
-                //   color: Colors.black.withOpacity(0.2),
-                //   blurRadius: 4,
-                //   spreadRadius: 1,
-                //     ),
-                //   ],
+                shape: BoxShape.circle,
+                border: Border.all(color: borderColor, width: borderWidth),
               ),
-
-              child: Image.asset(item.assetPath, fit: BoxFit.contain),
+              child: ClipOval(
+                child: Image.asset(item.assetPath, fit: BoxFit.cover),
+              ),
             ),
-            Text(
-              item.slug, // Предполагая, что в GameItem есть поле name
-              style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            const SizedBox(height: 4),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              constraints: BoxConstraints(maxWidth: cellSize),
+              child: Text(
+                item.slug,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
