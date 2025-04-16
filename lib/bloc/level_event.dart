@@ -1,9 +1,13 @@
+// level_event.dart
 part of 'level_bloc.dart';
 
 abstract class LevelEvent {}
 
-class IncrementEvent extends LevelEvent {}
+class LoadLevelEvent extends LevelEvent {
+  final int levelId;
+  LoadLevelEvent(this.levelId);
+}
 
-class DecrementEvent extends LevelEvent {}
+class LevelCompletedEvent extends LevelEvent {}
 
-class ResetEvent extends LevelEvent {}
+class LevelFailedEvent extends LevelEvent {}

@@ -11,6 +11,8 @@ import '../widgets/toolbox_panel.dart';
 import '../widgets/game_panel.dart';
 import '../widgets/bottom_app_bar_widget.dart';
 
+import '../bloc/level_bloc.dart';
+
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
   @override
@@ -18,6 +20,9 @@ class MergeGame extends StatefulWidget {
 }
 
 class _MergeGameState extends State<MergeGame> {
+  // Добавляем BLoC
+  late final LevelBloc _levelBloc;
+
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
   late FieldManager _fieldManager; // Менеджер игрового поля
@@ -50,6 +55,8 @@ class _MergeGameState extends State<MergeGame> {
   void initState() {
     super.initState();
 
+    _levelBloc = LevelBloc();
+
     // Инициализация менеджера игрового поля
     _fieldManager = FieldManager(
       getItems: () => _gameItems,
@@ -74,6 +81,12 @@ class _MergeGameState extends State<MergeGame> {
     );
     // Добавляем начальные изображения в панель инструментов
     _toolboxImages.addAll(allImages.take(10));
+  }
+
+  @override
+  void dispose() {
+    _levelBloc.close();
+    super.dispose();
   }
 
   @override
