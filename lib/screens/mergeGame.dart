@@ -201,27 +201,70 @@ class _MergeGameState extends State<MergeGame> {
     if (_draggedItem != null) {
       final item = _draggedItem!;
       // Рассчитываем новые координаты в сетке
+
+      //   print('============');
+      //   print('old: item.gridX = ${item.gridX} item.gridY = ${item.gridY}');
+
       final newX =
           ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
       final newY =
           ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
 
+      // print('new: newX = ${newX} newY = ${newY}');
+
       setState(() {
+        bool merge = true;
+        bool mergeItem = true;
+        // Проверяем слияние только если элемент был перемещен в новую ячейку
+        if (newX != item.gridX || newY != item.gridY) {
+          print('check');
+          bool mergeItem = _checkForMerge(item, newX, newY);
+          if (!mergeItem) {
+            _gameItems.add(item);
+          }
+        } else {
+          _gameItems.add(item);
+        }
+
         item.dragOffset = Offset.zero;
         if (_isCellEmpty(newX, newY)) {
           // Теперь это корректный вызов метода
           item.gridX = newX;
           item.gridY = newY;
         }
-        _gameItems.add(item);
+        //   if (!mergeItem) {
+        //    _gameItems.add(item);
+        //   }
         _draggedItem = null;
-
-        // Проверяем слияние только если элемент был перемещен в новую ячейку
-        if (newX != item.gridX || newY != item.gridY) {
-          _checkForMerge(item);
-        }
       });
     }
+  }
+
+  // Проверка возможности слияния с соседними элементами
+  // Проверка возможности слияния элементов в одной ячейке
+  bool _checkForMerge(GameItem movedItem, int newX, int newY) {
+    // Находим все элементы в текущей ячейке перемещенного элемента
+    print('count ${_gameItems.length}');
+
+    final itemsInCell =
+        _gameItems.where((item) {
+          final isSameCell = newX == item.gridX && newY == item.gridY;
+          final isNotMovedItem = item != movedItem;
+          final shouldInclude = isNotMovedItem && isSameCell;
+          return shouldInclude;
+        }).toList();
+
+    if (itemsInCell.isNotEmpty) {
+      print("В этой ячейке есть ${itemsInCell.length} элементов");
+    }
+    // Проверяем слияние с каждым элементом в ячейке
+    for (final item in itemsInCell) {
+      if (getMergeResult(movedItem.id, item.id) != null) {
+        return _mergeHandler.tryMergeItems(movedItem, item);
+        //   return; // Сливаем только с одним элементом за раз
+      }
+    }
+    return false;
   }
 
   // Начало перетаскивания элемента
@@ -240,29 +283,6 @@ class _MergeGameState extends State<MergeGame> {
         // Обновляем смещение элемента относительно начальной позиции
         _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
       });
-    }
-  }
-
-  // Проверка возможности слияния с соседними элементами
-  // Проверка возможности слияния элементов в одной ячейке
-  void _checkForMerge(GameItem movedItem) {
-    // Находим все элементы в текущей ячейке перемещенного элемента
-    final itemsInCell =
-        _gameItems
-            .where(
-              (item) =>
-                  item != movedItem &&
-                  item.gridX == movedItem.gridX &&
-                  item.gridY == movedItem.gridY,
-            )
-            .toList();
-
-    // Проверяем слияние с каждым элементом в ячейке
-    for (final item in itemsInCell) {
-      if (getMergeResult(movedItem.id, item.id) != null) {
-        _mergeHandler.tryMergeItems(movedItem, item);
-        return; // Сливаем только с одним элементом за раз
-      }
     }
   }
 
