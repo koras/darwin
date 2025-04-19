@@ -65,23 +65,5 @@ class FieldManager {
 
     addItem(newItem);
     onAdd(newItem);
-    // for (int y = 0; y < rows; y++) {
-    //   for (int x = 0; x < columns; x++) {
-    //     final isCellEmpty = !items.any((i) => i.gridX == x && i.gridY == y);
-    //     if (isCellEmpty) {
-    //       final newItem = GameItem(
-    //         id: item.id,
-    //         slug: item.slug,
-    //         assetPath: item.assetPath,
-    //         gridX: x,
-    //         gridY: y,
-    //       );
-    //       addItem(newItem);
-    //       onAdd(newItem);
-    //       return;
-    //     }
-    //   }
-    // }
-    //  GameSnackbar.show(context, 'Нет свободных ячеек');
   }
 }

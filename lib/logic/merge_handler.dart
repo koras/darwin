@@ -25,7 +25,7 @@ class MergeHandler {
         (resultItem) => resultItem.id == resultId,
       );
 
-      debugPrint('Один или оба элемента уже были удалены ${resultItem.id}');
+      // debugPrint('Один или оба элемента уже были удалены ${resultItem.id}');
       // Проверяем, что элементы еще существуют в списке (на случай, если они уже были удалены)
 
       // Удаляем исходные элементы
@@ -44,9 +44,9 @@ class MergeHandler {
       // Добавляем новый элемент
       gameItems.add(mergedItem);
 
-      debugPrint(
-        'Добавлен новый элемент: ${mergedItem.id} в позицию ($newX, $newY)',
-      );
+      // debugPrint(
+      //   'Добавлен новый элемент: ${mergedItem.id} в позицию ($newX, $newY)',
+      // );
 
       // Уведомляем о завершении слияния
       onMergeComplete(mergedItem);

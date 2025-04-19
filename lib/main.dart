@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
 
-      //  home: MaterialApp(home: StartPage()),
+      //    home: MaterialApp(home: StartPage()),
       home: MaterialApp(home: MergeGame()),
     );
   }

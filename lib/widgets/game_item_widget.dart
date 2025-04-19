@@ -40,6 +40,14 @@ class GameItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: borderColor, width: borderWidth),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    offset: const Offset(2, 2),
+                  ),
+                ],
               ),
               child: ClipOval(
                 child: Image.asset(item.assetPath, fit: BoxFit.cover),

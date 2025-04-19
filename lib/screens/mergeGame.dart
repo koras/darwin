@@ -13,6 +13,8 @@ import '../widgets/bottom_app_bar_widget.dart';
 
 import '../bloc/level_bloc.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
   @override
@@ -33,7 +35,7 @@ class _MergeGameState extends State<MergeGame> {
   final int maxSameType = 30; // Максимальное количество элементов одного типа
 
   // Размеры игровой сетки
-  final int gridColumns = 6;
+  final int gridColumns = 5;
   final int gridRows = 6;
   late double cellSize; // Размер одной ячейки сетки
 
@@ -41,7 +43,8 @@ class _MergeGameState extends State<MergeGame> {
   Offset? _dragStartPosition; // Начальная позиция перетаскивания
 
   // Изображения для панели инструментов (первые 5 из всех доступных)
-  final List<ImageItem> _toolboxImages = allImages.take(5).toList();
+  // final List<ImageItem> _toolboxImages = allImages.take(5).toList();
+
   late List<ImageItem> gameImages;
 
   // Позиции элементов и их видимость
@@ -76,11 +79,17 @@ class _MergeGameState extends State<MergeGame> {
       context: context,
       gameItems: _gameItems,
       onMergeComplete: (mergedItem) {
+        print('onMergeComplete');
+        if (mergedItem.id == _levelBloc.state.targetItem) {
+          // Уровень завершён
+          print('Уровень завершён');
+          _levelBloc.add(LevelCompletedEvent());
+        }
         setState(() {}); // Обновляем UI после слияния
       },
     );
     // Добавляем начальные изображения в панель инструментов
-    _toolboxImages.addAll(allImages.take(10));
+    // _toolboxImages.addAll(allImages.take(10));
   }
 
   @override
@@ -91,100 +100,117 @@ class _MergeGameState extends State<MergeGame> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
+    return BlocProvider(
+      create: (context) => _levelBloc,
+      child: BlocBuilder<LevelBloc, LevelState>(
+        builder: (context, state) {
+          final screenSize = MediaQuery.of(context).size;
+          final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
 
-    cellSize =
-        (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
+          final levelImages =
+              allImages
+                  .where((image) => state.availableItems.contains(image.id))
+                  .toList();
 
-    return Scaffold(
-      //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
-      bottomNavigationBar: const CustomBottomAppBar(),
-      body: Stack(
-        children: [
-          // Фоновая картинка (добавьте этот виджет первым в Stack)
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  //  image: AssetImage('assets/images/background.png'),
-                  //       image: AssetImage('images/background.png'),
-                  image: Image.asset('assets/images/background.png').image,
-                  fit: BoxFit.fitWidth, // Растягиваем по ширине
-                  alignment: Alignment.topCenter, // Выравниваем по верху
-                  repeat:
-                      ImageRepeat
-                          .repeatY, // Повторяем по вертикали (клонируем вниз)
+          cellSize =
+              (screenSize.width - 40) /
+              gridColumns; // Рассчитываем размер ячейки
+
+          return Scaffold(
+            //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
+            bottomNavigationBar: const CustomBottomAppBar(),
+            body: Stack(
+              children: [
+                // Фоновая картинка (добавьте этот виджет первым в Stack)
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        //  image: AssetImage('assets/images/background.png'),
+                        //       image: AssetImage('images/background.png'),
+                        image:
+                            Image.asset('assets/images/background.png').image,
+                        fit: BoxFit.fitWidth, // Растягиваем по ширине
+                        alignment: Alignment.topCenter, // Выравниваем по верху
+                        repeat:
+                            ImageRepeat
+                                .repeatY, // Повторяем по вертикали (клонируем вниз)
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
 
-          // Панель инструментов (верхняя часть экрана)
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: screenSize.height * 0.20,
-            child: GamePanel(
-              name: "Задание",
-              stars: 100,
-              taskDescription: "Соберите Сладкий подарок",
-              time: "02:45",
-              onHintPressed: () {
-                print("Логика подсказки");
+                // Панель инструментов (верхняя часть экрана)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: screenSize.height * 0.20,
+                  child: GamePanel(
+                    name: "Задание",
+                    stars: 100,
+                    taskDescription: state.levelTitle,
+                    time: "02:45",
+                    onHintPressed: () {
+                      print("Логика подсказки");
 
-                // Логика подсказки
-              },
-              onClearPressed: () {
-                print("Логика очистки экрана");
-                // Логика очистки экрана
-              },
-              scoreImagePath:
-                  'assets/images/score_icon.png', // Ваш путь к картинке
-            ),
-          ),
-          // Игровое поле (верхняя часть экрана)
-          Positioned(
-            top: screenSize.height * 0.15, // 20% от верха экрана
-            bottom:
-                toolboxHeight - 20, // Оставляем место для панели инструментов
-            left: 0,
-            right: 0,
-            child: GameField(
-              gridColumns: gridColumns,
-              gridRows: gridRows,
-              gameItems: _gameItems,
-              draggedItem: _draggedItem,
-              cellSize: cellSize,
-              topOffset:
-                  MediaQuery.of(context).size.height * 0.15, // Передаём сдвиг
-              onDragStart: _handleGlobalDragStart,
-              onDragUpdate: _handleDragUpdate,
-              onDragEnd: _handleDragEnd,
-            ),
-          ),
+                      // Логика подсказки
+                    },
+                    onClearPressed: () {
+                      print("Логика очистки экрана");
+                      // Логика очистки экрана
+                    },
+                    scoreImagePath:
+                        'assets/images/score_icon.png', // Ваш путь к картинке
+                  ),
+                ),
+                // Игровое поле (верхняя часть экрана)
+                Positioned(
+                  top: screenSize.height * 0.15, // 20% от верха экрана
+                  bottom:
+                      toolboxHeight -
+                      20, // Оставляем место для панели инструментов
+                  left: 0,
+                  right: 0,
+                  child: GameField(
+                    gridColumns: gridColumns,
+                    gridRows: gridRows,
+                    gameItems: _gameItems,
+                    draggedItem: _draggedItem,
+                    cellSize: cellSize,
+                    topOffset:
+                        MediaQuery.of(context).size.height *
+                        0.15, // Передаём сдвиг
+                    onDragStart: _handleGlobalDragStart,
+                    onDragUpdate: _handleDragUpdate,
+                    onDragEnd: _handleDragEnd,
+                  ),
+                ),
 
-          // Панель инструментов (нижняя часть экрана)
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: toolboxHeight + 20,
-            child: ToolboxPanel(
-              toolboxImages: _toolboxImages,
-              fieldManager: _fieldManager,
-              onHeightChanged: (newHeightPercentage) {
-                setState(() {
-                  _toolboxHeightPercentage = newHeightPercentage;
-                });
-              },
-              onItemAdded: () {
-                setState(() {}); // Обновляем UI после добавления элемента
-              },
+                // Панель инструментов (нижняя часть экрана)
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: toolboxHeight + 20,
+                  child: ToolboxPanel(
+                    // toolboxImages: _toolboxImages,
+                    toolboxImages: levelImages,
+                    fieldManager: _fieldManager,
+                    onHeightChanged: (newHeightPercentage) {
+                      setState(() {
+                        _toolboxHeightPercentage = newHeightPercentage;
+                      });
+                    },
+                    onItemAdded: () {
+                      setState(() {}); // Обновляем UI после добавления элемента
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
