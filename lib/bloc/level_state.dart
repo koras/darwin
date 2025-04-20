@@ -16,6 +16,16 @@ class LevelState {
     required this.hints,
   });
 
+  factory LevelState.initial() {
+    return LevelState(
+      currentLevel: 0,
+      availableItems: [],
+      targetItem: '',
+      levelTitle: '',
+      hints: {},
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
