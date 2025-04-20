@@ -85,7 +85,7 @@ class MergeHandler {
       (item1Position.dx + item2Position.dx) / 2,
       (item1Position.dy + item2Position.dy) / 2,
     );
-
+    print('MergeAnimationWidget');
     final overlayEntry = OverlayEntry(
       builder:
           (context) => Positioned(
