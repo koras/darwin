@@ -29,15 +29,20 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1,
-      end: 1.5,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
+    // Создаем последовательность анимации: увеличение, затем уменьшение
+    _scaleAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.5), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 1.5, end: 0.8), weight: 50),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut, // Плавное начало и конец для всей анимации
+      ),
+    );
     _controller.forward();
   }
 
@@ -52,6 +57,14 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: borderColor, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 5,
+              spreadRadius: 1,
+              offset: const Offset(2, 2),
+            ),
+          ],
         ),
         child: ClipOval(
           child: Image.asset(widget.resultItem.assetPath, fit: BoxFit.cover),

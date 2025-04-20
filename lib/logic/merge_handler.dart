@@ -84,13 +84,13 @@ class MergeHandler {
     );
 
     final item2Position = Offset(
-      position.dx + item2.gridX * cellSize + cellSize / 2 - 20,
+      position.dx + item2.gridX * cellSize + cellSize / 2 - 25,
       position.dy +
           item2.gridY * cellSize -
           cellSize +
           fieldTop +
           cellSize -
-          20,
+          23,
     );
 
     // Центральная точка между двумя элементами - где будет анимация
