@@ -11,12 +11,13 @@ class MergeHandler {
   final List<GameItem> gameItems; // Список игровых элементов на поле
   final Function(GameItem) onMergeComplete; // Колбэк, вызываемый после слияния
   final double cellSize; // Размер ячейки игрового поля
-
+  final double fieldTop;
   MergeHandler({
     required this.context,
     required this.gameItems,
     required this.onMergeComplete,
     required this.cellSize,
+    required this.fieldTop,
   });
 
   // Пытается объединить два элемента
@@ -83,28 +84,39 @@ class MergeHandler {
     );
 
     final item2Position = Offset(
-      position.dx + item2.gridX * cellSize + cellSize / 2,
-      position.dy + item2.gridY * cellSize + cellSize / 2,
+      position.dx + item2.gridX * cellSize + cellSize / 2 - 20,
+      position.dy +
+          item2.gridY * cellSize -
+          cellSize +
+          fieldTop +
+          cellSize -
+          20,
     );
 
     // Центральная точка между двумя элементами - где будет анимация
     final centerPosition = Offset(
       (item1Position.dx + item2Position.dx) / 2,
+      //  (item1Position.dx + item2Position.dx) / 2,
       (item1Position.dy + item2Position.dy) / 2,
     );
+
+    resultItem.position.dx;
+
     debugPrint(
-      'Item1 position: $item1Position ${item1.gridX}  ${item1.gridY} $cellSize',
+      'Item1 ====: $item1Position ${item1.gridX}  ${item1.gridY} $cellSize, ${resultItem.position}',
     );
-    debugPrint('Item2 position: $item2Position ${item2.gridX}  ${item2.gridY}');
-    debugPrint('Center position: $centerPosition');
+    //  debugPrint('Item2 position: $item2Position ${item2.gridX}  ${item2.gridY}');
+    debugPrint('Center position: $fieldTop $item2Position');
     // Создаем OverlayEntry для анимации
     final overlayEntry = OverlayEntry(
       builder:
           (context) => Positioned(
             //    left: centerPosition.dx - cellSize / 2,
             //    top: centerPosition.dy - cellSize / 2,
-            left: centerPosition.dx - cellSize,
-            top: centerPosition.dy - cellSize,
+            //  left: centerPosition.dx - cellSize,
+            // top: centerPosition.dy - cellSize,
+            left: item2Position.dx,
+            top: item2Position.dy,
             child: MergeAnimationWidget(
               item1: item1,
               item2: item2,

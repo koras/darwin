@@ -82,7 +82,8 @@ class _MergeGameState extends State<MergeGame> {
         }
         setState(() {});
       },
-      cellSize: 0, // Временное значение, будет обновлено в build()
+      cellSize: 0,
+      fieldTop: 0, // Временное значение, будет обновлено в build()
     );
   }
 
@@ -123,6 +124,7 @@ class _MergeGameState extends State<MergeGame> {
               setState(() {});
             },
             cellSize: cellSize,
+            fieldTop: fieldTop,
           );
 
           return Scaffold(
