@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/game_item.dart';
 import '../models/image_item.dart';
+import '../logic/generate_calm_color.dart';
 
 class MergeAnimationWidget extends StatefulWidget {
   final GameItem item1;
@@ -28,13 +29,13 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
     _scaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
+      begin: 1,
+      end: 1.5,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward();
@@ -42,12 +43,19 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
 
   @override
   Widget build(BuildContext context) {
+    final borderColor = generateCalmColor(widget.resultItem.slug);
     return ScaleTransition(
       scale: _scaleAnimation,
-      child: Image.asset(
-        widget.resultItem.assetPath,
+      child: Container(
         width: widget.cellSize,
         height: widget.cellSize,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: borderColor, width: 1),
+        ),
+        child: ClipOval(
+          child: Image.asset(widget.resultItem.assetPath, fit: BoxFit.cover),
+        ),
       ),
     );
   }

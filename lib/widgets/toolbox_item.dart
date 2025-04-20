@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/image_item.dart';
 import '../logic/game_field_manager.dart';
+import '../logic/generate_calm_color.dart';
 
 class ToolboxItemWidget extends StatelessWidget {
   final ImageItem imgItem;
@@ -18,22 +19,12 @@ class ToolboxItemWidget extends StatelessWidget {
     required this.onItemAdded,
   }) : super(key: key);
 
-  // Генерация спокойного цвета на основе строки
-  Color _generateCalmColor(String input) {
-    final hash = input.hashCode;
-    return HSLColor.fromAHSL(
-      1.0,
-      (hash % 360).toDouble(), // Hue (0-360)
-      0.4, // Saturation (умеренная для спокойных цветов)
-      0.7, // Lightness (не слишком темный и не слишком светлый)
-    ).toColor();
-  }
-
   @override
   Widget build(BuildContext context) {
     final double circleSize = size * 0.7;
     final double borderWidth = 2.0;
-    final borderColor = _generateCalmColor(imgItem.slug);
+    // Генерация спокойного цвета на основе строки
+    final borderColor = generateCalmColor(imgItem.slug);
 
     return GestureDetector(
       onTap: () {
