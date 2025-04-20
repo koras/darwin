@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Импорт моделей и виджетов
 import '../models/game_item.dart';
-
+import 'dart:async'; // Добавьте эту строку в начале файла
 import 'game_item_widget.dart';
 import 'dragging_item_widget.dart';
 
