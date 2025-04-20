@@ -110,7 +110,10 @@ class _MergeGameState extends State<MergeGame> {
               (screenSize.width - 40) /
               gridColumns; // Рассчитываем размер ячейки
 
-          final mergeHandler = MergeHandler(
+          // отсутп для игрового поля
+          final fieldTop = screenSize.height * 0.20;
+
+          _mergeHandler = MergeHandler(
             context: context,
             gameItems: _gameItems,
             onMergeComplete: (mergedItem) {
@@ -184,7 +187,9 @@ class _MergeGameState extends State<MergeGame> {
                     gameItems: _gameItems,
                     draggedItem: _draggedItem,
                     cellSize: cellSize,
-                    mergeHandler: mergeHandler, // Передаем handler
+                    mergeHandler: _mergeHandler, // Передаем handler
+                    // сдвиг поля на высоту панели
+                    fieldTop: fieldTop,
                     topOffset:
                         MediaQuery.of(context).size.height *
                         0.15, // Передаём сдвиг

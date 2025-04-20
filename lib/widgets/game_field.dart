@@ -25,6 +25,7 @@ class GameField extends StatelessWidget {
 
   final int gridColumns;
   final int gridRows;
+  final double fieldTop;
 
   // Конструктор класса
   const GameField({
@@ -35,6 +36,7 @@ class GameField extends StatelessWidget {
     required this.gameItems,
     required this.draggedItem,
     required this.cellSize,
+    required this.fieldTop,
     required this.topOffset,
     required this.onDragStart,
     required this.onDragUpdate,

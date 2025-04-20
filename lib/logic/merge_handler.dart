@@ -71,18 +71,20 @@ class MergeHandler {
     // Получаем Overlay для отображения анимации поверх всего
     final overlay = Overlay.of(context);
     // Получаем RenderBox для расчета позиций
-    final renderBox1 = context.findRenderObject() as RenderBox;
-    final position1 = renderBox1.localToGlobal(Offset.zero);
+    final renderBox = context.findRenderObject() as RenderBox;
+    if (renderBox == null) return;
+
+    final position = renderBox.localToGlobal(Offset.zero);
 
     // Рассчитываем позиции обоих элементов на экране
     final item1Position = Offset(
-      position1.dx + item1.gridX * cellSize + cellSize / 2,
-      position1.dy + item1.gridY * cellSize + cellSize / 2,
+      position.dx + item1.gridX * cellSize + cellSize / 2,
+      position.dy + item1.gridY * cellSize + cellSize / 2,
     );
 
     final item2Position = Offset(
-      position1.dx + item2.gridX * cellSize + cellSize / 2,
-      position1.dy + item2.gridY * cellSize + cellSize / 2,
+      position.dx + item2.gridX * cellSize + cellSize / 2,
+      position.dy + item2.gridY * cellSize + cellSize / 2,
     );
 
     // Центральная точка между двумя элементами - где будет анимация
@@ -90,13 +92,19 @@ class MergeHandler {
       (item1Position.dx + item2Position.dx) / 2,
       (item1Position.dy + item2Position.dy) / 2,
     );
-
+    debugPrint(
+      'Item1 position: $item1Position ${item1.gridX}  ${item1.gridY} $cellSize',
+    );
+    debugPrint('Item2 position: $item2Position ${item2.gridX}  ${item2.gridY}');
+    debugPrint('Center position: $centerPosition');
     // Создаем OverlayEntry для анимации
     final overlayEntry = OverlayEntry(
       builder:
           (context) => Positioned(
-            left: centerPosition.dx - cellSize / 2,
-            top: centerPosition.dy - cellSize / 2,
+            //    left: centerPosition.dx - cellSize / 2,
+            //    top: centerPosition.dy - cellSize / 2,
+            left: centerPosition.dx - cellSize,
+            top: centerPosition.dy - cellSize,
             child: MergeAnimationWidget(
               item1: item1,
               item2: item2,
