@@ -25,8 +25,6 @@ class _MergeGameState extends State<MergeGame> {
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
 
-  late MergeHandler _mergeHandler; // Делаем полем класса
-
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
   late FieldManager _fieldManager; // Менеджер игрового поля
@@ -54,14 +52,13 @@ class _MergeGameState extends State<MergeGame> {
   final Map<String, bool> isVisible = {};
   String? resultImageId; // ID результирующего изображения после слияния
 
-  //late MergeHandler _mergeHandler; // Обработчик слияния элементов
+  late MergeHandler _mergeHandler; // Делаем полем класса
 
   @override
   void initState() {
     super.initState();
 
     _levelBloc = LevelBloc();
-
     // Инициализация менеджера игрового поля
     _fieldManager = FieldManager(
       getItems: () => _gameItems,
@@ -87,22 +84,6 @@ class _MergeGameState extends State<MergeGame> {
       },
       cellSize: 0, // Временное значение, будет обновлено в build()
     );
-    // Инициализация обработчика слияния
-    // _mergeHandler = MergeHandler(
-    //   context: context,
-    //   gameItems: _gameItems,
-    //   onMergeComplete: (mergedItem) {
-    //     print('onMergeComplete');
-    //     if (mergedItem.id == _levelBloc.state.targetItem) {
-    //       // Уровень завершён
-    //       print('Уровень завершён');
-    //       _levelBloc.add(LevelCompletedEvent());
-    //     }
-    //     setState(() {}); // Обновляем UI после слияния
-    //   },
-    // );
-    // Добавляем начальные изображения в панель инструментов
-    // _toolboxImages.addAll(allImages.take(10));
   }
 
   @override
