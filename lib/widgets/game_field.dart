@@ -12,6 +12,7 @@ class GameField extends StatelessWidget {
   final List<GameItem> gameItems;
   // Текущий перетаскиваемый элемент (может быть null)
   final GameItem? draggedItem;
+  final mergeHandler; // Добавляем параметр
   // Размер одной ячейки сетки
   final double cellSize;
   final double topOffset; // Добавляем параметр для сдвига
@@ -30,6 +31,7 @@ class GameField extends StatelessWidget {
     required this.gridColumns,
     required this.gridRows,
 
+    required this.mergeHandler, // Добавляем в конструктор
     required this.gameItems,
     required this.draggedItem,
     required this.cellSize,

@@ -25,6 +25,8 @@ class _MergeGameState extends State<MergeGame> {
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
 
+  late MergeHandler _mergeHandler; // Делаем полем класса
+
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
   late FieldManager _fieldManager; // Менеджер игрового поля
@@ -52,7 +54,7 @@ class _MergeGameState extends State<MergeGame> {
   final Map<String, bool> isVisible = {};
   String? resultImageId; // ID результирующего изображения после слияния
 
-  late MergeHandler _mergeHandler; // Обработчик слияния элементов
+  //late MergeHandler _mergeHandler; // Обработчик слияния элементов
 
   @override
   void initState() {
@@ -74,20 +76,31 @@ class _MergeGameState extends State<MergeGame> {
       columns: gridColumns,
     );
 
-    // Инициализация обработчика слияния
     _mergeHandler = MergeHandler(
       context: context,
       gameItems: _gameItems,
       onMergeComplete: (mergedItem) {
-        print('onMergeComplete');
         if (mergedItem.id == _levelBloc.state.targetItem) {
-          // Уровень завершён
-          print('Уровень завершён');
           _levelBloc.add(LevelCompletedEvent());
         }
-        setState(() {}); // Обновляем UI после слияния
+        setState(() {});
       },
+      cellSize: 0, // Временное значение, будет обновлено в build()
     );
+    // Инициализация обработчика слияния
+    // _mergeHandler = MergeHandler(
+    //   context: context,
+    //   gameItems: _gameItems,
+    //   onMergeComplete: (mergedItem) {
+    //     print('onMergeComplete');
+    //     if (mergedItem.id == _levelBloc.state.targetItem) {
+    //       // Уровень завершён
+    //       print('Уровень завершён');
+    //       _levelBloc.add(LevelCompletedEvent());
+    //     }
+    //     setState(() {}); // Обновляем UI после слияния
+    //   },
+    // );
     // Добавляем начальные изображения в панель инструментов
     // _toolboxImages.addAll(allImages.take(10));
   }
@@ -115,6 +128,18 @@ class _MergeGameState extends State<MergeGame> {
           cellSize =
               (screenSize.width - 40) /
               gridColumns; // Рассчитываем размер ячейки
+
+          final mergeHandler = MergeHandler(
+            context: context,
+            gameItems: _gameItems,
+            onMergeComplete: (mergedItem) {
+              if (mergedItem.id == _levelBloc.state.targetItem) {
+                _levelBloc.add(LevelCompletedEvent());
+              }
+              setState(() {});
+            },
+            cellSize: cellSize,
+          );
 
           return Scaffold(
             //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
@@ -178,6 +203,7 @@ class _MergeGameState extends State<MergeGame> {
                     gameItems: _gameItems,
                     draggedItem: _draggedItem,
                     cellSize: cellSize,
+                    mergeHandler: mergeHandler, // Передаем handler
                     topOffset:
                         MediaQuery.of(context).size.height *
                         0.15, // Передаём сдвиг
@@ -256,7 +282,7 @@ class _MergeGameState extends State<MergeGame> {
         bool mergeItem = true;
         // Проверяем слияние только если элемент был перемещен в новую ячейку
         if (newX != item.gridX || newY != item.gridY) {
-          print('check');
+          //   print('check');
           bool mergeItem = _checkForMerge(item, newX, newY);
           if (!mergeItem) {
             _gameItems.add(item);
@@ -283,7 +309,7 @@ class _MergeGameState extends State<MergeGame> {
   // Проверка возможности слияния элементов в одной ячейке
   bool _checkForMerge(GameItem movedItem, int newX, int newY) {
     // Находим все элементы в текущей ячейке перемещенного элемента
-    print('count ${_gameItems.length}');
+    //   print('count ${_gameItems.length}');
 
     final itemsInCell =
         _gameItems.where((item) {
@@ -294,7 +320,7 @@ class _MergeGameState extends State<MergeGame> {
         }).toList();
 
     if (itemsInCell.isNotEmpty) {
-      print("В этой ячейке есть ${itemsInCell.length} элементов");
+      // print("В этой ячейке есть ${itemsInCell.length} элементов");
     }
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
