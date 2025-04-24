@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/image_item.dart';
 import '../logic/game_field_manager.dart';
+import '../logic/generate_calm_color.dart';
 
 class ToolboxItemWidget extends StatelessWidget {
   final ImageItem imgItem;
@@ -20,6 +21,11 @@ class ToolboxItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double circleSize = size * 0.7;
+    final double borderWidth = 2.0;
+    // Генерация спокойного цвета на основе строки
+    final borderColor = generateCalmColor(imgItem.slug);
+
     return GestureDetector(
       onTap: () {
         fieldManager.tryAddItem(
@@ -28,41 +34,36 @@ class ToolboxItemWidget extends StatelessWidget {
           onAdd: (_) => onItemAdded(),
         );
       },
-      child: Container(
+      child: SizedBox(
         width: size,
         height: size,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 2, spreadRadius: 1),
-          ],
-        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Image.asset(
-                  imgItem.assetPath,
-                  fit: BoxFit.contain,
-                  width: size - 20,
-                  height: size - 20,
-                ),
+            Container(
+              width: circleSize,
+              height: circleSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: borderColor, width: borderWidth),
+              ),
+              child: ClipOval(
+                child: Image.asset(imgItem.assetPath, fit: BoxFit.cover),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 8),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: size,
               child: Text(
                 imgItem.slug,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                   color: Colors.black87,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
             ),
           ],

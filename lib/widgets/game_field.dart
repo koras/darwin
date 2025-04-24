@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Импорт моделей и виджетов
 import '../models/game_item.dart';
-import 'game_grid.dart';
+import 'dart:async'; // Добавьте эту строку в начале файла
 import 'game_item_widget.dart';
 import 'dragging_item_widget.dart';
 
@@ -12,8 +12,10 @@ class GameField extends StatelessWidget {
   final List<GameItem> gameItems;
   // Текущий перетаскиваемый элемент (может быть null)
   final GameItem? draggedItem;
+  final mergeHandler; // Добавляем параметр
   // Размер одной ячейки сетки
   final double cellSize;
+  final double topOffset; // Добавляем параметр для сдвига
   // Обработчик начала перетаскивания
   final Function(DragStartDetails) onDragStart;
   // Обработчик обновления позиции при перетаскивании
@@ -21,11 +23,21 @@ class GameField extends StatelessWidget {
   // Обработчик окончания перетаскивания
   final Function(DragEndDetails) onDragEnd;
 
+  final int gridColumns;
+  final int gridRows;
+  final double fieldTop;
+
   // Конструктор класса
   const GameField({
+    required this.gridColumns,
+    required this.gridRows,
+
+    required this.mergeHandler, // Добавляем в конструктор
     required this.gameItems,
     required this.draggedItem,
     required this.cellSize,
+    required this.fieldTop,
+    required this.topOffset,
     required this.onDragStart,
     required this.onDragUpdate,
     required this.onDragEnd,
@@ -39,20 +51,35 @@ class GameField extends StatelessWidget {
 
       child: GestureDetector(
         // При обновлении позиции пальца/мыши во время перетаскивания
-        onPanUpdate: onDragUpdate,
+        onPanUpdate: (details) {
+          // Корректируем координаты с учётом сдвига
+          final adjustedDetails = DragUpdateDetails(
+            globalPosition: details.globalPosition - Offset(0, topOffset),
+            localPosition: details.localPosition,
+            delta: details.delta,
+          );
+          onDragUpdate(adjustedDetails);
+        },
         // Когда пользователь отпускает элемент
         onPanEnd: onDragEnd,
         // Когда пользователь начинает перетаскивание
-        onPanStart: onDragStart,
+        onPanStart: (details) {
+          // Корректируем координаты с учётом сдвига
+          final adjustedDetails = DragStartDetails(
+            globalPosition: details.globalPosition - Offset(0, topOffset),
+            localPosition: details.localPosition,
+          );
+          onDragStart(adjustedDetails);
+        },
+
         child: Container(
           // Серый фон игрового поля
-          color: Colors.grey[200],
+          //     color: Colors.grey[200],
           // Stack позволяет накладывать виджеты друг на друга
           child: Stack(
             children: [
               // Отображаем сетку игрового поля (5x5)
-              GameGrid(rows: 7, columns: 7),
-
+              //     GameGrid(rows: gridRows, columns: gridColumns),
               // Отображаем все игровые элементы с помощью GameItemWidget
               // Преобразуем каждый элемент списка gameItems в виджет
               ...gameItems.map(

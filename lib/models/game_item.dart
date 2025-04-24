@@ -13,6 +13,10 @@ class GameItem {
   Offset dragOffset = Offset.zero;
   bool isDragging = false;
 
+  // Параметры для анимации
+  double scale = 1.0;
+  double opacity = 1.0;
+
   GameItem({
     required this.id,
     required this.slug,

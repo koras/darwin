@@ -1,0 +1,14 @@
+{
+    "dart.debugExternalLibraries": false,
+    "dart.debugSdkLibraries": false,
+    "dart.lineLength": 120,
+    "editor.formatOnSave": true,
+    "editor.rulers": [120],
+    "flutter.createAndroidLanguages": ["en", "ru"],
+    "flutter.createIOSLanguages": ["en", "ru"],
+    "[dart]": {
+      "editor.defaultFormatter": "Dart-Code.dart-code",
+      "editor.formatOnSave": true,
+      "editor.selectionHighlight": false
+    }
+  }
