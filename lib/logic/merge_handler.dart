@@ -22,45 +22,59 @@ class MergeHandler {
 
   // Пытается объединить два элемента
   bool tryMergeItems(GameItem item1, GameItem item2) {
-    // Получаем ID результата слияния (null, если слияние невозможно)
-    final resultId = getMergeResult(item1.id, item2.id);
-    // Позиция нового элемента будет на месте второго элемента
-    final int newX = item2.gridX;
-    final int newY = item2.gridY;
+    try {
+      // Получаем ID результата слияния (null, если слияние невозможно)
+      final resultId = getMergeResult(item1.id, item2.id);
+      // Позиция нового элемента будет на месте второго элемента
+      final int newX = item2.gridX;
+      final int newY = item2.gridY;
 
-    // Если слияние невозможно, возвращаем false
-    if (resultId == null) return false;
+      // Если слияние невозможно, возвращаем false
+      if (resultId == null) return false;
 
-    // Находим данные результирующего элемента в списке всех возможных изображений
-    final resultItem = allImages.firstWhere(
-      (resultItem) => resultItem.id == resultId,
-    );
+      // Находим данные результирующего элемента в списке всех возможных изображений
+      print(
+        'Находим данные результирующего элемента в списке всех возможных изображений ${item1.id}, ${item2.id}',
+      );
+      final resultItem = allImages.firstWhere(
+        (resultItem) => resultItem.id == resultId,
+      );
+      print(' ${item1}, ${item2}');
+      // Показываем анимацию слияния
+      _showMergeAnimation(item1, item2, resultItem);
 
-    // Показываем анимацию слияния
-    _showMergeAnimation(item1, item2, resultItem);
+      // Удаляем исходные элементы из списка
+      gameItems.remove(item1);
+      gameItems.remove(item2);
 
-    // Удаляем исходные элементы из списка
-    gameItems.remove(item1);
-    gameItems.remove(item2);
+      // Создаем новый объединенный элемент
+      final mergedItem = GameItem(
+        id: resultItem.id,
+        slug: resultItem.slug,
+        assetPath: resultItem.assetPath,
+        gridX: newX,
+        gridY: newY,
+      );
 
-    // Создаем новый объединенный элемент
-    final mergedItem = GameItem(
-      id: resultItem.id,
-      slug: resultItem.slug,
-      assetPath: resultItem.assetPath,
-      gridX: newX,
-      gridY: newY,
-    );
+      // Добавляем новый элемент в список
+      gameItems.add(mergedItem);
 
-    // Добавляем новый элемент в список
-    gameItems.add(mergedItem);
+      // Вызываем колбэк, уведомляющий о завершении слияния
+      onMergeComplete(mergedItem);
 
-    // Вызываем колбэк, уведомляющий о завершении слияния
-    onMergeComplete(mergedItem);
+      // Показываем уведомление о полученном предмете
+      GameSnackbar.show(context, 'Получено: ${resultItem.slug}');
+      return true;
+    } catch (e, stackTrace) {
+      // Логируем ошибку
+      print('Ошибка при слиянии предметов: $e');
+      print('Стек вызовов: $stackTrace');
 
-    // Показываем уведомление о полученном предмете
-    GameSnackbar.show(context, 'Получено: ${resultItem.slug}');
-    return true;
+      // Можно также показать пользователю сообщение об ошибке
+      GameSnackbar.show(context, 'Произошла ошибка при слиянии предметов');
+
+      return false;
+    }
   }
 
   // Показывает анимацию слияния двух элементов
@@ -111,10 +125,6 @@ class MergeHandler {
     final overlayEntry = OverlayEntry(
       builder:
           (context) => Positioned(
-            //    left: centerPosition.dx - cellSize / 2,
-            //    top: centerPosition.dy - cellSize / 2,
-            //  left: centerPosition.dx - cellSize,
-            // top: centerPosition.dy - cellSize,
             left: item2Position.dx,
             top: item2Position.dy,
             child: MergeAnimationWidget(

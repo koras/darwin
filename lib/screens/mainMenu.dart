@@ -59,29 +59,29 @@ class StartPage extends StatelessWidget {
                     // Действие при нажатии
                     print('Действие при нажатии Находки');
                   }),
-                  SizedBox(height: 20),
+                  // SizedBox(height: 20),
 
-                  // Кнопка "Статистика"
-                  _buildRoundedButton('Статистика', () {
-                    // Действие при нажатии
+                  // // Кнопка "Статистика"
+                  // _buildRoundedButton('Статистика', () {
+                  //   // Действие при нажатии
 
-                    print('Действие при нажатии Статистика');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => StatisticsPage()),
-                    );
-                  }),
-                  SizedBox(height: 20),
+                  //   print('Действие при нажатии Статистика');
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => StatisticsPage()),
+                  //   );
+                  // }),
+                  // SizedBox(height: 20),
 
-                  // Кнопка "Правила"
-                  _buildRoundedButton('Правила', () {
-                    print('Правила');
-                    // Действие при нажатии StartPage
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RulesPage()),
-                    );
-                  }),
+                  // // Кнопка "Правила"
+                  // _buildRoundedButton('Правила', () {
+                  //   print('Правила');
+                  //   // Действие при нажатии StartPage
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => RulesPage()),
+                  //   );
+                  // }),
                 ],
               ),
             ),
