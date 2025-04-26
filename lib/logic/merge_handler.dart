@@ -40,12 +40,13 @@ class MergeHandler {
         (resultItem) => resultItem.id == resultId,
       );
       print(' ${item1}, ${item2}');
-      // Показываем анимацию слияния
-      _showMergeAnimation(item1, item2, resultItem);
 
       // Удаляем исходные элементы из списка
       gameItems.remove(item1);
       gameItems.remove(item2);
+
+      // Показываем анимацию слияния
+      _showMergeAnimation(item1, item2, resultItem);
 
       // Создаем новый объединенный элемент
       final mergedItem = GameItem(
@@ -89,36 +90,35 @@ class MergeHandler {
     final renderBox = context.findRenderObject() as RenderBox;
     if (renderBox == null) return;
 
-    final position = renderBox.localToGlobal(Offset.zero);
+    // final position = renderBox.localToGlobal(Offset.zero);
 
     // Рассчитываем позиции обоих элементов на экране
-    final item1Position = Offset(
-      position.dx + item1.gridX * cellSize + cellSize / 2,
-      position.dy + item1.gridY * cellSize + cellSize / 2,
-    );
+    // final item1Position = Offset(
+    //   position.dx + item1.gridX * cellSize + cellSize / 2,
+    //   position.dy + item1.gridY * cellSize + cellSize / 2,
+    // );
 
     final item2Position = Offset(
-      position.dx + item2.gridX * cellSize + cellSize / 2 - 15,
-      position.dy +
-          item2.gridY * cellSize -
-          cellSize +
-          fieldTop +
-          cellSize -
-          23,
+      // position.dx +
+      item2.gridX * cellSize + cellSize / 2 - 20,
+
+      //  position.dy +
+      item2.gridY * cellSize - cellSize + fieldTop + cellSize - 23,
     );
 
     // Центральная точка между двумя элементами - где будет анимация
-    final centerPosition = Offset(
-      (item1Position.dx + item2Position.dx) / 2,
-      //  (item1Position.dx + item2Position.dx) / 2,
-      (item1Position.dy + item2Position.dy) / 2,
-    );
+    // final centerPosition = Offset(
+    //   (item1Position.dx + item2Position.dx) / 2,
+    //   //  (item1Position.dx + item2Position.dx) / 2,
+    //   (item1Position.dy + item2Position.dy) / 2,
+    // );
+    // final item2Position = Offset(position.dx, position.dy);
+    // item2Position.dx = position.dx;
+    //   item2Position.dy = position.dy;
 
-    resultItem.position.dx;
+    debugPrint('position====: $item2Position}');
 
-    debugPrint(
-      'Item1 ====: $item1Position ${item1.gridX}  ${item1.gridY} $cellSize, ${resultItem.position}',
-    );
+    debugPrint('Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop ');
     //  debugPrint('Item2 position: $item2Position ${item2.gridX}  ${item2.gridY}');
     debugPrint('Center position: $fieldTop $item2Position');
     // Создаем OverlayEntry для анимации

@@ -29,7 +29,7 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
@@ -53,7 +53,7 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
       scale: _scaleAnimation,
       child: Container(
         width: widget.cellSize,
-        height: widget.cellSize,
+        //   height: widget.cellSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: borderColor, width: 1),
