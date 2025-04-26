@@ -3,145 +3,112 @@ import 'package:collection/collection.dart';
 
 class ImageItem {
   final String id;
-  final String slug;
-  final String assetPath;
+  // final String slug;
+  // final String assetPath;
   Offset position;
-  ImageItem(this.id, this.slug, this.assetPath, {this.position = Offset.zero});
+  //ImageItem(this.id, this.slug, this.assetPath, {this.position = Offset.zero});
+
+  ImageItem(this.id, {this.position = Offset.zero});
+  // Вычисляемые свойства
+  String get slug => id; // slug совпадает с id
+  String get assetPath =>
+      'assets/images/$id.png'; // Генерируем путь автоматически
 }
 
-final List<ImageItem> allImages = [
-  ImageItem('water', 'water', 'assets/images/water.png'),
-  ImageItem('cloud', 'cloud', 'assets/images/cloud.png'),
-  ImageItem('dna', 'dna', 'assets/images/dna.png'),
-  ImageItem('man', 'man', 'assets/images/man.png'),
-  ImageItem('morning', 'morning', 'assets/images/morning.png'),
-  ImageItem('mushroom', 'mushroom', 'assets/images/mushroom.png'),
-  ImageItem('sky', 'sky', 'assets/images/sky.png'),
-  ImageItem('sugar', 'sugar', 'assets/images/sugar.png'),
-  ImageItem('wind', 'wind', 'assets/images/wind.png'),
-
-  ImageItem('explosion', 'explosion', 'assets/images/explosion.png'),
-  ImageItem('radiation', 'radiation', 'assets/images/radiation.png'),
-  ImageItem('grape', 'grape', 'assets/images/grape.png'),
-  ImageItem('holiday', 'holiday', 'assets/images/holiday.png'),
-  ImageItem('knight', 'knight', 'assets/images/knight.png'),
-  ImageItem('plane', 'plane', 'assets/images/plane.png'),
-  ImageItem('phone', 'phone', 'assets/images/phone.png'),
-  ImageItem('car', 'car', 'assets/images/car.png'),
-
-  ImageItem('barista', 'barista', 'assets/images/barista.png'),
-  ImageItem('phone_old', 'phone_old', 'assets/images/phone_old.png'),
-  ImageItem('wooden', 'wooden', 'assets/images/wooden.png'),
-  ImageItem('plankton', 'plankton', 'assets/images/plankton.png'),
-  ImageItem('spider', 'spider', 'assets/images/spider.png'),
-  ImageItem('glacier', 'glacier', 'assets/images/glacier.png'),
-  ImageItem('bacteria', 'bacteria', 'assets/images/bacteria.png'),
-  ImageItem('fish', 'fish', 'assets/images/fish.png'),
-  ImageItem('tool', 'tool', 'assets/images/tool.png'),
-  ImageItem('bicycle', 'bicycle', 'assets/images/bicycle.png'),
-  ImageItem('wheel', 'wheel', 'assets/images/wheel.png'),
-  ImageItem(
-    'crowd_of_people',
-    'crowd_of_people',
-    'assets/images/crowd_of_people.png',
-  ),
-  ImageItem('alcohol', 'alcohol', 'assets/images/alcohol.png'),
-  ImageItem('stone', 'stone', 'assets/images/stone.png'),
-  ImageItem('lizard', 'lizard', 'assets/images/lizard.png'),
-  ImageItem('tree', 'tree', 'assets/images/tree.png'),
-  ImageItem('swamp', 'swamp', 'assets/images/swamp.png'),
-  ImageItem('flour', 'flour', 'assets/images/flour.png'),
-  ImageItem('bread', 'bread', 'assets/images/bread.png'),
-  ImageItem('banana', 'banana', 'assets/images/banana.png'),
-  ImageItem('factory', 'factory', 'assets/images/factory.png'),
-  ImageItem('volcano', 'volcano', 'assets/images/volcano.png'),
-  ImageItem('city', 'city', 'assets/images/city.png'),
-  ImageItem(
-    'hungover_saturday_morning',
-    'hungover_saturday_morning',
-    'assets/images/hungover_saturday_morning.png',
-  ),
-  ImageItem('cake', 'cake', 'assets/images/cake.png'),
-  ImageItem('sailing_ship', 'sailing_ship', 'assets/images/sailing_ship.png'),
-  ImageItem(
-    'sand_mountain',
-    'sand_mountain',
-    'assets/images/sand_mountain.png',
-  ),
-  ImageItem(
-    'stone_mountain',
-    'stone_mountain',
-    'assets/images/stone_mountain.png',
-  ),
-  ImageItem('metropolis', 'metropolis', 'assets/images/metropolis.png'),
-  ImageItem('village', 'village', 'assets/images/village.png'),
-  ImageItem('snowman', 'snowman', 'assets/images/snowman.png'),
-  ImageItem('love', 'love', 'assets/images/love.png'),
-  ImageItem('see', 'see', 'assets/images/see.png'),
-  ImageItem('bacterium', 'bacterium', 'assets/images/bacterium.png'),
-  ImageItem('monkey', 'monkey', 'assets/images/monkey.png'),
-  ImageItem('money', 'money', 'assets/images/money.png'),
-  ImageItem('santa_claus', 'santa_claus', 'assets/images/santa_claus.png'),
-  ImageItem(
-    'new_year_tree',
-    'new_year_tree',
-    'assets/images/new_year_tree.png',
-  ),
-  ImageItem('penguin', 'penguin', 'assets/images/penguin.png'),
-  ImageItem('witch', 'witch', 'assets/images/witch.png'),
-  ImageItem(
-    'big_crowd_of_people',
-    'big_crowd_of_people',
-    'assets/images/big_crowd_of_people.png',
-  ),
-  ImageItem(
-    'noisy_friday_party',
-    'noisy_friday_party',
-    'assets/images/noisy_friday_party.png',
-  ),
-  ImageItem('dragon', 'dragon', 'assets/images/dragon.png'),
-  ImageItem('book', 'book', 'assets/images/book.png'),
-  ImageItem('cow', 'cow', 'assets/images/cow.png'),
-  ImageItem('cocktail', 'cocktail', 'assets/images/cocktail.png'),
-  ImageItem('cupid', 'cupid', 'assets/images/cupid.png'),
-  ImageItem('frog', 'frog', 'assets/images/frog.png'),
-  ImageItem(
-    'king_of_the_hill',
-    'king_of_the_hill',
-    'assets/images/king_of_the_hill.png',
-  ),
-  ImageItem('monument', 'monument', 'assets/images/monument.png'),
-  ImageItem('sommelier', 'sommelier', 'assets/images/sommelier.png'),
-  ImageItem('snow', 'snow', 'assets/images/snow.png'),
-  ImageItem('electricity', 'electricity', 'assets/images/electricity.png'),
-  ImageItem('iron', 'iron', 'assets/images/iron.png'),
-  ImageItem('acid', 'acid', 'assets/images/acid.png'),
-  ImageItem('milk', 'milk', 'assets/images/milk.png'),
-  ImageItem('rocket', 'rocket', 'assets/images/rocket.png'),
-  ImageItem('intelligence', 'intelligence', 'assets/images/intelligence.png'),
-  ImageItem('wood', 'wood', 'assets/images/wood.png'),
-  ImageItem('wine', 'wine', 'assets/images/wine.png'),
-  ImageItem('swamp', 'swamp', 'assets/images/swamp.png'),
-  ImageItem('sun', 'sun', 'assets/images/sun.png'),
-  ImageItem('spark', 'spark', 'assets/images/spark.png'),
-  ImageItem('robot', 'robot', 'assets/images/robot.png'),
-  ImageItem('rainbow', 'rainbow', 'assets/images/rainbow.png'),
-  ImageItem('metal', 'metal', 'assets/images/metal.png'),
-  ImageItem('mammal', 'mammal', 'assets/images/mammal.png'),
-
-  ImageItem('light', 'light', 'assets/images/light.png'),
-  ImageItem('life', 'life', 'assets/images/life.png'),
-  ImageItem('fire', 'fire', 'assets/images/fire.png'),
-  ImageItem('earth', 'earth', 'assets/images/earth.png'),
-  ImageItem('dough', 'dough', 'assets/images/dough.png'),
-  ImageItem('dolphin', 'dolphin', 'assets/images/dolphin.png'),
-  ImageItem('cat', 'cat', 'assets/images/cat.png'),
-  ImageItem('dog', 'dog', 'assets/images/dog.png'),
-  ImageItem(
-    'artificial_intelligence',
-    'artificial_intelligence',
-    'assets/images/artificial_intelligence.png',
-  ),
-  ImageItem('train', 'train', 'assets/images/train.png'),
-  ImageItem('mountain', 'mountain', 'assets/images/mountain.png'),
-];
+final List<ImageItem> allImages =
+    [
+      'water', // Вода
+      'cloud', // Облако
+      'dna', // ДНК
+      'man', // Человек (мужчина)
+      'morning', // Утро
+      'mushroom', // Гриб
+      'sky', // Небо
+      'sugar', // Сахар
+      'wind', // Ветер
+      'explosion', // Взрыв
+      'radiation', // Радиация
+      'grape', // Виноград
+      'holiday', // Праздник
+      'knight', // Рыцарь
+      'plane', // Самолёт
+      'phone', // Телефон
+      'car', // Автомобиль
+      'barista', // Бариста
+      'phone_old', // Старинный телефон
+      'wooden', // Деревянный предмет
+      'plankton', // Планктон
+      'spider', // Паук
+      'glacier', // Ледник
+      'bacteria', // Бактерии
+      'fish', // Рыба
+      'tool', // Инструмент
+      'bicycle', // Велосипед
+      'wheel', // Колесо
+      'crowd_of_people', // Толпа людей
+      'alcohol', // Алкоголь
+      'stone', // Камень
+      'lizard', // Ящерица
+      'tree', // Дерево
+      'swamp', // Болото
+      'flour', // Мука
+      'bread', // Хлеб
+      'banana', // Банан
+      'factory', // Фабрика
+      'volcano', // Вулкан
+      'city', // Город
+      'hungover_saturday_morning', // Похмельное субботнее утро
+      'cake', // Торт
+      'sailing_ship', // Парусник
+      'sand_mountain', // Песчаная гора/дюна
+      'stone_mountain', // Каменная гора
+      'metropolis', // Мегаполис
+      'village', // Деревня
+      'snowman', // Снеговик
+      'love', // Любовь
+      'sea', // Море
+      'bacterium', // Бактерия (единственное число)
+      'monkey', // Обезьяна
+      'money', // Деньги
+      'santa_claus', // Санта-Клаус
+      'new_year_tree', // Новогодняя ёлка
+      'penguin', // Пингвин
+      'witch', // Ведьма
+      'big_crowd_of_people', // Большая толпа людей
+      'noisy_friday_party', // Шумная пятничная вечеринка
+      'dragon', // Дракон
+      'book', // Книга
+      'cow', // Корова
+      'cocktail', // Коктейль
+      'cupid', // Амур/Купидон
+      'frog', // Лягушка
+      'king_of_the_hill', // Король горы
+      'monument', // Памятник
+      'sommelier', // Сомелье
+      'snow', // Снег
+      'electricity', // Электричество
+      'iron', // Железо
+      'acid', // Кислота
+      'milk', // Молоко
+      'rocket', // Ракета
+      'intelligence', // Интеллект
+      'wood', // Древесина
+      'wine', // Вино
+      'sun', // Солнце
+      'spark', // Искра
+      'robot', // Робот
+      'rainbow', // Радуга
+      'metal', // Металл
+      'mammal', // Млекопитающее
+      'light', // Свет
+      'life', // Жизнь
+      'fire', // Огонь
+      'earth', // Земля
+      'dough', // Тесто
+      'dolphin', // Дельфин
+      'cat', // Кошка
+      'dog', // Собака
+      'artificial_intelligence', // Искусственный интеллект
+      'train', // Поезд
+      'mountain', // Гора
+    ].map((id) => ImageItem(id)).toList();
