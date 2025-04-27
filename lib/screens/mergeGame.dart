@@ -83,7 +83,8 @@ class _MergeGameState extends State<MergeGame> {
         setState(() {});
       },
       cellSize: 0,
-      fieldTop: 0, // Временное значение, будет обновлено в build()
+      fieldTop: 0,
+      levelBloc: _levelBloc, // Временное значение, будет обновлено в build()
     );
   }
 
@@ -102,7 +103,7 @@ class _MergeGameState extends State<MergeGame> {
           final screenSize = MediaQuery.of(context).size;
           final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
 
-          final levelImages =
+          final levelItems =
               allImages
                   .where((image) => state.availableItems.contains(image.id))
                   .toList();
@@ -125,6 +126,7 @@ class _MergeGameState extends State<MergeGame> {
             },
             cellSize: cellSize,
             fieldTop: fieldTop,
+            levelBloc: context.read<LevelBloc>(),
           );
 
           return Scaffold(
@@ -137,8 +139,6 @@ class _MergeGameState extends State<MergeGame> {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        //  image: AssetImage('assets/images/background.png'),
-                        //       image: AssetImage('images/background.png'),
                         image:
                             Image.asset('assets/images/background.png').image,
                         fit: BoxFit.fitWidth, // Растягиваем по ширине
@@ -209,7 +209,7 @@ class _MergeGameState extends State<MergeGame> {
                   height: toolboxHeight + 20,
                   child: ToolboxPanel(
                     // toolboxImages: _toolboxImages,
-                    toolboxImages: levelImages,
+                    toolboxImages: levelItems,
                     fieldManager: _fieldManager,
                     onHeightChanged: (newHeightPercentage) {
                       setState(() {

@@ -10,7 +10,7 @@ class LoadLevelEvent extends LevelEvent {
 
 class ItemDiscoveredEvent extends LevelEvent {
   final String itemId;
-  ItemDiscoveredEvent(this.itemId);
+  ItemDiscoveredEvent({required this.itemId});
 }
 
 class LevelCompletedEvent extends LevelEvent {}

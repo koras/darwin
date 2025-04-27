@@ -4,6 +4,7 @@ import '../models/image_item.dart';
 import '../logic/merge_logic.dart';
 import '../widgets/game_snackbar.dart';
 import '../widgets/merge_animation_widget.dart';
+import '../bloc/level_bloc.dart';
 
 // Класс для обработки слияния игровых элементов
 class MergeHandler {
@@ -12,12 +13,15 @@ class MergeHandler {
   final Function(GameItem) onMergeComplete; // Колбэк, вызываемый после слияния
   final double cellSize; // Размер ячейки игрового поля
   final double fieldTop;
+
+  final LevelBloc levelBloc; // Добавляем LevelBloc
   MergeHandler({
     required this.context,
     required this.gameItems,
     required this.onMergeComplete,
     required this.cellSize,
     required this.fieldTop,
+    required this.levelBloc, // Добавляем в конструктор
   });
 
   // Пытается объединить два элемента
@@ -31,6 +35,11 @@ class MergeHandler {
 
       // Если слияние невозможно, возвращаем false
       if (resultId == null) return false;
+
+      // Отправляем событие о новом обнаруженном предмете
+      levelBloc.add(ItemDiscoveredEvent(itemId: resultId));
+      // здесь добавляем новый элемент в панель
+      // код добавляения
 
       // Находим данные результирующего элемента в списке всех возможных изображений
       print(
@@ -68,8 +77,7 @@ class MergeHandler {
       return true;
     } catch (e, stackTrace) {
       // Логируем ошибку
-      print('Ошибка при слиянии предметов: $e');
-      print('Стек вызовов: $stackTrace');
+      print('Ошибка при слиянии предметов: $e Стек вызовов: $stackTrace');
 
       // Можно также показать пользователю сообщение об ошибке
       GameSnackbar.show(context, 'Произошла ошибка при слиянии предметов');
@@ -90,14 +98,6 @@ class MergeHandler {
     final renderBox = context.findRenderObject() as RenderBox;
     if (renderBox == null) return;
 
-    // final position = renderBox.localToGlobal(Offset.zero);
-
-    // Рассчитываем позиции обоих элементов на экране
-    // final item1Position = Offset(
-    //   position.dx + item1.gridX * cellSize + cellSize / 2,
-    //   position.dy + item1.gridY * cellSize + cellSize / 2,
-    // );
-
     final item2Position = Offset(
       // position.dx +
       item2.gridX * cellSize + cellSize / 2 - 20,
@@ -106,21 +106,9 @@ class MergeHandler {
       item2.gridY * cellSize - cellSize + fieldTop + cellSize - 23,
     );
 
-    // Центральная точка между двумя элементами - где будет анимация
-    // final centerPosition = Offset(
-    //   (item1Position.dx + item2Position.dx) / 2,
-    //   //  (item1Position.dx + item2Position.dx) / 2,
-    //   (item1Position.dy + item2Position.dy) / 2,
-    // );
-    // final item2Position = Offset(position.dx, position.dy);
-    // item2Position.dx = position.dx;
-    //   item2Position.dy = position.dy;
-
-    debugPrint('position====: $item2Position}');
-
-    debugPrint('Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop ');
-    //  debugPrint('Item2 position: $item2Position ${item2.gridX}  ${item2.gridY}');
-    debugPrint('Center position: $fieldTop $item2Position');
+    debugPrint(
+      'position====: $item2Position} Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop Center position: $fieldTop $item2Position',
+    );
     // Создаем OverlayEntry для анимации
     final overlayEntry = OverlayEntry(
       builder:
