@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class DiscoveryBanner extends StatefulWidget {
   final String itemName;
   final String imagePath;
+  final String messageType; // 'discovery' или 'clear'
 
   const DiscoveryBanner({
     Key? key,
-    required this.itemName,
-    required this.imagePath,
+    this.itemName = "",
+    this.imagePath = "",
+    this.messageType = 'discovery',
   }) : super(key: key);
 
   @override
@@ -55,6 +57,8 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
 
   @override
   Widget build(BuildContext context) {
+    print(' widget.messageType ${widget.messageType}');
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -80,32 +84,54 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
               ),
               child: SafeArea(
                 bottom: false,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(widget.imagePath, width: 36, height: 36),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Text(
-                        'Новый предмет: ${widget.itemName}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Icon(Icons.celebration, color: Colors.amber[700], size: 24),
-                  ],
-                ),
+                child: widget.messageType == 'clear' ? _clear() : _newItem(),
               ),
             ),
           ),
         );
       },
+    );
+  }
+
+  _clear() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.check_circle, color: Colors.green, size: 36),
+        SizedBox(width: 15),
+        Text(
+          'Игровое поле очищено!',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
+      ],
+    );
+  }
+
+  _newItem() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(widget.imagePath, width: 36, height: 36),
+        const SizedBox(width: 15),
+        Expanded(
+          child: Text(
+            'Новый предмет: ${widget.itemName}',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Icon(Icons.celebration, color: Colors.amber[700], size: 24),
+      ],
     );
   }
 }

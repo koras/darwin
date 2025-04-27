@@ -179,12 +179,13 @@ class _MergeGameState extends State<MergeGame>
                       print("Логика подсказки");
                       // Логика подсказки
                     },
-                    onClearPressed: () {
-                      print("Логика очистки экрана");
-                      // Логика очистки экрана
-                    },
+                    onClearPressed:
+                        _handleClearField, // Изменяем обработчик () {
+                    // Логика очистки экрана
                     scoreImagePath:
-                        'assets/images/score_icon.png', // Ваш путь к картинке
+                        'assets/images/score_icon.png', // Ваш путь к картинке,
+                    clearButtonAnimation:
+                        _clearButtonAnimation, // Передаем анимацию
                   ),
                 ),
                 // Игровое поле (верхняя часть экрана)
@@ -241,20 +242,27 @@ class _MergeGameState extends State<MergeGame>
                     right: 0,
                     child: Align(
                       alignment: Alignment.topCenter,
-                      child: DiscoveryBanner(
-                        itemName:
-                            allImages
-                                .firstWhere(
-                                  (item) => item.id == state.lastDiscoveredItem,
-                                )
-                                .slug,
-                        imagePath:
-                            allImages
-                                .firstWhere(
-                                  (item) => item.id == state.lastDiscoveredItem,
-                                )
-                                .assetPath,
-                      ),
+                      child:
+                          state.lastDiscoveredItem == "field_cleared"
+                              ? DiscoveryBanner(messageType: 'clear')
+                              : DiscoveryBanner(
+                                itemName:
+                                    allImages
+                                        .firstWhere(
+                                          (item) =>
+                                              item.id ==
+                                              state.lastDiscoveredItem,
+                                        )
+                                        .slug,
+                                imagePath:
+                                    allImages
+                                        .firstWhere(
+                                          (item) =>
+                                              item.id ==
+                                              state.lastDiscoveredItem,
+                                        )
+                                        .assetPath,
+                              ),
                     ),
                   ),
               ],
@@ -263,6 +271,24 @@ class _MergeGameState extends State<MergeGame>
         },
       ),
     );
+  }
+
+  void _handleClearField() async {
+    print("Логика очистки экрана");
+    // Анимируем кнопку
+    await _clearButtonController.forward();
+    await _clearButtonController.reverse();
+
+    if (_gameItems.isEmpty) return;
+
+    setState(() {
+      _gameItems.clear(); // Очищаем поле
+    });
+
+    // Показываем баннер об очистке
+    _levelBloc.add(
+      ItemDiscoveredEvent(itemId: "field_cleared"),
+    ); // Специальный ID для очистки
   }
 
   // Обработчик начала перетаскивания элемента
