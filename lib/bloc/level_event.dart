@@ -8,6 +8,11 @@ class LoadLevelEvent extends LevelEvent {
   LoadLevelEvent(this.levelId);
 }
 
+class ItemDiscoveredEvent extends LevelEvent {
+  final String itemId;
+  ItemDiscoveredEvent(this.itemId);
+}
+
 class LevelCompletedEvent extends LevelEvent {}
 
 class LevelFailedEvent extends LevelEvent {}

@@ -9,35 +9,13 @@ part 'level_state.dart';
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {
     final firstLevelData = LevelsRepository.levelsData[1]!;
-    // Здесь храним данные всех уровней
-    // final Map<int, Map<String, dynamic>> _levelsData = {
-    //   1: {
-    //     'imageItems': ['water'],
-    //     'result': 'cloud',
-    //     'title': 'Создайте море',
-    //     'hints': {
-    //       1: ['water', 'water', 'cloud'],
-    //       2: ['cloud', 'cloud', 'wind'],
-    //       3: ['wind', 'wind', 'sky'],
-    //     },
-    //   },
-    //   2: {
-    //     'imageItems': ['dnk', 'man', 'morning'],
-    //     'result': 'wmushroom',
-    //     'title': 'Создайте гриб',
-    //     'hints': {
-    //       1: ['water', 'cloud', 'sugar'],
-    //       2: ['sugar', 'sugar', 'mushroom'],
-    //     },
-    //   },
-    //   // Добавьте другие уровни по аналогии
-    // };
 
     // Загружаем первый уровень при инициализации
     emit(
       LevelState(
         currentLevel: 1,
         availableItems: List<String>.from(firstLevelData['imageItems']),
+        discoveredItems: List<String>.from(firstLevelData['imageItems']),
         targetItem: firstLevelData['result'],
         levelTitle: firstLevelData['title'],
         hints: Map<int, List<String>>.from(firstLevelData['hints']),
@@ -46,16 +24,27 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
+    on<ItemDiscoveredEvent>(_onItemDiscovered);
   }
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
     print('Загрузка уровня ${event.levelId}');
     final levelData = LevelsRepository.levelsData[event.levelId];
     if (levelData != null) {
+      // Сохраняем уже открытые предметы
+      final currentDiscovered = state.discoveredItems;
+      // Начальные предметы уровня + уже открытые
+      final allAvailable =
+          [
+            ...List<String>.from(levelData['imageItems']),
+            ...currentDiscovered,
+          ].toSet().toList(); // Убираем дубликаты
+
       emit(
         LevelState(
           currentLevel: event.levelId,
-          availableItems: List<String>.from(levelData['imageItems']),
+          availableItems: allAvailable,
+          discoveredItems: currentDiscovered,
           targetItem: levelData['result'],
           levelTitle: levelData['title'],
           hints: Map<int, List<String>>.from(levelData['hints']),
@@ -66,18 +55,39 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     }
   }
 
+  void _onItemDiscovered(ItemDiscoveredEvent event, Emitter<LevelState> emit) {
+    if (state.discoveredItems.contains(event.itemId)) return;
+
+    final newDiscovered = [...state.discoveredItems, event.itemId];
+    final newAvailable = [...state.availableItems, event.itemId];
+
+    emit(
+      state.copyWith(
+        discoveredItems: newDiscovered,
+        availableItems: newAvailable,
+      ),
+    );
+  }
+
   void _onLevelCompleted(LevelCompletedEvent event, Emitter<LevelState> emit) {
-    print("При завершении уровня можно загрузить следующий");
     final nextLevel = state.currentLevel + 1;
-    print('nextLevel $nextLevel');
 
     if (LevelsRepository.levelsData.containsKey(nextLevel)) {
-      print('грузим');
       final levelData = LevelsRepository.levelsData[nextLevel]!;
+      // Сохраняем все открытые предметы
+      final currentDiscovered = state.discoveredItems;
+      // Объединяем начальные предметы нового уровня и открытые ранее
+      final allAvailable =
+          [
+            ...List<String>.from(levelData['imageItems']),
+            ...currentDiscovered,
+          ].toSet().toList();
+
       emit(
         LevelState(
           currentLevel: nextLevel,
-          availableItems: List<String>.from(levelData['imageItems']),
+          availableItems: allAvailable,
+          discoveredItems: currentDiscovered, // Переносим все открытые
           targetItem: levelData['result'],
           levelTitle: levelData['title'],
           hints: Map<int, List<String>>.from(levelData['hints']),
