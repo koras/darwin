@@ -12,6 +12,7 @@ import '../widgets/game_panel.dart';
 import '../widgets/bottom_app_bar_widget.dart';
 
 import '../bloc/level_bloc.dart';
+import 'discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -220,6 +221,30 @@ class _MergeGameState extends State<MergeGame> {
                     },
                   ),
                 ),
+
+                if (state.lastDiscoveredItem != null)
+                  Positioned(
+                    top: 100, // Позиционируем в верхней части экрана
+                    left: 0,
+                    right: 0,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: DiscoveryBanner(
+                        itemName:
+                            allImages
+                                .firstWhere(
+                                  (item) => item.id == state.lastDiscoveredItem,
+                                )
+                                .slug,
+                        imagePath:
+                            allImages
+                                .firstWhere(
+                                  (item) => item.id == state.lastDiscoveredItem,
+                                )
+                                .assetPath,
+                      ),
+                    ),
+                  ),
               ],
             ),
           );

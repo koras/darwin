@@ -73,7 +73,7 @@ class MergeHandler {
       onMergeComplete(mergedItem);
 
       // Показываем уведомление о полученном предмете
-      GameSnackbar.show(context, 'Получено: ${resultItem.slug}');
+      // GameSnackbar.show(context, 'Получено: ${resultItem.slug}');
       return true;
     } catch (e, stackTrace) {
       // Логируем ошибку
