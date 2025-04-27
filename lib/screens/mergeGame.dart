@@ -22,7 +22,10 @@ class MergeGame extends StatefulWidget {
   _MergeGameState createState() => _MergeGameState();
 }
 
-class _MergeGameState extends State<MergeGame> {
+class _MergeGameState extends State<MergeGame>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _clearButtonController;
+  late Animation<double> _clearButtonAnimation;
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
 
@@ -86,6 +89,15 @@ class _MergeGameState extends State<MergeGame> {
       cellSize: 0,
       fieldTop: 0,
       levelBloc: _levelBloc, // Временное значение, будет обновлено в build()
+    );
+
+    _clearButtonController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    _clearButtonAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _clearButtonController, curve: Curves.easeInOut),
     );
   }
 
