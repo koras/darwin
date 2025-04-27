@@ -29,14 +29,14 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
 
     // Создаем последовательность анимации: увеличение, затем уменьшение
     _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.5), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 1.5, end: 0.8), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 5.5), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 5.5, end: 0.8), weight: 50),
     ]).animate(
       CurvedAnimation(
         parent: _controller,

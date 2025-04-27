@@ -36,7 +36,7 @@ class _MergeGameState extends State<MergeGame> {
 
   // Размеры игровой сетки
   final int gridColumns = 5;
-  final int gridRows = 6;
+  final int gridRows = 5;
   late double cellSize; // Размер одной ячейки сетки
 
   GameItem? _draggedItem; // Элемент, который сейчас перетаскивается
@@ -164,7 +164,6 @@ class _MergeGameState extends State<MergeGame> {
                     time: "02:45",
                     onHintPressed: () {
                       print("Логика подсказки");
-
                       // Логика подсказки
                     },
                     onClearPressed: () {
