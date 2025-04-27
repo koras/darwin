@@ -8,6 +8,7 @@ class LevelState {
   final String targetItem; // Целевой элемент, который нужно создать
   final String levelTitle;
   final Map<int, List<String>> hints; // Подсказки для уровня
+  final String? lastDiscoveredItem; // Новое поле
 
   const LevelState({
     required this.currentLevel,
@@ -16,6 +17,7 @@ class LevelState {
     required this.targetItem,
     required this.levelTitle,
     required this.hints,
+    this.lastDiscoveredItem, // Добавляем в конструктор
   });
 
   factory LevelState.initial() {
@@ -47,6 +49,7 @@ class LevelState {
     String? targetItem,
     String? levelTitle,
     Map<int, List<String>>? hints,
+    String? lastDiscoveredItem,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -55,6 +58,7 @@ class LevelState {
       targetItem: targetItem ?? this.targetItem,
       levelTitle: levelTitle ?? this.levelTitle,
       hints: hints ?? this.hints,
+      lastDiscoveredItem: lastDiscoveredItem ?? this.lastDiscoveredItem,
     );
   }
 

@@ -58,6 +58,9 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   void _onItemDiscovered(ItemDiscoveredEvent event, Emitter<LevelState> emit) {
     if (state.discoveredItems.contains(event.itemId)) return;
 
+    // Проверяем, был ли предмет ранее доступен
+    final isNew = !state.availableItems.contains(event.itemId);
+
     final newDiscovered = [...state.discoveredItems, event.itemId];
     final newAvailable = [...state.availableItems, event.itemId];
 
@@ -65,6 +68,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       state.copyWith(
         discoveredItems: newDiscovered,
         availableItems: newAvailable,
+        lastDiscoveredItem: isNew ? event.itemId : null,
       ),
     );
   }
