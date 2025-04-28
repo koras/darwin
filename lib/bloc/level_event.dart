@@ -18,3 +18,5 @@ class LevelCompletedEvent extends LevelEvent {}
 class LevelFailedEvent extends LevelEvent {}
 
 class ResetDiscoveryBannerEvent extends LevelEvent {}
+
+class ClearDiscoveryEvent extends LevelEvent {}

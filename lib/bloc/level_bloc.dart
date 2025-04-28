@@ -25,6 +25,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
     on<ItemDiscoveredEvent>(_onItemDiscovered);
+    // Добавьте этот обработчик
+    on<ClearDiscoveryEvent>(_onClearDiscovery);
   }
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
@@ -53,6 +55,10 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     } else {
       print('Уровень ${event.levelId} не найден');
     }
+  }
+
+  void _onClearDiscovery(ClearDiscoveryEvent event, Emitter<LevelState> emit) {
+    emit(state.copyWith(lastDiscoveredItem: null));
   }
 
   void _onItemDiscovered(ItemDiscoveredEvent event, Emitter<LevelState> emit) {

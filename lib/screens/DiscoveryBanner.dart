@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/level_bloc.dart';
+
 class DiscoveryBanner extends StatefulWidget {
   final String itemName;
   final String imagePath;
@@ -21,15 +24,22 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
   late Animation<double> _offsetAnimation;
+  late LevelBloc _levelBloc; // Добавляем BLoC
 
   @override
   void initState() {
     super.initState();
+    _levelBloc = context.read<LevelBloc>(); // Получаем BLoC из контекста
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
-    );
+    )..addStatusListener((status) {
+      // Отслеживаем завершение анимации
+      if (status == AnimationStatus.completed) {
+        _levelBloc.add(ClearDiscoveryEvent()); // Отправляем событие
+      }
+    });
 
     _opacityAnimation = Tween<double>(
       begin: 1.0,
@@ -58,38 +68,43 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
   @override
   Widget build(BuildContext context) {
     print(' widget.messageType ${widget.messageType}');
-
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, _offsetAnimation.value),
-          child: Opacity(
-            opacity: _opacityAnimation.value,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 2,
+    return BlocProvider(
+      create: (context) => LevelBloc(),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(0, _offsetAnimation.value),
+            child: Opacity(
+              opacity: _opacityAnimation.value,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15,
+                  horizontal: 20,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey.shade300, width: 1),
                   ),
-                ],
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade300, width: 1),
+                ),
+                child: SafeArea(
+                  bottom: false,
+                  child: widget.messageType == 'clear' ? _clear() : _newItem(),
                 ),
               ),
-              child: SafeArea(
-                bottom: false,
-                child: widget.messageType == 'clear' ? _clear() : _newItem(),
-              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
