@@ -13,8 +13,8 @@ class LevelsRepository {
       },
     },
     2: {
-      'imageItems': ['water', 'dnk', 'man', 'morning', 'sky'],
-      'result': 'wmushroom',
+      'imageItems': ['water', 'fish', 'dnk', 'sugar'],
+      'result': 'dolphin',
       'title': 'Создайте гриб',
       'hints': {
         1: ['water', 'cloud', 'sugar'],
@@ -24,7 +24,7 @@ class LevelsRepository {
 
     // Уровень 3: "Создайте город"
     3: {
-      'imageItems': ['stone', 'tree', 'man'],
+      'imageItems': ['new_year', 'tree', 'village'],
       'result': 'city',
       'title': 'Создайте мегаполис',
       'hints': {

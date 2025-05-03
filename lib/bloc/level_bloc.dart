@@ -79,6 +79,9 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     );
   }
 
+  ///
+  /// Меняем уровень
+  ///
   void _onLevelCompleted(LevelCompletedEvent event, Emitter<LevelState> emit) {
     final nextLevel = state.currentLevel + 1;
 
