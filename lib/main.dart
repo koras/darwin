@@ -3,6 +3,10 @@ import 'screens/mergeGame.dart';
 import 'screens/mainMenu.dart';
 import './providers/appPoints.dart';
 import 'package:provider/provider.dart'; // Добавьте этот импорт
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import './bloc/level_bloc.dart';
 
 void main() {
   runApp(
@@ -19,14 +23,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Merger',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+    return BlocProvider(
+      create: (context) => LevelBloc(),
+      child: MaterialApp(
+        title: 'Merger',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
 
-      //    home: MaterialApp(home: StartPage()),
-      home: MaterialApp(home: MergeGame()),
+        //    home: MaterialApp(home: StartPage()),
+        home: MaterialApp(home: MergeGame()),
+      ),
     );
   }
 }

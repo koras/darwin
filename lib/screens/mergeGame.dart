@@ -31,10 +31,13 @@ class _MergeGameState extends State<MergeGame>
 
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
-  late FieldManager _fieldManager; // Менеджер игрового поля
-
+  //late FieldManager _fieldManager; // Менеджер игрового поля
+  late final FieldManager _fieldManager;
   // Список игровых элементов на поле
   final List<GameItem> _gameItems = [];
+
+  final List<GameItem> gameItems = [];
+
   final int maxItems = 120; // Максимальное количество элементов на поле
   final int maxSameType = 30; // Максимальное количество элементов одного типа
 
@@ -62,20 +65,31 @@ class _MergeGameState extends State<MergeGame>
   void initState() {
     super.initState();
 
+    _fieldManager = FieldManager(
+      getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
+      // addItem: (item) {
+      //   context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
+      // },
+      maxItems: 25, // Укажите нужные значения
+      maxSameType: 25,
+      rows: 5,
+      columns: 5,
+    );
+
     _levelBloc = LevelBloc();
     // Инициализация менеджера игрового поля
-    _fieldManager = FieldManager(
-      getItems: () => _gameItems,
-      addItem: (GameItem newItem) {
-        setState(() {
-          _gameItems.add(newItem);
-        });
-      },
-      maxItems: maxItems,
-      maxSameType: maxSameType,
-      rows: gridRows,
-      columns: gridColumns,
-    );
+    // _fieldManager = FieldManager(
+    //   getItems: () => _gameItems,
+    //   addItem: (GameItem newItem) {
+    //     setState(() {
+    //       _gameItems.add(newItem);
+    //     });
+    //   },
+    //   maxItems: maxItems,
+    //   maxSameType: maxSameType,
+    //   rows: gridRows,
+    //   columns: gridColumns,
+    // );
 
     _mergeHandler = MergeHandler(
       context: context,
@@ -109,167 +123,173 @@ class _MergeGameState extends State<MergeGame>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _levelBloc,
-      child: BlocBuilder<LevelBloc, LevelState>(
-        builder: (context, state) {
-          final screenSize = MediaQuery.of(context).size;
-          final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
+    return BlocBuilder<LevelBloc, LevelState>(
+      builder: (context, state) {
+        final screenSize = MediaQuery.of(context).size;
+        final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
 
-          final levelItems =
-              allImages
-                  .where((image) => state.availableItems.contains(image.id))
-                  .toList();
+        final levelItems =
+            allImages
+                .where((image) => state.availableItems.contains(image.id))
+                .toList();
 
-          cellSize =
-              (screenSize.width - 40) /
-              gridColumns; // Рассчитываем размер ячейки
+        cellSize =
+            (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
 
-          // отсутп для игрового поля
-          final fieldTop = screenSize.height * 0.20;
+        // отсутп для игрового поля
+        final fieldTop = screenSize.height * 0.20;
 
-          _mergeHandler = MergeHandler(
-            context: context,
-            gameItems: _gameItems,
-            onMergeComplete: (mergedItem) {
-              if (mergedItem.id == _levelBloc.state.targetItem) {
-                _levelBloc.add(LevelCompletedEvent());
-              }
-              setState(() {});
-            },
-            cellSize: cellSize,
-            fieldTop: fieldTop,
-            levelBloc: context.read<LevelBloc>(),
-          );
+        _mergeHandler = MergeHandler(
+          context: context,
+          gameItems: _gameItems,
+          onMergeComplete: (mergedItem) {
+            if (mergedItem.id == _levelBloc.state.targetItem) {
+              _levelBloc.add(LevelCompletedEvent());
+            }
+            setState(() {});
+          },
+          cellSize: cellSize,
+          fieldTop: fieldTop,
+          levelBloc: context.read<LevelBloc>(),
+        );
 
-          return Scaffold(
-            //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
-            bottomNavigationBar: const CustomBottomAppBar(),
-            body: Stack(
-              children: [
-                // Фоновая картинка (добавьте этот виджет первым в Stack)
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image:
-                            Image.asset('assets/images/background.png').image,
-                        fit: BoxFit.fitWidth, // Растягиваем по ширине
-                        alignment: Alignment.topCenter, // Выравниваем по верху
-                        repeat:
-                            ImageRepeat
-                                .repeatY, // Повторяем по вертикали (клонируем вниз)
-                      ),
+        return Scaffold(
+          //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
+          bottomNavigationBar: const CustomBottomAppBar(),
+          body: Stack(
+            children: [
+              // Фоновая картинка (добавьте этот виджет первым в Stack)
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: Image.asset('assets/images/background.png').image,
+                      fit: BoxFit.fitWidth, // Растягиваем по ширине
+                      alignment: Alignment.topCenter, // Выравниваем по верху
+                      repeat:
+                          ImageRepeat
+                              .repeatY, // Повторяем по вертикали (клонируем вниз)
                     ),
                   ),
                 ),
+              ),
 
-                // Панель инструментов (верхняя часть экрана)
+              // Панель инструментов (верхняя часть экрана)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: screenSize.height * 0.20,
+                child: GamePanel(
+                  name: "Задание",
+                  stars: 100,
+                  taskDescription: state.levelTitle,
+                  time: "02:45",
+                  onHintPressed: () {
+                    print("Логика подсказки");
+                    // Логика подсказки
+                  },
+                  onClearPressed: _handleClearField, // Изменяем обработчик () {
+                  // Логика очистки экрана
+                  scoreImagePath:
+                      'assets/images/score_icon.png', // Ваш путь к картинке,
+                  clearButtonAnimation:
+                      _clearButtonAnimation, // Передаем анимацию
+                ),
+              ),
+              // Игровое поле (верхняя часть экрана)
+              Positioned(
+                top: screenSize.height * 0.15, // 20% от верха экрана
+                bottom:
+                    toolboxHeight -
+                    20, // Оставляем место для панели инструментов
+                left: 0,
+                right: 0,
+                child: GameField(
+                  gridColumns: gridColumns,
+                  gridRows: gridRows,
+                  gameItems: context.read<LevelBloc>().state.gameItems ?? [],
+                  draggedItem: _draggedItem,
+
+                  cellSize: cellSize,
+                  mergeHandler: _mergeHandler, // Передаем handler
+                  // сдвиг поля на высоту панели
+                  fieldTop: fieldTop,
+                  topOffset:
+                      MediaQuery.of(context).size.height *
+                      0.15, // Передаём сдвиг
+                  onDragStart: _handleGlobalDragStart,
+                  onDragUpdate: _handleDragUpdate,
+                  onDragEnd: _handleDragEnd,
+                ),
+              ),
+
+              // Панель инструментов (нижняя часть экрана)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: toolboxHeight + 20,
+                child: ToolboxPanel(
+                  // toolboxImages: _toolboxImages,
+                  toolboxImages: levelItems,
+                  // fieldManager: _fieldManager,
+                  onHeightChanged: (newHeightPercentage) {
+                    setState(() {
+                      _toolboxHeightPercentage = newHeightPercentage;
+                    });
+                  },
+                  onItemAdded: (GameItem gameItem) {
+                    print('Добавляем элемент через BLoC');
+
+                    final gameItemTry = _fieldManager.tryAddItem(
+                      context: context,
+                      item: gameItem,
+                    );
+
+                    if (gameItemTry != null) {
+                      context.read<LevelBloc>().add(
+                        AddGameItemsEvent(items: [gameItemTry]),
+                      );
+                    }
+
+                    //     setState(() {}); // Обновляем UI после добавления элемента
+                  },
+                ),
+              ),
+
+              if (state.lastDiscoveredItem != null)
                 Positioned(
-                  top: 0,
+                  top: 100, // Позиционируем в верхней части экрана
                   left: 0,
                   right: 0,
-                  height: screenSize.height * 0.20,
-                  child: GamePanel(
-                    name: "Задание",
-                    stars: 100,
-                    taskDescription: state.levelTitle,
-                    time: "02:45",
-                    onHintPressed: () {
-                      print("Логика подсказки");
-                      // Логика подсказки
-                    },
-                    onClearPressed:
-                        _handleClearField, // Изменяем обработчик () {
-                    // Логика очистки экрана
-                    scoreImagePath:
-                        'assets/images/score_icon.png', // Ваш путь к картинке,
-                    clearButtonAnimation:
-                        _clearButtonAnimation, // Передаем анимацию
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child:
+                        state.lastDiscoveredItem == "field_cleared"
+                            ? DiscoveryBanner(messageType: 'clear')
+                            : DiscoveryBanner(
+                              itemName:
+                                  allImages
+                                      .firstWhere(
+                                        (item) =>
+                                            item.id == state.lastDiscoveredItem,
+                                      )
+                                      .slug,
+                              imagePath:
+                                  allImages
+                                      .firstWhere(
+                                        (item) =>
+                                            item.id == state.lastDiscoveredItem,
+                                      )
+                                      .assetPath,
+                            ),
                   ),
                 ),
-                // Игровое поле (верхняя часть экрана)
-                Positioned(
-                  top: screenSize.height * 0.15, // 20% от верха экрана
-                  bottom:
-                      toolboxHeight -
-                      20, // Оставляем место для панели инструментов
-                  left: 0,
-                  right: 0,
-                  child: GameField(
-                    gridColumns: gridColumns,
-                    gridRows: gridRows,
-                    gameItems: _gameItems,
-                    draggedItem: _draggedItem,
-                    cellSize: cellSize,
-                    mergeHandler: _mergeHandler, // Передаем handler
-                    // сдвиг поля на высоту панели
-                    fieldTop: fieldTop,
-                    topOffset:
-                        MediaQuery.of(context).size.height *
-                        0.15, // Передаём сдвиг
-                    onDragStart: _handleGlobalDragStart,
-                    onDragUpdate: _handleDragUpdate,
-                    onDragEnd: _handleDragEnd,
-                  ),
-                ),
-
-                // Панель инструментов (нижняя часть экрана)
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: toolboxHeight + 20,
-                  child: ToolboxPanel(
-                    // toolboxImages: _toolboxImages,
-                    toolboxImages: levelItems,
-                    fieldManager: _fieldManager,
-                    onHeightChanged: (newHeightPercentage) {
-                      setState(() {
-                        _toolboxHeightPercentage = newHeightPercentage;
-                      });
-                    },
-                    onItemAdded: () {
-                      setState(() {}); // Обновляем UI после добавления элемента
-                    },
-                  ),
-                ),
-
-                if (state.lastDiscoveredItem != null)
-                  Positioned(
-                    top: 100, // Позиционируем в верхней части экрана
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child:
-                          state.lastDiscoveredItem == "field_cleared"
-                              ? DiscoveryBanner(messageType: 'clear')
-                              : DiscoveryBanner(
-                                itemName:
-                                    allImages
-                                        .firstWhere(
-                                          (item) =>
-                                              item.id ==
-                                              state.lastDiscoveredItem,
-                                        )
-                                        .slug,
-                                imagePath:
-                                    allImages
-                                        .firstWhere(
-                                          (item) =>
-                                              item.id ==
-                                              state.lastDiscoveredItem,
-                                        )
-                                        .assetPath,
-                              ),
-                    ),
-                  ),
-              ],
-            ),
-          );
-        },
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -279,7 +299,7 @@ class _MergeGameState extends State<MergeGame>
     await _clearButtonController.forward();
     await _clearButtonController.reverse();
 
-    if (_gameItems.isEmpty) return;
+    if (gameItems.isEmpty) return;
 
     setState(() {
       _gameItems.clear(); // Очищаем поле
@@ -301,8 +321,10 @@ class _MergeGameState extends State<MergeGame>
     final touchedX = (localPosition.dx / cellSize).floor();
     final touchedY = (localPosition.dy / cellSize).floor();
 
+    /// stop
+    final gameItems = context.read<LevelBloc>().state.gameItems ?? [];
     // Находим элемент по координатам
-    final touchedItem = _gameItems.firstWhereOrNull(
+    final touchedItem = gameItems.firstWhereOrNull(
       (item) => item.gridX == touchedX && item.gridY == touchedY,
     );
 
@@ -387,7 +409,7 @@ class _MergeGameState extends State<MergeGame>
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
-      _gameItems.remove(item); // Временно удаляем элемент из списка
+      gameItems.remove(item); // Временно удаляем элемент из списка
     });
   }
 
@@ -418,6 +440,6 @@ class _MergeGameState extends State<MergeGame>
     if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) {
       return false; // Ячейка за границами считается занятой
     }
-    return !_gameItems.any((item) => item.gridX == x && item.gridY == y);
+    return !gameItems.any((item) => item.gridX == x && item.gridY == y);
   }
 }

@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-
+import '../bloc/level_bloc.dart';
 import '../models/image_item.dart';
-import '../logic/game_field_manager.dart';
+import '../models/game_item.dart';
 import 'toolbox_item.dart';
+import 'dart:math';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // Добавьте этот импорт
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ToolboxPanel extends StatefulWidget {
   final double initialHeightPercentage; // Начальная высота в процентах
   final List<ImageItem> toolboxImages;
-  final FieldManager fieldManager;
+  // final FieldManager fieldManager;
   final void Function(double newHeightPercentage) onHeightChanged;
-  final void Function() onItemAdded;
+  final Function(GameItem gameItem) onItemAdded;
 
   const ToolboxPanel({
     this.initialHeightPercentage = 0.25, // Делаем параметр необязательным
     required this.toolboxImages,
-    required this.fieldManager,
+    //  required this.fieldManager,
     required this.onHeightChanged,
     required this.onItemAdded,
     Key? key,
@@ -84,9 +89,17 @@ class _ToolboxPanelState extends State<ToolboxPanel> {
                     child: ToolboxItemWidget(
                       imgItem: widget.toolboxImages[index],
                       size: itemSize,
-                      fieldManager: widget.fieldManager,
-                      context: context,
-                      onItemAdded: widget.onItemAdded,
+                      //   fieldManager: widget.fieldManager,
+                      onItemAdded: (gameItem) {
+                        widget.onItemAdded(gameItem);
+                        //                             // Собираем список всех свободных ячеек
+
+                        //   // Добавляем элемент через BLoC
+                        //   context.read<LevelBloc>().add(
+                        //     AddGameItemsEvent(items: [gameItem]),
+                        //   );
+                      },
+                      //  onItemAdded: widget.onItemAdded(gameItem),
                     ),
                   );
                 },

@@ -27,5 +27,5 @@ class ClearDiscoveryEvent extends LevelEvent {}
 class AddGameItemsEvent extends LevelEvent {
   final List<GameItem> items;
 
-  AddGameItemsEvent(this.items);
+  AddGameItemsEvent({required this.items});
 }

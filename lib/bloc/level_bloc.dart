@@ -3,11 +3,13 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'levels_repository.dart';
 import '../models/game_item.dart';
+import 'dart:math';
 
 part 'level_event.dart';
 part 'level_state.dart';
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
+  final Random _random = Random();
   LevelBloc() : super(LevelState.initial()) {
     final firstLevelData = LevelsRepository.levelsData[1]!;
 
@@ -31,9 +33,14 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<AddGameItemsEvent>(_onAddGameItems);
   }
 
+  /// Добавление элементов на игровое поле
   void _onAddGameItems(AddGameItemsEvent event, Emitter<LevelState> emit) {
     print('Добавляем элемент ${state.gameItems}');
+
     final currentGameItems = state.gameItems ?? [];
+
+    // логика
+
     emit(state.copyWith(gameItems: [...currentGameItems, ...event.items]));
   }
 

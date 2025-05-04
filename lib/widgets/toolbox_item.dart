@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/image_item.dart';
+import '../models/game_item.dart';
 import '../logic/game_field_manager.dart';
 import '../logic/generate_calm_color.dart';
 
 class ToolboxItemWidget extends StatelessWidget {
   final ImageItem imgItem;
   final double size;
-  final FieldManager fieldManager;
-  final BuildContext context;
-  final void Function() onItemAdded;
+  // final BuildContext context;
+  final Function(GameItem) onItemAdded;
 
   const ToolboxItemWidget({
     Key? key,
     required this.imgItem,
     required this.size,
-    required this.fieldManager,
-    required this.context,
+    //   required this.context,
     required this.onItemAdded,
   }) : super(key: key);
 
@@ -28,11 +27,20 @@ class ToolboxItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        fieldManager.tryAddItem(
-          context: this.context,
-          item: imgItem,
-          onAdd: (_) => onItemAdded(),
-        );
+        final gameItem = GameItem(
+          id: imgItem.id,
+          slug: imgItem.slug,
+          assetPath: imgItem.assetPath,
+          gridX: 0,
+          gridY: 0,
+        )..dragOffset = imgItem.position;
+
+        onItemAdded(gameItem);
+        // fieldManager.tryAddItem(
+        //   context: this.context,
+        //   item: imgItem,
+        //   onAdd: (_) => onItemAdded(),
+        // );
       },
       child: SizedBox(
         width: size,
