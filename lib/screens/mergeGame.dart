@@ -401,17 +401,17 @@ class _MergeGameState extends State<MergeGame>
     }
   }
 
-  bool _itemsOverlap(GameItem a, GameItem b, double threshold) {
-    // Рассчитываем центры элементов
-    final aCenter = Offset(a.gridX + 0.5, a.gridY + 0.5);
-    final bCenter = Offset(b.gridX + 0.5, b.gridY + 0.5);
+  // bool _itemsOverlap(GameItem a, GameItem b, double threshold) {
+  //   // Рассчитываем центры элементов
+  //   final aCenter = Offset(a.gridX + 0.5, a.gridY + 0.5);
+  //   final bCenter = Offset(b.gridX + 0.5, b.gridY + 0.5);
 
-    // Расстояние между центрами
-    final distance = (aCenter - bCenter).distance;
-    print('distance ${distance}');
-    // Элементы считаются пересекающимися, если расстояние меньше порога
-    return distance < threshold;
-  }
+  //   // Расстояние между центрами
+  //   final distance = (aCenter - bCenter).distance;
+  //   print('distance ${distance}');
+  //   // Элементы считаются пересекающимися, если расстояние меньше порога
+  //   return distance < threshold;
+  // }
 
   // Проверка, свободна ли ячейка
   bool _isCellEmpty(int x, int y) {

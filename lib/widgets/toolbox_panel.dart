@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/image_item.dart';
 import '../logic/game_field_manager.dart';
 import 'toolbox_item.dart';
+import 'package:bloc/bloc.dart';
 
 class ToolboxPanel extends StatefulWidget {
   final double initialHeightPercentage; // Начальная высота в процентах

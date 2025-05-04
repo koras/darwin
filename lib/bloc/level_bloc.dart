@@ -2,6 +2,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'levels_repository.dart';
+import '../models/game_item.dart';
 
 part 'level_event.dart';
 part 'level_state.dart';
@@ -27,6 +28,13 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<ItemDiscoveredEvent>(_onItemDiscovered);
     // Добавьте этот обработчик
     on<ClearDiscoveryEvent>(_onClearDiscovery);
+    on<AddGameItemsEvent>(_onAddGameItems);
+  }
+
+  void _onAddGameItems(AddGameItemsEvent event, Emitter<LevelState> emit) {
+    print('Добавляем элемент ${state.gameItems}');
+    final currentGameItems = state.gameItems ?? [];
+    emit(state.copyWith(gameItems: [...currentGameItems, ...event.items]));
   }
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
