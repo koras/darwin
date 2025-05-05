@@ -22,6 +22,10 @@ class FieldManager {
     required this.getItems,
   });
 
+  String _generateUniqueKey() {
+    return '${DateTime.now().microsecondsSinceEpoch}_${_random.nextInt(100000)}';
+  }
+
   GameItem? tryAddItem({
     required BuildContext context,
     required GameItem item,
@@ -63,12 +67,13 @@ class FieldManager {
     final randomCell = freeCells[_random.nextInt(freeCells.length)];
     final newItem = GameItem(
       id: item.id,
+      key: _generateUniqueKey(),
       slug: item.slug,
       assetPath: item.assetPath,
       gridX: randomCell.x,
       gridY: randomCell.y,
     );
-
+    print('ключи тест ${newItem.key}');
     // addItem(newItem);
     // onAdd(newItem);
 

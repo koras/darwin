@@ -334,13 +334,10 @@ class _MergeGameState extends State<MergeGame>
   }
 
   // Обработчик завершения перетаскивания
-  void _handleDragEnd(DragEndDetails details) {
+  void _handleDragEnd(DragEndDetails details) async {
     if (_draggedItem != null) {
       final item = _draggedItem!;
       // Рассчитываем новые координаты в сетке
-
-      //   print('============');
-      //   print('old: item.gridX = ${item.gridX} item.gridY = ${item.gridY}');
 
       final newX =
           ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
@@ -349,29 +346,27 @@ class _MergeGameState extends State<MergeGame>
 
       // print('new: newX = ${newX} newY = ${newY}');
 
-      setState(() {
-        bool merge = true;
-        bool mergeItem = true;
-        // Проверяем слияние только если элемент был перемещен в новую ячейку
-        if (newX != item.gridX || newY != item.gridY) {
-          //   print('check');
-          bool mergeItem = _checkForMerge(item, newX, newY);
-          if (!mergeItem) {
-            _gameItems.add(item);
-          }
-        } else {
-          _gameItems.add(item);
+      // Проверяем слияние только если элемент был перемещен в новую ячейку
+      if (newX != item.gridX || newY != item.gridY) {
+        //   print('check');
+        bool mergeItem = await _checkForMerge(item, newX, newY);
+        if (!mergeItem) {
+          context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
         }
+      } else {
+        context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
+      }
 
-        item.dragOffset = Offset.zero;
-        if (_isCellEmpty(newX, newY)) {
-          // Теперь это корректный вызов метода
-          item.gridX = newX;
-          item.gridY = newY;
-        }
-        //   if (!mergeItem) {
-        //    _gameItems.add(item);
-        //   }
+      item.dragOffset = Offset.zero;
+      if (_isCellEmpty(newX, newY)) {
+        // Теперь это корректный вызов метода
+        item.gridX = newX;
+        item.gridY = newY;
+      }
+      //   if (!mergeItem) {
+      //    _gameItems.add(item);
+      //   }
+      setState(() {
         _draggedItem = null;
       });
     }
@@ -379,12 +374,14 @@ class _MergeGameState extends State<MergeGame>
 
   // Проверка возможности слияния с соседними элементами
   // Проверка возможности слияния элементов в одной ячейке
-  bool _checkForMerge(GameItem movedItem, int newX, int newY) {
+  Future<bool> _checkForMerge(GameItem movedItem, int newX, int newY) async {
     // Находим все элементы в текущей ячейке перемещенного элемента
-    //   print('count ${_gameItems.length}');
+    print('count ${movedItem}');
+    final state = context.read<LevelBloc>().state;
+    final items = state.gameItems ?? [];
 
     final itemsInCell =
-        _gameItems.where((item) {
+        items.where((item) {
           final isSameCell = newX == item.gridX && newY == item.gridY;
           final isNotMovedItem = item != movedItem;
           final shouldInclude = isNotMovedItem && isSameCell;
@@ -409,7 +406,9 @@ class _MergeGameState extends State<MergeGame>
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
-      gameItems.remove(item); // Временно удаляем элемент из списка
+      //  gameItems.remove(item); // Временно удаляем элемент из списка
+
+      context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
     });
   }
 

@@ -29,3 +29,17 @@ class AddGameItemsEvent extends LevelEvent {
 
   AddGameItemsEvent({required this.items});
 }
+
+class RemoveGameItemsEvent extends LevelEvent {
+  final List<GameItem> items;
+
+  RemoveGameItemsEvent({required this.items});
+}
+
+// events.dart
+class MergeItemsEvent extends LevelEvent {
+  final List<GameItem> itemsToRemove;
+  final GameItem itemToAdd;
+
+  MergeItemsEvent({required this.itemsToRemove, required this.itemToAdd});
+}

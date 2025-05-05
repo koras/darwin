@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 
 class GameItem {
   final String id;
+  final String key;
   final String slug;
   final String assetPath;
   //Offset position; // Позиция в сетке
@@ -19,6 +20,7 @@ class GameItem {
 
   GameItem({
     required this.id,
+    required this.key,
     required this.slug,
     required this.assetPath,
     required this.gridX,

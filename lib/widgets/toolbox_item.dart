@@ -3,6 +3,7 @@ import '../models/image_item.dart';
 import '../models/game_item.dart';
 import '../logic/game_field_manager.dart';
 import '../logic/generate_calm_color.dart';
+import 'dart:math';
 
 class ToolboxItemWidget extends StatelessWidget {
   final ImageItem imgItem;
@@ -22,13 +23,19 @@ class ToolboxItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final double circleSize = size * 0.7;
     final double borderWidth = 2.0;
+    final Random _random = Random();
     // Генерация спокойного цвета на основе строки
     final borderColor = generateCalmColor(imgItem.slug);
+
+    String _generateUniqueKey() {
+      return '${DateTime.now().microsecondsSinceEpoch}_${_random.nextInt(100000)}';
+    }
 
     return GestureDetector(
       onTap: () {
         final gameItem = GameItem(
           id: imgItem.id,
+          key: _generateUniqueKey(),
           slug: imgItem.slug,
           assetPath: imgItem.assetPath,
           gridX: 0,

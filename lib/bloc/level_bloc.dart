@@ -31,6 +31,47 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     // Добавьте этот обработчик
     on<ClearDiscoveryEvent>(_onClearDiscovery);
     on<AddGameItemsEvent>(_onAddGameItems);
+    on<RemoveGameItemsEvent>(_onRemoveGameItems);
+    on<MergeItemsEvent>(_onMergeItemsEvent);
+  }
+
+  void _onMergeItemsEvent(MergeItemsEvent event, Emitter<LevelState> emit) {
+    final currentItems = state.gameItems ?? [];
+
+    // Удаляем старые элементы
+    final updatedItems =
+        currentItems
+            .where((item) => !event.itemsToRemove.any((r) => r.key == item.key))
+            .toList();
+
+    // Добавляем новый элемент
+    updatedItems.add(event.itemToAdd);
+
+    emit(state.copyWith(gameItems: updatedItems));
+  }
+
+  // И добавьте метод-обработчик
+  void _onRemoveGameItems(
+    RemoveGameItemsEvent event,
+    Emitter<LevelState> emit,
+  ) {
+    print('Удаляем элементы: ${event.items.map((e) => e.id).toList()}');
+
+    // Если gameItems null, просто возвращаем текущее состояние
+    if (state.gameItems == null) {
+      print('gameItems is null, ничего не удаляем');
+      return;
+    }
+
+    // Создаем новый список без удаляемых элементов
+    final newItems =
+        state.gameItems!
+            .where((item) => !event.items.any((e) => e.key == item.key))
+            .toList();
+
+    print('Результат после удаления: ${newItems.map((e) => e.id).toList()}');
+
+    emit(state.copyWith(gameItems: newItems));
   }
 
   /// Добавление элементов на игровое поле

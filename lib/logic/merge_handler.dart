@@ -5,6 +5,7 @@ import '../logic/merge_logic.dart';
 import '../widgets/game_snackbar.dart';
 import '../widgets/merge_animation_widget.dart';
 import '../bloc/level_bloc.dart';
+import 'dart:math';
 
 // Класс для обработки слияния игровых элементов
 class MergeHandler {
@@ -13,6 +14,7 @@ class MergeHandler {
   final Function(GameItem) onMergeComplete; // Колбэк, вызываемый после слияния
   final double cellSize; // Размер ячейки игрового поля
   final double fieldTop;
+  final Random _random = Random();
 
   final LevelBloc levelBloc; // Добавляем LevelBloc
   MergeHandler({
@@ -24,8 +26,12 @@ class MergeHandler {
     required this.levelBloc, // Добавляем в конструктор
   });
 
+  String _generateUniqueKey() {
+    return '${DateTime.now().microsecondsSinceEpoch}_${_random.nextInt(100000)}';
+  }
+
   // Пытается объединить два элемента
-  bool tryMergeItems(GameItem item1, GameItem item2) {
+  Future<bool> tryMergeItems(GameItem item1, GameItem item2) async {
     try {
       // Получаем ID результата слияния (null, если слияние невозможно)
       final resultId = getMergeResult(item1.id, item2.id);
@@ -51,8 +57,8 @@ class MergeHandler {
       print(' ${item1}, ${item2}');
 
       // Удаляем исходные элементы из списка
-      gameItems.remove(item1);
-      gameItems.remove(item2);
+      //  gameItems.remove(item1);
+      //  gameItems.remove(item2);
 
       // Показываем анимацию слияния
       _showMergeAnimation(item1, item2, resultItem);
@@ -60,14 +66,19 @@ class MergeHandler {
       // Создаем новый объединенный элемент
       final mergedItem = GameItem(
         id: resultItem.id,
+        key: _generateUniqueKey(),
         slug: resultItem.slug,
         assetPath: resultItem.assetPath,
         gridX: newX,
         gridY: newY,
       );
 
+      levelBloc.add(
+        MergeItemsEvent(itemsToRemove: [item1, item2], itemToAdd: mergedItem),
+      );
+
       // Добавляем новый элемент в список
-      gameItems.add(mergedItem);
+      //  gameItems.add(mergedItem);
 
       // Вызываем колбэк, уведомляющий о завершении слияния
       onMergeComplete(mergedItem);
