@@ -36,8 +36,6 @@ class MergeHandler {
       // Получаем ID результата слияния (null, если слияние невозможно)
       final resultId = getMergeResult(item1.id, item2.id);
       // Позиция нового элемента будет на месте второго элемента
-      final int newX = item2.gridX;
-      final int newY = item2.gridY;
 
       // Если слияние невозможно, возвращаем false
       if (resultId == null) return false;
@@ -48,9 +46,7 @@ class MergeHandler {
       // код добавляения
 
       // Находим данные результирующего элемента в списке всех возможных изображений
-      print(
-        'Находим данные результирующего элемента в списке всех возможных изображений ${item1.id}, ${item2.id}',
-      );
+
       final resultItem = allImages.firstWhere(
         (resultItem) => resultItem.id == resultId,
       );
@@ -69,8 +65,8 @@ class MergeHandler {
         key: _generateUniqueKey(),
         slug: resultItem.slug,
         assetPath: resultItem.assetPath,
-        gridX: newX,
-        gridY: newY,
+        gridX: item2.gridX,
+        gridY: item2.gridY,
       );
 
       levelBloc.add(
