@@ -31,6 +31,10 @@ class _MergeGameState extends State<MergeGame>
 
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
+
+  // вычисленная высота верхней панели
+  double _toolboxHeight = 0.0;
+
   //late FieldManager _fieldManager; // Менеджер игрового поля
   late final FieldManager _fieldManager;
   // Список игровых элементов на поле
@@ -48,6 +52,12 @@ class _MergeGameState extends State<MergeGame>
 
   GameItem? _draggedItem; // Элемент, который сейчас перетаскивается
   Offset? _dragStartPosition; // Начальная позиция перетаскивания
+
+  // здесь используем для ячейки, чтобы вернуть объект на место
+  Map<String, int> _dragBox = {
+    'gridX': 0,
+    'gridY': 0,
+  }; // Начальная позиция перетаскивания
 
   // Изображения для панели инструментов (первые 5 из всех доступных)
   // final List<ImageItem> _toolboxImages = allImages.take(5).toList();
@@ -126,7 +136,8 @@ class _MergeGameState extends State<MergeGame>
     return BlocBuilder<LevelBloc, LevelState>(
       builder: (context, state) {
         final screenSize = MediaQuery.of(context).size;
-        final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
+
+        _toolboxHeight = screenSize.height * _toolboxHeightPercentage;
 
         final levelItems =
             allImages
@@ -201,7 +212,7 @@ class _MergeGameState extends State<MergeGame>
               Positioned(
                 top: screenSize.height * 0.15, // 20% от верха экрана
                 bottom:
-                    toolboxHeight -
+                    _toolboxHeight -
                     20, // Оставляем место для панели инструментов
                 left: 0,
                 right: 0,
@@ -229,7 +240,7 @@ class _MergeGameState extends State<MergeGame>
                 bottom: 0,
                 left: 0,
                 right: 0,
-                height: toolboxHeight + 20,
+                height: _toolboxHeight + 20,
                 child: ToolboxPanel(
                   // toolboxImages: _toolboxImages,
                   toolboxImages: levelItems,
@@ -293,6 +304,60 @@ class _MergeGameState extends State<MergeGame>
     );
   }
 
+  /// Получаем координаты
+  Offset _getCoorStatic(
+    Map<String, int> params,
+    double cellSize,
+    double fieldTopOffset,
+  ) {
+    final x = params['gridX']! * cellSize + (cellSize / 2);
+
+    final y =
+        params['gridY']! * cellSize + (cellSize / 2) + _toolboxHeight.toInt();
+
+    return Offset(x.toDouble(), y.toDouble());
+  }
+
+  /// Определяет ячейку сетки по координатам касания
+  /// Возвращает Map с координатами ячейки {'x': x, 'y': y} или null, если касание вне поля
+  Map<String, int> getCellFromCoordinates(
+    Offset position,
+    double cellSize,
+    double fieldTopOffset,
+  ) {
+    // Преобразуем глобальные координаты в локальные относительно игрового поля
+    final localX = position.dx;
+    final localY = position.dy - fieldTopOffset;
+
+    print('fieldTopOffset ${fieldTopOffset}');
+    // Проверяем, что касание в пределах игрового поля
+    // if (localX < 0 || localY < 0) return null;
+
+    final cellX = (localX / cellSize).floor();
+    final cellY = (localY / cellSize).floor();
+
+    // Проверяем, что ячейка в пределах сетки
+    //if (cellX >= gridColumns || cellY >= gridRows) return null;
+
+    return {'gridX': cellX, 'gridY': cellY};
+  }
+
+  /// Определяет центр координат ближайшей ячейки имея координаты
+  Offset getCoordinatesBox(
+    Offset position,
+    double cellSize,
+    double fieldTopOffset,
+  ) {
+    print('StartPosition ${position}');
+    // Преобразуем глобальные координаты в локальные относительно игрового поля
+    final box = getCellFromCoordinates(position, cellSize, fieldTopOffset);
+    print('box ${box}');
+
+    final coor = _getCoorStatic(box, cellSize, fieldTopOffset);
+
+    return coor;
+  }
+
   void _handleClearField() async {
     print("Логика очистки экрана");
     // Анимируем кнопку
@@ -313,9 +378,6 @@ class _MergeGameState extends State<MergeGame>
 
   // Обработчик начала перетаскивания элемента
   void _handleGlobalDragStart(DragStartDetails details) {
-    setState(() {
-      _draggedItem = null;
-    });
     final touchPosition = details.globalPosition;
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final localPosition = renderBox.globalToLocal(touchPosition);
@@ -356,6 +418,8 @@ class _MergeGameState extends State<MergeGame>
                   cellSize)
               .round();
 
+      debugPrint(' ||||||||||||||| newX = ${newX} newY = ${newY}');
+
       // Проверяем слияние только если элемент был перемещен в новую ячейку
       if (newX != _draggedItem!.gridX || newY != _draggedItem!.gridY) {
         bool mergeSuccess = await _checkForMerge(_draggedItem!, newX, newY);
@@ -388,22 +452,39 @@ class _MergeGameState extends State<MergeGame>
 
       // проверяем что ячейка пустая
       if (_isCellEmpty(newX, newY)) {
+        //
+        debugPrint('ячейка пустая -------------- ${newX} ${newY}');
         // Теперь это корректный вызов метода
-
-        debugPrint('проверяем что ячейка пустая --------------');
         context.read<LevelBloc>().add(
           AddGameItemsEvent(
             items: [_draggedItem!.copyWith(gridX: newX, gridY: newY)],
           ),
         );
       } else {
-        debugPrint('ячейка не пустая');
+        // final currentCoor = getCoordinatesBox(
+        //   _dragStartPosition!,
+        //   cellSize,
+        //   MediaQuery.of(context).size.height * 0.15,
+        // );
+        final currentCoor = _getCoorStatic(
+          _dragBox,
+          cellSize,
+          MediaQuery.of(context).size.height * 0.15,
+        );
+
         debugPrint(
-          'Возвращаем элемент назад  ${_draggedItem!.dragOffset}   _dragStartPosition ${_dragStartPosition!}    ',
+          'ячейка не пустая ++++++++++++++++ currentCoor  ${currentCoor} ${_dragBox['gridX']} ${_dragBox['gridY']} ',
         );
 
         //   _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
-        _draggedItem!.dragOffset = _dragStartPosition!;
+        //   _draggedItem!.dragOffset = _dragStartPosition!;
+        //   _draggedItem!.dragOffset = currentCoor;
+
+        _draggedItem = _draggedItem!.copyWith(
+          dragOffset: currentCoor,
+          gridX: _dragBox['gridX']!, // Обращение по ключу
+          gridY: _dragBox['gridY']!, // Обращение по ключу
+        );
 
         context.read<LevelBloc>().add(
           AddGameItemsEvent(items: [_draggedItem!]),
@@ -456,13 +537,19 @@ class _MergeGameState extends State<MergeGame>
 
   // Начало перетаскивания элемента
   void _startDragging(GameItem item, Offset startPosition) {
+    context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
+
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
+
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
       //  gameItems.remove(item); // Временно удаляем элемент из списка
 
-      context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
+      _dragBox = {"gridX": item.gridX, "gridY": item.gridY};
+
+      debugPrint('///////////////// ${item.gridX} ${item.gridY} ${item}');
     });
+    debugPrint('удалили объект');
   }
 
   // Обновление позиции при перетаскивании

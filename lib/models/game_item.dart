@@ -7,11 +7,11 @@ class GameItem {
   final String slug;
   final String assetPath;
   //Offset position; // Позиция в сетке
-  Offset tempOffset = Offset.zero; // Временное смещение при перетаскивании
+  Offset tempOffset = Offset.zero; // Временное смещение при перетаскивани
+  Offset dragOffset;
 
   int gridX;
   int gridY;
-  Offset dragOffset = Offset.zero;
   bool isDragging = false;
 
   // Параметры для анимации
@@ -25,6 +25,10 @@ class GameItem {
     required this.assetPath,
     required this.gridX,
     required this.gridY,
+    this.dragOffset = Offset.zero,
+    this.isDragging = false,
+    this.scale = 1.0,
+    this.opacity = 1.0,
   });
 
   GameItem copyWith({
@@ -34,6 +38,10 @@ class GameItem {
     String? assetPath,
     int? gridX,
     int? gridY,
+    Offset dragOffset = Offset.zero,
+    bool? isDragging,
+    double? scale,
+    double? opacity,
   }) {
     return GameItem(
       id: id ?? this.id,
@@ -42,6 +50,10 @@ class GameItem {
       assetPath: assetPath ?? this.assetPath,
       gridX: gridX ?? this.gridX,
       gridY: gridY ?? this.gridY,
+      dragOffset: dragOffset ?? this.dragOffset,
+      isDragging: isDragging ?? this.isDragging,
+      scale: scale ?? this.scale,
+      opacity: opacity ?? this.opacity,
     );
   }
 }
