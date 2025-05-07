@@ -313,6 +313,9 @@ class _MergeGameState extends State<MergeGame>
 
   // Обработчик начала перетаскивания элемента
   void _handleGlobalDragStart(DragStartDetails details) {
+    setState(() {
+      _draggedItem = null;
+    });
     final touchPosition = details.globalPosition;
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final localPosition = renderBox.globalToLocal(touchPosition);
@@ -335,48 +338,98 @@ class _MergeGameState extends State<MergeGame>
 
   // Обработчик завершения перетаскивания
   void _handleDragEnd(DragEndDetails details) async {
+    // позиция первоначального элемента
+    //
+    //      context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
+    _dragStartPosition;
+
     if (_draggedItem != null) {
-      final item = _draggedItem!;
-      // Рассчитываем новые координаты в сетке
+      // элемент на новом месте
+      //   final item = _draggedItem!;
 
       final newX =
-          ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
+          ((_draggedItem!.gridX * cellSize + _draggedItem!.dragOffset.dx) /
+                  cellSize)
+              .round();
       final newY =
-          ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
-
-      // print('new: newX = ${newX} newY = ${newY}');
+          ((_draggedItem!.gridY * cellSize + _draggedItem!.dragOffset.dy) /
+                  cellSize)
+              .round();
 
       // Проверяем слияние только если элемент был перемещен в новую ячейку
-      if (newX != item.gridX || newY != item.gridY) {
-        //   print('check');
-        bool mergeItem = await _checkForMerge(item, newX, newY);
-        if (!mergeItem) {
-          context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
+      if (newX != _draggedItem!.gridX || newY != _draggedItem!.gridY) {
+        bool mergeSuccess = await _checkForMerge(_draggedItem!, newX, newY);
+        if (!mergeSuccess) {
+          // не произошло слияние
+
+          debugPrint('слияние не произошло');
+          //    context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
+        } else {
+          debugPrint('произошло слияние 1 ');
+          setState(() {
+            _draggedItem = null;
+          });
+          return;
         }
       } else {
-        context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
+        debugPrint('произошло слияние 2 ');
+
+        context.read<LevelBloc>().add(
+          AddGameItemsEvent(items: [_draggedItem!]),
+        );
+
+        setState(() {
+          _draggedItem = null;
+        });
+        return;
       }
 
-      item.dragOffset = Offset.zero;
+      // _draggedItem!.dragOffset = Offset.zero;
+
+      // проверяем что ячейка пустая
       if (_isCellEmpty(newX, newY)) {
         // Теперь это корректный вызов метода
-        item.gridX = newX;
-        item.gridY = newY;
+
+        debugPrint('проверяем что ячейка пустая --------------');
+        context.read<LevelBloc>().add(
+          AddGameItemsEvent(
+            items: [_draggedItem!.copyWith(gridX: newX, gridY: newY)],
+          ),
+        );
+      } else {
+        debugPrint('ячейка не пустая');
+        debugPrint(
+          'Возвращаем элемент назад  ${_draggedItem!.dragOffset}   _dragStartPosition ${_dragStartPosition!}    ',
+        );
+
+        //   _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
+        _draggedItem!.dragOffset = _dragStartPosition!;
+
+        context.read<LevelBloc>().add(
+          AddGameItemsEvent(items: [_draggedItem!]),
+        );
       }
-      //   if (!mergeItem) {
-      //    _gameItems.add(item);
-      //   }
+
       setState(() {
         _draggedItem = null;
       });
     }
   }
 
+  // Проверка, свободна ли ячейка
+  bool _isCellEmpty(int x, int y) {
+    final gameItems = context.read<LevelBloc>().state.gameItems ?? [];
+    if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) {
+      return false; // Ячейка за границами считается занятой
+    }
+    return !gameItems.any((item) => item.gridX == x && item.gridY == y);
+  }
+
   // Проверка возможности слияния с соседними элементами
   // Проверка возможности слияния элементов в одной ячейке
   Future<bool> _checkForMerge(GameItem movedItem, int newX, int newY) async {
     // Находим все элементы в текущей ячейке перемещенного элемента
-    print('count ${movedItem}');
+
     final state = context.read<LevelBloc>().state;
     final items = state.gameItems ?? [];
 
@@ -420,25 +473,5 @@ class _MergeGameState extends State<MergeGame>
         _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
       });
     }
-  }
-
-  // bool _itemsOverlap(GameItem a, GameItem b, double threshold) {
-  //   // Рассчитываем центры элементов
-  //   final aCenter = Offset(a.gridX + 0.5, a.gridY + 0.5);
-  //   final bCenter = Offset(b.gridX + 0.5, b.gridY + 0.5);
-
-  //   // Расстояние между центрами
-  //   final distance = (aCenter - bCenter).distance;
-  //   print('distance ${distance}');
-  //   // Элементы считаются пересекающимися, если расстояние меньше порога
-  //   return distance < threshold;
-  // }
-
-  // Проверка, свободна ли ячейка
-  bool _isCellEmpty(int x, int y) {
-    if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) {
-      return false; // Ячейка за границами считается занятой
-    }
-    return !gameItems.any((item) => item.gridX == x && item.gridY == y);
   }
 }

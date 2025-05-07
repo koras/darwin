@@ -50,18 +50,21 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     emit(state.copyWith(gameItems: updatedItems));
   }
 
-  // И добавьте метод-обработчик
+  /**
+   * метод для удаления элементов. 
+   * 
+   */
   void _onRemoveGameItems(
     RemoveGameItemsEvent event,
     Emitter<LevelState> emit,
   ) {
-    print('Удаляем элементы: ${event.items.map((e) => e.id).toList()}');
-
     // Если gameItems null, просто возвращаем текущее состояние
     if (state.gameItems == null) {
       print('gameItems is null, ничего не удаляем');
       return;
     }
+
+    print('Результат после удаления: event.items  ${event.items}');
 
     // Создаем новый список без удаляемых элементов
     final newItems =

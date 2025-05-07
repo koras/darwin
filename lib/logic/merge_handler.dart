@@ -50,7 +50,7 @@ class MergeHandler {
       final resultItem = allImages.firstWhere(
         (resultItem) => resultItem.id == resultId,
       );
-      print(' ${item1}, ${item2}');
+      debugPrint('tryMergeItems ${item1}, ${item2}');
 
       // Удаляем исходные элементы из списка
       //  gameItems.remove(item1);
@@ -85,10 +85,8 @@ class MergeHandler {
     } catch (e, stackTrace) {
       // Логируем ошибку
       print('Ошибка при слиянии предметов: $e Стек вызовов: $stackTrace');
-
       // Можно также показать пользователю сообщение об ошибке
       GameSnackbar.show(context, 'Произошла ошибка при слиянии предметов');
-
       return false;
     }
   }
@@ -99,6 +97,7 @@ class MergeHandler {
     GameItem item2,
     ImageItem resultItem,
   ) {
+    debugPrint('_showMergeAnimation == ${item2.key} item1 == ${item2.key}');
     // Получаем Overlay для отображения анимации поверх всего
     final overlay = Overlay.of(context);
     // Получаем RenderBox для расчета позиций

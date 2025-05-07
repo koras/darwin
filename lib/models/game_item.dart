@@ -26,4 +26,22 @@ class GameItem {
     required this.gridX,
     required this.gridY,
   });
+
+  GameItem copyWith({
+    String? id,
+    String? key,
+    String? slug,
+    String? assetPath,
+    int? gridX,
+    int? gridY,
+  }) {
+    return GameItem(
+      id: id ?? this.id,
+      key: key ?? this.key,
+      slug: slug ?? this.slug,
+      assetPath: assetPath ?? this.assetPath,
+      gridX: gridX ?? this.gridX,
+      gridY: gridY ?? this.gridY,
+    );
+  }
 }

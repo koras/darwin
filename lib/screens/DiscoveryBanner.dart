@@ -67,7 +67,7 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
 
   @override
   Widget build(BuildContext context) {
-    print(' widget.messageType ${widget.messageType}');
+    //  print(' widget.messageType ${widget.messageType}');
     return BlocProvider(
       create: (context) => LevelBloc(),
       child: AnimatedBuilder(
