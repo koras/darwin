@@ -29,6 +29,7 @@ class GameItem {
     this.isDragging = false,
     this.scale = 1.0,
     this.opacity = 1.0,
+    this.tempOffset = Offset.zero,
   });
 
   GameItem copyWith({
@@ -39,6 +40,7 @@ class GameItem {
     int? gridX,
     int? gridY,
     Offset dragOffset = Offset.zero,
+    Offset? tempOffset,
     bool? isDragging,
     double? scale,
     double? opacity,
@@ -50,6 +52,7 @@ class GameItem {
       assetPath: assetPath ?? this.assetPath,
       gridX: gridX ?? this.gridX,
       gridY: gridY ?? this.gridY,
+      tempOffset: tempOffset ?? this.tempOffset,
       dragOffset: dragOffset ?? this.dragOffset,
       isDragging: isDragging ?? this.isDragging,
       scale: scale ?? this.scale,

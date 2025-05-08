@@ -398,103 +398,65 @@ class _MergeGameState extends State<MergeGame>
     }
   }
 
-  // Обработчик завершения перетаскивания
   void _handleDragEnd(DragEndDetails details) async {
-    // позиция первоначального элемента
-    //
-    //      context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
-    _dragStartPosition;
+    if (_draggedItem == null || _dragStartPosition == null) return;
 
-    if (_draggedItem != null) {
-      // элемент на новом месте
-      //   final item = _draggedItem!;
+    final item = _draggedItem!;
+    final newX =
+        ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
+    final newY =
+        ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
 
-      final newX =
-          ((_draggedItem!.gridX * cellSize + _draggedItem!.dragOffset.dx) /
-                  cellSize)
-              .round();
-      final newY =
-          ((_draggedItem!.gridY * cellSize + _draggedItem!.dragOffset.dy) /
-                  cellSize)
-              .round();
+    // Если элемент перемещен в новую ячейку
+    if (newX != item.gridX || newY != item.gridY) {
+      final mergeSuccess = await _checkForMerge(item, newX, newY);
 
-      debugPrint(' ||||||||||||||| newX = ${newX} newY = ${newY}');
-
-      // Проверяем слияние только если элемент был перемещен в новую ячейку
-      if (newX != _draggedItem!.gridX || newY != _draggedItem!.gridY) {
-        bool mergeSuccess = await _checkForMerge(_draggedItem!, newX, newY);
-        if (!mergeSuccess) {
-          // не произошло слияние
-
-          debugPrint('слияние не произошло');
-          //    context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
-        } else {
-          debugPrint('произошло слияние 1 ');
-          setState(() {
-            _draggedItem = null;
-          });
-          return;
-        }
-      } else {
-        debugPrint('произошло слияние 2 ');
-
-        context.read<LevelBloc>().add(
-          AddGameItemsEvent(items: [_draggedItem!]),
-        );
-
-        setState(() {
-          _draggedItem = null;
-        });
+      if (mergeSuccess) {
+        // Слияние успешно - элемент будет удален в mergeHandler
+        _clearDraggedItem();
         return;
       }
 
-      // _draggedItem!.dragOffset = Offset.zero;
-
-      // проверяем что ячейка пустая
+      // Если слияние не удалось, пробуем переместить
       if (_isCellEmpty(newX, newY)) {
-        //
-        debugPrint('ячейка пустая -------------- ${newX} ${newY}');
-        // Теперь это корректный вызов метода
-        context.read<LevelBloc>().add(
-          AddGameItemsEvent(
-            items: [_draggedItem!.copyWith(gridX: newX, gridY: newY)],
-          ),
-        );
+        _moveItemToNewPosition(item, newX, newY);
       } else {
-        // final currentCoor = getCoordinatesBox(
-        //   _dragStartPosition!,
-        //   cellSize,
-        //   MediaQuery.of(context).size.height * 0.15,
-        // );
-        final currentCoor = _getCoorStatic(
-          _dragBox,
-          cellSize,
-          MediaQuery.of(context).size.height * 0.15,
-        );
-
-        debugPrint(
-          'ячейка не пустая ++++++++++++++++ currentCoor  ${currentCoor} ${_dragBox['gridX']} ${_dragBox['gridY']} ',
-        );
-
-        //   _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
-        //   _draggedItem!.dragOffset = _dragStartPosition!;
-        //   _draggedItem!.dragOffset = currentCoor;
-
-        _draggedItem = _draggedItem!.copyWith(
-          dragOffset: currentCoor,
-          gridX: _dragBox['gridX']!, // Обращение по ключу
-          gridY: _dragBox['gridY']!, // Обращение по ключу
-        );
-
-        context.read<LevelBloc>().add(
-          AddGameItemsEvent(items: [_draggedItem!]),
-        );
+        _returnItemToOriginalPosition(item);
       }
-
-      setState(() {
-        _draggedItem = null;
-      });
+    } else {
+      // Элемент не перемещен - возвращаем на место
+      _returnItemToOriginalPosition(item);
     }
+
+    _clearDraggedItem();
+  }
+
+  void _moveItemToNewPosition(GameItem item, int newX, int newY) {
+    context.read<LevelBloc>().add(
+      AddGameItemsEvent(
+        items: [
+          item.copyWith(gridX: newX, gridY: newY, dragOffset: Offset.zero),
+        ],
+      ),
+    );
+  }
+
+  void _returnItemToOriginalPosition(GameItem item) {
+    // Можно добавить анимацию
+    final updatedItem = item.copyWith(
+      dragOffset: Offset.zero,
+      tempOffset: item.dragOffset, // Для анимации
+    );
+
+    context.read<LevelBloc>().add(AddGameItemsEvent(items: [updatedItem]));
+
+    // Запустить анимацию через TickerProvider
+    // и постепенно обнулять tempOffset
+  }
+
+  void _clearDraggedItem() {
+    _draggedItem = null;
+    _dragStartPosition = null;
   }
 
   // Проверка, свободна ли ячейка
