@@ -53,12 +53,6 @@ class _MergeGameState extends State<MergeGame>
   GameItem? _draggedItem; // Элемент, который сейчас перетаскивается
   Offset? _dragStartPosition; // Начальная позиция перетаскивания
 
-  // здесь используем для ячейки, чтобы вернуть объект на место
-  Map<String, int> _dragBox = {
-    'gridX': 0,
-    'gridY': 0,
-  }; // Начальная позиция перетаскивания
-
   // Изображения для панели инструментов (первые 5 из всех доступных)
   // final List<ImageItem> _toolboxImages = allImages.take(5).toList();
 
@@ -77,9 +71,6 @@ class _MergeGameState extends State<MergeGame>
 
     _fieldManager = FieldManager(
       getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
-      // addItem: (item) {
-      //   context.read<LevelBloc>().add(AddGameItemsEvent(items: [item]));
-      // },
       maxItems: 25, // Укажите нужные значения
       maxSameType: 25,
       rows: 5,
@@ -87,19 +78,6 @@ class _MergeGameState extends State<MergeGame>
     );
 
     _levelBloc = LevelBloc();
-    // Инициализация менеджера игрового поля
-    // _fieldManager = FieldManager(
-    //   getItems: () => _gameItems,
-    //   addItem: (GameItem newItem) {
-    //     setState(() {
-    //       _gameItems.add(newItem);
-    //     });
-    //   },
-    //   maxItems: maxItems,
-    //   maxSameType: maxSameType,
-    //   rows: gridRows,
-    //   columns: gridColumns,
-    // );
 
     _mergeHandler = MergeHandler(
       context: context,
@@ -484,9 +462,6 @@ class _MergeGameState extends State<MergeGame>
           return shouldInclude;
         }).toList();
 
-    if (itemsInCell.isNotEmpty) {
-      // print("В этой ячейке есть ${itemsInCell.length} элементов");
-    }
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
@@ -500,15 +475,9 @@ class _MergeGameState extends State<MergeGame>
   // Начало перетаскивания элемента
   void _startDragging(GameItem item, Offset startPosition) {
     context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
-
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
-
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
-      //  gameItems.remove(item); // Временно удаляем элемент из списка
-
-      _dragBox = {"gridX": item.gridX, "gridY": item.gridY};
-
       debugPrint('///////////////// ${item.gridX} ${item.gridY} ${item}');
     });
     debugPrint('удалили объект');

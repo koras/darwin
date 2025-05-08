@@ -3,13 +3,11 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'levels_repository.dart';
 import '../models/game_item.dart';
-import 'dart:math';
 
 part 'level_event.dart';
 part 'level_state.dart';
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
-  final Random _random = Random();
   LevelBloc() : super(LevelState.initial()) {
     final firstLevelData = LevelsRepository.levelsData[1]!;
 
