@@ -92,12 +92,12 @@ class _MergeGameState extends State<MergeGame>
         //   'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
         //  );
 
-        if (mergedItem.id == _levelBloc.state.targetItem) {
+        if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
           debugPrint(
             'Обновляем уровень == ${mergedItem.id} ${_levelBloc.state.targetItem}',
           );
 
-          _levelBloc.add(LevelCompletedEvent());
+          context.read<LevelBloc>().add(LevelCompletedEvent());
           //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
           //    _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
         }
@@ -105,7 +105,11 @@ class _MergeGameState extends State<MergeGame>
       },
       cellSize: 0,
       fieldTop: 0,
-      levelBloc: _levelBloc, // Временное значение, будет обновлено в build()
+      levelBloc:
+          context
+              .read<
+                LevelBloc
+              >(), // Временное значение, будет обновлено в build()
     );
 
     _clearButtonController = AnimationController(
@@ -120,7 +124,7 @@ class _MergeGameState extends State<MergeGame>
 
   @override
   void dispose() {
-    _levelBloc.close();
+    context.read<LevelBloc>().close();
     super.dispose();
   }
 
@@ -148,15 +152,17 @@ class _MergeGameState extends State<MergeGame>
           gameItems: _gameItems,
           onMergeComplete: (mergedItem) {
             debugPrint(
-              'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
+              'mergedItem == ${mergedItem.id} ${context.read<LevelBloc>().state.targetItem}',
             );
 
-            if (mergedItem.id == _levelBloc.state.targetItem) {
+            if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
               debugPrint('banner');
 
               //    _levelBloc.add(LevelCompletedEvent());
               //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
-              _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
+              context.read<LevelBloc>().add(
+                ShowLevelCompleteEvent(itemId: mergedItem.id),
+              );
 
               setState(() {
                 _mergedItem = mergedItem;
@@ -319,18 +325,22 @@ class _MergeGameState extends State<MergeGame>
                           'Обновили экран ${_mergedItem?.id} == ${_levelBloc.state.targetItem}',
                         );
 
-                        if (_mergedItem?.id == _levelBloc.state.targetItem) {
+                        if (_mergedItem?.id ==
+                            context.read<LevelBloc>().state.targetItem) {
                           print(
                             "Найден целевой предмет, переходим на следующий уровень",
                           );
 
                           // Сохраняем текущий уровень для проверки
-                          final currentLevel = _levelBloc.state.currentLevel;
+                          final currentLevel =
+                              context.read<LevelBloc>().state.currentLevel;
 
                           //    _levelBloc.add(LevelCompletedEvent());
                           // Отправляем событие
-                          _levelBloc.add(LevelCompletedEvent());
-                          await _levelBloc.stream
+                          context.read<LevelBloc>().add(LevelCompletedEvent());
+                          await context
+                              .read<LevelBloc>()
+                              .stream
                               .firstWhere(
                                 (state) => state.currentLevel > currentLevel,
                               )
