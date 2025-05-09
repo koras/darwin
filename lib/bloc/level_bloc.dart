@@ -31,6 +31,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<AddGameItemsEvent>(_onAddGameItems);
     on<RemoveGameItemsEvent>(_onRemoveGameItems);
     on<MergeItemsEvent>(_onMergeItemsEvent);
+    // Добавляем новый обработчик
+    on<ShowLevelCompleteEvent>(_onShowLevelComplete);
   }
 
   void _onMergeItemsEvent(MergeItemsEvent event, Emitter<LevelState> emit) {
@@ -58,11 +60,10 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   ) {
     // Если gameItems null, просто возвращаем текущее состояние
     if (state.gameItems == null) {
-      print('gameItems is null, ничего не удаляем');
       return;
     }
 
-    print('Результат после удаления: event.items  ${event.items}');
+    //  print('Результат после удаления: event.items  ${event.items}');
 
     // Создаем новый список без удаляемых элементов
     final newItems =
@@ -70,14 +71,14 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
             .where((item) => !event.items.any((e) => e.key == item.key))
             .toList();
 
-    print('Результат после удаления: ${newItems.map((e) => e.id).toList()}');
+    // print('Результат после удаления: ${newItems.map((e) => e.id).toList()}');
 
     emit(state.copyWith(gameItems: newItems));
   }
 
   /// Добавление элементов на игровое поле
   void _onAddGameItems(AddGameItemsEvent event, Emitter<LevelState> emit) {
-    print('Добавляем элемент ${state.gameItems}');
+    // print('Добавляем элемент ${state.gameItems}');
 
     final currentGameItems = state.gameItems ?? [];
 
@@ -139,11 +140,16 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   ///
   /// Меняем уровень
   ///
-  void _onLevelCompleted(LevelCompletedEvent event, Emitter<LevelState> emit) {
+  void _onLevelCompleted(
+    LevelCompletedEvent event,
+    Emitter<LevelState> emit,
+  ) async {
     final nextLevel = state.currentLevel + 1;
+    print('Переход на уровень ${nextLevel}  ');
+
+    final levelData = LevelsRepository.levelsData[nextLevel]!;
 
     if (LevelsRepository.levelsData.containsKey(nextLevel)) {
-      final levelData = LevelsRepository.levelsData[nextLevel]!;
       // Сохраняем все открытые предметы
       final currentDiscovered = state.discoveredItems;
       // Объединяем начальные предметы нового уровня и открытые ранее
@@ -163,6 +169,19 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           hints: Map<int, List<String>>.from(levelData['hints']),
         ),
       );
+
+      print(
+        'Уровень $nextLevel успешно загружен. Новый targetItem: ${levelData['result']}',
+      );
     }
+  }
+
+  void _onShowLevelComplete(
+    ShowLevelCompleteEvent event,
+    Emitter<LevelState> emit,
+  ) {
+    emit(
+      state.copyWith(showLevelComplete: true, completedItemId: event.itemId),
+    );
   }
 }

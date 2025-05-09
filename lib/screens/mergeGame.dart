@@ -15,6 +15,8 @@ import '../bloc/level_bloc.dart';
 import 'discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'levelCompleteBanner.dart';
+import 'mergeSuccessBanner.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
@@ -65,6 +67,9 @@ class _MergeGameState extends State<MergeGame>
 
   late MergeHandler _mergeHandler; // Делаем полем класса
 
+  bool _showMergeBanner = false;
+  GameItem? _mergedItem;
+
   @override
   void initState() {
     super.initState();
@@ -83,8 +88,18 @@ class _MergeGameState extends State<MergeGame>
       context: context,
       gameItems: _gameItems,
       onMergeComplete: (mergedItem) {
+        //  debugPrint(
+        //   'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
+        //  );
+
         if (mergedItem.id == _levelBloc.state.targetItem) {
+          debugPrint(
+            'Обновляем уровень == ${mergedItem.id} ${_levelBloc.state.targetItem}',
+          );
+
           _levelBloc.add(LevelCompletedEvent());
+          //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
+          //    _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
         }
         setState(() {});
       },
@@ -132,9 +147,26 @@ class _MergeGameState extends State<MergeGame>
           context: context,
           gameItems: _gameItems,
           onMergeComplete: (mergedItem) {
+            debugPrint(
+              'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
+            );
+
             if (mergedItem.id == _levelBloc.state.targetItem) {
-              _levelBloc.add(LevelCompletedEvent());
+              debugPrint('banner');
+
+              //    _levelBloc.add(LevelCompletedEvent());
+              //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
+              _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
+
+              setState(() {
+                _mergedItem = mergedItem;
+                _showMergeBanner = true;
+              });
             }
+
+            //   if (mergedItem.id == _levelBloc.state.targetItem) {
+            //     _levelBloc.add(LevelCompletedEvent());
+            //   }
             setState(() {});
           },
           cellSize: cellSize,
@@ -273,6 +305,57 @@ class _MergeGameState extends State<MergeGame>
                                       )
                                       .assetPath,
                             ),
+                  ),
+                ),
+
+              if (_showMergeBanner && _mergedItem != null)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5),
+                    child: MergeSuccessBanner(
+                      resultItem: _mergedItem,
+                      onClose: () async {
+                        print(
+                          'Обновили экран ${_mergedItem?.id} == ${_levelBloc.state.targetItem}',
+                        );
+
+                        if (_mergedItem?.id == _levelBloc.state.targetItem) {
+                          print(
+                            "Найден целевой предмет, переходим на следующий уровень",
+                          );
+
+                          // Сохраняем текущий уровень для проверки
+                          final currentLevel = _levelBloc.state.currentLevel;
+
+                          //    _levelBloc.add(LevelCompletedEvent());
+                          // Отправляем событие
+                          _levelBloc.add(LevelCompletedEvent());
+                          await _levelBloc.stream
+                              .firstWhere(
+                                (state) => state.currentLevel > currentLevel,
+                              )
+                              .then((_) {
+                                print("Уровень успешно изменен в Bloc");
+                                setState(() {
+                                  _showMergeBanner = false;
+                                  _mergedItem = null;
+                                });
+                              });
+
+                          return; // Выходим, setState будет вызван в then
+                        } else {
+                          print("Простое слияние, остаемся на текущем уровне");
+                        }
+                        print("Обновление экрана");
+
+                        // setState(() {
+                        //  _showMergeBanner = false;
+                        //     _mergedItem = null;
+                        //  });
+
+                        print("Следующий уровень");
+                      },
+                    ),
                   ),
                 ),
             ],
@@ -478,9 +561,9 @@ class _MergeGameState extends State<MergeGame>
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
-      debugPrint('///////////////// ${item.gridX} ${item.gridY} ${item}');
+      //   debugPrint('///////////////// ${item.gridX} ${item.gridY} ${item}');
     });
-    debugPrint('удалили объект');
+    //  debugPrint('удалили объект');
   }
 
   // Обновление позиции при перетаскивании

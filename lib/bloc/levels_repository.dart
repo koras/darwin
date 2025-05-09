@@ -5,10 +5,9 @@ class LevelsRepository {
     1: {
       'imageItems': ['water', 'man'],
       'result': 'cloud',
-      'title': 'Создайте море',
+      'title': 'Создайте Облако',
       'hints': {
         1: ['water', 'water', 'cloud'],
-        2: ['cloud', 'cloud', 'wind'],
         3: ['wind', 'wind', 'sky'],
       },
     },

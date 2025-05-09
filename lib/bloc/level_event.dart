@@ -43,3 +43,9 @@ class MergeItemsEvent extends LevelEvent {
 
   MergeItemsEvent({required this.itemsToRemove, required this.itemToAdd});
 }
+
+// Добавляем новое событие
+class ShowLevelCompleteEvent extends LevelEvent {
+  final String itemId;
+  ShowLevelCompleteEvent({required this.itemId});
+}

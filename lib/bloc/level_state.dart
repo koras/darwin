@@ -26,6 +26,9 @@ class LevelState {
   // элементы на игровом поле
   final List<GameItem>? gameItems;
 
+  final bool? showLevelComplete;
+  final String? completedItemId;
+
   /// Конструктор состояния уровня
   const LevelState({
     required this.currentLevel,
@@ -36,6 +39,8 @@ class LevelState {
     required this.hints,
     this.lastDiscoveredItem,
     this.gameItems, // Добавляем в конструктор
+    this.showLevelComplete,
+    this.completedItemId,
   });
 
   /// Начальное состояние уровня
@@ -47,8 +52,10 @@ class LevelState {
       targetItem: '',
       levelTitle: '',
       hints: {},
-      lastDiscoveredItem: '',
-      gameItems: [],
+      lastDiscoveredItem: null,
+      gameItems: null,
+      showLevelComplete: false,
+      completedItemId: null,
     );
   }
 
@@ -62,6 +69,8 @@ class LevelState {
     Map<int, List<String>>? hints,
     String? lastDiscoveredItem,
     List<GameItem>? gameItems,
+    bool? showLevelComplete,
+    String? completedItemId,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -72,6 +81,8 @@ class LevelState {
       hints: hints ?? this.hints,
       lastDiscoveredItem: lastDiscoveredItem ?? this.lastDiscoveredItem,
       gameItems: gameItems ?? this.gameItems,
+      showLevelComplete: showLevelComplete ?? this.showLevelComplete,
+      completedItemId: completedItemId ?? this.completedItemId,
     );
   }
 

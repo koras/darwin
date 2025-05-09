@@ -50,7 +50,7 @@ class MergeHandler {
       final resultItem = allImages.firstWhere(
         (resultItem) => resultItem.id == resultId,
       );
-      debugPrint('tryMergeItems ${item1}, ${item2}');
+      // debugPrint('tryMergeItems ${item1}, ${item2}');
 
       // Удаляем исходные элементы из списка
       //  gameItems.remove(item1);
@@ -84,7 +84,7 @@ class MergeHandler {
       return true;
     } catch (e, stackTrace) {
       // Логируем ошибку
-      print('Ошибка при слиянии предметов: $e Стек вызовов: $stackTrace');
+      //   print('Ошибка при слиянии предметов: $e Стек вызовов: $stackTrace');
       // Можно также показать пользователю сообщение об ошибке
       GameSnackbar.show(context, 'Произошла ошибка при слиянии предметов');
       return false;
@@ -97,7 +97,7 @@ class MergeHandler {
     GameItem item2,
     ImageItem resultItem,
   ) {
-    debugPrint('_showMergeAnimation == ${item2.key} item1 == ${item2.key}');
+    //  debugPrint('_showMergeAnimation == ${item2.key} item1 == ${item2.key}');
     // Получаем Overlay для отображения анимации поверх всего
     final overlay = Overlay.of(context);
     // Получаем RenderBox для расчета позиций
@@ -112,9 +112,9 @@ class MergeHandler {
       item2.gridY * cellSize - cellSize + fieldTop + cellSize - 23,
     );
 
-    debugPrint(
-      'position====: $item2Position} Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop Center position: $fieldTop $item2Position',
-    );
+    // debugPrint(
+    //    'position====: $item2Position} Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop Center position: $fieldTop $item2Position',
+    //  );
     // Создаем OverlayEntry для анимации
     final overlayEntry = OverlayEntry(
       builder:
