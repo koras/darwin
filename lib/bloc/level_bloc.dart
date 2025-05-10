@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'levels_repository.dart';
 import '../models/game_item.dart';
 
+import 'package:hive/hive.dart';
 part 'level_event.dart';
 part 'level_state.dart';
 

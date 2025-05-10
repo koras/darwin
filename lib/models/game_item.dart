@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 
+//import 'package:collection/collection.dart';
+
+@HiveType(typeId: 0)
 class GameItem {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String key;
+  @HiveField(2)
   final String slug;
+  @HiveField(3)
   final String assetPath;
   //Offset position; // Позиция в сетке
+  @HiveField(4)
   Offset tempOffset = Offset.zero; // Временное смещение при перетаскивани
+  @HiveField(5)
   Offset dragOffset;
-
+  @HiveField(6)
   int gridX;
+  @HiveField(7)
   int gridY;
+  @HiveField(8)
   bool isDragging = false;
 
   // Параметры для анимации
+  @HiveField(9)
   double scale = 1.0;
+  @HiveField(10)
   double opacity = 1.0;
 
   GameItem({

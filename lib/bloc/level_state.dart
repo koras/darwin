@@ -1,32 +1,44 @@
 // level_state.dart
 part of 'level_bloc.dart';
 
+@HiveType(typeId: 1)
 class LevelState {
   /// Текущий уровень игры (нумерация начинается с 0)
+  @HiveField(0)
   final int currentLevel;
 
   /// ID элементов, доступных для комбинирования на этом уровне
+  @HiveField(1)
   final List<String> availableItems;
 
   /// Все элементы, которые игрок уже открыл за всю игру
+  @HiveField(2)
   final List<String> discoveredItems;
 
   /// Целевой элемент, который нужно создать на данном уровне
+  @HiveField(3)
   final String targetItem;
 
   /// Заголовок уровня, отображается пользователю
+  @HiveField(4)
   final String levelTitle;
 
   /// Подсказки по уровням: ключ — номер подсказки, значение — список шагов или рекомендаций
+  @HiveField(5)
   final Map<int, List<String>> hints;
 
   /// Последний открытый игроком элемент (может быть null)
+  @HiveField(6)
   final String? lastDiscoveredItem;
 
   // элементы на игровом поле
+  @HiveField(7)
   final List<GameItem>? gameItems;
 
+  @HiveField(8)
   final bool? showLevelComplete;
+
+  @HiveField(9)
   final String? completedItemId;
 
   /// Конструктор состояния уровня

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart'; // Добавьте этот импор
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import './bloc/level_bloc.dart';
 
 void main() {
