@@ -8,6 +8,8 @@ import 'package:hive/hive.dart';
 part 'level_event.dart';
 part 'level_state.dart';
 
+part 'level_state.g.dart';
+
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {
     final firstLevelData = LevelsRepository.levelsData[1]!;

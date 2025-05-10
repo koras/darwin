@@ -9,7 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import './bloc/level_bloc.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Инициализация Hive
+  await Hive.initFlutter();
+  // Регистрация адаптеров
+  Hive.registerAdapter(GameItemAdapter());
+  Hive.registerAdapter(LevelStateAdapter());
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppPointsProviders(),

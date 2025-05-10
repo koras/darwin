@@ -1,5 +1,6 @@
 // level_state.dart
 part of 'level_bloc.dart';
+// Добавьте эту строку
 
 @HiveType(typeId: 1)
 class LevelState {

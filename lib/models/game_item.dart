@@ -3,6 +3,8 @@ import 'package:hive/hive.dart';
 
 //import 'package:collection/collection.dart';
 
+part 'game_item.g.dart';
+
 @HiveType(typeId: 0)
 class GameItem {
   @HiveField(0)
