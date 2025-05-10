@@ -44,8 +44,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
   //late FieldManager _fieldManager; // Менеджер игрового поля
   late final FieldManager _fieldManager;
-  // Список игровых элементов на поле
-  final List<GameItem> _gameItems = [];
 
   final List<GameItem> gameItems = [];
 
@@ -91,7 +89,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
     _mergeHandler = MergeHandler(
       context: context,
-      gameItems: _gameItems,
       onMergeComplete: (mergedItem) {
         //  debugPrint(
         //   'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
@@ -181,7 +178,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
         _mergeHandler = MergeHandler(
           context: context,
-          gameItems: _gameItems,
           onMergeComplete: (mergedItem) {
             debugPrint(
               'mergedItem == ${mergedItem.id} ${context.read<LevelBloc>().state.targetItem}',
@@ -319,7 +315,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                 ),
               ),
 
-              if (state.lastDiscoveredItem != null)
+              if (state.lastDiscoveredItem != null && !_showMergeBanner)
                 Positioned(
                   top: 100, // Позиционируем в верхней части экрана
                   left: 0,
@@ -467,9 +463,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     if (gameItems.isEmpty) return;
 
     setState(() {
-      _gameItems.clear(); // Очищаем поле
+      //  _gameItems.clear(); // Очищаем поле
     });
-
     // Показываем баннер об очистке
     _levelBloc.add(
       ItemDiscoveredEvent(itemId: "field_cleared"),
