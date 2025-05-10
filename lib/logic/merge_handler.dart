@@ -10,7 +10,7 @@ import 'dart:math';
 // Класс для обработки слияния игровых элементов
 class MergeHandler {
   final BuildContext context; // Контекст для доступа к UI и навигации
-  final List<GameItem> gameItems; // Список игровых элементов на поле
+  // Список игровых элементов на поле
   final Function(GameItem) onMergeComplete; // Колбэк, вызываемый после слияния
   final double cellSize; // Размер ячейки игрового поля
   final double fieldTop;
@@ -19,7 +19,6 @@ class MergeHandler {
   final LevelBloc levelBloc; // Добавляем LevelBloc
   MergeHandler({
     required this.context,
-    required this.gameItems,
     required this.onMergeComplete,
     required this.cellSize,
     required this.fieldTop,
@@ -72,10 +71,6 @@ class MergeHandler {
       levelBloc.add(
         MergeItemsEvent(itemsToRemove: [item1, item2], itemToAdd: mergedItem),
       );
-
-      // Добавляем новый элемент в список
-      //  gameItems.add(mergedItem);
-
       // Вызываем колбэк, уведомляющий о завершении слияния
       onMergeComplete(mergedItem);
 

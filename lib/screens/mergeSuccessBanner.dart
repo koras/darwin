@@ -19,7 +19,6 @@ class MergeSuccessBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('asdasdasd');
     return AnimatedBuilder(
       animation: Listenable.merge([opacityAnimation, scaleAnimation]),
       builder: (context, child) {
