@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 
 part 'game_item.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
 class GameItem {
   @HiveField(0)
   final String id;

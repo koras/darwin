@@ -7,8 +7,7 @@ import '../models/game_item.dart';
 import 'package:hive/hive.dart';
 part 'level_event.dart';
 part 'level_state.dart';
-
-part 'level_state.g.dart';
+part 'level_bloc.g.dart'; // Добавлено для генерации
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {

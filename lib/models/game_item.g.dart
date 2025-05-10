@@ -8,7 +8,7 @@ part of 'game_item.dart';
 
 class GameItemAdapter extends TypeAdapter<GameItem> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
   GameItem read(BinaryReader reader) {
