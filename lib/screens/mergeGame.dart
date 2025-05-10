@@ -460,15 +460,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     await _clearButtonController.forward();
     await _clearButtonController.reverse();
 
-    if (gameItems.isEmpty) return;
-
-    setState(() {
-      //  _gameItems.clear(); // Очищаем поле
-    });
-    // Показываем баннер об очистке
-    _levelBloc.add(
-      ItemDiscoveredEvent(itemId: "field_cleared"),
-    ); // Специальный ID для очистки
+    context.read<LevelBloc>().add(ClearGameFieldEvent());
   }
 
   // Обработчик начала перетаскивания элемента

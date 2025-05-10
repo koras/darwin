@@ -49,3 +49,5 @@ class ShowLevelCompleteEvent extends LevelEvent {
   final String itemId;
   ShowLevelCompleteEvent({required this.itemId});
 }
+
+class ClearGameFieldEvent extends LevelEvent {}

@@ -33,6 +33,12 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<MergeItemsEvent>(_onMergeItemsEvent);
     // Добавляем новый обработчик
     on<ShowLevelCompleteEvent>(_onShowLevelComplete);
+    // очищаем игровое поле
+    on<ClearGameFieldEvent>(_onClearGameField);
+  }
+
+  void _onClearGameField(ClearGameFieldEvent event, Emitter<LevelState> emit) {
+    emit(state.copyWith(gameItems: []));
   }
 
   void _onMergeItemsEvent(MergeItemsEvent event, Emitter<LevelState> emit) {
