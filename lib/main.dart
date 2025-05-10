@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'screens/mergeGame.dart';
-import 'screens/mainMenu.dart';
+
 import './providers/appPoints.dart';
 import 'package:provider/provider.dart'; // Добавьте этот импорт
-import 'package:bloc/bloc.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//import '../models/game_item.dart';
+import '../bloc/level_bloc.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
-import './bloc/level_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Инициализация Hive
   await Hive.initFlutter();
   // Регистрация адаптеров
-  Hive.registerAdapter(GameItemAdapter());
+  //  Hive.registerAdapter(GameItemAdapter());
   Hive.registerAdapter(LevelStateAdapter());
 
   runApp(

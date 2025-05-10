@@ -22,8 +22,10 @@ class LevelStateAdapter extends TypeAdapter<LevelState> {
       discoveredItems: (fields[2] as List).cast<String>(),
       targetItem: fields[3] as String,
       levelTitle: fields[4] as String,
-      hints: (fields[5] as Map).map((dynamic k, dynamic v) =>
-          MapEntry(k as int, (v as List).cast<String>())),
+      hints: (fields[5] as Map).map(
+        (dynamic k, dynamic v) =>
+            MapEntry(k as int, (v as List).cast<String>()),
+      ),
       lastDiscoveredItem: fields[6] as String?,
       gameItems: (fields[7] as List?)?.cast<GameItem>(),
       showLevelComplete: fields[8] as bool?,
