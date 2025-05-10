@@ -52,12 +52,12 @@ class MergeHandler {
       );
       // debugPrint('tryMergeItems ${item1}, ${item2}');
 
-      // Удаляем исходные элементы из списка
-      //  gameItems.remove(item1);
-      //  gameItems.remove(item2);
-
       // Показываем анимацию слияния
-      _showMergeAnimation(item1, item2, resultItem);
+      debugPrint('Показываем анимацию слияния');
+      if (resultItem.id != levelBloc.state.targetItem) {
+        debugPrint('banner не показываем слияние');
+        _showMergeAnimation(item1, item2, resultItem);
+      }
 
       // Создаем новый объединенный элемент
       final mergedItem = GameItem(

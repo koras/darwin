@@ -69,7 +69,7 @@ class MergeSuccessBanner extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Отлично!',
+                  'Следующий уровень',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

@@ -168,12 +168,9 @@ class _MergeGameState extends State<MergeGame>
                 _mergedItem = mergedItem;
                 _showMergeBanner = true;
               });
+            } else {
+              setState(() {});
             }
-
-            //   if (mergedItem.id == _levelBloc.state.targetItem) {
-            //     _levelBloc.add(LevelCompletedEvent());
-            //   }
-            setState(() {});
           },
           cellSize: cellSize,
           fieldTop: fieldTop,
@@ -224,7 +221,8 @@ class _MergeGameState extends State<MergeGame>
                       _clearButtonAnimation, // Передаем анимацию
                 ),
               ),
-              // Игровое поле (верхняя часть экрана)
+
+              // Игровое поле
               Positioned(
                 top: screenSize.height * 0.15, // 20% от верха экрана
                 bottom:
@@ -356,13 +354,6 @@ class _MergeGameState extends State<MergeGame>
                         } else {
                           print("Простое слияние, остаемся на текущем уровне");
                         }
-                        print("Обновление экрана");
-
-                        // setState(() {
-                        //  _showMergeBanner = false;
-                        //     _mergedItem = null;
-                        //  });
-
                         print("Следующий уровень");
                       },
                     ),
@@ -480,8 +471,9 @@ class _MergeGameState extends State<MergeGame>
 
     // Если элемент перемещен в новую ячейку
     if (newX != item.gridX || newY != item.gridY) {
+      // проверка слияния и слияния
       final mergeSuccess = await _checkForMerge(item, newX, newY);
-
+      debugPrint('проверка слияния и слияния');
       if (mergeSuccess) {
         // Слияние успешно - элемент будет удален в mergeHandler
         _clearDraggedItem();
@@ -554,7 +546,7 @@ class _MergeGameState extends State<MergeGame>
           final shouldInclude = isNotMovedItem && isSameCell;
           return shouldInclude;
         }).toList();
-
+    debugPrint('Проверяем слияние с каждым элементом в ячейке');
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
