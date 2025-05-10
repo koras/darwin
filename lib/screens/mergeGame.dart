@@ -354,53 +354,44 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                     color: Colors.black.withOpacity(
                       0.5 * _bannerOpacityAnimation.value,
                     ),
-                    //   color: Colors.black.withOpacity(0.5),
                     child: MergeSuccessBanner(
                       resultItem: _mergedItem,
                       onClose: () async {
+                        // Сохраняем необходимые данные до асинхронных операций
+                        final bloc = context.read<LevelBloc>();
+                        final targetItemId = _mergedItem?.id;
+                        final isTargetItem =
+                            targetItemId == bloc.state.targetItem;
+                        final currentLevel = bloc.state.currentLevel;
+
                         try {
                           await _bannerAnimationController.reverse();
 
-                          if (_mergedItem?.id ==
-                              context.read<LevelBloc>().state.targetItem) {
-                            // Сохраняем текущий уровень для проверки
-                            final currentLevel =
-                                context.read<LevelBloc>().state.currentLevel;
+                          if (isTargetItem && mounted) {
+                            bloc.add(LevelCompletedEvent());
 
-                            //    _levelBloc.add(LevelCompletedEvent());
-                            // Отправляем событие
-                            context.read<LevelBloc>().add(
-                              LevelCompletedEvent(),
+                            await bloc.stream.firstWhere(
+                              (state) => state.currentLevel > currentLevel,
                             );
-                            await context
-                                .read<LevelBloc>()
-                                .stream
-                                .firstWhere(
-                                  (state) => state.currentLevel > currentLevel,
-                                )
-                                .then((_) {
-                                  setState(() {
-                                    _showMergeBanner = false;
-                                    _mergedItem = null;
-                                  });
-                                });
 
-                            return; // Выходим, setState будет вызван в then
-                          } else {
-                            print(
-                              "Простое слияние, остаемся на текущем уровне",
-                            );
+                            if (mounted) {
+                              setState(() {
+                                _showMergeBanner = false;
+                                _mergedItem = null;
+                              });
+                            }
+                            return;
                           }
-                          print("Следующий уровень");
                         } catch (e) {
                           debugPrint('Ошибка анимации: $e');
-                          setState(() {
-                            _showMergeBanner = false;
-                            _mergedItem = null;
-                          });
+                          if (mounted) {
+                            setState(() {
+                              _showMergeBanner = false;
+                              _mergedItem = null;
+                            });
+                          }
                         }
                       },
-
                       opacityAnimation: _bannerOpacityAnimation,
                       scaleAnimation: _bannerScaleAnimation,
                     ),
