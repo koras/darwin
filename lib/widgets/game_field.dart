@@ -5,6 +5,7 @@ import '../models/game_item.dart';
 import 'dart:async'; // Добавьте эту строку в начале файла
 import 'game_item_widget.dart';
 import 'dragging_item_widget.dart';
+import 'game_grid.dart';
 
 // Виджет игрового поля, который отображает сетку, элементы и перетаскиваемый элемент
 class GameField extends StatelessWidget {
@@ -79,7 +80,11 @@ class GameField extends StatelessWidget {
           child: Stack(
             children: [
               // Отображаем сетку игрового поля (5x5)
-              //     GameGrid(rows: gridRows, columns: gridColumns),
+              GameGrid(
+                rows: gridRows,
+                columns: gridColumns,
+                cellSize: cellSize,
+              ),
               // Отображаем все игровые элементы с помощью GameItemWidget
               // Преобразуем каждый элемент списка gameItems в виджет
               ...gameItems.map(

@@ -5,6 +5,7 @@ import '../logic/merge_logic.dart';
 import '../widgets/game_snackbar.dart';
 import '../widgets/merge_animation_widget.dart';
 import '../bloc/level_bloc.dart';
+import 'dart:math';
 
 // Класс для обработки слияния игровых элементов
 class MergeHandler {
@@ -13,6 +14,7 @@ class MergeHandler {
   final Function(GameItem) onMergeComplete; // Колбэк, вызываемый после слияния
   final double cellSize; // Размер ячейки игрового поля
   final double fieldTop;
+  final Random _random = Random();
 
   final LevelBloc levelBloc; // Добавляем LevelBloc
   MergeHandler({
@@ -24,14 +26,16 @@ class MergeHandler {
     required this.levelBloc, // Добавляем в конструктор
   });
 
+  String _generateUniqueKey() {
+    return '${DateTime.now().microsecondsSinceEpoch}_${_random.nextInt(100000)}';
+  }
+
   // Пытается объединить два элемента
-  bool tryMergeItems(GameItem item1, GameItem item2) {
+  Future<bool> tryMergeItems(GameItem item1, GameItem item2) async {
     try {
       // Получаем ID результата слияния (null, если слияние невозможно)
       final resultId = getMergeResult(item1.id, item2.id);
       // Позиция нового элемента будет на месте второго элемента
-      final int newX = item2.gridX;
-      final int newY = item2.gridY;
 
       // Если слияние невозможно, возвращаем false
       if (resultId == null) return false;
@@ -42,46 +46,47 @@ class MergeHandler {
       // код добавляения
 
       // Находим данные результирующего элемента в списке всех возможных изображений
-      print(
-        'Находим данные результирующего элемента в списке всех возможных изображений ${item1.id}, ${item2.id}',
-      );
+
       final resultItem = allImages.firstWhere(
         (resultItem) => resultItem.id == resultId,
       );
-      print(' ${item1}, ${item2}');
-
-      // Удаляем исходные элементы из списка
-      gameItems.remove(item1);
-      gameItems.remove(item2);
+      // debugPrint('tryMergeItems ${item1}, ${item2}');
 
       // Показываем анимацию слияния
-      _showMergeAnimation(item1, item2, resultItem);
+      debugPrint('Показываем анимацию слияния');
+      if (resultItem.id != levelBloc.state.targetItem) {
+        debugPrint('banner не показываем слияние');
+        _showMergeAnimation(item1, item2, resultItem);
+      }
 
       // Создаем новый объединенный элемент
       final mergedItem = GameItem(
         id: resultItem.id,
+        key: _generateUniqueKey(),
         slug: resultItem.slug,
         assetPath: resultItem.assetPath,
-        gridX: newX,
-        gridY: newY,
+        gridX: item2.gridX,
+        gridY: item2.gridY,
+      );
+
+      levelBloc.add(
+        MergeItemsEvent(itemsToRemove: [item1, item2], itemToAdd: mergedItem),
       );
 
       // Добавляем новый элемент в список
-      gameItems.add(mergedItem);
+      //  gameItems.add(mergedItem);
 
       // Вызываем колбэк, уведомляющий о завершении слияния
       onMergeComplete(mergedItem);
 
       // Показываем уведомление о полученном предмете
-      GameSnackbar.show(context, 'Получено: ${resultItem.slug}');
+      // GameSnackbar.show(context, 'Получено: ${resultItem.slug}');
       return true;
     } catch (e, stackTrace) {
       // Логируем ошибку
-      print('Ошибка при слиянии предметов: $e Стек вызовов: $stackTrace');
-
+      //   print('Ошибка при слиянии предметов: $e Стек вызовов: $stackTrace');
       // Можно также показать пользователю сообщение об ошибке
       GameSnackbar.show(context, 'Произошла ошибка при слиянии предметов');
-
       return false;
     }
   }
@@ -92,6 +97,7 @@ class MergeHandler {
     GameItem item2,
     ImageItem resultItem,
   ) {
+    //  debugPrint('_showMergeAnimation == ${item2.key} item1 == ${item2.key}');
     // Получаем Overlay для отображения анимации поверх всего
     final overlay = Overlay.of(context);
     // Получаем RenderBox для расчета позиций
@@ -106,9 +112,9 @@ class MergeHandler {
       item2.gridY * cellSize - cellSize + fieldTop + cellSize - 23,
     );
 
-    debugPrint(
-      'position====: $item2Position} Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop Center position: $fieldTop $item2Position',
-    );
+    // debugPrint(
+    //    'position====: $item2Position} Item1 ====:  ${item1.gridX}  ${item1.gridY} $fieldTop Center position: $fieldTop $item2Position',
+    //  );
     // Создаем OverlayEntry для анимации
     final overlayEntry = OverlayEntry(
       builder:

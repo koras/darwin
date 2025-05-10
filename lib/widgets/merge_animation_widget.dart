@@ -9,6 +9,8 @@ class MergeAnimationWidget extends StatefulWidget {
   final ImageItem resultItem;
   final double cellSize;
 
+  static const double scale = 1.5;
+
   const MergeAnimationWidget({
     required this.item1,
     required this.item2,
@@ -35,8 +37,14 @@ class _MergeAnimationWidgetState extends State<MergeAnimationWidget>
 
     // Создаем последовательность анимации: увеличение, затем уменьшение
     _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 5.5), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 5.5, end: 0.8), weight: 50),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: MergeAnimationWidget.scale),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: MergeAnimationWidget.scale, end: 0.8),
+        weight: 50,
+      ),
     ]).animate(
       CurvedAnimation(
         parent: _controller,

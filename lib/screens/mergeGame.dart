@@ -12,8 +12,11 @@ import '../widgets/game_panel.dart';
 import '../widgets/bottom_app_bar_widget.dart';
 
 import '../bloc/level_bloc.dart';
+import 'discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'levelCompleteBanner.dart';
+import 'mergeSuccessBanner.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
@@ -21,16 +24,26 @@ class MergeGame extends StatefulWidget {
   _MergeGameState createState() => _MergeGameState();
 }
 
-class _MergeGameState extends State<MergeGame> {
+class _MergeGameState extends State<MergeGame>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _clearButtonController;
+  late Animation<double> _clearButtonAnimation;
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
 
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
-  late FieldManager _fieldManager; // Менеджер игрового поля
 
+  // вычисленная высота верхней панели
+  double _toolboxHeight = 0.0;
+
+  //late FieldManager _fieldManager; // Менеджер игрового поля
+  late final FieldManager _fieldManager;
   // Список игровых элементов на поле
   final List<GameItem> _gameItems = [];
+
+  final List<GameItem> gameItems = [];
+
   final int maxItems = 120; // Максимальное количество элементов на поле
   final int maxSameType = 30; // Максимальное количество элементов одного типа
 
@@ -54,178 +67,375 @@ class _MergeGameState extends State<MergeGame> {
 
   late MergeHandler _mergeHandler; // Делаем полем класса
 
+  bool _showMergeBanner = false;
+  GameItem? _mergedItem;
+
   @override
   void initState() {
     super.initState();
 
-    _levelBloc = LevelBloc();
-    // Инициализация менеджера игрового поля
     _fieldManager = FieldManager(
-      getItems: () => _gameItems,
-      addItem: (GameItem newItem) {
-        setState(() {
-          _gameItems.add(newItem);
-        });
-      },
-      maxItems: maxItems,
-      maxSameType: maxSameType,
-      rows: gridRows,
-      columns: gridColumns,
+      getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
+      maxItems: 25, // Укажите нужные значения
+      maxSameType: 25,
+      rows: 5,
+      columns: 5,
     );
+
+    _levelBloc = LevelBloc();
 
     _mergeHandler = MergeHandler(
       context: context,
       gameItems: _gameItems,
       onMergeComplete: (mergedItem) {
-        if (mergedItem.id == _levelBloc.state.targetItem) {
-          _levelBloc.add(LevelCompletedEvent());
+        //  debugPrint(
+        //   'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
+        //  );
+
+        if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
+          debugPrint(
+            'Обновляем уровень == ${mergedItem.id} ${_levelBloc.state.targetItem}',
+          );
+
+          context.read<LevelBloc>().add(LevelCompletedEvent());
+          //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
+          //    _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
         }
         setState(() {});
       },
       cellSize: 0,
       fieldTop: 0,
-      levelBloc: _levelBloc, // Временное значение, будет обновлено в build()
+      levelBloc:
+          context
+              .read<
+                LevelBloc
+              >(), // Временное значение, будет обновлено в build()
+    );
+
+    _clearButtonController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    _clearButtonAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _clearButtonController, curve: Curves.easeInOut),
     );
   }
 
   @override
   void dispose() {
-    _levelBloc.close();
+    context.read<LevelBloc>().close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _levelBloc,
-      child: BlocBuilder<LevelBloc, LevelState>(
-        builder: (context, state) {
-          final screenSize = MediaQuery.of(context).size;
-          final toolboxHeight = screenSize.height * _toolboxHeightPercentage;
+    return BlocBuilder<LevelBloc, LevelState>(
+      builder: (context, state) {
+        final screenSize = MediaQuery.of(context).size;
 
-          final levelItems =
-              allImages
-                  .where((image) => state.availableItems.contains(image.id))
-                  .toList();
+        _toolboxHeight = screenSize.height * _toolboxHeightPercentage;
 
-          cellSize =
-              (screenSize.width - 40) /
-              gridColumns; // Рассчитываем размер ячейки
+        final levelItems =
+            allImages
+                .where((image) => state.availableItems.contains(image.id))
+                .toList();
 
-          // отсутп для игрового поля
-          final fieldTop = screenSize.height * 0.20;
+        cellSize =
+            (screenSize.width - 40) / gridColumns; // Рассчитываем размер ячейки
 
-          _mergeHandler = MergeHandler(
-            context: context,
-            gameItems: _gameItems,
-            onMergeComplete: (mergedItem) {
-              if (mergedItem.id == _levelBloc.state.targetItem) {
-                _levelBloc.add(LevelCompletedEvent());
-              }
+        // отсутп для игрового поля
+        final fieldTop = screenSize.height * 0.20;
+
+        _mergeHandler = MergeHandler(
+          context: context,
+          gameItems: _gameItems,
+          onMergeComplete: (mergedItem) {
+            debugPrint(
+              'mergedItem == ${mergedItem.id} ${context.read<LevelBloc>().state.targetItem}',
+            );
+
+            if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
+              debugPrint('banner');
+
+              //    _levelBloc.add(LevelCompletedEvent());
+              //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
+              context.read<LevelBloc>().add(
+                ShowLevelCompleteEvent(itemId: mergedItem.id),
+              );
+
+              setState(() {
+                _mergedItem = mergedItem;
+                _showMergeBanner = true;
+              });
+            } else {
               setState(() {});
-            },
-            cellSize: cellSize,
-            fieldTop: fieldTop,
-            levelBloc: context.read<LevelBloc>(),
-          );
+            }
+          },
+          cellSize: cellSize,
+          fieldTop: fieldTop,
+          levelBloc: context.read<LevelBloc>(),
+        );
 
-          return Scaffold(
-            //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
-            bottomNavigationBar: const CustomBottomAppBar(),
-            body: Stack(
-              children: [
-                // Фоновая картинка (добавьте этот виджет первым в Stack)
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image:
-                            Image.asset('assets/images/background.png').image,
-                        fit: BoxFit.fitWidth, // Растягиваем по ширине
-                        alignment: Alignment.topCenter, // Выравниваем по верху
-                        repeat:
-                            ImageRepeat
-                                .repeatY, // Повторяем по вертикали (клонируем вниз)
-                      ),
+        return Scaffold(
+          //    appBar: AppBar(title: Text("asdasd"), centerTitle: false),
+          bottomNavigationBar: const CustomBottomAppBar(),
+          body: Stack(
+            children: [
+              // Фоновая картинка (добавьте этот виджет первым в Stack)
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: Image.asset('assets/images/background.png').image,
+                      fit: BoxFit.fitWidth, // Растягиваем по ширине
+                      alignment: Alignment.topCenter, // Выравниваем по верху
+                      repeat:
+                          ImageRepeat
+                              .repeatY, // Повторяем по вертикали (клонируем вниз)
                     ),
                   ),
                 ),
+              ),
 
-                // Панель инструментов (верхняя часть экрана)
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: screenSize.height * 0.20,
-                  child: GamePanel(
-                    name: "Задание",
-                    stars: 100,
-                    taskDescription: state.levelTitle,
-                    time: "02:45",
-                    onHintPressed: () {
-                      print("Логика подсказки");
-                      // Логика подсказки
-                    },
-                    onClearPressed: () {
-                      print("Логика очистки экрана");
-                      // Логика очистки экрана
-                    },
-                    scoreImagePath:
-                        'assets/images/score_icon.png', // Ваш путь к картинке
-                  ),
+              // Панель инструментов (верхняя часть экрана)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: screenSize.height * 0.20,
+                child: GamePanel(
+                  name: "Задание",
+                  stars: 100,
+                  taskDescription: state.levelTitle,
+                  time: "02:45",
+                  onHintPressed: () {
+                    print("Логика подсказки");
+                    // Логика подсказки
+                  },
+                  onClearPressed: _handleClearField, // Изменяем обработчик () {
+                  // Логика очистки экрана
+                  scoreImagePath:
+                      'assets/images/score_icon.png', // Ваш путь к картинке,
+                  clearButtonAnimation:
+                      _clearButtonAnimation, // Передаем анимацию
                 ),
-                // Игровое поле (верхняя часть экрана)
+              ),
+
+              // Игровое поле
+              Positioned(
+                top: screenSize.height * 0.15, // 20% от верха экрана
+                bottom:
+                    _toolboxHeight -
+                    20, // Оставляем место для панели инструментов
+                left: 0,
+                right: 0,
+                child: GameField(
+                  gridColumns: gridColumns,
+                  gridRows: gridRows,
+                  gameItems: context.read<LevelBloc>().state.gameItems ?? [],
+                  draggedItem: _draggedItem,
+
+                  cellSize: cellSize,
+                  mergeHandler: _mergeHandler, // Передаем handler
+                  // сдвиг поля на высоту панели
+                  fieldTop: fieldTop,
+                  topOffset:
+                      MediaQuery.of(context).size.height *
+                      0.15, // Передаём сдвиг
+                  onDragStart: _handleGlobalDragStart,
+                  onDragUpdate: _handleDragUpdate,
+                  onDragEnd: _handleDragEnd,
+                ),
+              ),
+
+              // Панель инструментов (нижняя часть экрана)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: _toolboxHeight + 20,
+                child: ToolboxPanel(
+                  // toolboxImages: _toolboxImages,
+                  toolboxImages: levelItems,
+                  // fieldManager: _fieldManager,
+                  onHeightChanged: (newHeightPercentage) {
+                    setState(() {
+                      _toolboxHeightPercentage = newHeightPercentage;
+                    });
+                  },
+                  onItemAdded: (GameItem gameItem) {
+                    print('Добавляем элемент через BLoC');
+
+                    final gameItemTry = _fieldManager.tryAddItem(
+                      context: context,
+                      item: gameItem,
+                    );
+
+                    if (gameItemTry != null) {
+                      context.read<LevelBloc>().add(
+                        AddGameItemsEvent(items: [gameItemTry]),
+                      );
+                    }
+
+                    //     setState(() {}); // Обновляем UI после добавления элемента
+                  },
+                ),
+              ),
+
+              if (state.lastDiscoveredItem != null)
                 Positioned(
-                  top: screenSize.height * 0.15, // 20% от верха экрана
-                  bottom:
-                      toolboxHeight -
-                      20, // Оставляем место для панели инструментов
+                  top: 100, // Позиционируем в верхней части экрана
                   left: 0,
                   right: 0,
-                  child: GameField(
-                    gridColumns: gridColumns,
-                    gridRows: gridRows,
-                    gameItems: _gameItems,
-                    draggedItem: _draggedItem,
-                    cellSize: cellSize,
-                    mergeHandler: _mergeHandler, // Передаем handler
-                    // сдвиг поля на высоту панели
-                    fieldTop: fieldTop,
-                    topOffset:
-                        MediaQuery.of(context).size.height *
-                        0.15, // Передаём сдвиг
-                    onDragStart: _handleGlobalDragStart,
-                    onDragUpdate: _handleDragUpdate,
-                    onDragEnd: _handleDragEnd,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child:
+                        state.lastDiscoveredItem == "field_cleared"
+                            ? DiscoveryBanner(messageType: 'clear')
+                            : DiscoveryBanner(
+                              itemName:
+                                  allImages
+                                      .firstWhere(
+                                        (item) =>
+                                            item.id == state.lastDiscoveredItem,
+                                      )
+                                      .slug,
+                              imagePath:
+                                  allImages
+                                      .firstWhere(
+                                        (item) =>
+                                            item.id == state.lastDiscoveredItem,
+                                      )
+                                      .assetPath,
+                            ),
                   ),
                 ),
 
-                // Панель инструментов (нижняя часть экрана)
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: toolboxHeight + 20,
-                  child: ToolboxPanel(
-                    // toolboxImages: _toolboxImages,
-                    toolboxImages: levelItems,
-                    fieldManager: _fieldManager,
-                    onHeightChanged: (newHeightPercentage) {
-                      setState(() {
-                        _toolboxHeightPercentage = newHeightPercentage;
-                      });
-                    },
-                    onItemAdded: () {
-                      setState(() {}); // Обновляем UI после добавления элемента
-                    },
+              if (_showMergeBanner && _mergedItem != null)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.5),
+                    child: MergeSuccessBanner(
+                      resultItem: _mergedItem,
+                      onClose: () async {
+                        print(
+                          'Обновили экран ${_mergedItem?.id} == ${_levelBloc.state.targetItem}',
+                        );
+
+                        if (_mergedItem?.id ==
+                            context.read<LevelBloc>().state.targetItem) {
+                          print(
+                            "Найден целевой предмет, переходим на следующий уровень",
+                          );
+
+                          // Сохраняем текущий уровень для проверки
+                          final currentLevel =
+                              context.read<LevelBloc>().state.currentLevel;
+
+                          //    _levelBloc.add(LevelCompletedEvent());
+                          // Отправляем событие
+                          context.read<LevelBloc>().add(LevelCompletedEvent());
+                          await context
+                              .read<LevelBloc>()
+                              .stream
+                              .firstWhere(
+                                (state) => state.currentLevel > currentLevel,
+                              )
+                              .then((_) {
+                                print("Уровень успешно изменен в Bloc");
+                                setState(() {
+                                  _showMergeBanner = false;
+                                  _mergedItem = null;
+                                });
+                              });
+
+                          return; // Выходим, setState будет вызван в then
+                        } else {
+                          print("Простое слияние, остаемся на текущем уровне");
+                        }
+                        print("Следующий уровень");
+                      },
+                    ),
                   ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+            ],
+          ),
+        );
+      },
     );
+  }
+
+  /// Получаем координаты
+  Offset _getCoorStatic(
+    Map<String, int> params,
+    double cellSize,
+    double fieldTopOffset,
+  ) {
+    final x = params['gridX']! * cellSize + (cellSize / 2);
+
+    final y =
+        params['gridY']! * cellSize + (cellSize / 2) + _toolboxHeight.toInt();
+
+    return Offset(x.toDouble(), y.toDouble());
+  }
+
+  /// Определяет ячейку сетки по координатам касания
+  /// Возвращает Map с координатами ячейки {'x': x, 'y': y} или null, если касание вне поля
+  Map<String, int> getCellFromCoordinates(
+    Offset position,
+    double cellSize,
+    double fieldTopOffset,
+  ) {
+    // Преобразуем глобальные координаты в локальные относительно игрового поля
+    final localX = position.dx;
+    final localY = position.dy - fieldTopOffset;
+
+    print('fieldTopOffset ${fieldTopOffset}');
+    // Проверяем, что касание в пределах игрового поля
+    // if (localX < 0 || localY < 0) return null;
+
+    final cellX = (localX / cellSize).floor();
+    final cellY = (localY / cellSize).floor();
+
+    // Проверяем, что ячейка в пределах сетки
+    //if (cellX >= gridColumns || cellY >= gridRows) return null;
+
+    return {'gridX': cellX, 'gridY': cellY};
+  }
+
+  /// Определяет центр координат ближайшей ячейки имея координаты
+  Offset getCoordinatesBox(
+    Offset position,
+    double cellSize,
+    double fieldTopOffset,
+  ) {
+    print('StartPosition ${position}');
+    // Преобразуем глобальные координаты в локальные относительно игрового поля
+    final box = getCellFromCoordinates(position, cellSize, fieldTopOffset);
+    print('box ${box}');
+
+    final coor = _getCoorStatic(box, cellSize, fieldTopOffset);
+
+    return coor;
+  }
+
+  void _handleClearField() async {
+    print("Логика очистки экрана");
+    // Анимируем кнопку
+    await _clearButtonController.forward();
+    await _clearButtonController.reverse();
+
+    if (gameItems.isEmpty) return;
+
+    setState(() {
+      _gameItems.clear(); // Очищаем поле
+    });
+
+    // Показываем баннер об очистке
+    _levelBloc.add(
+      ItemDiscoveredEvent(itemId: "field_cleared"),
+    ); // Специальный ID для очистки
   }
 
   // Обработчик начала перетаскивания элемента
@@ -238,8 +448,10 @@ class _MergeGameState extends State<MergeGame> {
     final touchedX = (localPosition.dx / cellSize).floor();
     final touchedY = (localPosition.dy / cellSize).floor();
 
+    /// stop
+    final gameItems = context.read<LevelBloc>().state.gameItems ?? [];
     // Находим элемент по координатам
-    final touchedItem = _gameItems.firstWhereOrNull(
+    final touchedItem = gameItems.firstWhereOrNull(
       (item) => item.gridX == touchedX && item.gridY == touchedY,
     );
 
@@ -248,67 +460,93 @@ class _MergeGameState extends State<MergeGame> {
     }
   }
 
-  // Обработчик завершения перетаскивания
-  void _handleDragEnd(DragEndDetails details) {
-    if (_draggedItem != null) {
-      final item = _draggedItem!;
-      // Рассчитываем новые координаты в сетке
+  void _handleDragEnd(DragEndDetails details) async {
+    if (_draggedItem == null || _dragStartPosition == null) return;
 
-      //   print('============');
-      //   print('old: item.gridX = ${item.gridX} item.gridY = ${item.gridY}');
+    final item = _draggedItem!;
+    final newX =
+        ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
+    final newY =
+        ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
 
-      final newX =
-          ((item.gridX * cellSize + item.dragOffset.dx) / cellSize).round();
-      final newY =
-          ((item.gridY * cellSize + item.dragOffset.dy) / cellSize).round();
+    // Если элемент перемещен в новую ячейку
+    if (newX != item.gridX || newY != item.gridY) {
+      // проверка слияния и слияния
+      final mergeSuccess = await _checkForMerge(item, newX, newY);
+      debugPrint('проверка слияния и слияния');
+      if (mergeSuccess) {
+        // Слияние успешно - элемент будет удален в mergeHandler
+        _clearDraggedItem();
+        return;
+      }
 
-      // print('new: newX = ${newX} newY = ${newY}');
-
-      setState(() {
-        bool merge = true;
-        bool mergeItem = true;
-        // Проверяем слияние только если элемент был перемещен в новую ячейку
-        if (newX != item.gridX || newY != item.gridY) {
-          //   print('check');
-          bool mergeItem = _checkForMerge(item, newX, newY);
-          if (!mergeItem) {
-            _gameItems.add(item);
-          }
-        } else {
-          _gameItems.add(item);
-        }
-
-        item.dragOffset = Offset.zero;
-        if (_isCellEmpty(newX, newY)) {
-          // Теперь это корректный вызов метода
-          item.gridX = newX;
-          item.gridY = newY;
-        }
-        //   if (!mergeItem) {
-        //    _gameItems.add(item);
-        //   }
-        _draggedItem = null;
-      });
+      // Если слияние не удалось, пробуем переместить
+      if (_isCellEmpty(newX, newY)) {
+        _moveItemToNewPosition(item, newX, newY);
+      } else {
+        _returnItemToOriginalPosition(item);
+      }
+    } else {
+      // Элемент не перемещен - возвращаем на место
+      _returnItemToOriginalPosition(item);
     }
+
+    _clearDraggedItem();
+  }
+
+  void _moveItemToNewPosition(GameItem item, int newX, int newY) {
+    context.read<LevelBloc>().add(
+      AddGameItemsEvent(
+        items: [
+          item.copyWith(gridX: newX, gridY: newY, dragOffset: Offset.zero),
+        ],
+      ),
+    );
+  }
+
+  void _returnItemToOriginalPosition(GameItem item) {
+    // Можно добавить анимацию
+    final updatedItem = item.copyWith(
+      dragOffset: Offset.zero,
+      tempOffset: item.dragOffset, // Для анимации
+    );
+
+    context.read<LevelBloc>().add(AddGameItemsEvent(items: [updatedItem]));
+
+    // Запустить анимацию через TickerProvider
+    // и постепенно обнулять tempOffset
+  }
+
+  void _clearDraggedItem() {
+    _draggedItem = null;
+    _dragStartPosition = null;
+  }
+
+  // Проверка, свободна ли ячейка
+  bool _isCellEmpty(int x, int y) {
+    final gameItems = context.read<LevelBloc>().state.gameItems ?? [];
+    if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) {
+      return false; // Ячейка за границами считается занятой
+    }
+    return !gameItems.any((item) => item.gridX == x && item.gridY == y);
   }
 
   // Проверка возможности слияния с соседними элементами
   // Проверка возможности слияния элементов в одной ячейке
-  bool _checkForMerge(GameItem movedItem, int newX, int newY) {
+  Future<bool> _checkForMerge(GameItem movedItem, int newX, int newY) async {
     // Находим все элементы в текущей ячейке перемещенного элемента
-    //   print('count ${_gameItems.length}');
+
+    final state = context.read<LevelBloc>().state;
+    final items = state.gameItems ?? [];
 
     final itemsInCell =
-        _gameItems.where((item) {
+        items.where((item) {
           final isSameCell = newX == item.gridX && newY == item.gridY;
           final isNotMovedItem = item != movedItem;
           final shouldInclude = isNotMovedItem && isSameCell;
           return shouldInclude;
         }).toList();
-
-    if (itemsInCell.isNotEmpty) {
-      // print("В этой ячейке есть ${itemsInCell.length} элементов");
-    }
+    debugPrint('Проверяем слияние с каждым элементом в ячейке');
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
@@ -321,11 +559,13 @@ class _MergeGameState extends State<MergeGame> {
 
   // Начало перетаскивания элемента
   void _startDragging(GameItem item, Offset startPosition) {
+    context.read<LevelBloc>().add(RemoveGameItemsEvent(items: [item]));
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
-      _gameItems.remove(item); // Временно удаляем элемент из списка
+      //   debugPrint('///////////////// ${item.gridX} ${item.gridY} ${item}');
     });
+    //  debugPrint('удалили объект');
   }
 
   // Обновление позиции при перетаскивании
@@ -336,25 +576,5 @@ class _MergeGameState extends State<MergeGame> {
         _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
       });
     }
-  }
-
-  bool _itemsOverlap(GameItem a, GameItem b, double threshold) {
-    // Рассчитываем центры элементов
-    final aCenter = Offset(a.gridX + 0.5, a.gridY + 0.5);
-    final bCenter = Offset(b.gridX + 0.5, b.gridY + 0.5);
-
-    // Расстояние между центрами
-    final distance = (aCenter - bCenter).distance;
-    print('distance ${distance}');
-    // Элементы считаются пересекающимися, если расстояние меньше порога
-    return distance < threshold;
-  }
-
-  // Проверка, свободна ли ячейка
-  bool _isCellEmpty(int x, int y) {
-    if (x < 0 || x >= gridColumns || y < 0 || y >= gridRows) {
-      return false; // Ячейка за границами считается занятой
-    }
-    return !_gameItems.any((item) => item.gridX == x && item.gridY == y);
   }
 }

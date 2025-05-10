@@ -10,6 +10,7 @@ class GamePanel extends StatelessWidget {
   final VoidCallback onHintPressed;
   final VoidCallback onClearPressed;
   final String scoreImagePath;
+  final Animation<double>? clearButtonAnimation; // Добавляем параметр анимации
 
   const GamePanel({
     required this.name,
@@ -20,6 +21,7 @@ class GamePanel extends StatelessWidget {
     required this.onClearPressed,
     required this.scoreImagePath,
     Key? key,
+    this.clearButtonAnimation,
   }) : super(key: key);
 
   @override
@@ -102,10 +104,18 @@ class GamePanel extends StatelessWidget {
                   ),
 
                   SizedBox(height: 30),
-                  GestureDetector(
-                    // 👈 Оборачиваем Image.asset в GestureDetector
-                    onTap: onClearPressed, // Вешаем обработчик
-                    child: Image.asset(IconsGame.clear, height: 36),
+
+                  // GestureDetector(
+                  //   // 👈 Оборачиваем Image.asset в GestureDetector
+                  //   onTap: onClearPressed, // Вешаем обработчик
+                  //   child: Image.asset(IconsGame.clear, height: 36),
+                  // ),
+                  ScaleTransition(
+                    scale: clearButtonAnimation ?? AlwaysStoppedAnimation(1.0),
+                    child: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: onClearPressed,
+                    ),
                   ),
                 ],
               ),

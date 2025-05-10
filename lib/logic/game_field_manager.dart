@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class FieldManager {
-  final List<GameItem> Function() getItems;
-  final void Function(GameItem) addItem;
+  late List<GameItem> Function() getItems;
+  //  final void Function(GameItem) addItem;
   final int maxItems;
   final int maxSameType;
   final int rows;
@@ -14,30 +14,40 @@ class FieldManager {
   final Random _random = Random();
 
   FieldManager({
-    required this.getItems,
-    required this.addItem,
+    //  required this.addItem,
     required this.maxItems,
     required this.maxSameType,
     required this.rows,
     required this.columns,
+    required this.getItems,
   });
 
-  void tryAddItem({
+  String _generateUniqueKey() {
+    return '${DateTime.now().microsecondsSinceEpoch}_${_random.nextInt(100000)}';
+  }
+
+  GameItem? tryAddItem({
     required BuildContext context,
-    required ImageItem item,
-    required void Function(GameItem) onAdd,
+    required GameItem item,
+    //required void Function(GameItem) onAdd,
   }) {
     final items = getItems();
 
     if (items.length >= maxItems) {
       GameSnackbar.show(context, 'Максимум $maxItems элементов на поле');
-      return;
+      return null;
     }
 
     final sameTypeCount = items.where((i) => i.id == item.id).length;
+
+    for (final item in items) {
+      print('ID: ${item.gridX}');
+      print('ID: ${item.gridY}');
+      print('ID: ${item.assetPath}');
+    }
     if (sameTypeCount >= maxSameType) {
       GameSnackbar.show(context, 'Максимум $maxSameType элементов одного типа');
-      return;
+      return null;
     }
     // Собираем список всех свободных ячеек
     final List<Point<int>> freeCells = [];
@@ -51,19 +61,22 @@ class FieldManager {
     }
     if (freeCells.isEmpty) {
       GameSnackbar.show(context, 'Нет свободных ячеек');
-      return;
+      return null;
     }
     // Выбираем случайную свободную ячейку
     final randomCell = freeCells[_random.nextInt(freeCells.length)];
     final newItem = GameItem(
       id: item.id,
+      key: _generateUniqueKey(),
       slug: item.slug,
       assetPath: item.assetPath,
       gridX: randomCell.x,
       gridY: randomCell.y,
     );
+    print('ключи тест ${newItem.key}');
+    // addItem(newItem);
+    // onAdd(newItem);
 
-    addItem(newItem);
-    onAdd(newItem);
+    return newItem;
   }
 }

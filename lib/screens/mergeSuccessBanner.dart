@@ -1,8 +1,9 @@
+import 'package:darwin/models/game_item.dart';
 import 'package:flutter/material.dart';
 import '../models/image_item.dart';
 
 class MergeSuccessBanner extends StatelessWidget {
-  final ImageItem resultItem;
+  final GameItem? resultItem;
   final VoidCallback onClose;
 
   const MergeSuccessBanner({
@@ -46,10 +47,10 @@ class MergeSuccessBanner extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 20),
-              Image.asset(resultItem.assetPath, width: 100, height: 100),
+              Image.asset(resultItem!.assetPath, width: 100, height: 100),
               const SizedBox(height: 20),
               Text(
-                resultItem.slug,
+                resultItem!.id,
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -68,7 +69,7 @@ class MergeSuccessBanner extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Отлично!',
+                  'Следующий уровень',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
