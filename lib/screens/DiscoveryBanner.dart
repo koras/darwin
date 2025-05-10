@@ -67,44 +67,37 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
 
   @override
   Widget build(BuildContext context) {
-    //  print(' widget.messageType ${widget.messageType}');
-    return BlocProvider(
-      create: (context) => LevelBloc(),
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return Transform.translate(
-            offset: Offset(0, _offsetAnimation.value),
-            child: Opacity(
-              opacity: _opacityAnimation.value,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey.shade300, width: 1),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _offsetAnimation.value),
+          child: Opacity(
+            opacity: _opacityAnimation.value,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 10,
+                    spreadRadius: 2,
                   ),
-                ),
-                child: SafeArea(
-                  bottom: false,
-                  child: widget.messageType == 'clear' ? _clear() : _newItem(),
+                ],
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey.shade300, width: 1),
                 ),
               ),
+              child: SafeArea(
+                bottom: false,
+                child: widget.messageType == 'clear' ? _clear() : _newItem(),
+              ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

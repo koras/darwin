@@ -24,10 +24,15 @@ class MergeGame extends StatefulWidget {
   _MergeGameState createState() => _MergeGameState();
 }
 
-class _MergeGameState extends State<MergeGame>
-    with SingleTickerProviderStateMixin {
+class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _clearButtonController;
   late Animation<double> _clearButtonAnimation;
+
+  // для плавного завершения уровня
+  late AnimationController _bannerAnimationController;
+  late Animation<double> _bannerOpacityAnimation;
+  late Animation<double> _bannerScaleAnimation;
+
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
 
@@ -120,10 +125,37 @@ class _MergeGameState extends State<MergeGame>
     _clearButtonAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
       CurvedAnimation(parent: _clearButtonController, curve: Curves.easeInOut),
     );
+
+    // для плавного завершения уровня
+    _bannerAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _bannerOpacityAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.0), weight: 1),
+    ]).animate(
+      CurvedAnimation(
+        parent: _bannerAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _bannerScaleAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.7, end: 1.1), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: 1.1, end: 1.0), weight: 1),
+    ]).animate(
+      CurvedAnimation(
+        parent: _bannerAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override
   void dispose() {
+    _clearButtonController.dispose();
+
+    _bannerAnimationController.dispose();
     context.read<LevelBloc>().close();
     super.dispose();
   }
@@ -168,6 +200,10 @@ class _MergeGameState extends State<MergeGame>
                 _mergedItem = mergedItem;
                 _showMergeBanner = true;
               });
+
+              // Сбрасываем анимацию и запускаем
+              _bannerAnimationController.reset();
+              _bannerAnimationController.forward(); // Запускаем анимацию
             } else {
               setState(() {});
             }
@@ -315,47 +351,58 @@ class _MergeGameState extends State<MergeGame>
               if (_showMergeBanner && _mergedItem != null)
                 Positioned.fill(
                   child: Container(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withOpacity(
+                      0.5 * _bannerOpacityAnimation.value,
+                    ),
+                    //   color: Colors.black.withOpacity(0.5),
                     child: MergeSuccessBanner(
                       resultItem: _mergedItem,
                       onClose: () async {
-                        print(
-                          'Обновили экран ${_mergedItem?.id} == ${_levelBloc.state.targetItem}',
-                        );
+                        try {
+                          await _bannerAnimationController.reverse();
 
-                        if (_mergedItem?.id ==
-                            context.read<LevelBloc>().state.targetItem) {
-                          print(
-                            "Найден целевой предмет, переходим на следующий уровень",
-                          );
+                          if (_mergedItem?.id ==
+                              context.read<LevelBloc>().state.targetItem) {
+                            // Сохраняем текущий уровень для проверки
+                            final currentLevel =
+                                context.read<LevelBloc>().state.currentLevel;
 
-                          // Сохраняем текущий уровень для проверки
-                          final currentLevel =
-                              context.read<LevelBloc>().state.currentLevel;
-
-                          //    _levelBloc.add(LevelCompletedEvent());
-                          // Отправляем событие
-                          context.read<LevelBloc>().add(LevelCompletedEvent());
-                          await context
-                              .read<LevelBloc>()
-                              .stream
-                              .firstWhere(
-                                (state) => state.currentLevel > currentLevel,
-                              )
-                              .then((_) {
-                                print("Уровень успешно изменен в Bloc");
-                                setState(() {
-                                  _showMergeBanner = false;
-                                  _mergedItem = null;
+                            //    _levelBloc.add(LevelCompletedEvent());
+                            // Отправляем событие
+                            context.read<LevelBloc>().add(
+                              LevelCompletedEvent(),
+                            );
+                            await context
+                                .read<LevelBloc>()
+                                .stream
+                                .firstWhere(
+                                  (state) => state.currentLevel > currentLevel,
+                                )
+                                .then((_) {
+                                  setState(() {
+                                    _showMergeBanner = false;
+                                    _mergedItem = null;
+                                  });
                                 });
-                              });
 
-                          return; // Выходим, setState будет вызван в then
-                        } else {
-                          print("Простое слияние, остаемся на текущем уровне");
+                            return; // Выходим, setState будет вызван в then
+                          } else {
+                            print(
+                              "Простое слияние, остаемся на текущем уровне",
+                            );
+                          }
+                          print("Следующий уровень");
+                        } catch (e) {
+                          debugPrint('Ошибка анимации: $e');
+                          setState(() {
+                            _showMergeBanner = false;
+                            _mergedItem = null;
+                          });
                         }
-                        print("Следующий уровень");
                       },
+
+                      opacityAnimation: _bannerOpacityAnimation,
+                      scaleAnimation: _bannerScaleAnimation,
                     ),
                   ),
                 ),
