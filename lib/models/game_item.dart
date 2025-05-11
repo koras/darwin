@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:darwin/models/image_item.dart';
 
 //import 'package:collection/collection.dart';
 
@@ -38,14 +39,26 @@ class GameItem {
     required this.key,
     required this.slug,
     required this.assetPath,
-    required this.gridX,
-    required this.gridY,
+    this.gridX = 0,
+    this.gridY = 0,
     this.dragOffset = Offset.zero,
     this.isDragging = false,
     this.scale = 1.0,
     this.opacity = 1.0,
     this.tempOffset = Offset.zero,
   });
+
+  factory GameItem.fromImageItem({required ImageItem imageItem, String? key}) {
+    return GameItem(
+      id: imageItem.id,
+      key: key ?? imageItem.id,
+      slug: imageItem.slug,
+      assetPath: imageItem.assetPath,
+      // gridX: gridX,
+      //  gridY: gridY,
+      tempOffset: imageItem.position,
+    );
+  }
 
   GameItem copyWith({
     String? id,

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart'; // Для использования firstWhereOrNull
 
-import '../models/game_item.dart';
-import '../models/image_item.dart';
-import '../logic/game_field_manager.dart';
-import '../logic/merge_handler.dart';
-import '../logic/merge_logic.dart';
-import '../widgets/game_field.dart';
-import '../widgets/toolbox_panel.dart';
-import '../widgets/game_panel.dart';
-import '../widgets/bottom_app_bar_widget.dart';
+import 'package:darwin/screens/hintBanner.dart';
+
+import 'package:darwin/models/game_item.dart';
+import 'package:darwin/models/image_item.dart';
+import 'package:darwin/logic/game_field_manager.dart';
+import 'package:darwin/logic/merge_handler.dart';
+import 'package:darwin/logic/merge_logic.dart';
+import 'package:darwin/widgets/game_field.dart';
+import 'package:darwin/widgets/toolbox_panel.dart';
+import 'package:darwin/widgets/game_panel.dart';
+import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 import 'dart:async';
 
-import '../bloc/level_bloc.dart';
+import 'package:darwin/bloc/level_bloc.dart';
 import 'discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -678,6 +680,24 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   }
 
   Widget _buildHintPanel(BuildContext context) {
+    final _hintItem1 = 'water';
+    final _hintItem2 = 'water';
+    final _hintResult = 'cloud';
+
+    return HintBanner(
+      item1Id: _hintItem1!,
+      item2Id: _hintItem2!,
+      resultId: _hintResult!,
+      onClose: () {
+        setState(() {
+          //    _showHintBanner = false;
+        });
+        // Здесь можно добавить логику после закрытия подсказки
+      },
+    );
+  }
+
+  Widget _buildHintPanel___OLD(BuildContext context) {
     final state = context.read<LevelBloc>().state;
     final hintsState = state.hintsState;
     final levelHints = state.hints;
@@ -725,8 +745,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
               ],
             ),
           const SizedBox(height: 16),
-
-          // Кнопки управления
           _buildHintActionButtons(context),
         ],
       ),
