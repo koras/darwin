@@ -14,11 +14,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Инициализация Hive
-  await Hive.initFlutter();
-  // Регистрация адаптеров
-  //  Hive.registerAdapter(GameItemAdapter());
-  Hive.registerAdapter(LevelStateAdapter());
+  await HiveService.init();
 
   // Открытие бокса для сохранения состояния
   await Hive.openBox<LevelState>('gameState');
