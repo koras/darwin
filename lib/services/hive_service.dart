@@ -2,6 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../bloc/level_bloc.dart';
 
 class HiveService {
+  static const String _levelBoxName = 'gameProgress';
   static const String gameStateBox = 'gameState';
   static const String settingsBox = 'settings';
   static const String levelStateKey = 'levelState';
@@ -50,6 +51,18 @@ class HiveService {
   static int loadLevel() {
     final box = Hive.box(settingsBox);
     return box.get(levelKey, defaultValue: 1);
+  }
+
+  // Сохранение всего состояния уровня (если нужно)
+  static Future<void> saveLevelState(LevelState state) async {
+    final box = Hive.box(_levelBoxName);
+    await box.put('levelState', state);
+  }
+
+  // Загрузка всего состояния уровня (если нужно)
+  static LevelState? loadLevelState() {
+    final box = Hive.box(_levelBoxName);
+    return box.get('levelState');
   }
 
   // Пример метода для сохранения данных

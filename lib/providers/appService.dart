@@ -3,19 +3,28 @@ import 'package:flutter/foundation.dart';
 import '../services/hive_service.dart';
 
 class AppLevelProviders extends ChangeNotifier {
-  int _levels = 1;
+  int _currentLevel = 1;
 
-  AppLevelProviders({int initialLevels = 1}) : _levels = initialLevels;
+  AppLevelProviders() {
+    _loadInitialLevel();
+  }
 
-  int get points => _levels;
+  int get currentLevel => _currentLevel;
+
+  Future<void> _loadInitialLevel() async {
+    _currentLevel = await HiveService.loadLevel();
+    notifyListeners();
+  }
+
+  Future<void> updateLevel(int newLevel) async {
+    _currentLevel = newLevel;
+    await HiveService.saveLevel(newLevel);
+    notifyListeners();
+  }
 
   Future<void> addPoints(int _levels) async {
     _levels += _levels;
     await HiveService.saveLevel(_levels);
     notifyListeners();
-  }
-
-  Future<int> loadLevel() async {
-    return HiveService.loadLevel();
   }
 }

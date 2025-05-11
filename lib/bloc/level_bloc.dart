@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'levels_repository.dart';
 import '../models/game_item.dart';
+import '../services/hive_service.dart';
 
 import 'package:hive/hive.dart';
 part 'level_event.dart';
@@ -11,17 +12,25 @@ part 'level_bloc.g.dart'; // Добавлено для генерации
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {
+    // Загружаем сохраненный уровень
+    final savedLevel = HiveService.loadLevel();
+
+    // Загружаем данные уровня
+    final levelData =
+        LevelsRepository.levelsData[savedLevel] ??
+        LevelsRepository.levelsData[1]!;
+
     final firstLevelData = LevelsRepository.levelsData[1]!;
 
     // Загружаем первый уровень при инициализации
     emit(
       LevelState(
-        currentLevel: 1,
-        availableItems: List<String>.from(firstLevelData['imageItems']),
-        discoveredItems: List<String>.from(firstLevelData['imageItems']),
-        targetItem: firstLevelData['result'],
+        currentLevel: savedLevel,
+        availableItems: List<String>.from(levelData['imageItems']),
+        discoveredItems: List<String>.from(levelData['imageItems']),
+        targetItem: levelData['result'],
         levelTitle: firstLevelData['title'],
-        hints: Map<int, List<String>>.from(firstLevelData['hints']),
+        hints: Map<int, List<String>>.from(levelData['hints']),
       ),
     );
 
@@ -154,6 +163,9 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   ) async {
     final nextLevel = state.currentLevel + 1;
     print('Переход на уровень ${nextLevel}  ');
+
+    // Сохраняем новый уровень в Hive
+    await HiveService.saveLevel(nextLevel);
 
     final levelData = LevelsRepository.levelsData[nextLevel]!;
 

@@ -23,9 +23,7 @@ Future<void> main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create:
-          (context) =>
-              AppLevelProviders(initialLevels: HiveService.loadLevel()),
+      create: (context) => AppLevelProviders(),
       child: const MyApp(),
     ),
   );
