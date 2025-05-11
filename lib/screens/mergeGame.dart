@@ -10,6 +10,7 @@ import '../widgets/game_field.dart';
 import '../widgets/toolbox_panel.dart';
 import '../widgets/game_panel.dart';
 import '../widgets/bottom_app_bar_widget.dart';
+import 'dart:async';
 
 import '../bloc/level_bloc.dart';
 import 'discoveryBanner.dart';
@@ -32,6 +33,12 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _bannerAnimationController;
   late Animation<double> _bannerOpacityAnimation;
   late Animation<double> _bannerScaleAnimation;
+
+  bool _showHintPanel = false;
+  AnimationController? _hintPanelController;
+  Animation<Offset>? _hintPanelAnimation;
+  Timer? _hintTimer;
+  Duration _timeUntilNextHint = Duration.zero;
 
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
@@ -77,6 +84,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    _startHintTimer();
+
     _fieldManager = FieldManager(
       getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
       maxItems: 25, // Укажите нужные значения
@@ -90,28 +99,14 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     _mergeHandler = MergeHandler(
       context: context,
       onMergeComplete: (mergedItem) {
-        //  debugPrint(
-        //   'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
-        //  );
-
         if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
-          debugPrint(
-            'Обновляем уровень == ${mergedItem.id} ${_levelBloc.state.targetItem}',
-          );
-
           context.read<LevelBloc>().add(LevelCompletedEvent());
-          //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
-          //    _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
         }
         setState(() {});
       },
       cellSize: 0,
       fieldTop: 0,
-      levelBloc:
-          context
-              .read<
-                LevelBloc
-              >(), // Временное значение, будет обновлено в build()
+      levelBloc: context.read<LevelBloc>(),
     );
 
     _clearButtonController = AnimationController(
@@ -146,12 +141,24 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         curve: Curves.easeInOut,
       ),
     );
+
+    _hintPanelController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _hintPanelAnimation = Tween<Offset>(
+      begin: const Offset(-1, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: _hintPanelController!, curve: Curves.easeInOut),
+    );
   }
 
   @override
   void dispose() {
+    _hintPanelController?.dispose();
     _clearButtonController.dispose();
-
     _bannerAnimationController.dispose();
     context.read<LevelBloc>().close();
     super.dispose();
@@ -222,9 +229,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                       image: Image.asset('assets/images/background.png').image,
                       fit: BoxFit.fitWidth, // Растягиваем по ширине
                       alignment: Alignment.topCenter, // Выравниваем по верху
-                      repeat:
-                          ImageRepeat
-                              .repeatY, // Повторяем по вертикали (клонируем вниз)
+                      repeat: ImageRepeat.repeatY,
                     ),
                   ),
                 ),
@@ -243,6 +248,15 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   time: "02:45",
                   onHintPressed: () {
                     print("Логика подсказки");
+
+                    //  final state = context.read<LevelBloc>().state;
+                    //   if (state.hintsState.availableHints > 0) {
+                    // Показываем баннер с подсказкой
+                    //     context.read<LevelBloc>().add(RequestHintEvent());
+                    //  } else {
+                    // Показываем панель подсказок
+                    _toggleHintPanel();
+                    //  }
                     // Логика подсказки
                   },
                   onClearPressed: _handleClearField, // Изменяем обработчик () {
@@ -393,11 +407,31 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+
+              Positioned(
+                top: 100,
+                left: 0,
+                child: SlideTransition(
+                  position: _hintPanelAnimation!,
+                  child: _buildHintPanel(context),
+                ),
+              ),
             ],
           ),
         );
       },
     );
+  }
+
+  void _toggleHintPanel() {
+    setState(() {
+      _showHintPanel = !_showHintPanel;
+      if (_showHintPanel) {
+        _hintPanelController?.forward();
+      } else {
+        _hintPanelController?.reverse();
+      }
+    });
   }
 
   /// Получаем координаты
@@ -601,5 +635,387 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
       });
     }
+  }
+
+  void _startHintTimer() {
+    // Останавливаем предыдущий таймер, если был
+    _hintTimer?.cancel();
+
+    // Запускаем новый таймер
+    _hintTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+
+      final state = context.read<LevelBloc>().state;
+
+      if (state.hintsState.lastHintTime != null &&
+          !state.hintsState.hasPendingHint) {
+        final now = DateTime.now();
+        final nextHintTime = state.hintsState.lastHintTime!.add(
+          const Duration(hours: 3),
+        );
+
+        if (now.isBefore(nextHintTime)) {
+          setState(() {
+            _timeUntilNextHint = nextHintTime.difference(now);
+          });
+        } else {
+          setState(() {
+            _timeUntilNextHint = Duration.zero;
+          });
+        }
+      } else {
+        setState(() {
+          _timeUntilNextHint = Duration.zero;
+        });
+      }
+    });
+  }
+
+  // Метод для форматирования времени в читаемый вид
+  String _formatTimeRemaining(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    return "${twoDigits(duration.inHours)}:${twoDigits(duration.inMinutes.remainder(60))}:${twoDigits(duration.inSeconds.remainder(60))}";
+  }
+
+  Widget _buildHintPanel(BuildContext context) {
+    final state = context.read<LevelBloc>().state;
+    final hintsState = state.hintsState;
+    final levelHints = state.hints;
+
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.85,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Заголовок
+          const Text(
+            'Система подсказок',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 12),
+
+          // Статус подсказок
+          _buildHintStatusHeader(context),
+          const SizedBox(height: 16),
+
+          // Список подсказок уровня
+          if (levelHints.isNotEmpty)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Доступные комбинации:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                ..._buildLevelHintsList(context),
+              ],
+            ),
+          const SizedBox(height: 16),
+
+          // Кнопки управления
+          _buildHintActionButtons(context),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildLevelHintsList(BuildContext context) {
+    final state = context.read<LevelBloc>().state;
+    final hintsState = state.hintsState;
+    final levelHints = state.hints;
+
+    return levelHints.entries.map((entry) {
+      final hintKey = entry.value.join('_');
+      final isUsed = hintsState.usedHints.contains(hintKey);
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          children: [
+            isUsed
+                ? const Icon(Icons.check_circle, color: Colors.green, size: 20)
+                : const Icon(Icons.help_outline, color: Colors.blue, size: 20),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                '${entry.value[0]} + ${entry.value[1]} → ${entry.value[2]}',
+                style: TextStyle(
+                  color: isUsed ? Colors.grey : Colors.black,
+                  decoration: isUsed ? TextDecoration.lineThrough : null,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }).toList();
+  }
+
+  void _showCurrentHint(BuildContext context) {
+    final lastHint = context.read<LevelBloc>().state.lastDiscoveredItem;
+    if (lastHint != null && lastHint.startsWith('hint_')) {
+      final hintCombination = lastHint.replaceFirst('hint_', '').split('_');
+
+      showDialog(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Ваша подсказка'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${hintCombination[0]} + ${hintCombination[1]} → ${hintCombination[2]}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text('Попробуйте создать этот предмет!'),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+      );
+    }
+  }
+
+  Widget _buildHintActionButtons(BuildContext context) {
+    final state = context.read<LevelBloc>().state;
+    final hintsState = state.hintsState;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.7), // Полупрозрачный темный фон
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Кнопка получения подсказки
+          if (hintsState.hasPendingHint)
+            ElevatedButton.icon(
+              icon: const Icon(Icons.lightbulb, color: Colors.black),
+              label: const Text(
+                'Использовать подсказку',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                context.read<LevelBloc>().add(UseHintEvent());
+                _toggleHintPanel();
+                _showCurrentHint(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.amber,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            )
+          else if (hintsState.canGetFreeHint ||
+              hintsState.paidHintsAvailable > 0)
+            ElevatedButton.icon(
+              icon: const Icon(Icons.search, color: Colors.white),
+              label: const Text(
+                'Получить подсказку',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                context.read<LevelBloc>().add(RequestHintEvent());
+                _toggleHintPanel();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent.withOpacity(0.9),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            )
+          else
+            ElevatedButton.icon(
+              icon: const Icon(Icons.shopping_cart, color: Colors.white),
+              label: const Text(
+                'Купить подсказки',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => _showBuyHintsDialog(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrange.withOpacity(0.9),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+
+          // Кнопка закрытия
+          IconButton(
+            icon: const Icon(Icons.close, color: Colors.white),
+            onPressed: _toggleHintPanel,
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.black.withOpacity(0.5),
+              padding: const EdgeInsets.all(12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showBuyHintsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: const Text('Купить подсказки'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildBuyHintOption(ctx, 1, 10),
+                _buildBuyHintOption(ctx, 3, 25),
+                _buildBuyHintOption(ctx, 5, 40),
+              ],
+            ),
+          ),
+    );
+  }
+
+  // String _formatDuration(Duration duration) {
+  //   String twoDigits(int n) => n.toString().padLeft(2, "0");
+  //   final hours = twoDigits(duration.inHours);
+  //   final minutes = twoDigits(duration.inMinutes.remainder(60));
+  //   final seconds = twoDigits(duration.inSeconds.remainder(60));
+  //   return "$hours:$minutes:$seconds";
+  // }
+
+  Widget _buildBuyHintOption(BuildContext context, int amount, int price) {
+    return ListTile(
+      title: Text('$amount подсказка(и) за $price монет'),
+      onTap: () {
+        Navigator.pop(context);
+        context.read<LevelBloc>().add(BuyHintsEvent(amount));
+      },
+    );
+  }
+
+  Widget _buildHintStatusHeader(BuildContext context) {
+    final state = context.read<LevelBloc>().state;
+    final hintsState = state.hintsState;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(1), // Полупрозрачный темный фон
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.white.withOpacity(0.9)),
+      ),
+      child: Column(
+        children: [
+          // Статус бесплатных подсказок
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.lightbulb_outline, size: 18, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text('Бесплатные:', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              Text(
+                '${3 - hintsState.freeHintsUsed}/3',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      hintsState.canGetFreeHint
+                          ? Colors.lightGreenAccent
+                          : Colors.redAccent,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // Статус платных подсказок
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.star, size: 18, color: Colors.amber),
+                  SizedBox(width: 8),
+                  Text('Платные:', style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              Text(
+                '${hintsState.paidHintsAvailable}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // Таймер до следующей подсказки
+          if (!hintsState.canGetFreeHint && _timeUntilNextHint > Duration.zero)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Row(
+                  children: [
+                    Icon(Icons.access_time, size: 18, color: Colors.lightBlue),
+                    SizedBox(width: 8),
+                    Text(
+                      'До следующей:',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+                Text(
+                  _formatTimeRemaining(_timeUntilNextHint),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.lightBlueAccent,
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
   }
 }

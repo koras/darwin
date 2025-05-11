@@ -51,3 +51,24 @@ class ShowLevelCompleteEvent extends LevelEvent {
 }
 
 class ClearGameFieldEvent extends LevelEvent {}
+
+// Событие запроса подсказки
+class RequestHintEvent extends LevelEvent {}
+
+// Событие покупки подсказок
+class BuyHintsEvent extends LevelEvent {
+  final int amount;
+  BuyHintsEvent(this.amount);
+}
+
+// Событие отметки подсказки как использованной
+class MarkHintUsedEvent extends LevelEvent {
+  final String itemId;
+  MarkHintUsedEvent(this.itemId);
+}
+
+// Событие отметки подсказки как использованной
+class ClearActiveHintEvent extends LevelEvent {}
+
+// Событие отметки подсказки как использованной
+class UseHintEvent extends LevelEvent {}

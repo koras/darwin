@@ -46,6 +46,13 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<ShowLevelCompleteEvent>(_onShowLevelComplete);
     // очищаем игровое поле
     on<ClearGameFieldEvent>(_onClearGameField);
+
+    // В конструкторе добавим обработчики
+    on<RequestHintEvent>(_onRequestHint);
+    on<ClearActiveHintEvent>(_onClearActiveHint);
+    on<UseHintEvent>(_onUseHint);
+    //  on<BuyHintsEvent>(_onBuyHints);
+    // on<MarkHintUsedEvent>(_onMarkHintUsed);
   }
 
   void _onClearGameField(ClearGameFieldEvent event, Emitter<LevelState> emit) {
@@ -204,4 +211,131 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       state.copyWith(showLevelComplete: true, completedItemId: event.itemId),
     );
   }
+
+  String? _findUnusedHint(LevelState state) {
+    for (final hintEntry in state.hints.entries) {
+      final hintKey = hintEntry.value.join('_');
+      if (!state.hintsState.usedHints.contains(hintKey)) {
+        return hintKey;
+      }
+    }
+    return null;
+  }
+
+  // Обработчики:
+  void _onRequestHint(RequestHintEvent event, Emitter<LevelState> emit) {
+    final currentHints = state.hintsState;
+
+    // Если уже есть активная подсказка - ничего не делаем
+    if (currentHints.hasActiveHint) return;
+
+    final unusedHint = _findUnusedHint(state);
+    if (unusedHint == null) {
+      emit(state.copyWith(lastDiscoveredItem: 'all_hints_used'));
+      return;
+    }
+
+    if (currentHints.canGetFreeHint) {
+      emit(
+        state.copyWith(
+          hintsState: currentHints.copyWith(
+            freeHintsUsed: currentHints.freeHintsUsed + 1,
+            lastHintTime: DateTime.now(),
+            currentHint: unusedHint,
+            usedHints: [...currentHints.usedHints, unusedHint],
+          ),
+          lastDiscoveredItem: 'hint_$unusedHint',
+        ),
+      );
+    } else if (currentHints.paidHintsAvailable > 0) {
+      emit(
+        state.copyWith(
+          hintsState: currentHints.copyWith(
+            paidHintsAvailable: currentHints.paidHintsAvailable - 1,
+            currentHint: unusedHint,
+            usedHints: [...currentHints.usedHints, unusedHint],
+          ),
+          lastDiscoveredItem: 'hint_$unusedHint',
+        ),
+      );
+    } else {
+      final nextFreeHintTime = currentHints.lastHintTime?.add(
+        const Duration(hours: 3),
+      );
+      emit(state.copyWith(lastDiscoveredItem: 'need_wait_hint'));
+    }
+  }
+
+  void _onClearActiveHint(
+    ClearActiveHintEvent event,
+    Emitter<LevelState> emit,
+  ) {
+    emit(
+      state.copyWith(hintsState: state.hintsState.copyWith(currentHint: null)),
+    );
+  }
+
+  void _onUseHint(UseHintEvent event, Emitter<LevelState> emit) {
+    emit(
+      state.copyWith(
+        hintsState: state.hintsState.copyWith(hasPendingHint: false),
+      ),
+    );
+  }
+
+  // void _onBuyHints(BuyHintsEvent event, Emitter<LevelState> emit) {
+  //   // В реальном приложении здесь была бы логика покупки
+  //   emit(
+  //     state.copyWith(
+  //       hintsState: state.hintsState.copyWith(
+  //         availableHints: state.hintsState.availableHints + event.amount,
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // void _onMarkHintUsed(MarkHintUsedEvent event, Emitter<LevelState> emit) {
+  //   if (state.hintsState.usedHints.contains(event.itemId)) {
+  //     emit(
+  //       state.copyWith(
+  //         hintsState: state.hintsState.copyWith(
+  //           usedHints:
+  //               state.hintsState.usedHints
+  //                   .where((id) => id != event.itemId)
+  //                   .toList(),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  // // Вспомогательный метод для получения случайной подсказки
+  // HintCombination? _getRandomHint(LevelState state) {
+  //   // Получаем все возможные комбинации для доступных элементов
+  //   final possibleCombinations = <HintCombination>[];
+
+  //   for (final item1 in state.availableItems) {
+  //     for (final item2 in state.availableItems) {
+  //       if (item1 != item2) {
+  //         final result = getMergeResult(item1, item2);
+  //         if (result != null &&
+  //             !state.hintsState.usedHints.contains(result) &&
+  //             !state.discoveredItems.contains(result)) {
+  //           possibleCombinations.add(HintCombination(item1, item2, result));
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   if (possibleCombinations.isEmpty) return null;
+  //   return possibleCombinations[Random().nextInt(possibleCombinations.length)];
+  // }
+}
+
+class HintCombination {
+  final String item1;
+  final String item2;
+  final String result;
+
+  HintCombination(this.item1, this.item2, this.result);
 }

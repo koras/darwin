@@ -40,6 +40,8 @@ class LevelState {
 
   @HiveField(9)
   final String? completedItemId;
+  @HiveField(10)
+  final HintsState hintsState;
 
   /// Конструктор состояния уровня
   const LevelState({
@@ -53,6 +55,7 @@ class LevelState {
     this.gameItems, // Добавляем в конструктор
     this.showLevelComplete,
     this.completedItemId,
+    this.hintsState = const HintsState(),
   });
 
   /// Начальное состояние уровня
@@ -68,6 +71,7 @@ class LevelState {
       gameItems: null,
       showLevelComplete: false,
       completedItemId: null,
+      hintsState: HintsState(),
     );
   }
 
@@ -83,6 +87,7 @@ class LevelState {
     List<GameItem>? gameItems,
     bool? showLevelComplete,
     String? completedItemId,
+    HintsState? hintsState,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -95,6 +100,7 @@ class LevelState {
       gameItems: gameItems ?? this.gameItems,
       showLevelComplete: showLevelComplete ?? this.showLevelComplete,
       completedItemId: completedItemId ?? this.completedItemId,
+      hintsState: hintsState ?? this.hintsState,
     );
   }
 
@@ -106,11 +112,93 @@ class LevelState {
         const ListEquality().equals(other.availableItems, availableItems) &&
         const ListEquality().equals(other.discoveredItems, discoveredItems) &&
         const ListEquality().equals(other.gameItems, gameItems) &&
-        other.targetItem == targetItem;
+        other.targetItem == targetItem &&
+        other.hintsState == hintsState;
   }
 
   /// Хэш-код для объекта [LevelState], используется при сравнении и хэшировании
   @override
-  int get hashCode =>
-      Object.hash(currentLevel, availableItems, discoveredItems, targetItem);
+  int get hashCode => Object.hash(
+    currentLevel,
+    const ListEquality().hash(availableItems),
+    const ListEquality().hash(discoveredItems),
+    const ListEquality().hash(gameItems),
+    targetItem,
+    hintsState,
+  );
+}
+
+@HiveType(typeId: 4)
+class HintsState {
+  @HiveField(0)
+  final int freeHintsUsed; // Использованные бесплатные подсказки (0-3)
+  @HiveField(1)
+  final int paidHintsAvailable; // Доступные платные подсказки
+  @HiveField(2)
+  final List<String> usedHints; // Использованные комбинации
+  @HiveField(3)
+  final DateTime? lastHintTime; // Время последней выданной подсказки
+  @HiveField(4)
+  final bool hasPendingHint; // Есть неиспользованная подсказка
+
+  @HiveField(5)
+  final String? currentHint;
+
+  const HintsState({
+    this.freeHintsUsed = 0,
+    this.paidHintsAvailable = 0,
+    this.usedHints = const [],
+    this.lastHintTime,
+    this.hasPendingHint = false,
+    this.currentHint,
+  });
+
+  bool get canGetFreeHint {
+    if (freeHintsUsed < 3) return true;
+    if (lastHintTime == null) return true;
+    if (hasPendingHint) return false;
+
+    final now = DateTime.now();
+    return now.difference(lastHintTime!).inHours >= 3;
+  }
+
+  bool get hasActiveHint => currentHint != null;
+
+  HintsState copyWith({
+    int? freeHintsUsed,
+    int? paidHintsAvailable,
+    List<String>? usedHints,
+    DateTime? lastHintTime,
+    bool? hasPendingHint,
+    String? currentHint,
+  }) {
+    return HintsState(
+      freeHintsUsed: freeHintsUsed ?? this.freeHintsUsed,
+      paidHintsAvailable: paidHintsAvailable ?? this.paidHintsAvailable,
+      usedHints: usedHints ?? this.usedHints,
+      lastHintTime: lastHintTime ?? this.lastHintTime,
+      hasPendingHint: hasPendingHint ?? this.hasPendingHint,
+      currentHint: currentHint ?? this.currentHint,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is HintsState &&
+        other.freeHintsUsed == freeHintsUsed &&
+        other.paidHintsAvailable == paidHintsAvailable &&
+        const ListEquality().equals(other.usedHints, usedHints) &&
+        other.lastHintTime == lastHintTime &&
+        other.hasPendingHint == hasPendingHint;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    freeHintsUsed,
+    paidHintsAvailable,
+    const ListEquality().hash(usedHints),
+    lastHintTime,
+    hasPendingHint,
+  );
 }
