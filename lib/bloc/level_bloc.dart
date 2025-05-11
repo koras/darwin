@@ -29,7 +29,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         availableItems: List<String>.from(levelData['imageItems']),
         discoveredItems: List<String>.from(levelData['imageItems']),
         targetItem: levelData['result'],
-        levelTitle: firstLevelData['title'],
+        levelTitle: levelData['title'],
         hints: Map<int, List<String>>.from(levelData['hints']),
       ),
     );
@@ -86,9 +86,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     if (state.gameItems == null) {
       return;
     }
-
-    //  print('Результат после удаления: event.items  ${event.items}');
-
     // Создаем новый список без удаляемых элементов
     final newItems =
         state.gameItems!

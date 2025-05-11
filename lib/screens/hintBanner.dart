@@ -34,7 +34,7 @@ class HintBanner extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          width: MediaQuery.of(context).size.width * 1.9,
+          width: MediaQuery.of(context).size.width * 1,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
