@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/mergeGame.dart';
 
-import './providers/appPoints.dart';
+import 'providers/appService.dart';
 import 'package:provider/provider.dart'; // Добавьте этот импорт
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +23,9 @@ Future<void> main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create: (context) => AppPointsProviders(),
+      create:
+          (context) =>
+              AppLevelProviders(initialLevels: HiveService.loadLevel()),
       child: const MyApp(),
     ),
   );
