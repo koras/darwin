@@ -15,16 +15,4 @@ class AppLevelProviders extends ChangeNotifier {
     _currentLevel = await HiveService.loadLevel();
     notifyListeners();
   }
-
-  Future<void> updateLevel(int newLevel) async {
-    _currentLevel = newLevel;
-    await HiveService.saveLevel(newLevel);
-    notifyListeners();
-  }
-
-  Future<void> addPoints(int _levels) async {
-    _levels += _levels;
-    await HiveService.saveLevel(_levels);
-    notifyListeners();
-  }
 }
