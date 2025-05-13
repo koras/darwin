@@ -3,8 +3,8 @@
 class LevelsRepository {
   static final Map<int, Map<String, dynamic>> levelsData = {
     1: {
-      'imageItems': ['water', 'man', 'grimoire'],
-      'result': 'cloud',
+      'imageItems': ['water', 'cloud', 'man', 'grimoire'],
+      'result': 'flying',
       'title': 'Создайте Облако',
       'hints': [
         'cloud',
@@ -17,7 +17,7 @@ class LevelsRepository {
       ],
     },
     2: {
-      'imageItems': ['water', 'fish', 'dnk', 'sugar'],
+      'imageItems': ['water', 'cloud', 'fish', 'dnk', 'sugar'],
       'result': 'dolphin',
       'title': 'Создайте гриб',
       'hints': [

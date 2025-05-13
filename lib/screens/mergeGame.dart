@@ -12,6 +12,9 @@ import 'package:darwin/widgets/game_field.dart';
 import 'package:darwin/widgets/toolbox_panel.dart';
 import 'package:darwin/widgets/game_panel.dart';
 import 'package:darwin/widgets/bottom_app_bar_widget.dart';
+import 'package:darwin/data/merge_rules.dart';
+
+import 'package:darwin/models/merge_rule.dart';
 import 'dart:async';
 
 import 'package:darwin/bloc/level_bloc.dart';
@@ -432,10 +435,28 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     // Есть или бесплатные или платные подсказки.
     if (hintsState.canGetFreeHint || hintsState.getPaidHints) {
       // что-то видимо есть.
-
       context.read<LevelBloc>().add(DecrementHint());
       // когда мы открываем подсказку мы помечаем её как прочитанную
-      //  DecrementHint();
+
+      // допустим у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
+      // пользователь уже имеет открытый элемент, и надо дать пользователю
+      // именно элемент которого у него нет
+      // Соответственно, надо взять подсказки и вычесть элементы которые уже открыты.
+      // при нахождении. При это мы не даём ему воспользоваться следующей подсказкой,
+      // пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
+      // чтобы пользователь понимал что с чем соеденить.
+      final element = _findUnusedHint();
+      if (element != null) {
+        print('search  ${element}');
+
+        final components = findComponentsForItem(element, mergeRules);
+        if (components != null) {
+          print(
+            'Чтобы создать ${components[2]}, объедините ${components[0]} и ${components[1]}',
+          );
+          // Выведет: "Чтобы создать plankton, объедините life и water"
+        }
+      }
       // доступны подсказки
       //   _hintPanelController?.forward();
       print('доступны подсказки');
@@ -456,6 +477,60 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
       // предлагаем купить подсказку
     }
+  }
+
+  /**
+  * Находим элемент который отсутствует в подсказках
+  */
+  String? _findUnusedHint() {
+    final state = context.read<LevelBloc>().state;
+    // Получаем все открытые игроком элементы
+    final discoveredItems = state.discoveredItems;
+
+    print('discoveredItems  ${discoveredItems}');
+    // Ищем первую подсказку, которой нет в открытых элементах
+    for (final hint in state.hints) {
+      if (!discoveredItems.contains(hint)) {
+        return hint;
+      }
+    }
+    // Если все подсказки уже открыты
+    return null;
+  }
+
+  List<MergeRule> findMergeRulesForItem(
+    String targetItemId,
+    List<MergeRule> allRules,
+  ) {
+    return allRules
+        .where((rule) => rule.resultImageId == targetItemId)
+        .toList();
+  }
+
+  /// Находит компоненты для создания указанного элемента
+  /// Возвращает список в формате [firstImageId, secondImageId, resultImageId] или null, если правило не найдено
+  List<String>? findComponentsForItem(
+    String targetItemId,
+    List<MergeRule> allRules,
+  ) {
+    final rules = findMergeRulesForItem(targetItemId, allRules);
+    if (rules.isEmpty) return null;
+
+    // Берем первое подходящее правило
+    final rule = rules.first;
+    return [rule.firstImageId, rule.secondImageId, rule.resultImageId];
+  }
+
+  /// Возвращает все возможные комбинации для создания элемента
+  List<List<String>> findAllComponentOptions(
+    String targetItemId,
+    List<MergeRule> allRules,
+  ) {
+    return findMergeRulesForItem(targetItemId, allRules)
+        .map(
+          (rule) => [rule.firstImageId, rule.secondImageId, rule.resultImageId],
+        )
+        .toList();
   }
 
   /// Получаем координаты

@@ -30,7 +30,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         discoveredItems: List<String>.from(levelData['imageItems']),
         targetItem: levelData['result'],
         levelTitle: levelData['title'],
-        hints: levelData['hints'],
+        hints: List<String>.from(levelData['hints']),
       ),
     );
 
@@ -244,11 +244,16 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   String? _findUnusedHint(LevelState state) {
+    // Получаем все открытые игроком элементы
+    final discoveredItems = state.discoveredItems;
+
+    // Ищем первую подсказку, которой нет в открытых элементах
     for (final hint in state.hints) {
-      if (!state.hintsState.usedHints.contains(hint)) {
+      if (!discoveredItems.contains(hint)) {
         return hint;
       }
     }
+    // Если все подсказки уже открыты
     return null;
   }
 
@@ -312,54 +317,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       ),
     );
   }
-
-  // void _onBuyHints(BuyHintsEvent event, Emitter<LevelState> emit) {
-  //   // В реальном приложении здесь была бы логика покупки
-  //   emit(
-  //     state.copyWith(
-  //       hintsState: state.hintsState.copyWith(
-  //         availableHints: state.hintsState.availableHints + event.amount,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // void _onMarkHintUsed(MarkHintUsedEvent event, Emitter<LevelState> emit) {
-  //   if (state.hintsState.usedHints.contains(event.itemId)) {
-  //     emit(
-  //       state.copyWith(
-  //         hintsState: state.hintsState.copyWith(
-  //           usedHints:
-  //               state.hintsState.usedHints
-  //                   .where((id) => id != event.itemId)
-  //                   .toList(),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // // Вспомогательный метод для получения случайной подсказки
-  // HintCombination? _getRandomHint(LevelState state) {
-  //   // Получаем все возможные комбинации для доступных элементов
-  //   final possibleCombinations = <HintCombination>[];
-
-  //   for (final item1 in state.availableItems) {
-  //     for (final item2 in state.availableItems) {
-  //       if (item1 != item2) {
-  //         final result = getMergeResult(item1, item2);
-  //         if (result != null &&
-  //             !state.hintsState.usedHints.contains(result) &&
-  //             !state.discoveredItems.contains(result)) {
-  //           possibleCombinations.add(HintCombination(item1, item2, result));
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   if (possibleCombinations.isEmpty) return null;
-  //   return possibleCombinations[Random().nextInt(possibleCombinations.length)];
-  // }
 }
 
 class HintCombination {
