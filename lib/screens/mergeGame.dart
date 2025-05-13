@@ -426,11 +426,14 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   }
 
   void _toggleHintPanel() {
+    // Логика подсказки
     setState(() {
       _showHintPanel = !_showHintPanel;
       if (_showHintPanel) {
+        print('открываем подсказку');
         _hintPanelController?.forward();
       } else {
+        print('закрываем подсказку');
         _hintPanelController?.reverse();
       }
     });
@@ -690,6 +693,10 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       resultId: _hintResult!,
       onClose: () {
         setState(() {
+          _showHintPanel = !_showHintPanel;
+          print('Логика подсказки');
+          _hintPanelController?.reverse();
+          // Логика подсказки
           //    _showHintBanner = false;
         });
         // Здесь можно добавить логику после закрытия подсказки
