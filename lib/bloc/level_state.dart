@@ -25,7 +25,7 @@ class LevelState {
 
   /// Подсказки по уровням: ключ — номер подсказки, значение — список шагов или рекомендаций
   @HiveField(5)
-  final Map<int, List<String>> hints;
+  final List<String> hints;
 
   /// Последний открытый игроком элемент (может быть null)
   @HiveField(6)
@@ -66,7 +66,7 @@ class LevelState {
       discoveredItems: [], // Инициализируем пустым списком
       targetItem: '',
       levelTitle: '',
-      hints: {},
+      hints: [],
       lastDiscoveredItem: null,
       gameItems: null,
       showLevelComplete: false,
@@ -82,7 +82,7 @@ class LevelState {
     List<String>? discoveredItems,
     String? targetItem,
     String? levelTitle,
-    Map<int, List<String>>? hints,
+    List<String>? hints,
     String? lastDiscoveredItem,
     List<GameItem>? gameItems,
     bool? showLevelComplete,
@@ -134,6 +134,10 @@ class HintsState {
   final int freeHintsUsed; // Использованные бесплатные подсказки (0-3)
   @HiveField(1)
   final int paidHintsAvailable; // Доступные платные подсказки
+
+  @HiveField(6)
+  final int freeHints; // Доступные бесплатные подсказки
+
   @HiveField(2)
   final List<String> usedHints; // Использованные комбинации
   @HiveField(3)
@@ -145,16 +149,31 @@ class HintsState {
   final String? currentHint;
 
   const HintsState({
-    this.freeHintsUsed = 0,
+    this.freeHintsUsed = 3,
     this.paidHintsAvailable = 0,
     this.usedHints = const [],
     this.lastHintTime,
     this.hasPendingHint = false,
     this.currentHint,
+    this.freeHints = 3,
   });
 
+  bool get getPaidHints {
+    print('getPaidHints paidHintsAvailable ${paidHintsAvailable}');
+    if (paidHintsAvailable > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   bool get canGetFreeHint {
-    if (freeHintsUsed < 3) return true;
+    print(' canGetFreeHint freeHintsUsed ${freeHintsUsed}');
+
+    // можем использовать 3 подсказки на уровне
+    if (freeHints > 0) return true;
+    return false;
+
     if (lastHintTime == null) return true;
     if (hasPendingHint) return false;
 
@@ -166,6 +185,7 @@ class HintsState {
 
   HintsState copyWith({
     int? freeHintsUsed,
+    int? freeHints,
     int? paidHintsAvailable,
     List<String>? usedHints,
     DateTime? lastHintTime,
@@ -174,6 +194,7 @@ class HintsState {
   }) {
     return HintsState(
       freeHintsUsed: freeHintsUsed ?? this.freeHintsUsed,
+      freeHints: freeHints ?? this.freeHints,
       paidHintsAvailable: paidHintsAvailable ?? this.paidHintsAvailable,
       usedHints: usedHints ?? this.usedHints,
       lastHintTime: lastHintTime ?? this.lastHintTime,
@@ -187,6 +208,7 @@ class HintsState {
     if (identical(this, other)) return true;
     return other is HintsState &&
         other.freeHintsUsed == freeHintsUsed &&
+        other.freeHints == freeHints &&
         other.paidHintsAvailable == paidHintsAvailable &&
         const ListEquality().equals(other.usedHints, usedHints) &&
         other.lastHintTime == lastHintTime &&
@@ -196,6 +218,7 @@ class HintsState {
   @override
   int get hashCode => Object.hash(
     freeHintsUsed,
+    freeHints,
     paidHintsAvailable,
     const ListEquality().hash(usedHints),
     lastHintTime,

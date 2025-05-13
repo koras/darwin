@@ -55,6 +55,9 @@ class ClearGameFieldEvent extends LevelEvent {}
 // Событие запроса подсказки
 class RequestHintEvent extends LevelEvent {}
 
+// убираем подсказку
+class DecrementHint extends LevelEvent {}
+
 // Событие покупки подсказок
 class BuyHintsEvent extends LevelEvent {
   final int amount;

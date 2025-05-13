@@ -30,7 +30,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         discoveredItems: List<String>.from(levelData['imageItems']),
         targetItem: levelData['result'],
         levelTitle: levelData['title'],
-        hints: Map<int, List<String>>.from(levelData['hints']),
+        hints: levelData['hints'],
       ),
     );
 
@@ -51,6 +51,9 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<RequestHintEvent>(_onRequestHint);
     on<ClearActiveHintEvent>(_onClearActiveHint);
     on<UseHintEvent>(_onUseHint);
+
+    on<DecrementHint>(_onDecrementHint);
+
     //  on<BuyHintsEvent>(_onBuyHints);
     // on<MarkHintUsedEvent>(_onMarkHintUsed);
   }
@@ -128,7 +131,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           discoveredItems: currentDiscovered,
           targetItem: levelData['result'],
           levelTitle: levelData['title'],
-          hints: Map<int, List<String>>.from(levelData['hints']),
+          hints: levelData['hints'],
         ),
       );
     } else {
@@ -190,7 +193,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           discoveredItems: currentDiscovered, // Переносим все открытые
           targetItem: levelData['result'],
           levelTitle: levelData['title'],
-          hints: Map<int, List<String>>.from(levelData['hints']),
+          hints: levelData['hints'],
         ),
       );
 
@@ -209,11 +212,41 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     );
   }
 
+  void _onDecrementHint(DecrementHint event, Emitter<LevelState> emit) {
+    print('проверяем, есть ли у нас подсказки');
+
+    if (state.hintsState.freeHints > 0) {
+      print('--- убавляем freeHints ${state.hintsState.freeHints}');
+      // сперва если есть бесплатные, мы вычитаем именно бесплатные
+
+      emit(
+        state.copyWith(
+          hintsState: state.hintsState.copyWith(
+            freeHints: state.hintsState.freeHints - 1,
+          ),
+        ),
+      );
+
+      print('--- убавляем freeHints ${state.hintsState.freeHints} = ');
+      return;
+    }
+    if (state.hintsState.paidHintsAvailable > 0) {
+      // проверяем, если есть купленные подсказки, то вычитаем из купленных подсказок;
+      emit(
+        state.copyWith(
+          hintsState: state.hintsState.copyWith(
+            paidHintsAvailable: state.hintsState.paidHintsAvailable - 1,
+          ),
+        ),
+      );
+      return;
+    }
+  }
+
   String? _findUnusedHint(LevelState state) {
-    for (final hintEntry in state.hints.entries) {
-      final hintKey = hintEntry.value.join('_');
-      if (!state.hintsState.usedHints.contains(hintKey)) {
-        return hintKey;
+    for (final hint in state.hints) {
+      if (!state.hintsState.usedHints.contains(hint)) {
+        return hint;
       }
     }
     return null;
