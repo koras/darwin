@@ -38,6 +38,12 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _bannerAnimationController;
   late Animation<double> _bannerOpacityAnimation;
   late Animation<double> _bannerScaleAnimation;
+  // Первый элеменит слияния для подсказки
+  String? _hintItem1;
+  // Второй элеменит слияния для подсказки
+  String? _hintItem2;
+  // Результат слияния для подсказки
+  String? _hintResult;
 
   bool _showHintPanel = false;
   AnimationController? _hintPanelController;
@@ -438,7 +444,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       context.read<LevelBloc>().add(DecrementHint());
       // когда мы открываем подсказку мы помечаем её как прочитанную
 
-      // допустим у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
+      // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
       // пользователь уже имеет открытый элемент, и надо дать пользователю
       // именно элемент которого у него нет
       // Соответственно, надо взять подсказки и вычесть элементы которые уже открыты.
@@ -455,6 +461,13 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
             'Чтобы создать ${components[2]}, объедините ${components[0]} и ${components[1]}',
           );
           // Выведет: "Чтобы создать plankton, объедините life и water"
+          _hintItem1 = components[0];
+          _hintItem2 = components[1];
+          _hintResult = components[2];
+
+          // final _hintItem1 = 'water';
+          // final _hintItem2 = 'water';
+          // final _hintResult = 'cloud';
         }
       }
       // доступны подсказки
@@ -771,25 +784,28 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   }
 
   Widget _buildHintPanel(BuildContext context) {
-    final _hintItem1 = 'water';
-    final _hintItem2 = 'water';
-    final _hintResult = 'cloud';
-
-    return HintBanner(
-      item1Id: _hintItem1!,
-      item2Id: _hintItem2!,
-      resultId: _hintResult!,
-      onClose: () {
-        setState(() {
-          _showHintPanel = !_showHintPanel;
-          print('Логика подсказки');
-          _hintPanelController?.reverse();
-          // Логика подсказки
-          //    _showHintBanner = false;
-        });
-        // Здесь можно добавить логику после закрытия подсказки
-      },
-    );
+    // final _hintItem1 = 'water';
+    // final _hintItem2 = 'water';
+    // final _hintResult = 'cloud';
+    if (_hintItem1 != null && _hintItem2 != null && _hintResult != null) {
+      return HintBanner(
+        item1Id: _hintItem1!,
+        item2Id: _hintItem2!,
+        resultId: _hintResult!,
+        onClose: () {
+          setState(() {
+            _showHintPanel = !_showHintPanel;
+            print('Логика подсказки');
+            _hintPanelController?.reverse();
+            // Логика подсказки
+            //    _showHintBanner = false;
+          });
+          // Здесь можно добавить логику после закрытия подсказки
+        },
+      );
+    } else {
+      return Text('У вас нет подсказок');
+    }
   }
 
   // String _formatDuration(Duration duration) {

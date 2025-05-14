@@ -17,6 +17,7 @@ class ImageItem {
 
 final List<ImageItem> allImages =
     [
+      'time',
       'water', // Вода
       'cloud', // Облако
       'dna', // ДНК
@@ -111,4 +112,12 @@ final List<ImageItem> allImages =
       'artificial_intelligence', // Искусственный интеллект
       'train', // Поезд
       'mountain', // Гора
+      'family', // Гора
+      'leon', // Гора
+      // мемные животные
+      'ballerina_cappuccino',
+      'bombardiro_crocodilo',
+      'lirili_larila',
+      'tralalero_tralala',
+      'shark_and_nike',
     ].map((id) => ImageItem(id)).toList();
