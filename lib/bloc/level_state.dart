@@ -40,6 +40,7 @@ class LevelState {
 
   @HiveField(9)
   final String? completedItemId;
+
   @HiveField(10)
   final HintsState hintsState;
 
@@ -146,7 +147,8 @@ class HintsState {
   final bool hasPendingHint; // Есть неиспользованная подсказка
 
   @HiveField(5)
-  final String? currentHint;
+  final String currentHint;
+  // Есть неиспользованная подсказка
 
   const HintsState({
     this.freeHintsUsed = 3,
@@ -154,7 +156,7 @@ class HintsState {
     this.usedHints = const [],
     this.lastHintTime,
     this.hasPendingHint = false,
-    this.currentHint,
+    this.currentHint = '',
     this.freeHints = 3,
   });
 

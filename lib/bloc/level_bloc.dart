@@ -48,11 +48,13 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<ClearGameFieldEvent>(_onClearGameField);
 
     // В конструкторе добавим обработчики
-    on<RequestHintEvent>(_onRequestHint);
     on<ClearActiveHintEvent>(_onClearActiveHint);
     on<UseHintEvent>(_onUseHint);
+    on<SetHintEvent>(_onSetHint);
 
     on<DecrementHint>(_onDecrementHint);
+
+    on<SetHintItem>(_onSetHintItem);
 
     //  on<BuyHintsEvent>(_onBuyHints);
     // on<MarkHintUsedEvent>(_onMarkHintUsed);
@@ -143,7 +145,11 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     emit(state.copyWith(lastDiscoveredItem: null));
   }
 
+  // все новые предметы здесь
   void _onItemDiscovered(ItemDiscoveredEvent event, Emitter<LevelState> emit) {
+    print('${state.hintsState.currentHint} state.hintsState.currentHint ');
+    print('${event.itemId} event.itemId');
+
     if (state.discoveredItems.contains(event.itemId)) return;
 
     // Проверяем, был ли предмет ранее доступен
@@ -154,6 +160,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
     emit(
       state.copyWith(
+        //   hintsState: state.hintsState.copyWith(hasPendingHint: false,currentHint: currentHint:''),
         discoveredItems: newDiscovered,
         availableItems: newAvailable,
         lastDiscoveredItem: isNew ? event.itemId : null,
@@ -243,77 +250,97 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     }
   }
 
-  String? _findUnusedHint(LevelState state) {
-    // Получаем все открытые игроком элементы
-    final discoveredItems = state.discoveredItems;
+  // String? _findUnusedHint(LevelState state) {
+  //   // Получаем все открытые игроком элементы
+  //   final discoveredItems = state.discoveredItems;
 
-    // Ищем первую подсказку, которой нет в открытых элементах
-    for (final hint in state.hints) {
-      if (!discoveredItems.contains(hint)) {
-        return hint;
-      }
-    }
-    // Если все подсказки уже открыты
-    return null;
-  }
+  //   // Ищем первую подсказку, которой нет в открытых элементах
+  //   for (final hint in state.hints) {
+  //     if (!discoveredItems.contains(hint)) {
+  //       return hint;
+  //     }
+  //   }
+  //   // Если все подсказки уже открыты
+  //   return null;
+  // }
 
   // Обработчики:
-  void _onRequestHint(RequestHintEvent event, Emitter<LevelState> emit) {
-    final currentHints = state.hintsState;
+  // void _onRequestHint(RequestHintEvent event, Emitter<LevelState> emit) {
+  //   final currentHints = state.hintsState;
 
-    // Если уже есть активная подсказка - ничего не делаем
-    if (currentHints.hasActiveHint) return;
+  //   // Если уже есть активная подсказка - ничего не делаем
+  //   if (currentHints.hasActiveHint) return;
 
-    final unusedHint = _findUnusedHint(state);
-    if (unusedHint == null) {
-      emit(state.copyWith(lastDiscoveredItem: 'all_hints_used'));
-      return;
-    }
+  //   final unusedHint = _findUnusedHint(state);
+  //   if (unusedHint == null) {
+  //     emit(state.copyWith(lastDiscoveredItem: 'all_hints_used'));
+  //     return;
+  //   }
 
-    if (currentHints.canGetFreeHint) {
-      emit(
-        state.copyWith(
-          hintsState: currentHints.copyWith(
-            freeHintsUsed: currentHints.freeHintsUsed + 1,
-            lastHintTime: DateTime.now(),
-            currentHint: unusedHint,
-            usedHints: [...currentHints.usedHints, unusedHint],
-          ),
-          lastDiscoveredItem: 'hint_$unusedHint',
-        ),
-      );
-    } else if (currentHints.paidHintsAvailable > 0) {
-      emit(
-        state.copyWith(
-          hintsState: currentHints.copyWith(
-            paidHintsAvailable: currentHints.paidHintsAvailable - 1,
-            currentHint: unusedHint,
-            usedHints: [...currentHints.usedHints, unusedHint],
-          ),
-          lastDiscoveredItem: 'hint_$unusedHint',
-        ),
-      );
-    } else {
-      final nextFreeHintTime = currentHints.lastHintTime?.add(
-        const Duration(hours: 3),
-      );
-      emit(state.copyWith(lastDiscoveredItem: 'need_wait_hint'));
-    }
-  }
+  //   if (currentHints.canGetFreeHint) {
+  //     emit(
+  //       state.copyWith(
+  //         hintsState: currentHints.copyWith(
+  //           freeHintsUsed: currentHints.freeHintsUsed + 1,
+  //           lastHintTime: DateTime.now(),
+  //           currentHint: unusedHint,
+  //           usedHints: [...currentHints.usedHints, unusedHint],
+  //         ),
+  //         lastDiscoveredItem: 'hint_$unusedHint',
+  //       ),
+  //     );
+  //   } else if (currentHints.paidHintsAvailable > 0) {
+  //     emit(
+  //       state.copyWith(
+  //         hintsState: currentHints.copyWith(
+  //           paidHintsAvailable: currentHints.paidHintsAvailable - 1,
+  //           currentHint: unusedHint,
+  //           usedHints: [...currentHints.usedHints, unusedHint],
+  //         ),
+  //         lastDiscoveredItem: 'hint_$unusedHint',
+  //       ),
+  //     );
+  //   } else {
+  //     final nextFreeHintTime = currentHints.lastHintTime?.add(
+  //       const Duration(hours: 3),
+  //     );
+  //     emit(state.copyWith(lastDiscoveredItem: 'need_wait_hint'));
+  //   }
+  // }
 
   void _onClearActiveHint(
     ClearActiveHintEvent event,
     Emitter<LevelState> emit,
   ) {
+    //   emit(
+    //     state.copyWith(hintsState: state.hintsState.copyWith(currentHint: null)),
+    //   );
+  }
+
+  void _onSetHintItem(SetHintItem event, Emitter<LevelState> emit) {
+    print(' подсказка ${event.currentHint} ');
     emit(
-      state.copyWith(hintsState: state.hintsState.copyWith(currentHint: null)),
+      state.copyWith(
+        hintsState: state.hintsState.copyWith(currentHint: event.currentHint),
+      ),
     );
   }
 
   void _onUseHint(UseHintEvent event, Emitter<LevelState> emit) {
     emit(
       state.copyWith(
-        hintsState: state.hintsState.copyWith(hasPendingHint: false),
+        hintsState: state.hintsState.copyWith(
+          hasPendingHint: false,
+          currentHint: '',
+        ),
+      ),
+    );
+  }
+
+  void _onSetHint(SetHintEvent event, Emitter<LevelState> emit) {
+    emit(
+      state.copyWith(
+        hintsState: state.hintsState.copyWith(hasPendingHint: true),
       ),
     );
   }

@@ -263,11 +263,10 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                     //  final state = context.read<LevelBloc>().state;
                     //   if (state.hintsState.availableHints > 0) {
                     // Показываем баннер с подсказкой
-                    //     context.read<LevelBloc>().add(RequestHintEvent());
-                    //  } else {
+
                     // Показываем панель подсказок
                     _toggleHintPanel();
-                    //  }
+
                     // Логика подсказки
                   },
                   onClearPressed: _handleClearField, // Изменяем обработчик () {
@@ -439,11 +438,22 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     final state = context.read<LevelBloc>().state;
     final hintsState = state.hintsState;
     // Есть или бесплатные или платные подсказки.
-    if (hintsState.canGetFreeHint || hintsState.getPaidHints) {
-      // что-то видимо есть.
-      context.read<LevelBloc>().add(DecrementHint());
-      // когда мы открываем подсказку мы помечаем её как прочитанную
 
+    if (hintsState.hasPendingHint) {
+      print('-------- активная неиспользованная подсказка');
+    }
+
+    if (hintsState.canGetFreeHint ||
+        hintsState.getPaidHints ||
+        hintsState.hasPendingHint) {
+      // у нас есть открытая подсказка
+      if (!hintsState.hasPendingHint) {
+        // что-то видимо есть.
+        context.read<LevelBloc>().add(DecrementHint());
+        // когда мы открываем подсказку мы помечаем её как прочитанную
+      } else {
+        print('не забираем подсказку');
+      }
       // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
       // пользователь уже имеет открытый элемент, и надо дать пользователю
       // именно элемент которого у него нет
@@ -453,26 +463,25 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       // чтобы пользователь понимал что с чем соеденить.
       final element = _findUnusedHint();
       if (element != null) {
-        print('search  ${element}');
+        print(
+          'currentHint currentHint ${element} hintsState.currentHint = ${hintsState.currentHint}',
+        );
+
+        context.read<LevelBloc>().add(SetHintItem(element));
 
         final components = findComponentsForItem(element, mergeRules);
         if (components != null) {
           print(
             'Чтобы создать ${components[2]}, объедините ${components[0]} и ${components[1]}',
           );
-          // Выведет: "Чтобы создать plankton, объедините life и water"
+          // это надо для баннера
           _hintItem1 = components[0];
           _hintItem2 = components[1];
           _hintResult = components[2];
-
-          // final _hintItem1 = 'water';
-          // final _hintItem2 = 'water';
-          // final _hintResult = 'cloud';
         }
       }
-      // доступны подсказки
-      //   _hintPanelController?.forward();
-      print('доступны подсказки');
+      // помечаем что подсказка активна и не использована
+      context.read<LevelBloc>().add(SetHintEvent());
 
       // Логика подсказки
       setState(() {
@@ -486,7 +495,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         }
       });
     } else {
-      print('доступные подсказки отсутствуют');
+      print('доступные подсказки отсутствуют, идём за покупками ) ');
 
       // предлагаем купить подсказку
     }
@@ -721,7 +730,11 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
-        return _mergeHandler.tryMergeItems(movedItem, item);
+        final result = await _mergeHandler.tryMergeItems(movedItem, item);
+        if (result) {
+          context.read<LevelBloc>().add(UseHintEvent());
+        }
+        return result;
         //   return; // Сливаем только с одним элементом за раз
       }
     }
