@@ -230,6 +230,10 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         state.copyWith(
           hintsState: state.hintsState.copyWith(
             freeHints: state.hintsState.freeHints - 1,
+            countHintsAvailable:
+                state.hintsState.freeHints -
+                1 +
+                state.hintsState.paidHintsAvailable,
           ),
         ),
       );
@@ -243,6 +247,10 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         state.copyWith(
           hintsState: state.hintsState.copyWith(
             paidHintsAvailable: state.hintsState.paidHintsAvailable - 1,
+            countHintsAvailable:
+                state.hintsState.freeHints +
+                state.hintsState.paidHintsAvailable -
+                1,
           ),
         ),
       );

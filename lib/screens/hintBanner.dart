@@ -8,6 +8,7 @@ class HintBanner extends StatelessWidget {
   final String item1Id;
   final String item2Id;
   final String resultId;
+  final int cointHint;
   final VoidCallback onClose;
 
   const HintBanner({
@@ -15,11 +16,13 @@ class HintBanner extends StatelessWidget {
     required this.item1Id,
     required this.item2Id,
     required this.resultId,
+    required this.cointHint,
     required this.onClose,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    late String textCountHint;
     // Получаем данные элементов из вашего репозитория
     final item1new = allImages.firstWhere((i) => i.id == item1Id);
     final item1 = GameItem.fromImageItem(imageItem: item1new);
@@ -29,6 +32,12 @@ class HintBanner extends StatelessWidget {
 
     final resultnew = allImages.firstWhere((i) => i.id == resultId);
     final result = GameItem.fromImageItem(imageItem: resultnew);
+
+    if (cointHint > 0) {
+      textCountHint = 'Осталось подсказок: $cointHint';
+    } else {
+      textCountHint = 'У вас закончились подсказки';
+    }
 
     return Center(
       child: Material(
@@ -117,7 +126,22 @@ class HintBanner extends StatelessWidget {
                     vertical: 10,
                   ),
                 ),
-                child: const Text('Понятно', style: TextStyle(fontSize: 18)),
+                child: const Text(
+                  'Понятно',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Text(
+                  textCountHint,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[600],
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
               ),
             ],
           ),

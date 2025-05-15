@@ -136,9 +136,6 @@ class HintsState {
   @HiveField(1)
   final int paidHintsAvailable; // Доступные платные подсказки
 
-  @HiveField(6)
-  final int freeHints; // Доступные бесплатные подсказки
-
   @HiveField(2)
   final List<String> usedHints; // Использованные комбинации
   @HiveField(3)
@@ -150,6 +147,12 @@ class HintsState {
   final String currentHint;
   // Есть неиспользованная подсказка
 
+  @HiveField(6)
+  final int freeHints; // Доступные бесплатные подсказки
+
+  @HiveField(7)
+  final int countHintsAvailable; // Доступные бесплатные подсказки
+
   const HintsState({
     this.freeHintsUsed = 3,
     this.paidHintsAvailable = 0,
@@ -158,6 +161,7 @@ class HintsState {
     this.hasPendingHint = false,
     this.currentHint = '',
     this.freeHints = 3,
+    this.countHintsAvailable = 0,
   });
 
   bool get getPaidHints {
@@ -193,6 +197,7 @@ class HintsState {
     DateTime? lastHintTime,
     bool? hasPendingHint,
     String? currentHint,
+    int? countHintsAvailable,
   }) {
     return HintsState(
       freeHintsUsed: freeHintsUsed ?? this.freeHintsUsed,
@@ -202,6 +207,7 @@ class HintsState {
       lastHintTime: lastHintTime ?? this.lastHintTime,
       hasPendingHint: hasPendingHint ?? this.hasPendingHint,
       currentHint: currentHint ?? this.currentHint,
+      countHintsAvailable: countHintsAvailable ?? this.countHintsAvailable,
     );
   }
 
@@ -212,6 +218,7 @@ class HintsState {
         other.freeHintsUsed == freeHintsUsed &&
         other.freeHints == freeHints &&
         other.paidHintsAvailable == paidHintsAvailable &&
+        other.countHintsAvailable == countHintsAvailable &&
         const ListEquality().equals(other.usedHints, usedHints) &&
         other.lastHintTime == lastHintTime &&
         other.hasPendingHint == hasPendingHint;

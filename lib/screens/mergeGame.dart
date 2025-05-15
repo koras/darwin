@@ -44,6 +44,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   String? _hintItem2;
   // Результат слияния для подсказки
   String? _hintResult;
+  // количество подсказок
+  int _countHints = 0;
 
   bool _showHintPanel = false;
   AnimationController? _hintPanelController;
@@ -433,7 +435,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
   }
 
-  void _toggleHintPanel() {
+  Future<void> _toggleHintPanel() async {
     print('--------------');
     final state = context.read<LevelBloc>().state;
     final hintsState = state.hintsState;
@@ -450,10 +452,17 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       if (!hintsState.hasPendingHint) {
         // что-то видимо есть.
         context.read<LevelBloc>().add(DecrementHint());
+
+        print('вычисляем подсказки');
         // когда мы открываем подсказку мы помечаем её как прочитанную
+
+        // Ждем завершения обработки события
+
+        await Future.delayed(Duration.zero);
       } else {
         print('не забираем подсказку');
       }
+
       // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
       // пользователь уже имеет открытый элемент, и надо дать пользователю
       // именно элемент которого у него нет
@@ -480,14 +489,25 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           _hintResult = components[2];
         }
       }
+
+      // Теперь получаем актуальное состояние после уменьшения
+      final updatedState = context.read<LevelBloc>().state;
+      //    _countHints =
+      //       updatedState.hintsState.freeHints +
+      //       updatedState.hintsState.paidHintsAvailable;
+
+      //    _countHints =
+      //       context.read<LevelBloc>().state.hintsState.freeHints +
+      //       context.read<LevelBloc>().state.hintsState.paidHintsAvailable;
       // помечаем что подсказка активна и не использована
       context.read<LevelBloc>().add(SetHintEvent());
 
       // Логика подсказки
       setState(() {
+        _countHints = updatedState.hintsState.countHintsAvailable;
         _showHintPanel = !_showHintPanel;
         if (_showHintPanel) {
-          print('открываем подсказку');
+          print('открываем подсказку ${_countHints}');
           _hintPanelController?.forward();
         } else {
           print('закрываем подсказку');
@@ -653,7 +673,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     if (newX != item.gridX || newY != item.gridY) {
       // проверка слияния и слияния
       final mergeSuccess = await _checkForMerge(item, newX, newY);
-      debugPrint('проверка слияния и слияния');
+
       if (mergeSuccess) {
         // Слияние успешно - элемент будет удален в mergeHandler
         _clearDraggedItem();
@@ -726,7 +746,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           final shouldInclude = isNotMovedItem && isSameCell;
           return shouldInclude;
         }).toList();
-    debugPrint('Проверяем слияние с каждым элементом в ячейке');
+    // debugPrint('Проверяем слияние с каждым элементом в ячейке');
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
@@ -805,6 +825,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         item1Id: _hintItem1!,
         item2Id: _hintItem2!,
         resultId: _hintResult!,
+        cointHint: _countHints,
         onClose: () {
           setState(() {
             _showHintPanel = !_showHintPanel;
