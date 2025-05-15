@@ -18,11 +18,13 @@ import 'package:darwin/models/merge_rule.dart';
 import 'dart:async';
 
 import 'package:darwin/bloc/level_bloc.dart';
-import 'discoveryBanner.dart';
+import 'package:darwin/screens/discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'levelCompleteBanner.dart';
-import 'mergeSuccessBanner.dart';
+import 'package:darwin/screens/levelCompleteBanner.dart';
+import 'package:darwin/screens/mergeSuccessBanner.dart';
+
+import 'package:darwin/screens/waitOrBuyHintBanner.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
@@ -49,7 +51,11 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
   bool _showHintPanel = false;
   AnimationController? _hintPanelController;
+  AnimationController? _hintPayPanelController;
+
   Animation<Offset>? _hintBunnerAnimation;
+  Animation<Offset>? _hintPayBunnerAnimation;
+
   Timer? _hintTimer;
   Duration _timeUntilNextHint = Duration.zero;
 
@@ -160,11 +166,26 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       vsync: this,
     );
 
+    _hintPayPanelController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
     _hintBunnerAnimation = Tween<Offset>(
       begin: const Offset(-1, 0),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(parent: _hintPanelController!, curve: Curves.easeInOut),
+    );
+
+    _hintPayBunnerAnimation = Tween<Offset>(
+      begin: const Offset(-1, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _hintPayPanelController!,
+        curve: Curves.easeInOut,
+      ),
     );
   }
 
@@ -428,6 +449,15 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   child: _buildHintPanel(context),
                 ),
               ),
+
+              Positioned(
+                top: 100,
+                left: 0,
+                child: SlideTransition(
+                  position: _hintPayBunnerAnimation!,
+                  child: _buildPayPanel(context),
+                ),
+              ),
             ],
           ),
         );
@@ -492,13 +522,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
       // Теперь получаем актуальное состояние после уменьшения
       final updatedState = context.read<LevelBloc>().state;
-      //    _countHints =
-      //       updatedState.hintsState.freeHints +
-      //       updatedState.hintsState.paidHintsAvailable;
-
-      //    _countHints =
-      //       context.read<LevelBloc>().state.hintsState.freeHints +
-      //       context.read<LevelBloc>().state.hintsState.paidHintsAvailable;
       // помечаем что подсказка активна и не использована
       context.read<LevelBloc>().add(SetHintEvent());
 
@@ -516,7 +539,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       });
     } else {
       print('доступные подсказки отсутствуют, идём за покупками ) ');
-
+      _hintPayPanelController?.forward();
       // предлагаем купить подсказку
     }
   }
@@ -814,6 +837,47 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         });
       }
     });
+  }
+
+  void onBuy5Hints() {
+    print('onBuy5Hints');
+  }
+
+  void onBuy10Hints() {
+    print('onBuy10Hints');
+  }
+
+  void onBuy20Hints() {
+    print('onBuy20Hints');
+  }
+
+  Widget _buildPayPanel(BuildContext context) {
+    DateTime lastHintTime = DateTime.now(); // Время последней подсказки
+    Duration cooldownPeriod = Duration(minutes: 30); // Время ожидания
+    Duration remainingTime = lastHintTime
+        .add(cooldownPeriod)
+        .difference(DateTime.now());
+    // Проверка, что время не отрицательное
+    if (remainingTime.isNegative) {
+      remainingTime = Duration.zero;
+    }
+    return WaitOrBuyHintBanner(
+      // cointHint: _countHints,
+      remainingTime: remainingTime,
+      onBuy5Hints: () => onBuy5Hints(),
+      onBuy10Hints: () => onBuy10Hints(),
+      onBuy20Hints: () => onBuy20Hints(),
+      onClose: () {
+        setState(() {
+          _showHintPanel = !_showHintPanel;
+          print('Логика подсказки');
+          _hintPayPanelController?.reverse();
+          // Логика подсказки
+          //    _showHintBanner = false;
+        });
+        // Здесь можно добавить логику после закрытия подсказки
+      },
+    );
   }
 
   Widget _buildHintPanel(BuildContext context) {
