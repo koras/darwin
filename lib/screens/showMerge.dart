@@ -5,14 +5,10 @@ import 'package:darwin/models/merge_rule.dart';
 import 'package:darwin/data/merge_rules.dart';
 
 class CombinationsPage extends StatelessWidget {
-  // final List<MergeRule> mergeRules;
-  final List<String> discoveredItems; // Уже открытые игроком элементы
+  final List<String> discoveredItems;
 
-  const CombinationsPage({
-    Key? key,
-    //  required this.mergeRules,
-    required this.discoveredItems,
-  }) : super(key: key);
+  const CombinationsPage({Key? key, required this.discoveredItems})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +19,7 @@ class CombinationsPage extends StatelessWidget {
         child: Column(
           children: [
             _buildDiscoveredSection(),
-            const SizedBox(height: 34),
+            const SizedBox(height: 24),
             _buildAllCombinationsSection(),
           ],
         ),
@@ -32,6 +28,11 @@ class CombinationsPage extends StatelessWidget {
   }
 
   Widget _buildDiscoveredSection() {
+    final discoveredRules =
+        mergeRules
+            .where((rule) => discoveredItems.contains(rule.resultImageId))
+            .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,19 +41,7 @@ class CombinationsPage extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 3,
-          childAspectRatio: 1,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          children:
-              mergeRules
-                  .where((rule) => discoveredItems.contains(rule.resultImageId))
-                  .map((rule) => _buildCombinationCard(rule, true))
-                  .toList(),
-        ),
+        _buildCombinationsTable(discoveredRules, true),
       ],
     );
   }
@@ -66,62 +55,119 @@ class CombinationsPage extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 3,
-          childAspectRatio: 1,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          children:
-              mergeRules
-                  .map(
-                    (rule) => _buildCombinationCard(
-                      rule,
-                      discoveredItems.contains(rule),
-                    ),
-                  )
-                  .toList(),
-        ),
+        _buildCombinationsTable(mergeRules, false),
       ],
     );
   }
 
-  Widget _buildCombinationCard(MergeRule rule, bool isDiscovered) {
+  Widget _buildCombinationsTable(List<MergeRule> rules, bool isDiscovered) {
+    return Table(
+      border: TableBorder(
+        horizontalInside: BorderSide(
+          color: Colors.grey.withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FixedColumnWidth(40),
+        2: FlexColumnWidth(2),
+        3: FixedColumnWidth(40),
+        4: FlexColumnWidth(2),
+      },
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: [
+        // Заголовки столбцов
+        TableRow(
+          decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey)),
+          ),
+          children: [
+            _buildHeaderCell('Элемент 1'),
+            _buildHeaderCell(''),
+            _buildHeaderCell('Элемент 2'),
+            _buildHeaderCell(''),
+            _buildHeaderCell('Результат'),
+          ],
+        ),
+        // Строки с комбинациями
+        ...rules.map((rule) => _buildTableRow(rule, isDiscovered)).toList(),
+      ],
+    );
+  }
+
+  TableCell _buildHeaderCell(String text) {
+    return TableCell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          text,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  TableRow _buildTableRow(MergeRule rule, bool isDiscovered) {
     final item1 = _getGameItem(rule.firstImageId);
     final item2 = _getGameItem(rule.secondImageId);
     final result = _getGameItem(rule.resultImageId);
 
-    return Card(
-      color: isDiscovered ? Colors.white : Colors.grey[200],
-      elevation: 2,
+    return TableRow(
+      decoration: BoxDecoration(
+        color: isDiscovered ? Colors.white : Colors.grey[100],
+      ),
+      children: [
+        _buildElementCell(item1, rule.firstImageId),
+        _buildOperatorCell('+'),
+        _buildElementCell(item2, rule.secondImageId),
+        _buildOperatorCell('='),
+        _buildResultCell(result, rule.resultImageId, isDiscovered),
+      ],
+    );
+  }
+
+  TableCell _buildElementCell(GameItem item, String id) {
+    return TableCell(
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Первый элемент
-            _buildSmallItemWidget(result),
+            _buildSmallItemWidget(item),
             const SizedBox(height: 4),
+            Text(id, style: const TextStyle(fontSize: 12)),
+          ],
+        ),
+      ),
+    );
+  }
 
-            // Плюс
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSmallItemWidget(item2),
-                const SizedBox(width: 8),
-                const Text('+', style: TextStyle(fontSize: 16)),
-                const SizedBox(width: 8),
-                _buildSmallItemWidget(item1),
-              ],
-            ),
-            const SizedBox(height: 8),
+  TableCell _buildOperatorCell(String operator) {
+    return TableCell(
+      child: Center(
+        child: Text(
+          operator,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
 
-            // Название результата
+  TableCell _buildResultCell(GameItem item, String id, bool isDiscovered) {
+    return TableCell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildSmallItemWidget(item),
+            const SizedBox(height: 4),
             Text(
-              rule.resultImageId,
+              id,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: isDiscovered ? Colors.deepPurple : Colors.grey,
               ),
@@ -133,38 +179,28 @@ class CombinationsPage extends StatelessWidget {
   }
 
   Widget _buildSmallItemWidget(GameItem item) {
-    print('path ${item.assetPath}');
     return Container(
-      width: 40,
-      //   height: 50,
-      // width: 50,
-      //  height: 50,
+      width: 50,
+      height: 50,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-          // Было: border: Border.all(color: _generateCalmColor(item.id),
-          color: _generateCalmColor(item.id), // Добавлена закрывающая скобка
-        ),
+        border: Border.all(color: _generateCalmColor(item.id)),
       ),
       child: ClipOval(
         child: Image.asset(
           item.assetPath,
           fit: BoxFit.cover,
-          //    color: Colors.grey[700]?.withOpacity(0.7),
+          errorBuilder: (_, __, ___) => Center(child: Text(item.id[0])),
         ),
       ),
     );
   }
 
   GameItem _getGameItem(String id) {
-    print('\n=== Поиск элемента с id: "$id" ===');
-
     try {
       final imageItem = allImages.firstWhere((item) => item.id == id);
-
       return GameItem.fromImageItem(imageItem: imageItem);
     } catch (e) {
-      print('❌ Ошибка при поиске элемента: $e');
       return GameItem.fromImageItem(
         imageItem: ImageItem('error', position: Offset.zero),
       );
