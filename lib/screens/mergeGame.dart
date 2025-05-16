@@ -531,10 +531,13 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _showHintPanel = !_showHintPanel;
         if (_showHintPanel) {
           print('открываем подсказку ${_countHints}');
-          _hintPanelController?.forward();
+          //          _hintPanelController?.forward();
+
+          _hintPayPanelController?.forward();
         } else {
           print('закрываем подсказку');
-          _hintPanelController?.reverse();
+          //        _hintPanelController?.reverse();
+          _hintPayPanelController?.forward();
         }
       });
     } else {

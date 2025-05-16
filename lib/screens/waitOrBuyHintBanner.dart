@@ -33,7 +33,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          width: MediaQuery.of(context).size.width * 1,
+          width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -84,19 +84,28 @@ class WaitOrBuyHintBanner extends StatelessWidget {
               // Кнопки покупки подсказок
               _buildPurchaseOption(
                 context,
-                '5 подсказок',
+                '3 подсказок',
                 '100 ₽',
                 onBuy5Hints,
-                Colors.blueAccent,
+                const Color.fromARGB(255, 214, 228, 253),
+              ),
+              const SizedBox(height: 10),
+
+              _buildPurchaseOption(
+                context,
+                '5 подсказок',
+                '200 ₽',
+                onBuy10Hints,
+                const Color.fromARGB(255, 220, 240, 221),
               ),
               const SizedBox(height: 10),
 
               _buildPurchaseOption(
                 context,
                 '10 подсказок',
-                '200 ₽',
-                onBuy10Hints,
-                Colors.green,
+                '300 ₽',
+                onBuy20Hints,
+                const Color.fromARGB(255, 247, 201, 255),
               ),
               const SizedBox(height: 10),
 
@@ -105,18 +114,22 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 '20 подсказок',
                 '500 ₽',
                 onBuy20Hints,
-                Colors.purple,
+                const Color.fromARGB(255, 202, 201, 255),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
 
               // Кнопка закрытия
               TextButton(
                 onPressed: onClose,
                 child: const Text(
-                  'Закрыть',
-                  style: TextStyle(fontSize: 16, color: Colors.deepPurple),
+                  'Продолжить без подсказок',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color.fromARGB(255, 25, 82, 32),
+                  ),
                 ),
               ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -131,30 +144,55 @@ class WaitOrBuyHintBanner extends StatelessWidget {
     VoidCallback onPressed,
     Color color,
   ) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        padding: const EdgeInsets.symmetric(vertical: 12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return SizedBox(
+      width:
+          MediaQuery.of(context).size.width * 0.8, // Задаем ширину 80% экрана
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-          const SizedBox(width: 10),
-          Text(
-            price,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          padding: const EdgeInsets.symmetric(
+            vertical: 16, // Увеличили вертикальный padding
+            horizontal: 24, // Добавили горизонтальный padding
+          ),
+          elevation: 3, // Добавили тень для кнопки
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize:
+              MainAxisSize.min, // Чтобы Row не растягивался на всю ширину
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18, // Увеличили размер текста
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(
+                  255,
+                  53,
+                  53,
+                  53,
+                ), // Белый текст для лучшей читаемости
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 12), // Увеличили отступ между текстами
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
+              child: Text(
+                price,
+                style: const TextStyle(
+                  fontSize: 18, // Увеличили размер текста
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 53, 53, 53), // Белый текст
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
