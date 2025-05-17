@@ -7,14 +7,16 @@ class Assets {
   static const String iconsStar = 'assets/icons/star.png';
   static const String imagesAcid = 'assets/images/acid.png';
   static const String imagesAlcohol = 'assets/images/alcohol.png';
-  static const String imagesArtificialIntelligence = 'assets/images/artificial_intelligence.png';
+  static const String imagesArtificialIntelligence =
+      'assets/images/artificial_intelligence.png';
   static const String imagesBackground = 'assets/images/background.png';
   static const String imagesBacteria = 'assets/images/bacteria.png';
   static const String imagesBacterium = 'assets/images/bacterium.png';
   static const String imagesBanana = 'assets/images/banana.jpg';
   static const String imagesBarista = 'assets/images/barista.png';
   static const String imagesBicycle = 'assets/images/bicycle.png';
-  static const String imagesBigCrowdOfPeople = 'assets/images/big_crowd_of_people.png';
+  static const String imagesBigCrowdOfPeople =
+      'assets/images/big_crowd_of_people.png';
   static const String imagesBook = 'assets/images/book.png';
   static const String imagesBread = 'assets/images/bread.png';
   static const String imagesCake = 'assets/images/cake.png';
@@ -42,10 +44,12 @@ class Assets {
   static const String imagesGlacier = 'assets/images/glacier.png';
   static const String imagesGrape = 'assets/images/grape.png';
   static const String imagesHoliday = 'assets/images/holiday.png';
-  static const String imagesHungoverSaturdayMorning = 'assets/images/hungover_saturday_morning.png';
+  static const String imagesHungoverSaturdayMorning =
+      'assets/images/hungover_saturday_morning.png';
   static const String imagesIntelligence = 'assets/images/intelligence.png';
   static const String imagesIron = 'assets/images/iron.png';
-  static const String imagesKingOfTheHill = 'assets/images/king_of_the_hill.png';
+  static const String imagesKingOfTheHill =
+      'assets/images/king_of_the_hill.png';
   static const String imagesKnight = 'assets/images/knight.png';
   static const String imagesLife = 'assets/images/life.png';
   static const String imagesLight = 'assets/images/light.png';
@@ -63,7 +67,8 @@ class Assets {
   static const String imagesMountain = 'assets/images/mountain.png';
   static const String imagesMushroom = 'assets/images/mushroom.png';
   static const String imagesNewYearTree = 'assets/images/new_year_tree.png';
-  static const String imagesNoisyFridayParty = 'assets/images/noisy_friday_party.png';
+  static const String imagesNoisyFridayParty =
+      'assets/images/noisy_friday_party.png';
   static const String imagesPenguin = 'assets/images/penguin.png';
   static const String imagesPhone = 'assets/images/phone.png';
   static const String imagesPhoneOld = 'assets/images/phone_old.png';
@@ -88,7 +93,6 @@ class Assets {
   static const String imagesSugar = 'assets/images/sugar.png';
   static const String imagesSun = 'assets/images/sun.png';
   static const String imagesSwamp = 'assets/images/swamp.png';
-  static const String imagesSwamp copy = 'assets/images/swamp copy.png';
   static const String imagesTool = 'assets/images/tool.png';
   static const String imagesTrain = 'assets/images/train.png';
   static const String imagesTree = 'assets/images/tree.png';
@@ -100,7 +104,5 @@ class Assets {
   static const String imagesWine = 'assets/images/wine.png';
   static const String imagesWitch = 'assets/images/witch.png';
   static const String imagesWood = 'assets/images/wood.png';
-  static const String imagesWood copy = 'assets/images/wood copy.png';
   static const String imagesWooden = 'assets/images/wooden.png';
-
 }
