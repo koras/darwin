@@ -623,13 +623,9 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
     print('fieldTopOffset ${fieldTopOffset}');
     // Проверяем, что касание в пределах игрового поля
-    // if (localX < 0 || localY < 0) return null;
 
     final cellX = (localX / cellSize).floor();
     final cellY = (localY / cellSize).floor();
-
-    // Проверяем, что ячейка в пределах сетки
-    //if (cellX >= gridColumns || cellY >= gridRows) return null;
 
     return {'gridX': cellX, 'gridY': cellY};
   }
@@ -837,16 +833,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     });
   }
 
-  void onBuy5Hints() {
+  void onBuyHints(count, price) {
     print('onBuy5Hints');
-  }
-
-  void onBuy10Hints() {
-    print('onBuy10Hints');
-  }
-
-  void onBuy20Hints() {
-    print('onBuy20Hints');
   }
 
   Widget _buildPayPanel(BuildContext context) {
@@ -862,9 +850,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     return WaitOrBuyHintBanner(
       // cointHint: _countHints,
       remainingTime: remainingTime,
-      onBuy5Hints: () => onBuy5Hints(),
-      onBuy10Hints: () => onBuy10Hints(),
-      onBuy20Hints: () => onBuy20Hints(),
+      onBuyHints: (count, price) => onBuyHints(count, price),
       onClose: () {
         setState(() {
           _showHintPanel = !_showHintPanel;
@@ -878,6 +864,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
   }
 
+  // показываем баннер подсказок
   Widget _buildHintPanel(BuildContext context) {
     // final _hintItem1 = 'water';
     // final _hintItem2 = 'water';
@@ -902,19 +889,5 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     } else {
       return Text('У вас нет подсказок');
     }
-  }
-
-  // String _formatDuration(Duration duration) {
-  //   String twoDigits(int n) => n.toString().padLeft(2, "0");
-  //   final hours = twoDigits(duration.inHours);
-  //   final minutes = twoDigits(duration.inMinutes.remainder(60));
-  //   final seconds = twoDigits(duration.inSeconds.remainder(60));
-  //   return "$hours:$minutes:$seconds";
-  // }
-
-  // Метод для форматирования времени в читаемый вид
-  String _formatTimeRemaining(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    return "${twoDigits(duration.inHours)}:${twoDigits(duration.inMinutes.remainder(60))}:${twoDigits(duration.inSeconds.remainder(60))}";
   }
 }

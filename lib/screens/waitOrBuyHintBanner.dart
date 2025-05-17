@@ -4,18 +4,15 @@ import 'package:darwin/models/game_item.dart';
 class WaitOrBuyHintBanner extends StatelessWidget {
   final Duration remainingTime;
   final VoidCallback onClose;
-  final VoidCallback onBuy5Hints;
-  final VoidCallback onBuy10Hints;
-  final VoidCallback onBuy20Hints;
+
+  final Function(int, int) onBuyHints;
 
   const WaitOrBuyHintBanner({
     Key? key,
 
     required this.remainingTime,
     required this.onClose,
-    required this.onBuy5Hints,
-    required this.onBuy10Hints,
-    required this.onBuy20Hints,
+    required this.onBuyHints,
   }) : super(key: key);
 
   @override
@@ -85,7 +82,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 context,
                 '3 подсказок',
                 '100 ₽',
-                onBuy5Hints,
+                () => onBuyHints(3, 100),
                 const Color.fromARGB(255, 214, 228, 253),
               ),
               const SizedBox(height: 10),
@@ -94,7 +91,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 context,
                 '5 подсказок',
                 '200 ₽',
-                onBuy10Hints,
+                () => onBuyHints(5, 200),
                 const Color.fromARGB(255, 220, 240, 221),
               ),
               const SizedBox(height: 10),
@@ -103,7 +100,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 context,
                 '10 подсказок',
                 '300 ₽',
-                onBuy20Hints,
+                () => onBuyHints(10, 300),
                 const Color.fromARGB(255, 247, 201, 255),
               ),
               const SizedBox(height: 10),
@@ -112,7 +109,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 context,
                 '20 подсказок',
                 '500 ₽',
-                onBuy20Hints,
+                () => onBuyHints(20, 500),
                 const Color.fromARGB(255, 202, 201, 255),
               ),
               const SizedBox(height: 40),
