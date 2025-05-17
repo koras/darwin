@@ -10,6 +10,7 @@ import 'package:darwin/data/image_item.dart';
 import 'package:darwin/logic/game_field_manager.dart';
 import 'package:darwin/logic/merge_handler.dart';
 import 'package:darwin/logic/merge_logic.dart';
+import 'package:darwin/logic/hint_manager.dart';
 import 'package:darwin/widgets/game_field.dart';
 import 'package:darwin/widgets/toolbox_panel.dart';
 import 'package:darwin/widgets/game_panel.dart';
@@ -31,6 +32,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _clearButtonController;
   late Animation<double> _clearButtonAnimation;
 
+  late HintManager _hintManager;
   // для плавного завершения уровня
   late AnimationController _bannerAnimationController;
   late Animation<double> _bannerOpacityAnimation;
@@ -97,7 +99,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    _hintManager = HintManager(context, mergeRules);
     _startHintTimer();
 
     _fieldManager = FieldManager(
@@ -495,24 +497,16 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       // при нахождении. При это мы не даём ему воспользоваться следующей подсказкой,
       // пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
       // чтобы пользователь понимал что с чем соеденить.
-      final element = _findUnusedHint();
-      if (element != null) {
-        print(
-          'currentHint currentHint ${element} hintsState.currentHint = ${hintsState.currentHint}',
-        );
 
-        context.read<LevelBloc>().add(SetHintItem(element));
-
-        final components = findComponentsForItem(element, mergeRules);
-        if (components != null) {
-          print(
-            'Чтобы создать ${components[2]}, объедините ${components[0]} и ${components[1]}',
-          );
-          // это надо для баннера
-          _hintItem1 = components[0];
-          _hintItem2 = components[1];
-          _hintResult = components[2];
-        }
+      final components = await _hintManager.showHint();
+      if (components != null) {
+        // это надо для баннера
+        setState(() {
+          _hintItem1 = components['item1'];
+          _hintItem2 = components['item2'];
+          _hintResult = components['result'];
+        });
+        context.read<LevelBloc>().add(SetHintItem(_hintResult!));
       }
 
       // Теперь получаем актуальное состояние после уменьшения
