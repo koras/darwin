@@ -536,25 +536,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     }
   }
 
-  /**
-  * Находим элемент который отсутствует в подсказках
-  */
-  String? _findUnusedHint() {
-    final state = context.read<LevelBloc>().state;
-    // Получаем все открытые игроком элементы
-    final discoveredItems = state.discoveredItems;
-
-    print('discoveredItems  ${discoveredItems}');
-    // Ищем первую подсказку, которой нет в открытых элементах
-    for (final hint in state.hints) {
-      if (!discoveredItems.contains(hint)) {
-        return hint;
-      }
-    }
-    // Если все подсказки уже открыты
-    return null;
-  }
-
   List<MergeRule> findMergeRulesForItem(
     String targetItemId,
     List<MergeRule> allRules,
@@ -566,79 +547,59 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
   /// Находит компоненты для создания указанного элемента
   /// Возвращает список в формате [firstImageId, secondImageId, resultImageId] или null, если правило не найдено
-  List<String>? findComponentsForItem(
-    String targetItemId,
-    List<MergeRule> allRules,
-  ) {
-    final rules = findMergeRulesForItem(targetItemId, allRules);
-    if (rules.isEmpty) return null;
+  // List<String>? findComponentsForItem(
+  //   String targetItemId,
+  //   List<MergeRule> allRules,
+  // ) {
+  //   final rules = findMergeRulesForItem(targetItemId, allRules);
+  //   if (rules.isEmpty) return null;
 
-    // Берем первое подходящее правило
-    final rule = rules.first;
-    return [rule.firstImageId, rule.secondImageId, rule.resultImageId];
-  }
+  //   // Берем первое подходящее правило
+  //   final rule = rules.first;
+  //   return [rule.firstImageId, rule.secondImageId, rule.resultImageId];
+  // }
 
   /// Возвращает все возможные комбинации для создания элемента
-  List<List<String>> findAllComponentOptions(
-    String targetItemId,
-    List<MergeRule> allRules,
-  ) {
-    return findMergeRulesForItem(targetItemId, allRules)
-        .map(
-          (rule) => [rule.firstImageId, rule.secondImageId, rule.resultImageId],
-        )
-        .toList();
-  }
+  // List<List<String>> findAllComponentOptions(
+  //   String targetItemId,
+  //   List<MergeRule> allRules,
+  // ) {
+  //   return findMergeRulesForItem(targetItemId, allRules)
+  //       .map(
+  //         (rule) => [rule.firstImageId, rule.secondImageId, rule.resultImageId],
+  //       )
+  //       .toList();
+  // }
 
   /// Получаем координаты
-  Offset _getCoorStatic(
-    Map<String, int> params,
-    double cellSize,
-    double fieldTopOffset,
-  ) {
-    final x = params['gridX']! * cellSize + (cellSize / 2);
+  // Offset getCoorStatic(
+  //   Map<String, int> params,
+  //   double cellSize,
+  //   double fieldTopOffset,
+  //   double toolboxHeight,
+  // ) {
+  //   final x = params['gridX']! * cellSize + (cellSize / 2);
 
-    final y =
-        params['gridY']! * cellSize + (cellSize / 2) + _toolboxHeight.toInt();
+  //   final y =
+  //       params['gridY']! * cellSize + (cellSize / 2) + toolboxHeight.toInt();
 
-    return Offset(x.toDouble(), y.toDouble());
-  }
-
-  /// Определяет ячейку сетки по координатам касания
-  /// Возвращает Map с координатами ячейки {'x': x, 'y': y} или null, если касание вне поля
-  Map<String, int> getCellFromCoordinates(
-    Offset position,
-    double cellSize,
-    double fieldTopOffset,
-  ) {
-    // Преобразуем глобальные координаты в локальные относительно игрового поля
-    final localX = position.dx;
-    final localY = position.dy - fieldTopOffset;
-
-    print('fieldTopOffset ${fieldTopOffset}');
-    // Проверяем, что касание в пределах игрового поля
-
-    final cellX = (localX / cellSize).floor();
-    final cellY = (localY / cellSize).floor();
-
-    return {'gridX': cellX, 'gridY': cellY};
-  }
+  //   return Offset(x.toDouble(), y.toDouble());
+  // }
 
   /// Определяет центр координат ближайшей ячейки имея координаты
-  Offset getCoordinatesBox(
-    Offset position,
-    double cellSize,
-    double fieldTopOffset,
-  ) {
-    print('StartPosition ${position}');
-    // Преобразуем глобальные координаты в локальные относительно игрового поля
-    final box = getCellFromCoordinates(position, cellSize, fieldTopOffset);
-    print('box ${box}');
+  // Offset getCoordinatesBox(
+  //   Offset position,
+  //   double cellSize,
+  //   double fieldTopOffset,
+  //   double  toolboxHeight
+  // ) {
+  //   print('StartPosition ${position}');
+  //   // Преобразуем глобальные координаты в локальные относительно игрового поля
+  //   final box = getCellFromCoordinates(position, cellSize, fieldTopOffset);
+  //   print('box ${box}');
 
-    final coor = _getCoorStatic(box, cellSize, fieldTopOffset);
-
-    return coor;
-  }
+  //   return getCoorStatic(box, cellSize, fieldTopOffset, toolboxHeight);
+  // }
 
   void _handleClearField() async {
     print("Логика очистки экрана");
@@ -690,7 +651,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _clearDraggedItem();
         return;
       }
-
       // Если слияние не удалось, пробуем переместить
       if (_isCellEmpty(newX, newY)) {
         _moveItemToNewPosition(item, newX, newY);
@@ -701,7 +661,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       // Элемент не перемещен - возвращаем на место
       _returnItemToOriginalPosition(item);
     }
-
     _clearDraggedItem();
   }
 
@@ -860,9 +819,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
   // показываем баннер подсказок
   Widget _buildHintPanel(BuildContext context) {
-    // final _hintItem1 = 'water';
-    // final _hintItem2 = 'water';
-    // final _hintResult = 'cloud';
     if (_hintItem1 != null && _hintItem2 != null && _hintResult != null) {
       return HintBanner(
         item1Id: _hintItem1!,
