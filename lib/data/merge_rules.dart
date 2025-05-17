@@ -1,4 +1,4 @@
-import 'package:darwin/models/merge_rule.dart';
+import 'package:darwin/data/merge_rule.dart';
 
 final List<MergeRule> mergeRules = [
   // Базовые элементы природы

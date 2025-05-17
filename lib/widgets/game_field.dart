@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 // Импорт моделей и виджетов
-import '../models/game_item.dart';
+import 'package:darwin/models/game_item.dart';
 import 'dart:async'; // Добавьте эту строку в начале файла
 import 'game_item_widget.dart';
 import 'dragging_item_widget.dart';
-import 'game_grid.dart';
 
 // Виджет игрового поля, который отображает сетку, элементы и перетаскиваемый элемент
 class GameField extends StatelessWidget {

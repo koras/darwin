@@ -14,7 +14,7 @@ import 'package:darwin/widgets/game_panel.dart';
 import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 import 'package:darwin/data/merge_rules.dart';
 
-import 'package:darwin/models/merge_rule.dart';
+import 'package:darwin/data/merge_rule.dart';
 import 'dart:async';
 
 import 'package:darwin/bloc/level_bloc.dart';

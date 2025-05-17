@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/models/game_item.dart';
-import 'package:darwin/models/image_item.dart';
-import 'package:darwin/models/merge_rule.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/data/merge_rule.dart';
 import 'package:darwin/data/merge_rules.dart';
 
 class CombinationsPage extends StatelessWidget {

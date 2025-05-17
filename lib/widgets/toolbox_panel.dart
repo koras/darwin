@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:darwin/data/image_item.dart';
 import 'package:darwin/models/game_item.dart';
 import 'toolbox_item.dart';
-import 'dart:math';
-import 'package:bloc/bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart'; // Добавьте этот импорт
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ToolboxPanel extends StatefulWidget {
   final double initialHeightPercentage; // Начальная высота в процентах

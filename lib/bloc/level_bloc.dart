@@ -1,9 +1,9 @@
 // level_bloc.dart
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
-import 'levels_repository.dart';
-import '../models/game_item.dart';
-import '../services/hive_service.dart';
+import 'package:darwin/data/levels_repository.dart';
+import 'package:darwin/models/game_item.dart';
+import 'package:darwin/services/hive_service.dart';
 
 import 'package:hive/hive.dart';
 part 'level_event.dart';

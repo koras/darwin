@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/game_item.dart';
+import 'package:darwin/models/game_item.dart';
 
 class DraggingItemWidget extends StatelessWidget {
   final GameItem item;

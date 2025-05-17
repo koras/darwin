@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'mergeGame.dart';
+import 'package:darwin/screens/mergeGame.dart';
 
 class StartPage extends StatelessWidget {
   final Color textColor = const Color.fromARGB(255, 122, 80, 0);

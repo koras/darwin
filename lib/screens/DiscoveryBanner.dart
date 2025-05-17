@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/level_bloc.dart';
+import 'package:darwin/bloc/level_bloc.dart';
 
 class DiscoveryBanner extends StatefulWidget {
   final String itemName;

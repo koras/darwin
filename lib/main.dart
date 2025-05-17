@@ -6,9 +6,8 @@ import 'package:provider/provider.dart'; // Добавьте этот импор
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//import '../models/game_item.dart';
-import '../bloc/level_bloc.dart';
-import './services/hive_service.dart';
+import 'package:darwin/bloc/level_bloc.dart';
+import 'package:darwin/services/hive_service.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
