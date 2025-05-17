@@ -10,6 +10,7 @@ import 'package:darwin/data/image_item.dart';
 import 'package:darwin/logic/game_field_manager.dart';
 import 'package:darwin/logic/merge_handler.dart';
 import 'package:darwin/logic/merge_logic.dart';
+import 'package:darwin/logic/hint_manager.dart';
 import 'package:darwin/widgets/game_field.dart';
 import 'package:darwin/widgets/toolbox_panel.dart';
 import 'package:darwin/widgets/game_panel.dart';
@@ -31,6 +32,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _clearButtonController;
   late Animation<double> _clearButtonAnimation;
 
+  late HintManager _hintManager;
   // для плавного завершения уровня
   late AnimationController _bannerAnimationController;
   late Animation<double> _bannerOpacityAnimation;
@@ -78,10 +80,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
   GameItem? _draggedItem; // Элемент, который сейчас перетаскивается
   Offset? _dragStartPosition; // Начальная позиция перетаскивания
-
   // Изображения для панели инструментов (первые 5 из всех доступных)
-  // final List<ImageItem> _toolboxImages = allImages.take(5).toList();
-
   late List<ImageItem> gameImages;
 
   // Позиции элементов и их видимость
@@ -97,7 +96,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    _hintManager = HintManager(context, mergeRules);
     _startHintTimer();
 
     _fieldManager = FieldManager(
@@ -215,15 +214,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _mergeHandler = MergeHandler(
           context: context,
           onMergeComplete: (mergedItem) {
-            debugPrint(
-              'mergedItem == ${mergedItem.id} ${context.read<LevelBloc>().state.targetItem}',
-            );
-
             if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
               debugPrint('banner');
-
-              //    _levelBloc.add(LevelCompletedEvent());
-              //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
               context.read<LevelBloc>().add(
                 ShowLevelCompleteEvent(itemId: mergedItem.id),
               );
@@ -276,16 +268,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   taskDescription: state.levelTitle,
                   time: "02:45",
                   onHintPressed: () {
-                    print("Логика подсказки");
-
-                    //  final state = context.read<LevelBloc>().state;
-                    //   if (state.hintsState.availableHints > 0) {
-                    // Показываем баннер с подсказкой
-
-                    // Показываем панель подсказок
+                    debugPrint("Логика подсказки");
                     _toggleHintPanel();
-
-                    // Логика подсказки
                   },
                   onClearPressed: _handleClearField, // Изменяем обработчик () {
                   // Логика очистки экрана
@@ -309,7 +293,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   gridRows: gridRows,
                   gameItems: context.read<LevelBloc>().state.gameItems ?? [],
                   draggedItem: _draggedItem,
-
                   cellSize: cellSize,
                   mergeHandler: _mergeHandler, // Передаем handler
                   // сдвиг поля на высоту панели
@@ -339,8 +322,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                     });
                   },
                   onItemAdded: (GameItem gameItem) {
-                    print('Добавляем элемент через BLoC');
-
                     final gameItemTry = _fieldManager.tryAddItem(
                       context: context,
                       item: gameItem,
@@ -351,8 +332,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                         AddGameItemsEvent(items: [gameItemTry]),
                       );
                     }
-
-                    //     setState(() {}); // Обновляем UI после добавления элемента
                   },
                 ),
               ),
@@ -461,15 +440,9 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   }
 
   Future<void> _toggleHintPanel() async {
-    print('--------------');
     final state = context.read<LevelBloc>().state;
     final hintsState = state.hintsState;
     // Есть или бесплатные или платные подсказки.
-
-    if (hintsState.hasPendingHint) {
-      print('-------- активная неиспользованная подсказка');
-    }
-
     if (hintsState.canGetFreeHint ||
         hintsState.getPaidHints ||
         hintsState.hasPendingHint) {
@@ -477,15 +450,12 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       if (!hintsState.hasPendingHint) {
         // что-то видимо есть.
         context.read<LevelBloc>().add(DecrementHint());
-
-        print('вычисляем подсказки');
+        debugPrint('вычисляем подсказки');
         // когда мы открываем подсказку мы помечаем её как прочитанную
-
         // Ждем завершения обработки события
-
         await Future.delayed(Duration.zero);
       } else {
-        print('не забираем подсказку');
+        debugPrint('не забираем подсказку');
       }
 
       // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
@@ -495,24 +465,16 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       // при нахождении. При это мы не даём ему воспользоваться следующей подсказкой,
       // пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
       // чтобы пользователь понимал что с чем соеденить.
-      final element = _findUnusedHint();
-      if (element != null) {
-        print(
-          'currentHint currentHint ${element} hintsState.currentHint = ${hintsState.currentHint}',
-        );
 
-        context.read<LevelBloc>().add(SetHintItem(element));
-
-        final components = findComponentsForItem(element, mergeRules);
-        if (components != null) {
-          print(
-            'Чтобы создать ${components[2]}, объедините ${components[0]} и ${components[1]}',
-          );
-          // это надо для баннера
-          _hintItem1 = components[0];
-          _hintItem2 = components[1];
-          _hintResult = components[2];
-        }
+      final components = await _hintManager.showHint();
+      if (components != null) {
+        // это надо для баннера
+        setState(() {
+          _hintItem1 = components['item1'];
+          _hintItem2 = components['item2'];
+          _hintResult = components['result'];
+        });
+        context.read<LevelBloc>().add(SetHintItem(_hintResult!));
       }
 
       // Теперь получаем актуальное состояние после уменьшения
@@ -525,129 +487,23 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _countHints = updatedState.hintsState.countHintsAvailable;
         _showHintPanel = !_showHintPanel;
         if (_showHintPanel) {
-          print('открываем подсказку ${_countHints}');
           //          _hintPanelController?.forward();
-
           _hintPayPanelController?.forward();
         } else {
-          print('закрываем подсказку');
+          debugPrint('закрываем подсказку');
           //        _hintPanelController?.reverse();
           _hintPayPanelController?.forward();
         }
       });
     } else {
-      print('доступные подсказки отсутствуют, идём за покупками ) ');
+      debugPrint('доступные подсказки отсутствуют, идём за покупками ) ');
       _hintPayPanelController?.forward();
       // предлагаем купить подсказку
     }
   }
 
-  /**
-  * Находим элемент который отсутствует в подсказках
-  */
-  String? _findUnusedHint() {
-    final state = context.read<LevelBloc>().state;
-    // Получаем все открытые игроком элементы
-    final discoveredItems = state.discoveredItems;
-
-    print('discoveredItems  ${discoveredItems}');
-    // Ищем первую подсказку, которой нет в открытых элементах
-    for (final hint in state.hints) {
-      if (!discoveredItems.contains(hint)) {
-        return hint;
-      }
-    }
-    // Если все подсказки уже открыты
-    return null;
-  }
-
-  List<MergeRule> findMergeRulesForItem(
-    String targetItemId,
-    List<MergeRule> allRules,
-  ) {
-    return allRules
-        .where((rule) => rule.resultImageId == targetItemId)
-        .toList();
-  }
-
-  /// Находит компоненты для создания указанного элемента
-  /// Возвращает список в формате [firstImageId, secondImageId, resultImageId] или null, если правило не найдено
-  List<String>? findComponentsForItem(
-    String targetItemId,
-    List<MergeRule> allRules,
-  ) {
-    final rules = findMergeRulesForItem(targetItemId, allRules);
-    if (rules.isEmpty) return null;
-
-    // Берем первое подходящее правило
-    final rule = rules.first;
-    return [rule.firstImageId, rule.secondImageId, rule.resultImageId];
-  }
-
-  /// Возвращает все возможные комбинации для создания элемента
-  List<List<String>> findAllComponentOptions(
-    String targetItemId,
-    List<MergeRule> allRules,
-  ) {
-    return findMergeRulesForItem(targetItemId, allRules)
-        .map(
-          (rule) => [rule.firstImageId, rule.secondImageId, rule.resultImageId],
-        )
-        .toList();
-  }
-
-  /// Получаем координаты
-  Offset _getCoorStatic(
-    Map<String, int> params,
-    double cellSize,
-    double fieldTopOffset,
-  ) {
-    final x = params['gridX']! * cellSize + (cellSize / 2);
-
-    final y =
-        params['gridY']! * cellSize + (cellSize / 2) + _toolboxHeight.toInt();
-
-    return Offset(x.toDouble(), y.toDouble());
-  }
-
-  /// Определяет ячейку сетки по координатам касания
-  /// Возвращает Map с координатами ячейки {'x': x, 'y': y} или null, если касание вне поля
-  Map<String, int> getCellFromCoordinates(
-    Offset position,
-    double cellSize,
-    double fieldTopOffset,
-  ) {
-    // Преобразуем глобальные координаты в локальные относительно игрового поля
-    final localX = position.dx;
-    final localY = position.dy - fieldTopOffset;
-
-    print('fieldTopOffset ${fieldTopOffset}');
-    // Проверяем, что касание в пределах игрового поля
-
-    final cellX = (localX / cellSize).floor();
-    final cellY = (localY / cellSize).floor();
-
-    return {'gridX': cellX, 'gridY': cellY};
-  }
-
-  /// Определяет центр координат ближайшей ячейки имея координаты
-  Offset getCoordinatesBox(
-    Offset position,
-    double cellSize,
-    double fieldTopOffset,
-  ) {
-    print('StartPosition ${position}');
-    // Преобразуем глобальные координаты в локальные относительно игрового поля
-    final box = getCellFromCoordinates(position, cellSize, fieldTopOffset);
-    print('box ${box}');
-
-    final coor = _getCoorStatic(box, cellSize, fieldTopOffset);
-
-    return coor;
-  }
-
   void _handleClearField() async {
-    print("Логика очистки экрана");
+    debugPrint("Логика очистки экрана");
     // Анимируем кнопку
     await _clearButtonController.forward();
     await _clearButtonController.reverse();
@@ -692,11 +548,9 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       final mergeSuccess = await _checkForMerge(item, newX, newY);
 
       if (mergeSuccess) {
-        // Слияние успешно - элемент будет удален в mergeHandler
         _clearDraggedItem();
         return;
       }
-
       // Если слияние не удалось, пробуем переместить
       if (_isCellEmpty(newX, newY)) {
         _moveItemToNewPosition(item, newX, newY);
@@ -707,7 +561,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       // Элемент не перемещен - возвращаем на место
       _returnItemToOriginalPosition(item);
     }
-
     _clearDraggedItem();
   }
 
@@ -727,9 +580,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       dragOffset: Offset.zero,
       tempOffset: item.dragOffset, // Для анимации
     );
-
     context.read<LevelBloc>().add(AddGameItemsEvent(items: [updatedItem]));
-
     // Запустить анимацию через TickerProvider
     // и постепенно обнулять tempOffset
   }
@@ -748,8 +599,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     return !gameItems.any((item) => item.gridX == x && item.gridY == y);
   }
 
-  // Проверка возможности слияния с соседними элементами
-  // Проверка возможности слияния элементов в одной ячейке
+  // Проверка возможности слияния с соседними элементами и элементов в одной ячейке
   Future<bool> _checkForMerge(GameItem movedItem, int newX, int newY) async {
     // Находим все элементы в текущей ячейке перемещенного элемента
 
@@ -763,7 +613,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           final shouldInclude = isNotMovedItem && isSameCell;
           return shouldInclude;
         }).toList();
-    // debugPrint('Проверяем слияние с каждым элементом в ячейке');
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
@@ -772,7 +621,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           context.read<LevelBloc>().add(UseHintEvent());
         }
         return result;
-        //   return; // Сливаем только с одним элементом за раз
       }
     }
     return false;
@@ -784,9 +632,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     setState(() {
       _draggedItem = item; // Запоминаем перетаскиваемый элемент
       _dragStartPosition = startPosition; // Запоминаем начальную позицию
-      //   debugPrint('///////////////// ${item.gridX} ${item.gridY} ${item}');
     });
-    //  debugPrint('удалили объект');
   }
 
   // Обновление позиции при перетаскивании
@@ -834,7 +680,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   }
 
   void onBuyHints(count, price) {
-    print('onBuy5Hints');
+    debugPrint('onBuy5Hints');
   }
 
   Widget _buildPayPanel(BuildContext context) {
@@ -854,7 +700,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       onClose: () {
         setState(() {
           _showHintPanel = !_showHintPanel;
-          print('Логика подсказки');
+          debugPrint('Логика подсказки');
           _hintPayPanelController?.reverse();
           // Логика подсказки
           //    _showHintBanner = false;
@@ -866,9 +712,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
   // показываем баннер подсказок
   Widget _buildHintPanel(BuildContext context) {
-    // final _hintItem1 = 'water';
-    // final _hintItem2 = 'water';
-    // final _hintResult = 'cloud';
     if (_hintItem1 != null && _hintItem2 != null && _hintResult != null) {
       return HintBanner(
         item1Id: _hintItem1!,
@@ -878,7 +721,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         onClose: () {
           setState(() {
             _showHintPanel = !_showHintPanel;
-            print('Логика подсказки');
+            debugPrint('Логика подсказки');
             _hintPanelController?.reverse();
             // Логика подсказки
             //    _showHintBanner = false;
