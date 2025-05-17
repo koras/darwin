@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart'; // Для использования firstWhereOrNull
 
-import 'package:darwin/screens/hintBanner.dart';
+import 'dart:async';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:darwin/screens/hintBanner.dart';
 import 'package:darwin/models/game_item.dart';
 import 'package:darwin/data/image_item.dart';
 import 'package:darwin/logic/game_field_manager.dart';
@@ -13,16 +15,10 @@ import 'package:darwin/widgets/toolbox_panel.dart';
 import 'package:darwin/widgets/game_panel.dart';
 import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 import 'package:darwin/data/merge_rules.dart';
-
 import 'package:darwin/data/merge_rule.dart';
-import 'dart:async';
-
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/discoveryBanner.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/screens/mergeSuccessBanner.dart';
-
 import 'package:darwin/screens/waitOrBuyHintBanner.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
