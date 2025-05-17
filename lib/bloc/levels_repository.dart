@@ -3,22 +3,25 @@
 class LevelsRepository {
   static final Map<int, Map<String, dynamic>> levelsData = {
     1: {
-      'imageItems': ['water', 'man'],
-      'result': 'cloud',
-      'title': 'Создайте Облако',
-      'hints': {
-        1: ['water', 'water', 'cloud'],
-        3: ['wind', 'wind', 'sky'],
-      },
+      'imageItems': ['water', 'mammal', 'tree', 'time'],
+      'result': 'sun',
+      'title': 'Создайте sun',
+      'hints': [
+        'cloud',
+        'sky',
+        'monkey',
+        'man',
+        'enchantress',
+        'sorcery',
+        'witch',
+        'flying',
+      ],
     },
     2: {
-      'imageItems': ['water', 'fish', 'dnk', 'sugar'],
+      'imageItems': ['water', 'cloud', 'fish', 'dnk', 'sugar'],
       'result': 'dolphin',
       'title': 'Создайте гриб',
-      'hints': {
-        1: ['water', 'cloud', 'sugar'],
-        2: ['sugar', 'sugar', 'mushroom'],
-      },
+      'hints': ['cloud', 'sky', 'grimoire', 'enchantress'],
     },
 
     // Уровень 3: "Создайте город"
@@ -26,32 +29,30 @@ class LevelsRepository {
       'imageItems': ['new_year', 'tree', 'village'],
       'result': 'city',
       'title': 'Создайте мегаполис',
-      'hints': {
-        1: ['stone', 'stone', 'stone_mountain'],
-        2: ['tree', 'tree', 'forest'],
-        3: ['man', 'man', 'crowd_of_people'],
-        4: ['crowd_of_people', 'stone', 'village'],
-        5: ['village', 'forest', 'wooden'],
-        6: ['wooden', 'tool', 'house'],
-        7: ['house', 'house', 'city'],
-        8: ['city', 'car', 'metropolis'], // Секретное улучшение
-      },
+      'hints': [
+        'cloud',
+        'sky',
+        'grimoire',
+        'enchantress',
+        'sorcery',
+        'witch',
+        'flying',
+      ], // Секретное улучшение
     },
     //Уровень 4: "Рождественское чудо"
     4: {
       'imageItems': ['tree', 'snow', 'man'],
       'result': 'santa_claus',
       'title': 'Вызовите Санту',
-      'hints': {
-        1: ['tree', 'snow', 'new_year_tree'],
-        2: ['man', 'man', 'love'],
-        3: ['love', 'new_year_tree', 'holiday'],
-        4: ['holiday', 'snow', 'winter'],
-        5: ['winter', 'man', 'cold'],
-        6: ['cold', 'holiday', 'penguin'],
-        7: ['penguin', 'winter', 'santa_claus'],
-        8: ['santa_claus', 'new_year_tree', 'present'], // Секретный предмет
-      },
+      'hints': [
+        'cloud',
+        'sky',
+        'grimoire',
+        'enchantress',
+        'sorcery',
+        'witch',
+        'flying',
+      ],
     },
     //Уровень 5: "Индустриальная революция"
     5: {

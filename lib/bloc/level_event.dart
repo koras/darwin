@@ -51,3 +51,34 @@ class ShowLevelCompleteEvent extends LevelEvent {
 }
 
 class ClearGameFieldEvent extends LevelEvent {}
+
+// убираем подсказку
+class DecrementHint extends LevelEvent {}
+
+// Событие покупки подсказок
+class BuyHintsEvent extends LevelEvent {
+  final int amount;
+  BuyHintsEvent(this.amount);
+}
+
+// Событие отметки подсказки как использованной
+class MarkHintUsedEvent extends LevelEvent {
+  final String itemId;
+  MarkHintUsedEvent(this.itemId);
+}
+
+// Событие отметки подсказки как использованной
+class ClearActiveHintEvent extends LevelEvent {}
+
+// Событие отметки подсказки как использованной
+class UseHintEvent extends LevelEvent {}
+
+// Событие отметки подсказки
+class SetHintEvent extends LevelEvent {}
+
+// какой элемент надо найти чтобы диактивировать подсказку
+class SetHintItem extends LevelEvent {
+  final String currentHint;
+
+  SetHintItem(this.currentHint);
+}

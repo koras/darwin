@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/icons.dart';
+import 'package:darwin/data/icons.dart';
 
 class GamePanel extends StatelessWidget {
   final String name;

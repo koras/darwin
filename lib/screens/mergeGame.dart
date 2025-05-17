@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart'; // Для использования firstWhereOrNull
 
-import '../models/game_item.dart';
-import '../models/image_item.dart';
-import '../logic/game_field_manager.dart';
-import '../logic/merge_handler.dart';
-import '../logic/merge_logic.dart';
-import '../widgets/game_field.dart';
-import '../widgets/toolbox_panel.dart';
-import '../widgets/game_panel.dart';
-import '../widgets/bottom_app_bar_widget.dart';
+import 'package:darwin/screens/hintBanner.dart';
 
-import '../bloc/level_bloc.dart';
-import 'discoveryBanner.dart';
+import 'package:darwin/models/game_item.dart';
+import 'package:darwin/models/image_item.dart';
+import 'package:darwin/logic/game_field_manager.dart';
+import 'package:darwin/logic/merge_handler.dart';
+import 'package:darwin/logic/merge_logic.dart';
+import 'package:darwin/widgets/game_field.dart';
+import 'package:darwin/widgets/toolbox_panel.dart';
+import 'package:darwin/widgets/game_panel.dart';
+import 'package:darwin/widgets/bottom_app_bar_widget.dart';
+import 'package:darwin/data/merge_rules.dart';
+
+import 'package:darwin/models/merge_rule.dart';
+import 'dart:async';
+
+import 'package:darwin/bloc/level_bloc.dart';
+import 'package:darwin/screens/discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'levelCompleteBanner.dart';
-import 'mergeSuccessBanner.dart';
+import 'package:darwin/screens/levelCompleteBanner.dart';
+import 'package:darwin/screens/mergeSuccessBanner.dart';
+
+import 'package:darwin/screens/waitOrBuyHintBanner.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
@@ -32,6 +40,24 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _bannerAnimationController;
   late Animation<double> _bannerOpacityAnimation;
   late Animation<double> _bannerScaleAnimation;
+  // Первый элеменит слияния для подсказки
+  String? _hintItem1;
+  // Второй элеменит слияния для подсказки
+  String? _hintItem2;
+  // Результат слияния для подсказки
+  String? _hintResult;
+  // количество подсказок
+  int _countHints = 0;
+
+  bool _showHintPanel = false;
+  AnimationController? _hintPanelController;
+  AnimationController? _hintPayPanelController;
+
+  Animation<Offset>? _hintBunnerAnimation;
+  Animation<Offset>? _hintPayBunnerAnimation;
+
+  Timer? _hintTimer;
+  Duration _timeUntilNextHint = Duration.zero;
 
   // Добавляем BLoC
   late final LevelBloc _levelBloc;
@@ -77,6 +103,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    _startHintTimer();
+
     _fieldManager = FieldManager(
       getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
       maxItems: 25, // Укажите нужные значения
@@ -90,28 +118,14 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     _mergeHandler = MergeHandler(
       context: context,
       onMergeComplete: (mergedItem) {
-        //  debugPrint(
-        //   'mergedItem == ${mergedItem.id} ${_levelBloc.state.targetItem}',
-        //  );
-
         if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
-          debugPrint(
-            'Обновляем уровень == ${mergedItem.id} ${_levelBloc.state.targetItem}',
-          );
-
           context.read<LevelBloc>().add(LevelCompletedEvent());
-          //_levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
-          //    _levelBloc.add(ShowLevelCompleteEvent(itemId: mergedItem.id));
         }
         setState(() {});
       },
       cellSize: 0,
       fieldTop: 0,
-      levelBloc:
-          context
-              .read<
-                LevelBloc
-              >(), // Временное значение, будет обновлено в build()
+      levelBloc: context.read<LevelBloc>(),
     );
 
     _clearButtonController = AnimationController(
@@ -146,12 +160,39 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         curve: Curves.easeInOut,
       ),
     );
+
+    _hintPanelController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _hintPayPanelController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _hintBunnerAnimation = Tween<Offset>(
+      begin: const Offset(-1, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: _hintPanelController!, curve: Curves.easeInOut),
+    );
+
+    _hintPayBunnerAnimation = Tween<Offset>(
+      begin: const Offset(-1, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _hintPayPanelController!,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override
   void dispose() {
+    _hintPanelController?.dispose();
     _clearButtonController.dispose();
-
     _bannerAnimationController.dispose();
     context.read<LevelBloc>().close();
     super.dispose();
@@ -222,9 +263,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                       image: Image.asset('assets/images/background.png').image,
                       fit: BoxFit.fitWidth, // Растягиваем по ширине
                       alignment: Alignment.topCenter, // Выравниваем по верху
-                      repeat:
-                          ImageRepeat
-                              .repeatY, // Повторяем по вертикали (клонируем вниз)
+                      repeat: ImageRepeat.repeatY,
                     ),
                   ),
                 ),
@@ -243,6 +282,14 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   time: "02:45",
                   onHintPressed: () {
                     print("Логика подсказки");
+
+                    //  final state = context.read<LevelBloc>().state;
+                    //   if (state.hintsState.availableHints > 0) {
+                    // Показываем баннер с подсказкой
+
+                    // Показываем панель подсказок
+                    _toggleHintPanel();
+
                     // Логика подсказки
                   },
                   onClearPressed: _handleClearField, // Изменяем обработчик () {
@@ -393,11 +440,165 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+
+              Positioned(
+                top: 100,
+                left: 0,
+                child: SlideTransition(
+                  position: _hintBunnerAnimation!,
+                  child: _buildHintPanel(context),
+                ),
+              ),
+
+              Positioned(
+                top: 100,
+                left: 0,
+                child: SlideTransition(
+                  position: _hintPayBunnerAnimation!,
+                  child: _buildPayPanel(context),
+                ),
+              ),
             ],
           ),
         );
       },
     );
+  }
+
+  Future<void> _toggleHintPanel() async {
+    print('--------------');
+    final state = context.read<LevelBloc>().state;
+    final hintsState = state.hintsState;
+    // Есть или бесплатные или платные подсказки.
+
+    if (hintsState.hasPendingHint) {
+      print('-------- активная неиспользованная подсказка');
+    }
+
+    if (hintsState.canGetFreeHint ||
+        hintsState.getPaidHints ||
+        hintsState.hasPendingHint) {
+      // у нас есть открытая подсказка
+      if (!hintsState.hasPendingHint) {
+        // что-то видимо есть.
+        context.read<LevelBloc>().add(DecrementHint());
+
+        print('вычисляем подсказки');
+        // когда мы открываем подсказку мы помечаем её как прочитанную
+
+        // Ждем завершения обработки события
+
+        await Future.delayed(Duration.zero);
+      } else {
+        print('не забираем подсказку');
+      }
+
+      // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
+      // пользователь уже имеет открытый элемент, и надо дать пользователю
+      // именно элемент которого у него нет
+      // Соответственно, надо взять подсказки и вычесть элементы которые уже открыты.
+      // при нахождении. При это мы не даём ему воспользоваться следующей подсказкой,
+      // пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
+      // чтобы пользователь понимал что с чем соеденить.
+      final element = _findUnusedHint();
+      if (element != null) {
+        print(
+          'currentHint currentHint ${element} hintsState.currentHint = ${hintsState.currentHint}',
+        );
+
+        context.read<LevelBloc>().add(SetHintItem(element));
+
+        final components = findComponentsForItem(element, mergeRules);
+        if (components != null) {
+          print(
+            'Чтобы создать ${components[2]}, объедините ${components[0]} и ${components[1]}',
+          );
+          // это надо для баннера
+          _hintItem1 = components[0];
+          _hintItem2 = components[1];
+          _hintResult = components[2];
+        }
+      }
+
+      // Теперь получаем актуальное состояние после уменьшения
+      final updatedState = context.read<LevelBloc>().state;
+      // помечаем что подсказка активна и не использована
+      context.read<LevelBloc>().add(SetHintEvent());
+
+      // Логика подсказки
+      setState(() {
+        _countHints = updatedState.hintsState.countHintsAvailable;
+        _showHintPanel = !_showHintPanel;
+        if (_showHintPanel) {
+          print('открываем подсказку ${_countHints}');
+          //          _hintPanelController?.forward();
+
+          _hintPayPanelController?.forward();
+        } else {
+          print('закрываем подсказку');
+          //        _hintPanelController?.reverse();
+          _hintPayPanelController?.forward();
+        }
+      });
+    } else {
+      print('доступные подсказки отсутствуют, идём за покупками ) ');
+      _hintPayPanelController?.forward();
+      // предлагаем купить подсказку
+    }
+  }
+
+  /**
+  * Находим элемент который отсутствует в подсказках
+  */
+  String? _findUnusedHint() {
+    final state = context.read<LevelBloc>().state;
+    // Получаем все открытые игроком элементы
+    final discoveredItems = state.discoveredItems;
+
+    print('discoveredItems  ${discoveredItems}');
+    // Ищем первую подсказку, которой нет в открытых элементах
+    for (final hint in state.hints) {
+      if (!discoveredItems.contains(hint)) {
+        return hint;
+      }
+    }
+    // Если все подсказки уже открыты
+    return null;
+  }
+
+  List<MergeRule> findMergeRulesForItem(
+    String targetItemId,
+    List<MergeRule> allRules,
+  ) {
+    return allRules
+        .where((rule) => rule.resultImageId == targetItemId)
+        .toList();
+  }
+
+  /// Находит компоненты для создания указанного элемента
+  /// Возвращает список в формате [firstImageId, secondImageId, resultImageId] или null, если правило не найдено
+  List<String>? findComponentsForItem(
+    String targetItemId,
+    List<MergeRule> allRules,
+  ) {
+    final rules = findMergeRulesForItem(targetItemId, allRules);
+    if (rules.isEmpty) return null;
+
+    // Берем первое подходящее правило
+    final rule = rules.first;
+    return [rule.firstImageId, rule.secondImageId, rule.resultImageId];
+  }
+
+  /// Возвращает все возможные комбинации для создания элемента
+  List<List<String>> findAllComponentOptions(
+    String targetItemId,
+    List<MergeRule> allRules,
+  ) {
+    return findMergeRulesForItem(targetItemId, allRules)
+        .map(
+          (rule) => [rule.firstImageId, rule.secondImageId, rule.resultImageId],
+        )
+        .toList();
   }
 
   /// Получаем координаты
@@ -498,7 +699,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     if (newX != item.gridX || newY != item.gridY) {
       // проверка слияния и слияния
       final mergeSuccess = await _checkForMerge(item, newX, newY);
-      debugPrint('проверка слияния и слияния');
+
       if (mergeSuccess) {
         // Слияние успешно - элемент будет удален в mergeHandler
         _clearDraggedItem();
@@ -571,11 +772,15 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           final shouldInclude = isNotMovedItem && isSameCell;
           return shouldInclude;
         }).toList();
-    debugPrint('Проверяем слияние с каждым элементом в ячейке');
+    // debugPrint('Проверяем слияние с каждым элементом в ячейке');
     // Проверяем слияние с каждым элементом в ячейке
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
-        return _mergeHandler.tryMergeItems(movedItem, item);
+        final result = await _mergeHandler.tryMergeItems(movedItem, item);
+        if (result) {
+          context.read<LevelBloc>().add(UseHintEvent());
+        }
+        return result;
         //   return; // Сливаем только с одним элементом за раз
       }
     }
@@ -601,5 +806,120 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _draggedItem!.dragOffset = details.globalPosition - _dragStartPosition!;
       });
     }
+  }
+
+  void _startHintTimer() {
+    // Останавливаем предыдущий таймер, если был
+    _hintTimer?.cancel();
+
+    // Запускаем новый таймер
+    _hintTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+
+      final state = context.read<LevelBloc>().state;
+
+      if (state.hintsState.lastHintTime != null &&
+          !state.hintsState.hasPendingHint) {
+        final now = DateTime.now();
+        final nextHintTime = state.hintsState.lastHintTime!.add(
+          const Duration(hours: 3),
+        );
+
+        if (now.isBefore(nextHintTime)) {
+          setState(() {
+            _timeUntilNextHint = nextHintTime.difference(now);
+          });
+        } else {
+          setState(() {
+            _timeUntilNextHint = Duration.zero;
+          });
+        }
+      } else {
+        setState(() {
+          _timeUntilNextHint = Duration.zero;
+        });
+      }
+    });
+  }
+
+  void onBuy5Hints() {
+    print('onBuy5Hints');
+  }
+
+  void onBuy10Hints() {
+    print('onBuy10Hints');
+  }
+
+  void onBuy20Hints() {
+    print('onBuy20Hints');
+  }
+
+  Widget _buildPayPanel(BuildContext context) {
+    DateTime lastHintTime = DateTime.now(); // Время последней подсказки
+    Duration cooldownPeriod = Duration(minutes: 30); // Время ожидания
+    Duration remainingTime = lastHintTime
+        .add(cooldownPeriod)
+        .difference(DateTime.now());
+    // Проверка, что время не отрицательное
+    if (remainingTime.isNegative) {
+      remainingTime = Duration.zero;
+    }
+    return WaitOrBuyHintBanner(
+      // cointHint: _countHints,
+      remainingTime: remainingTime,
+      onBuy5Hints: () => onBuy5Hints(),
+      onBuy10Hints: () => onBuy10Hints(),
+      onBuy20Hints: () => onBuy20Hints(),
+      onClose: () {
+        setState(() {
+          _showHintPanel = !_showHintPanel;
+          print('Логика подсказки');
+          _hintPayPanelController?.reverse();
+          // Логика подсказки
+          //    _showHintBanner = false;
+        });
+        // Здесь можно добавить логику после закрытия подсказки
+      },
+    );
+  }
+
+  Widget _buildHintPanel(BuildContext context) {
+    // final _hintItem1 = 'water';
+    // final _hintItem2 = 'water';
+    // final _hintResult = 'cloud';
+    if (_hintItem1 != null && _hintItem2 != null && _hintResult != null) {
+      return HintBanner(
+        item1Id: _hintItem1!,
+        item2Id: _hintItem2!,
+        resultId: _hintResult!,
+        cointHint: _countHints,
+        onClose: () {
+          setState(() {
+            _showHintPanel = !_showHintPanel;
+            print('Логика подсказки');
+            _hintPanelController?.reverse();
+            // Логика подсказки
+            //    _showHintBanner = false;
+          });
+          // Здесь можно добавить логику после закрытия подсказки
+        },
+      );
+    } else {
+      return Text('У вас нет подсказок');
+    }
+  }
+
+  // String _formatDuration(Duration duration) {
+  //   String twoDigits(int n) => n.toString().padLeft(2, "0");
+  //   final hours = twoDigits(duration.inHours);
+  //   final minutes = twoDigits(duration.inMinutes.remainder(60));
+  //   final seconds = twoDigits(duration.inSeconds.remainder(60));
+  //   return "$hours:$minutes:$seconds";
+  // }
+
+  // Метод для форматирования времени в читаемый вид
+  String _formatTimeRemaining(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    return "${twoDigits(duration.inHours)}:${twoDigits(duration.inMinutes.remainder(60))}:${twoDigits(duration.inSeconds.remainder(60))}";
   }
 }

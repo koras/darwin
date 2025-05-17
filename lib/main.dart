@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'screens/mergeGame.dart';
-import 'screens/mainMenu.dart';
-import './providers/appPoints.dart';
+
+import 'providers/appService.dart';
 import 'package:provider/provider.dart'; // Добавьте этот импорт
-import 'package:bloc/bloc.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import './bloc/level_bloc.dart';
+//import '../models/game_item.dart';
+import '../bloc/level_bloc.dart';
+import './services/hive_service.dart';
 
-void main() {
+import 'package:hive_flutter/hive_flutter.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Инициализация Hive
+  await HiveService.init();
+
+  // Открытие бокса для сохранения состояния
+  await Hive.openBox<LevelState>('gameState');
+
   runApp(
     ChangeNotifierProvider(
-      create: (context) => AppPointsProviders(),
+      create: (context) => AppLevelProviders(),
       child: const MyApp(),
     ),
   );
@@ -38,11 +50,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// Логика подсказок.
-/// 
-/// Для прохождения уровня необходимо определённое количество подсказок, но не менее 3
-/// Первые 10 подсказок бесплатны.
-/// На каждыю уровень доступно 3 подсказки 
-/// Следующий бесплатная подсказка доступна через 3 часа.
-/// Если игрок нашёл совпадение которое есть в подсказке, то такая подсказка снимается или помечается как открытая.
-/// возможно купить подсказки 1,3,5,10,20
+// Логика подсказок.
+// 
+// Для прохождения уровня необходимо определённое количество подсказок, но не менее 3
+// Первые 10 подсказок бесплатны.
+// На каждыю уровень доступно 3 подсказки 
+// Следующий бесплатная подсказка доступна через 3 часа.
+// Если игрок нашёл совпадение которое есть в подсказке, то такая подсказка снимается или помечается как открытая.
+// возможно купить подсказки 1,3,5,10,20
