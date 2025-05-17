@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:darwin/models/image_item.dart';
-
-//import 'package:collection/collection.dart';
+import 'package:darwin/data/image_item.dart';
 
 part 'game_item.g.dart';
 

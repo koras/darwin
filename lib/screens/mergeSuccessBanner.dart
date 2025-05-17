@@ -1,6 +1,5 @@
 import 'package:darwin/models/game_item.dart';
 import 'package:flutter/material.dart';
-import '../models/image_item.dart';
 
 class MergeSuccessBanner extends StatelessWidget {
   final GameItem? resultItem;

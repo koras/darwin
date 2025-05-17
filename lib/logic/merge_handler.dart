@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/game_item.dart';
-import '../models/image_item.dart';
-import '../logic/merge_logic.dart';
-import '../widgets/game_snackbar.dart';
-import '../widgets/merge_animation_widget.dart';
-import '../bloc/level_bloc.dart';
+import 'package:darwin/models/game_item.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/logic/merge_logic.dart';
+import 'package:darwin/widgets/game_snackbar.dart';
+import 'package:darwin/widgets/merge_animation_widget.dart';
+import 'package:darwin/bloc/level_bloc.dart';
 import 'dart:math';
 
 // Класс для обработки слияния игровых элементов

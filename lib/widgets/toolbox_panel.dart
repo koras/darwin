@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../bloc/level_bloc.dart';
-import '../models/image_item.dart';
-import '../models/game_item.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/models/game_item.dart';
 import 'toolbox_item.dart';
 import 'dart:math';
 import 'package:bloc/bloc.dart';

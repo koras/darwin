@@ -1,6 +1,6 @@
 import 'package:darwin/models/game_item.dart';
 
-import 'package:darwin/models/image_item.dart';
+import 'package:darwin/data/image_item.dart';
 
 import 'package:flutter/material.dart';
 

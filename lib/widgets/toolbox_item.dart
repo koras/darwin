@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/image_item.dart';
-import '../models/game_item.dart';
-import '../logic/game_field_manager.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/models/game_item.dart';
+
 import '../logic/generate_calm_color.dart';
 import 'dart:math';
 

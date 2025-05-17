@@ -4,7 +4,7 @@ import 'package:collection/collection.dart'; // Для использовани�
 import 'package:darwin/screens/hintBanner.dart';
 
 import 'package:darwin/models/game_item.dart';
-import 'package:darwin/models/image_item.dart';
+import 'package:darwin/data/image_item.dart';
 import 'package:darwin/logic/game_field_manager.dart';
 import 'package:darwin/logic/merge_handler.dart';
 import 'package:darwin/logic/merge_logic.dart';
@@ -21,7 +21,6 @@ import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/discoveryBanner.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:darwin/screens/levelCompleteBanner.dart';
 import 'package:darwin/screens/mergeSuccessBanner.dart';
 
 import 'package:darwin/screens/waitOrBuyHintBanner.dart';

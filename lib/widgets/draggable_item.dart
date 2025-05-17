@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/image_item.dart';
+import 'package:darwin/data/image_item.dart';
 
 class DraggableImage extends StatelessWidget {
   final ImageItem image;

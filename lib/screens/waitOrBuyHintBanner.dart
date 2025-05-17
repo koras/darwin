@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/models/game_item.dart';
-import 'package:darwin/models/image_item.dart';
 
 class WaitOrBuyHintBanner extends StatelessWidget {
   final Duration remainingTime;

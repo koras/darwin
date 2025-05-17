@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
-
-import '../models/image_item.dart';
-import '../widgets/draggable_item.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/widgets/draggable_item.dart';
 
 class GameCell extends StatelessWidget {
   final ImageItem? imageItem;
