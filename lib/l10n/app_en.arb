@@ -1,0 +1,7 @@
+{
+  "gameTitle": "Darwin Evolution",
+  "hintTitle": "Hint",
+  "@hintTitle": {
+    "description": "Title for hint banner"
+  }
+}
