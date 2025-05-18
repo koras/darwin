@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'screens/mergeGame.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import 'providers/appService.dart';
-import 'package:provider/provider.dart'; // Добавьте этот импорт
-
+import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:darwin/l10n/app_localizations.dart';
 
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/services/hive_service.dart';
-
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:darwin/screens/mergeGame.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
