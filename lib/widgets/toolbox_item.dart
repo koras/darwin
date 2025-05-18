@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/data/image_item.dart';
 import 'package:darwin/models/game_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:darwin/data/app_localizations_extensions.dart';
 import 'package:darwin/logic/generate_calm_color.dart';
 import 'dart:math';
 
@@ -70,7 +72,8 @@ class ToolboxItemWidget extends StatelessWidget {
             SizedBox(
               width: size,
               child: Text(
-                imgItem.slug,
+                //    imgItem.slug,
+                AppLocalizations.of(context)!.getString(context, imgItem.slug),
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

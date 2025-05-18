@@ -119,10 +119,10 @@ final List<ImageItem> allImages =
       'lirili_larila', // Лирили_ларила
       'tralalero_tralala', // Тралалеро_тралала
       'shark_and_nike', // Акула_и_найк
-      'Hogwarts_School_of_Witchcraft_and_Wizardry', // Школа_Хогвартс_волшебства_и_магии
-      'March_8', // 8_марта
-      'New_Year`s_star', // Новогодняя_звезда
-      'Thor_man', // Тор_человек
+      'hogwarts_school', // Школа_Хогвартс_волшебства_и_магии
+      'march_8', // 8_марта
+      'new_years_star', // Новогодняя_звезда
+      'thor_man', // Тор_человек
       'ancient_bird', // Древняя_птица
       'ancient_marine_mammal', // Древнее_морское_млекопитающее
       'ancient_sea_fish', // Древняя_морская_рыба
@@ -171,7 +171,7 @@ final List<ImageItem> allImages =
       'prometheus_who_gave_fire', // Прометей_подаривший_огонь
       'rooster', // Петух
       'rope', // Веревка
-      'sea ​_sailing_ship', // Морской_парусный_корабль
+      'sea_sailing_ship', // Морской_парусный_корабль
       'spider_man', // Человек_паук
       'spider_web', // Паутина
       'stone_elemental', // Каменный_элементаль
@@ -191,23 +191,22 @@ final List<ImageItem> allImages =
       'wind', // Ветер
       'young_girl', // Молодая_девушка
       'young_guy', // Молодой_парень
-      'Frost', // Мороз
-      'Phoenix', // Феникс
-      'Sand', // Песок
-      'Thunderstorm_with_lightning', // Гроза_с_молнией
-      'Tornado', // Торнадо
-      'Unicorn', // Единорог
-      'Vampire', // Вампир
-      'Zombie', // Зомби
+      'frost', // Мороз
+      'phoenix', // Феникс
+      'sand', // Песок
+      'thunderstorm_with_lightning', // Гроза_с_молнией
+      'tornado', // Торнадо
+      'unicorn', // Единорог
+      'vampire', // Вампир
       'geyser', // Гейзер
-      'Antibiotic', // Антибиотик
-      'Electric_battery', // Электрическая батарея
-      'Frost', // Мороз/Иней
-      'Molotov_cocktail', // Коктейль Молотова
-      'Phoenix', // Феникс (мифологическая птица)
-      'Puss_in_Boots', // Кот в сапогах (персонаж сказки)
-      'Sand', // Песок
-      'Schrodinger`s_cat', // Кот Шрёдингера (квантовый парадокс)
+      'antibiotic', // Антибиотик
+      'electric_battery', // Электрическая батарея
+      'frost', // Мороз/Иней
+      'molotov_cocktail', // Коктейль Молотова
+      'phoenix', // Феникс (мифологическая птица)
+      'pussinboots', // Кот в сапогах (персонаж сказки)
+      'sand', // Песок
+      'schrodingers_cat', // Кот Шрёдингера (квантовый парадокс)
       'beehive', // Пчелиный улей
       'bitcoin', // Биткоин (криптовалюта)
       'cheese', // Сыр
@@ -215,5 +214,5 @@ final List<ImageItem> allImages =
       'geyser', // Гейзер (источник горячей воды)
       'pandemic', // Пандемия (глобальная эпидемия)
       'shrek', // Шрек (мультперсонаж)
-      'Zombie', // Зомби
+      'zombie', // Зомби
     ].map((id) => ImageItem(id)).toList();

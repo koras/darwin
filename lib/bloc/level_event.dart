@@ -5,7 +5,18 @@ abstract class LevelEvent {}
 
 class LoadLevelEvent extends LevelEvent {
   final int levelId;
-  LoadLevelEvent(this.levelId);
+  final String title;
+  final String result;
+  final List<String> hints;
+  final List<String> imageItems;
+
+  LoadLevelEvent(
+    this.levelId,
+    this.title,
+    this.result,
+    this.hints,
+    this.imageItems,
+  );
 }
 
 /// Событие обнаружения нового предмета
@@ -14,7 +25,10 @@ class ItemDiscoveredEvent extends LevelEvent {
   ItemDiscoveredEvent({required this.itemId});
 }
 
-class LevelCompletedEvent extends LevelEvent {}
+class LevelCompletedEvent extends LevelEvent {
+  final BuildContext context;
+  LevelCompletedEvent({required this.context});
+}
 
 class LevelFailedEvent extends LevelEvent {}
 

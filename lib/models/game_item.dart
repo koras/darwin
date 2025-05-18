@@ -58,6 +58,11 @@ class GameItem {
     );
   }
 
+  String getName() {
+    this.id;
+    return '';
+  }
+
   GameItem copyWith({
     String? id,
     String? key,
