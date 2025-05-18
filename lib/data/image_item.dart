@@ -200,4 +200,20 @@ final List<ImageItem> allImages =
       'Vampire', // Вампир
       'Zombie', // Зомби
       'geyser', // Гейзер
+      'Antibiotic', // Антибиотик
+      'Electric_battery', // Электрическая батарея
+      'Frost', // Мороз/Иней
+      'Molotov_cocktail', // Коктейль Молотова
+      'Phoenix', // Феникс (мифологическая птица)
+      'Puss_in_Boots', // Кот в сапогах (персонаж сказки)
+      'Sand', // Песок
+      'Schrodinger`s_cat', // Кот Шрёдингера (квантовый парадокс)
+      'beehive', // Пчелиный улей
+      'bitcoin', // Биткоин (криптовалюта)
+      'cheese', // Сыр
+      'chocolate', // Шоколад
+      'geyser', // Гейзер (источник горячей воды)
+      'pandemic', // Пандемия (глобальная эпидемия)
+      'shrek', // Шрек (мультперсонаж)
+      'Zombie', // Зомби
     ].map((id) => ImageItem(id)).toList();
