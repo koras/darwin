@@ -16,26 +16,26 @@ part 'level_bloc.g.dart'; // Добавлено для генерации
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {
     // Загружаем сохраненный уровень
-    final savedLevel = HiveService.loadLevel();
+    // final savedLevel = HiveService.loadLevel();
 
     // Загружаем данные уровня
-    final levelData =
-        LevelsRepository.levelsData[savedLevel] ??
-        LevelsRepository.levelsData[1]!;
+    // final levelData =
+    //     LevelsRepository.levelsData[savedLevel] ??
+    //     LevelsRepository.levelsData[1]!;
 
-    final firstLevelData = LevelsRepository.levelsData[1]!;
+    //  final firstLevelData = LevelsRepository.levelsData[1]!;
 
     // Загружаем первый уровень при инициализации
-    emit(
-      LevelState(
-        currentLevel: savedLevel,
-        availableItems: List<String>.from(levelData['imageItems']),
-        discoveredItems: List<String>.from(levelData['imageItems']),
-        targetItem: levelData['result'],
-        levelTitle: levelData['title'],
-        hints: List<String>.from(levelData['hints']),
-      ),
-    );
+    // emit(
+    //   LevelState(
+    //     currentLevel: savedLevel,
+    //     availableItems: List<String>.from(levelData['imageItems']),
+    //     discoveredItems: List<String>.from(levelData['imageItems']),
+    //     targetItem: levelData['result'],
+    //     levelTitle: levelData['title'],
+    //     hints: List<String>.from(levelData['hints']),
+    //   ),
+    // );
 
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
@@ -116,38 +116,53 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     emit(state.copyWith(gameItems: [...currentGameItems, ...event.items]));
   }
 
+  String _getLocalizedString(AppLocalizations l10n, String key) {
+    return 'asdfasdf';
+    try {
+      return (l10n as dynamic)[key] as String? ?? key;
+    } catch (e) {
+      return key; // Fallback
+    }
+  }
+
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
     print('Загрузка уровня ${event.levelId}');
-    final levelData = LevelsRepository.levelsData[event.levelId];
-    if (levelData != null) {
-      final l10n = AppLocalizations.of(event.context)!;
 
-      final keyTitle = levelData['imageItems'];
-      // Сохраняем уже открытые предметы
-      final currentDiscovered = state.discoveredItems;
-      // Начальные предметы уровня + уже открытые
-      print('keyTitle ${keyTitle}');
-      // AppLocalizations.of(context)!.yourStringKey
-      final allAvailable =
-          [
-            ...List<String>.from(levelData['imageItems']),
-            ...currentDiscovered,
-          ].toSet().toList(); // Убираем дубликаты
+    //  final levelData = LevelsRepository.levelsData[event.levelId];
 
-      emit(
-        LevelState(
-          currentLevel: event.levelId,
-          availableItems: allAvailable,
-          discoveredItems: currentDiscovered,
-          targetItem: levelData['result'],
-          //  levelTitle: l10n.level1Title,
-          levelTitle: levelData['title'],
-          hints: levelData['hints'],
-        ),
-      );
-    } else {
-      print('Уровень ${event.levelId} не найден');
-    }
+    print('event.levelId ${event.levelId}');
+    //if (event.levelId != null) {
+    //     final keyTitle = levelData['title'];
+    //   final l10n = AppLocalizations.of(event.context)!.keyTitle;
+    //   print('1111keyTitle ${keyTitle}');
+    //  final l10n = AppLocalizations.of(event.context)!;
+    // Получаем локализованный заголовок
+
+    //  final localizedTitle = _getLocalizedString(l10n, keyTitle);
+    //   AppLocalizations.of(event.context)!.title_compatibility
+    // Сохраняем уже открытые предметы
+    final currentDiscovered = state.discoveredItems;
+    // Начальные предметы уровня + уже открытые
+
+    //    print('keyTitle ${localizedTitle}');
+    // AppLocalizations.of(context)!.yourStringKey
+    final allAvailable =
+        [
+          ...List<String>.from(event.imageItems),
+          ...currentDiscovered,
+        ].toSet().toList(); // Убираем дубликаты
+
+    emit(
+      LevelState(
+        currentLevel: event.levelId,
+        availableItems: allAvailable,
+        discoveredItems: currentDiscovered,
+        targetItem: event.result,
+        //  levelTitle: l10n.level1Title,
+        levelTitle: event.title,
+        hints: event.hints,
+      ),
+    );
   }
 
   void _onClearDiscovery(ClearDiscoveryEvent event, Emitter<LevelState> emit) {
@@ -184,39 +199,48 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     LevelCompletedEvent event,
     Emitter<LevelState> emit,
   ) async {
+    final BuildContext context; // Добавляем контекст
     final nextLevel = state.currentLevel + 1;
     print('Переход на уровень ${nextLevel}  ');
 
     // Сохраняем новый уровень в Hive
     await HiveService.saveLevel(nextLevel);
 
+    // final _levelsRepository = LevelsRepository.initialize(event.context);
+    // Получаем локализованные данные
+    //   final localizedLevels = LevelsRepository.getLocalizedLevels(event.context);
+
+    // Загружаем данные уровня
+    //  final levelData = localizedLevels[nextLevel] ?? localizedLevels[1]!;
+    //  final firstLevelData = localizedLevels[1]!;
+
     final levelData = LevelsRepository.levelsData[nextLevel]!;
 
-    if (LevelsRepository.levelsData.containsKey(nextLevel)) {
-      // Сохраняем все открытые предметы
-      final currentDiscovered = state.discoveredItems;
-      // Объединяем начальные предметы нового уровня и открытые ранее
-      final allAvailable =
-          [
-            ...List<String>.from(levelData['imageItems']),
-            ...currentDiscovered,
-          ].toSet().toList();
+    //   if (LevelsRepository.getLocalizedLevels()) {
+    // Сохраняем все открытые предметы
+    final currentDiscovered = state.discoveredItems;
+    // Объединяем начальные предметы нового уровня и открытые ранее
+    final allAvailable =
+        [
+          ...List<String>.from(levelData['imageItems']),
+          ...currentDiscovered,
+        ].toSet().toList();
 
-      emit(
-        LevelState(
-          currentLevel: nextLevel,
-          availableItems: allAvailable,
-          discoveredItems: currentDiscovered, // Переносим все открытые
-          targetItem: levelData['result'],
-          levelTitle: levelData['title'],
-          hints: levelData['hints'],
-        ),
-      );
+    emit(
+      LevelState(
+        currentLevel: nextLevel,
+        availableItems: allAvailable,
+        discoveredItems: currentDiscovered, // Переносим все открытые
+        targetItem: levelData['result'],
+        levelTitle: levelData['title'],
+        hints: levelData['hints'],
+      ),
+    );
 
-      print(
-        'Уровень $nextLevel успешно загружен. Новый targetItem: ${levelData['result']}',
-      );
-    }
+    print(
+      'Уровень $nextLevel успешно загружен. Новый targetItem: ${levelData['result']}',
+    );
+    //   }
   }
 
   void _onShowLevelComplete(

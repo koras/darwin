@@ -4,6 +4,8 @@ import 'package:collection/collection.dart'; // Для использовани�
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/data/levels_repository.dart';
 import 'package:darwin/screens/hintBanner.dart';
 import 'package:darwin/models/game_item.dart';
 import 'package:darwin/data/image_item.dart';
@@ -57,7 +59,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   Duration _timeUntilNextHint = Duration.zero;
 
   // Добавляем BLoC
-  late final LevelBloc _levelBloc;
+  // late final LevelBloc _levelBloc;
 
   // Высота панели инструментов (30% от экрана по умолчанию)
   double _toolboxHeightPercentage = 0.20;
@@ -96,6 +98,27 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    //  final l10n = AppLocalizations.of(context)!;
+
+    final level = 1;
+
+    // final levelData = LevelsRepository.getLocalizedLevels(context)[level];
+
+    final levelData = LevelsRepository.levelsData[level]!;
+
+    //  final levelData = LevelsRepository.levelsData[level]!;
+
+    context.read<LevelBloc>().add(
+      LoadLevelEvent(
+        level,
+        levelData['title'],
+        levelData['result'],
+        levelData['hints'],
+        levelData['imageItems'],
+      ),
+    );
+
     _hintManager = HintManager(context, mergeRules);
     _startHintTimer();
 
@@ -106,14 +129,15 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       rows: 5,
       columns: 5,
     );
+    // устанавливаем
 
-    _levelBloc = LevelBloc();
+    // _levelBloc = LevelBloc();
 
     _mergeHandler = MergeHandler(
       context: context,
       onMergeComplete: (mergedItem) {
         if (mergedItem.id == context.read<LevelBloc>().state.targetItem) {
-          context.read<LevelBloc>().add(LevelCompletedEvent());
+          context.read<LevelBloc>().add(LevelCompletedEvent(context: context));
         }
         setState(() {});
       },
@@ -385,7 +409,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                           await _bannerAnimationController.reverse();
 
                           if (isTargetItem && mounted) {
-                            bloc.add(LevelCompletedEvent());
+                            bloc.add(LevelCompletedEvent(context: context));
 
                             await bloc.stream.firstWhere(
                               (state) => state.currentLevel > currentLevel,
@@ -710,7 +734,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
   }
 
-  // показываем баннер подсказок
+  /// показываем баннер подсказок
   Widget _buildHintPanel(BuildContext context) {
     if (_hintItem1 != null && _hintItem2 != null && _hintResult != null) {
       return HintBanner(
