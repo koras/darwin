@@ -5,7 +5,7 @@ class LevelsRepository {
     1: {
       'imageItems': ['water', 'mammal', 'tree', 'time'],
       'result': 'sun',
-      'title': 'Создайте sun',
+      'title': 'create_sun',
       'hints': [
         'cloud',
         'sky',

@@ -1,6 +1,10 @@
 {
   "gameTitle": "Darwin Evolution",
   "hintTitle": "Hint",
+
+  "sun": "Sun",
+  "create_sun": "Create the sun",
+
   "@hintTitle": {
     "description": "Title for hint banner"
   }

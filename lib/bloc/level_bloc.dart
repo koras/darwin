@@ -120,6 +120,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       // Сохраняем уже открытые предметы
       final currentDiscovered = state.discoveredItems;
       // Начальные предметы уровня + уже открытые
+
+      // AppLocalizations.of(context)!.yourStringKey
       final allAvailable =
           [
             ...List<String>.from(levelData['imageItems']),

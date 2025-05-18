@@ -10,6 +10,7 @@ import 'package:darwin/l10n/app_localizations.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/services/hive_service.dart';
 import 'package:darwin/screens/mergeGame.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Новый импорт
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +42,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-
+        localizationsDelegates: const [
+        //  AppLocalizations.delegate, // Из flutter_gen
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), // Английский
+          Locale('ru'), // Русский
+        ],
         //    home: MaterialApp(home: StartPage()),
         home: MaterialApp(home: MergeGame()),
       ),

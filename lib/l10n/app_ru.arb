@@ -1,4 +1,10 @@
 {
   "gameTitle": "Эволюция Дарвина",
-  "hintTitle": "Подсказка"
+  "hintTitle": "Подсказка",
+    "sun": "Солнце"  ,
+  "create_sun": "Создайте солнце",
+
+  "@hintTitle": {
+    "description": "Title for hint banner"
+  }
 }
