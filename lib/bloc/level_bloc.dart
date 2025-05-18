@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 // level_bloc.dart
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:darwin/data/levels_repository.dart';
 import 'package:darwin/models/game_item.dart';
 import 'package:darwin/services/hive_service.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:hive/hive.dart';
 part 'level_event.dart';
@@ -117,10 +120,13 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     print('Загрузка уровня ${event.levelId}');
     final levelData = LevelsRepository.levelsData[event.levelId];
     if (levelData != null) {
+      final l10n = AppLocalizations.of(event.context)!;
+
+      final keyTitle = levelData['imageItems'];
       // Сохраняем уже открытые предметы
       final currentDiscovered = state.discoveredItems;
       // Начальные предметы уровня + уже открытые
-
+      print('keyTitle ${keyTitle}');
       // AppLocalizations.of(context)!.yourStringKey
       final allAvailable =
           [
@@ -134,6 +140,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           availableItems: allAvailable,
           discoveredItems: currentDiscovered,
           targetItem: levelData['result'],
+          //  levelTitle: l10n.level1Title,
           levelTitle: levelData['title'],
           hints: levelData['hints'],
         ),
@@ -260,62 +267,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     }
   }
 
-  // String? _findUnusedHint(LevelState state) {
-  //   // Получаем все открытые игроком элементы
-  //   final discoveredItems = state.discoveredItems;
-
-  //   // Ищем первую подсказку, которой нет в открытых элементах
-  //   for (final hint in state.hints) {
-  //     if (!discoveredItems.contains(hint)) {
-  //       return hint;
-  //     }
-  //   }
-  //   // Если все подсказки уже открыты
-  //   return null;
-  // }
-
-  // Обработчики:
-  // void _onRequestHint(RequestHintEvent event, Emitter<LevelState> emit) {
-  //   final currentHints = state.hintsState;
-
-  //   // Если уже есть активная подсказка - ничего не делаем
-  //   if (currentHints.hasActiveHint) return;
-
-  //   final unusedHint = _findUnusedHint(state);
-  //   if (unusedHint == null) {
-  //     emit(state.copyWith(lastDiscoveredItem: 'all_hints_used'));
-  //     return;
-  //   }
-
-  //   if (currentHints.canGetFreeHint) {
-  //     emit(
-  //       state.copyWith(
-  //         hintsState: currentHints.copyWith(
-  //           freeHintsUsed: currentHints.freeHintsUsed + 1,
-  //           lastHintTime: DateTime.now(),
-  //           currentHint: unusedHint,
-  //           usedHints: [...currentHints.usedHints, unusedHint],
-  //         ),
-  //         lastDiscoveredItem: 'hint_$unusedHint',
-  //       ),
-  //     );
-  //   } else if (currentHints.paidHintsAvailable > 0) {
-  //     emit(
-  //       state.copyWith(
-  //         hintsState: currentHints.copyWith(
-  //           paidHintsAvailable: currentHints.paidHintsAvailable - 1,
-  //           currentHint: unusedHint,
-  //           usedHints: [...currentHints.usedHints, unusedHint],
-  //         ),
-  //         lastDiscoveredItem: 'hint_$unusedHint',
-  //       ),
-  //     );
-  //   } else {
-  //     final nextFreeHintTime = currentHints.lastHintTime?.add(
-  //       const Duration(hours: 3),
-  //     );
-  //     emit(state.copyWith(lastDiscoveredItem: 'need_wait_hint'));
-  //   }
   // }
 
   void _onClearActiveHint(

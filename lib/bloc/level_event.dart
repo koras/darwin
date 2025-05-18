@@ -5,7 +5,8 @@ abstract class LevelEvent {}
 
 class LoadLevelEvent extends LevelEvent {
   final int levelId;
-  LoadLevelEvent(this.levelId);
+  final BuildContext context; // Добавляем контекст
+  LoadLevelEvent(this.levelId, this.context);
 }
 
 /// Событие обнаружения нового предмета
