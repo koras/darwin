@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
         localizationsDelegates: const [
-        //  AppLocalizations.delegate, // Из flutter_gen
+          //  AppLocalizations.delegate, // Из flutter_gen
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           Locale('ru'), // Русский
         ],
         //    home: MaterialApp(home: StartPage()),
-        home: MaterialApp(home: MergeGame()),
+        home: MergeGame(),
       ),
     );
   }
