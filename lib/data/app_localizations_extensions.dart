@@ -7,6 +7,30 @@ extension AppLocalizationsExtensions on AppLocalizations {
     final l10n = AppLocalizations.of(context)!;
 
     switch (slug) {
+      case 'level_task':
+        return l10n.level_task;
+      case 'new_level_element_title':
+        return l10n.new_level_element_title;
+      case 'new_level_element_text':
+        return l10n.new_level_element_text;
+      case 'new_level_element_button_text':
+        return l10n.new_level_element_button_text;
+
+      case 'merge_all_title':
+        return l10n.merge_all_title;
+
+      case 'merge_all_title_you':
+        return l10n.merge_all_title_you;
+
+      case 'merge_all_title_all':
+        return l10n.merge_all_title_all;
+
+      case 'merge_element':
+        return l10n.merge_element;
+
+      case 'merge_result':
+        return l10n.merge_result;
+
       case 'time':
         return l10n.time;
       case 'water':

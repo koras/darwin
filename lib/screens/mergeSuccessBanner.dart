@@ -1,14 +1,20 @@
 import 'package:darwin/models/game_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:darwin/data/app_localizations_extensions.dart';
+import 'package:darwin/logic/generate_calm_color.dart';
 
 class MergeSuccessBanner extends StatelessWidget {
   final GameItem? resultItem;
   final VoidCallback onClose;
+  final BuildContext context;
 
   final Animation<double> opacityAnimation;
   final Animation<double> scaleAnimation;
 
   const MergeSuccessBanner({
+    required this.context,
     required this.resultItem,
     required this.onClose,
     required this.opacityAnimation,
@@ -18,6 +24,8 @@ class MergeSuccessBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameItem = resultItem!.id;
+
     return AnimatedBuilder(
       animation: Listenable.merge([opacityAnimation, scaleAnimation]),
       builder: (context, child) {
@@ -38,7 +46,7 @@ class MergeSuccessBanner extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  blurRadius: 10,
+                  blurRadius: 20,
                   spreadRadius: 3,
                 ),
               ],
@@ -47,27 +55,58 @@ class MergeSuccessBanner extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Поздравляем!',
+                  //       'Поздравляем!',
+                  AppLocalizations.of(context)!.new_level_element_title,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.deepPurple,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 Text(
-                  'Вы открыли новый предмет:',
+                  AppLocalizations.of(context)!.new_level_element_text,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 20),
-                Image.asset(resultItem!.assetPath, width: 100, height: 100),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
+
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      22,
+                    ), // Закругление углов
+                    border: Border.all(
+                      color: generateCalmColor(
+                        resultItem!.slug,
+                      ), // Цвет бордюра
+                      width: 4, // Толщина бордюра (2 пикселя)
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ), // Закругление внутри бордюра
+                    child: Image.asset(
+                      resultItem!.assetPath,
+                      width: 100,
+                      height: 100,
+                      fit:
+                          BoxFit
+                              .cover, // Чтобы изображение заполняло пространство
+                    ),
+                  ),
+                ),
+
+                //   Image.asset(resultItem!.assetPath, width: 100, height: 100),
+                const SizedBox(height: 10),
                 Text(
-                  resultItem!.id,
+                  AppLocalizations.of(context)!.getString(context, nameItem),
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: onClose,
                   style: ElevatedButton.styleFrom(
@@ -80,8 +119,8 @@ class MergeSuccessBanner extends StatelessWidget {
                       vertical: 12,
                     ),
                   ),
-                  child: const Text(
-                    'Следующий уровень',
+                  child: Text(
+                    AppLocalizations.of(context)!.new_level_element_button_text,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

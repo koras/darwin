@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/models/game_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:darwin/data/app_localizations_extensions.dart';
+import 'package:darwin/logic/generate_calm_color.dart';
+import 'package:darwin/logic/merge_logic.dart';
+import 'package:flutter/material.dart';
 import 'package:darwin/models/game_item.dart';
 
 class GameItemWidget extends StatelessWidget {
@@ -9,21 +17,21 @@ class GameItemWidget extends StatelessWidget {
     : super(key: key);
 
   // Генерация спокойного цвета на основе строки
-  Color _generateCalmColor(String input) {
-    final hash = input.hashCode;
-    return HSLColor.fromAHSL(
-      1.0,
-      (hash % 360).toDouble(), // Hue (0-360)
-      0.4, // Saturation (умеренная для спокойных цветов)
-      0.7, // Lightness (не слишком темный и не слишком светлый)
-    ).toColor();
-  }
+  // Color _generateCalmColor(String input) {
+  //   final hash = input.hashCode;
+  //   return HSLColor.fromAHSL(
+  //     1.0,
+  //     (hash % 360).toDouble(), // Hue (0-360)
+  //     0.4, // Saturation (умеренная для спокойных цветов)
+  //     0.7, // Lightness (не слишком темный и не слишком светлый)
+  //   ).toColor();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final double circleSize = cellSize * 0.7;
     final double borderWidth = 2.0;
-    final borderColor = _generateCalmColor(item.slug);
+    final borderColor = generateCalmColor(item.slug);
 
     return Positioned(
       left:
@@ -58,7 +66,7 @@ class GameItemWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               constraints: BoxConstraints(maxWidth: cellSize),
               child: Text(
-                item.slug,
+                AppLocalizations.of(context)!.getString(context, item.slug),
                 style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.normal,
