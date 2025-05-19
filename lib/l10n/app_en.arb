@@ -1,5 +1,28 @@
 {
     "@@locale": "en",
+
+
+   "level_task":"Task",
+    "new_level_element_title":"Congratulations!",
+    "new_level_element_text":"You have advanced to the next level:",
+    "new_level_element_button_text":"Next Level",
+  
+  
+    "merge_all_title":"All Combinations",
+
+    "merge_all_title_you":"Combinations you've unlocked:",
+
+    "merge_all_title_all":"All possible combinations:",
+
+
+      "merge_element":"element",
+      "merge_result":"result",
+
+
+
+    
+
+
     "time": "Time",
     "water": "Water",
     "cloud": "Cloud",

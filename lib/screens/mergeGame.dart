@@ -18,7 +18,6 @@ import 'package:darwin/widgets/toolbox_panel.dart';
 import 'package:darwin/widgets/game_panel.dart';
 import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 import 'package:darwin/data/merge_rules.dart';
-import 'package:darwin/data/merge_rule.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/discoveryBanner.dart';
 import 'package:darwin/screens/mergeSuccessBanner.dart';
@@ -396,6 +395,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                       0.5 * _bannerOpacityAnimation.value,
                     ),
                     child: MergeSuccessBanner(
+                      context: context,
                       resultItem: _mergedItem,
                       onClose: () async {
                         // Сохраняем необходимые данные до асинхронных операций

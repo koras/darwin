@@ -16,6 +16,11 @@ class ImageItem {
 
 final List<ImageItem> allImages =
     [
+      'level_task',
+      'new_level_element_title',
+      'new_level_element_text',
+      'new_level_element_button_text',
+
       'time',
       'water', // Вода
       'cloud', // Облако

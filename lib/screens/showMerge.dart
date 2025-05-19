@@ -4,6 +4,16 @@ import 'package:darwin/data/image_item.dart';
 import 'package:darwin/data/merge_rule.dart';
 import 'package:darwin/data/merge_rules.dart';
 
+import 'package:darwin/data/image_item.dart';
+import 'package:darwin/models/game_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:darwin/data/app_localizations_extensions.dart';
+import 'package:darwin/logic/generate_calm_color.dart';
+import 'package:darwin/logic/merge_logic.dart';
+import 'package:flutter/material.dart';
+import 'package:darwin/models/game_item.dart';
+
 class CombinationsPage extends StatelessWidget {
   final List<String> discoveredItems;
 
@@ -13,21 +23,24 @@ class CombinationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Все комбинации'), centerTitle: true),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.merge_all_title),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildDiscoveredSection(),
+            _buildDiscoveredSection(context),
             const SizedBox(height: 24),
-            _buildAllCombinationsSection(),
+            _buildAllCombinationsSection(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDiscoveredSection() {
+  Widget _buildDiscoveredSection(BuildContext context) {
     final discoveredRules =
         mergeRules
             .where((rule) => discoveredItems.contains(rule.resultImageId))
@@ -36,31 +49,35 @@ class CombinationsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Открытые вами комбинации:',
+        Text(
+          AppLocalizations.of(context)!.merge_all_title_you,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        _buildCombinationsTable(discoveredRules, true),
+        _buildCombinationsTable(context, discoveredRules, true),
       ],
     );
   }
 
-  Widget _buildAllCombinationsSection() {
+  Widget _buildAllCombinationsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Все возможные комбинации:',
+        Text(
+          AppLocalizations.of(context)!.merge_all_title_all,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        _buildCombinationsTable(mergeRules, false),
+        _buildCombinationsTable(context, mergeRules, false),
       ],
     );
   }
 
-  Widget _buildCombinationsTable(List<MergeRule> rules, bool isDiscovered) {
+  Widget _buildCombinationsTable(
+    BuildContext context,
+    List<MergeRule> rules,
+    bool isDiscovered,
+  ) {
     return Table(
       border: TableBorder(
         horizontalInside: BorderSide(
@@ -83,15 +100,17 @@ class CombinationsPage extends StatelessWidget {
             border: Border(bottom: BorderSide(color: Colors.grey)),
           ),
           children: [
-            _buildHeaderCell('Элемент 1'),
+            _buildHeaderCell(AppLocalizations.of(context)!.merge_element),
             _buildHeaderCell(''),
-            _buildHeaderCell('Элемент 2'),
+            _buildHeaderCell(AppLocalizations.of(context)!.merge_element),
             _buildHeaderCell(''),
-            _buildHeaderCell('Результат'),
+            _buildHeaderCell(AppLocalizations.of(context)!.merge_result),
           ],
         ),
         // Строки с комбинациями
-        ...rules.map((rule) => _buildTableRow(rule, isDiscovered)).toList(),
+        ...rules
+            .map((rule) => _buildTableRow(context, rule, isDiscovered))
+            .toList(),
       ],
     );
   }
@@ -109,7 +128,7 @@ class CombinationsPage extends StatelessWidget {
     );
   }
 
-  TableRow _buildTableRow(MergeRule rule, bool isDiscovered) {
+  TableRow _buildTableRow(context, MergeRule rule, bool isDiscovered) {
     final item1 = _getGameItem(rule.firstImageId);
     final item2 = _getGameItem(rule.secondImageId);
     final result = _getGameItem(rule.resultImageId);
@@ -119,25 +138,28 @@ class CombinationsPage extends StatelessWidget {
         color: isDiscovered ? Colors.white : Colors.grey[100],
       ),
       children: [
-        _buildElementCell(item1, rule.firstImageId),
+        _buildElementCell(context, item1, rule.firstImageId),
         _buildOperatorCell('+'),
-        _buildElementCell(item2, rule.secondImageId),
+        _buildElementCell(context, item2, rule.secondImageId),
         _buildOperatorCell('='),
-        _buildResultCell(result, rule.resultImageId, isDiscovered),
+        _buildResultCell(context, result, rule.resultImageId, isDiscovered),
       ],
     );
   }
 
-  TableCell _buildElementCell(GameItem item, String id) {
+  TableCell _buildElementCell(BuildContext context, GameItem item, String id) {
     return TableCell(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildSmallItemWidget(item),
+            _buildSmallItemWidget(context, item),
             const SizedBox(height: 4),
-            Text(id, style: const TextStyle(fontSize: 12)),
+            Text(
+              AppLocalizations.of(context)!.getString(context, id),
+              style: const TextStyle(fontSize: 12),
+            ),
           ],
         ),
       ),
@@ -155,17 +177,22 @@ class CombinationsPage extends StatelessWidget {
     );
   }
 
-  TableCell _buildResultCell(GameItem item, String id, bool isDiscovered) {
+  TableCell _buildResultCell(
+    BuildContext context,
+    GameItem item,
+    String id,
+    bool isDiscovered,
+  ) {
     return TableCell(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildSmallItemWidget(item),
+            _buildSmallItemWidget(context, item),
             const SizedBox(height: 4),
             Text(
-              id,
+              AppLocalizations.of(context)!.getString(context, id),
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -178,7 +205,7 @@ class CombinationsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSmallItemWidget(GameItem item) {
+  Widget _buildSmallItemWidget(BuildContext context, GameItem item) {
     return Container(
       width: 50,
       height: 50,
