@@ -1,22 +1,14 @@
 {
   "@@locale": "ru",
-
-      "level_task":"Задание",
-      "new_level_element_title":"Поздравляю",
-      "new_level_element_text":"Вы перешли на следующий уровень:",
-      "new_level_element_button_text":"Следующий уровень",
-
-      "merge_all_title":"Все комбинации",
-
-      "merge_all_title_you":"Открытые вами комбинации:",
-
-      "merge_all_title_all":"Все возможные комбинации:",
-
-      "merge_element":"Элемент",
-      "merge_result":"Результат",
-
-
-
+  "level_task": "Задание",
+  "new_level_element_title": "Поздравляю!",
+  "new_level_element_text": "Вы перешли на следующий уровень:",
+  "new_level_element_button_text": "Следующий уровень",
+  "merge_all_title": "Все комбинации",
+  "merge_all_title_you": "Открытые вами комбинации:",
+  "merge_all_title_all": "Все возможные комбинации:",
+  "merge_element": "Элемент",
+  "merge_result": "Результат",
   "time": "Время",
   "water": "Вода",
   "cloud": "Облако",
@@ -212,9 +204,7 @@
   "shrek": "Шрек",
   "gameTitle": "Эволюция Дарвина",
   "hintTitle": "Подсказка",
-  
   "create_sun": "Создайте солнце",
-
   "@hintTitle": {
     "description": "Title for hint banner"
   }

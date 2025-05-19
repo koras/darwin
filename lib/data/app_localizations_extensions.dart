@@ -27,6 +27,8 @@ extension AppLocalizationsExtensions on AppLocalizations {
 
       case 'merge_element':
         return l10n.merge_element;
+      case 'hintTitle':
+        return l10n.hintTitle;
 
       case 'merge_result':
         return l10n.merge_result;
