@@ -131,6 +131,7 @@ final List<ImageItem> allImages =
       'family', // Гора
       'leon', // Гора
       // мемные животные
+      'daenerys_targaryen',
       'ballerina_cappuccino', // Балерина_капучино
       'bombardiro_crocodilo', // Бомбардир_крокодил
       'lirili_larila', // Лирили_ларила
@@ -170,7 +171,7 @@ final List<ImageItem> allImages =
       'honeycombs', // Соты
       'house_in_the_village', // Дом_в_деревне
       'institute_education', // Институт_образование
-      'jon_snow_from game_of_thrones', // Джон_Сноу_из_игры_престолов
+      'jon_snow_from_game_of_thrones', // Джон_Сноу_из_игры_престолов
       'lamb', // Ягненок
       'magic_broom', // Волшебная_метла
       'magician_illusionist', // Фокусник_иллюзионист

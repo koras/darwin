@@ -267,17 +267,36 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           body: Stack(
             children: [
               // Фоновая картинка (добавьте этот виджет первым в Stack)
+              // Positioned.fill(
+              //   child: DecoratedBox(
+              //     decoration: BoxDecoration(
+              //       image: DecorationImage(
+              //         image:
+              //             Image.asset(
+              //               'background/${context.read<LevelBloc>().state.background}',
+              //             ).image,
+              //         fit: BoxFit.fitWidth, // Растягиваем по ширине
+              //         alignment: Alignment.topCenter, // Выравниваем по верху
+              //         repeat: ImageRepeat.repeatY,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          Image.asset(
-                            'background/${context.read<LevelBloc>().state.background}',
-                          ).image,
-                      fit: BoxFit.fitWidth, // Растягиваем по ширине
-                      alignment: Alignment.topCenter, // Выравниваем по верху
-                      repeat: ImageRepeat.repeatY,
+                child: FractionallySizedBox(
+                  heightFactor:
+                      0.82, // Занимает 80% высоты (оставляет 20% снизу)
+                  alignment: Alignment.topCenter,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image:
+                            Image.asset(
+                              'background/${context.read<LevelBloc>().state.background}',
+                            ).image,
+                        fit: BoxFit.fitHeight, // Растягиваем по ширине
+                        alignment: Alignment.topCenter,
+                      ),
                     ),
                   ),
                 ),
