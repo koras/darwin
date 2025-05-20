@@ -161,6 +161,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         //  levelTitle: l10n.level1Title,
         levelTitle: event.title,
         hints: event.hints,
+        background: event.background,
       ),
     );
   }

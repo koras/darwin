@@ -43,6 +43,8 @@ class LevelState {
 
   @HiveField(10)
   final HintsState hintsState;
+  @HiveField(11)
+  final String? background;
 
   /// Конструктор состояния уровня
   const LevelState({
@@ -57,6 +59,7 @@ class LevelState {
     this.showLevelComplete,
     this.completedItemId,
     this.hintsState = const HintsState(),
+    this.background,
   });
 
   /// Начальное состояние уровня
@@ -73,6 +76,7 @@ class LevelState {
       showLevelComplete: false,
       completedItemId: null,
       hintsState: HintsState(),
+      background: 'level1.png',
     );
   }
 
@@ -89,6 +93,7 @@ class LevelState {
     bool? showLevelComplete,
     String? completedItemId,
     HintsState? hintsState,
+    String? background,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -102,6 +107,7 @@ class LevelState {
       showLevelComplete: showLevelComplete ?? this.showLevelComplete,
       completedItemId: completedItemId ?? this.completedItemId,
       hintsState: hintsState ?? this.hintsState,
+      background: background ?? this.background,
     );
   }
 
@@ -114,7 +120,8 @@ class LevelState {
         const ListEquality().equals(other.discoveredItems, discoveredItems) &&
         const ListEquality().equals(other.gameItems, gameItems) &&
         other.targetItem == targetItem &&
-        other.hintsState == hintsState;
+        other.hintsState == hintsState &&
+        other.background == background;
   }
 
   /// Хэш-код для объекта [LevelState], используется при сравнении и хэшировании
@@ -126,6 +133,7 @@ class LevelState {
     const ListEquality().hash(gameItems),
     targetItem,
     hintsState,
+    background,
   );
 }
 

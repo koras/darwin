@@ -1,10 +1,11 @@
 import 'package:darwin/models/game_item.dart';
-
-import 'package:darwin/data/image_item.dart';
-
 import 'package:flutter/material.dart';
+import 'package:darwin/data/image_item.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/data/app_localizations_extensions.dart';
 
 class HintBanner extends StatelessWidget {
+  // final BuildContext context;
   final String item1Id;
   final String item2Id;
   final String resultId;
@@ -13,6 +14,7 @@ class HintBanner extends StatelessWidget {
 
   const HintBanner({
     Key? key,
+    // required this.context,
     required this.item1Id,
     required this.item2Id,
     required this.resultId,
@@ -34,9 +36,11 @@ class HintBanner extends StatelessWidget {
     final result = GameItem.fromImageItem(imageItem: resultnew);
 
     if (cointHint > 0) {
-      textCountHint = 'Осталось подсказок: $cointHint';
+      final text = AppLocalizations.of(context)!.hints_left;
+      textCountHint = '$text: $cointHint';
     } else {
-      textCountHint = 'У вас закончились подсказки';
+      textCountHint = AppLocalizations.of(context)!.run_out_of_hints;
+      //  textCountHint = 'У вас закончились подсказки';
     }
 
     return Center(
@@ -60,8 +64,8 @@ class HintBanner extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Заголовок
-              const Text(
-                'Подсказка',
+              Text(
+                AppLocalizations.of(context)!.hints_hints,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -76,7 +80,7 @@ class HintBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Первый элемент
-                  _buildItemWidget(item1),
+                  _buildItemWidget(context, item1),
 
                   // Плюс
                   Padding(
@@ -92,7 +96,7 @@ class HintBanner extends StatelessWidget {
                   ),
 
                   // Второй элемент
-                  _buildItemWidget(item2),
+                  _buildItemWidget(context, item2),
 
                   // Равно
                   Padding(
@@ -108,7 +112,7 @@ class HintBanner extends StatelessWidget {
                   ),
 
                   // Результат
-                  _buildItemWidget(result),
+                  _buildItemWidget(context, result),
                 ],
               ),
               const SizedBox(height: 20),
@@ -126,8 +130,8 @@ class HintBanner extends StatelessWidget {
                     vertical: 10,
                   ),
                 ),
-                child: const Text(
-                  'Понятно',
+                child: Text(
+                  AppLocalizations.of(context)!.hints_good,
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
@@ -150,7 +154,7 @@ class HintBanner extends StatelessWidget {
     );
   }
 
-  Widget _buildItemWidget(GameItem item) {
+  Widget _buildItemWidget(BuildContext context, GameItem item) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -175,7 +179,8 @@ class HintBanner extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Text(
-          item.id,
+          AppLocalizations.of(context)!.getString(context, item.id),
+
           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ],
