@@ -223,7 +223,7 @@ class LevelsRepository {
           'frost', // Мороз/Иней
           'molotov_cocktail', // Коктейль Молотова
           'phoenix', // Феникс (мифологическая птица)
-          'pussinboots', // Кот в сапогах (персонаж сказки)
+          'puss_in_boots', // Кот в сапогах (персонаж сказки)
           'sand', // Песок
           'schrodingers_cat', // Кот Шрёдингера (квантовый парадокс)
           'beehive', // Пчелиный улей
@@ -239,10 +239,8 @@ class LevelsRepository {
           'jedi_from_stars_wars',
           'yoda_is_a_wise_jedi',
 
-          'ichthyostegidae',
           'crossopterygian_fish',
           'flower',
-          'reptile',
         ],
         'result': 'dolphin',
         'title': 'Создайте дракона',

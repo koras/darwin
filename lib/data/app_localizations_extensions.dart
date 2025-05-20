@@ -403,8 +403,12 @@ extension AppLocalizationsExtensions on AppLocalizations {
         return l10n.electric_battery;
       case 'molotov_cocktail':
         return l10n.molotov_cocktail;
-      case 'pussinboots':
-        return l10n.pussinboots;
+      case 'puss_in_boots':
+        return l10n.puss_in_boots;
+
+      case 'ichthyostegidae':
+        return l10n.ichthyostegidae;
+
       case 'schrodingers_cat':
         return l10n.schrodingers_cat;
       case 'beehive':
