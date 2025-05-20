@@ -235,6 +235,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         targetItem: levelData['result'],
         levelTitle: levelData['title'],
         hints: levelData['hints'],
+        background: levelData['background'],
       ),
     );
 
