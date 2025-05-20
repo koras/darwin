@@ -9,6 +9,21 @@
   "merge_all_title_all": "Все возможные комбинации:",
   "merge_element": "Элемент",
   "merge_result": "Результат",
+ 
+  "hints_left": "Осталось подсказок" ,
+  "run_out_of_hints": "У вас закончились подсказки" ,
+  
+ 
+
+    "combinationsTitle": "Все комбинации",
+    "discoveredCombinations": "Открытые вами комбинации:",
+    "allCombinations": "Все возможные комбинации:",
+    "continueWithoutHints": "Продолжить без подсказок",
+
+
+  "hints_hints":"Подсказка",
+  "hints_good":"Понятно",
+ 
   "time": "Время",
   "water": "Вода",
   "cloud": "Облако",
@@ -205,6 +220,15 @@
   "gameTitle": "Эволюция Дарвина",
   "hintTitle": "Подсказка",
   "create_sun": "Создайте солнце",
+ 
+   "ichthyostegidae": "Ichthyostegidae",
+   "crossopterygian_fish": "Crossopterygian fish",
+   "flower": "Flower",
+   "reptile": "Reptile",
+  
+ 
+ 
+ 
   "@hintTitle": {
     "description": "Title for hint banner"
   }

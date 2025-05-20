@@ -9,6 +9,20 @@
   "merge_all_title_all": "All possible combinations:",
   "merge_element": "element",
   "merge_result": "result",
+
+
+ "hints_left":"Осталось подсказок" ,
+ "run_out_of_hints":"У вас закончились подсказки",
+
+   "hints_hints":"Hint",
+  "hints_good":"Got it",
+ 
+  "combinationsTitle": "All Combinations",
+  "discoveredCombinations": "Your discovered combinations:",
+  "allCombinations": "All possible combinations:",
+  "continueWithoutHints": "Continue without hints",
+
+
   "time": "Time",
   "water": "Water",
   "cloud": "Cloud",
@@ -205,7 +219,15 @@
   "gameTitle": "Darwin Evolution",
   "hintTitle": "Hint",
   "create_sun": "Create the sun",
+  
+  "ichthyostegidae": "Ichthyostegidae",
+  "crossopterygian_fish": "Crossopterygian fish",
+  "flower": "Flower",
+  "reptile": "Reptile",
+  
   "@hintTitle": {
     "description": "Title for hint banner"
   }
+
+
 }

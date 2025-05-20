@@ -21,6 +21,18 @@ final List<ImageItem> allImages =
       'new_level_element_text',
       'new_level_element_button_text',
 
+      'hints_left',
+      'run_out_of_hints',
+      'hints_hints',
+
+      'hints_hints',
+      'hints_good',
+
+      'combinationsTitle',
+      'discoveredCombinations',
+      'allCombinations',
+      'continueWithoutHints',
+
       'time',
       'water', // Вода
       'cloud', // Облако
@@ -220,4 +232,9 @@ final List<ImageItem> allImages =
       'pandemic', // Пандемия (глобальная эпидемия)
       'shrek', // Шрек (мультперсонаж)
       'zombie', // Зомби
+
+      'ichthyostegidae',
+      'crossopterygian_fish',
+      'flower',
+      'reptile',
     ].map((id) => ImageItem(id)).toList();
