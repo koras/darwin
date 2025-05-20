@@ -277,7 +277,7 @@ extension AppLocalizationsExtensions on AppLocalizations {
         return l10n.circus_clown;
       case 'corsair_pirate_sea':
         return l10n.corsair_pirate_sea;
-      case 'daenerys targaryen':
+      case 'daenerys_targaryen':
         return l10n.daenerys_targaryen;
       case 'fire_elemental':
         return l10n.fire_elemental;
@@ -342,7 +342,7 @@ extension AppLocalizationsExtensions on AppLocalizations {
       case 'rope':
         return l10n.rope;
       case 'sea_sailing_ship':
-        return l10n.sailing_ship;
+        return l10n.sea_sailing_ship;
       case 'spider_man':
         return l10n.spider_man;
       case 'spider_web':
@@ -419,6 +419,13 @@ extension AppLocalizationsExtensions on AppLocalizations {
         return l10n.pandemic;
       case 'shrek':
         return l10n.shrek;
+      case 'death_star':
+        return l10n.death_star;
+      case 'jedi_from_stars_wars':
+        return l10n.jedi_from_stars_wars;
+      case 'yoda_is_a_wise_jedi':
+        return l10n.yoda_is_a_wise_jedi;
+
       default:
         return slug;
     }

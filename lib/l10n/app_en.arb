@@ -229,6 +229,13 @@
   "flower": "Flower",
   "reptile": "Reptile",
   
+
+ 
+  "death_star" : "Death star",
+  "jedi_from_stars_wars": "Jedi",
+  "yoda_is_a_wise_jedi": "Yoda",
+
+
   "@hintTitle": {
     "description": "Title for hint banner"
   }

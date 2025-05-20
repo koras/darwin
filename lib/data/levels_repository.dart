@@ -34,23 +34,6 @@ class LevelsRepository {
       },
       2: {
         'imageItems': [
-          'level_task',
-          'new_level_element_title',
-          'new_level_element_text',
-          'new_level_element_button_text',
-
-          'hints_left',
-          'run_out_of_hints',
-          'hints_hints',
-
-          'hints_hints',
-          'hints_good',
-
-          'combinationsTitle',
-          'discoveredCombinations',
-          'allCombinations',
-          'continueWithoutHints',
-
           'time',
           'water', // Вода
           'cloud', // Облако
@@ -149,7 +132,7 @@ class LevelsRepository {
           'family', // Гора
           'leon', // Гора
           // мемные животные
-          'daenerys_targaryen',
+          'daenerys_targaryen', //daenerys_targaryen
           'ballerina_cappuccino', // Балерина_капучино
           'bombardiro_crocodilo', // Бомбардир_крокодил
           'lirili_larila', // Лирили_ларила
@@ -175,7 +158,7 @@ class LevelsRepository {
           'circus', // Цирк
           'circus_clown', // Цирковой_клоун
           'corsair_pirate_sea', // Корсар_пират_море
-          'daenerys targaryen', // Дейенерис_Таргариен
+
           'fire_elemental', // Огненный_элементаль
           'firefighter', // Пожарный
           'fireworks', // Фейерверк
@@ -251,6 +234,10 @@ class LevelsRepository {
           'pandemic', // Пандемия (глобальная эпидемия)
           'shrek', // Шрек (мультперсонаж)
           'zombie', // Зомби
+
+          'death_star',
+          'jedi_from_stars_wars',
+          'yoda_is_a_wise_jedi',
 
           'ichthyostegidae',
           'crossopterygian_fish',

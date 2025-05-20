@@ -238,4 +238,8 @@ final List<ImageItem> allImages =
       'crossopterygian_fish',
       'flower',
       'reptile',
+
+      'death_star',
+      'jedi_from_stars_wars',
+      'yoda_is_a_wise_jedi',
     ].map((id) => ImageItem(id)).toList();

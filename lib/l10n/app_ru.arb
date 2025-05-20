@@ -71,7 +71,7 @@
   "hungover_saturday_morning": "Похмельное субботнее утро",
   "cake": "Торт",
   "sailing_ship": "Парусник",
-  "sand_mountain": "Песчаная гора/дюна",
+  "sand_mountain": "Песчаная гора",
   "stone_mountain": "Каменная гора",
   "metropolis": "Мегаполис",
   "village": "Деревня",
@@ -181,7 +181,7 @@
   "prometheus_who_gave_fire": "Прометей",
   "rooster": "Петух",
   "rope": "Веревка",
-  "sea_sailing_ship": "Морской парусный корабль",
+  "sea_sailing_ship": "Морской1 парусный корабль",
   "spider_man": "Человек-паук",
   "spider_web": "Паутина",
   "stone_elemental": "Каменный элементаль",
@@ -229,7 +229,12 @@
    "flower": "Flower",
    "reptile": "Reptile",
   
- 
+  
+  "death_star" : "Звезда смерти",
+  "jedi_from_stars_wars": "Джедай",
+  "yoda_is_a_wise_jedi": "Йода",
+
+
  
  
   "@hintTitle": {
