@@ -115,6 +115,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         levelData['result'],
         levelData['hints'],
         levelData['imageItems'],
+        levelData['background'],
       ),
     );
 
@@ -511,12 +512,12 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _countHints = updatedState.hintsState.countHintsAvailable;
         _showHintPanel = !_showHintPanel;
         if (_showHintPanel) {
-          //          _hintPanelController?.forward();
-          _hintPayPanelController?.forward();
+          _hintPanelController?.forward();
+          //    _hintPayPanelController?.forward();
         } else {
           debugPrint('закрываем подсказку');
-          //        _hintPanelController?.reverse();
-          _hintPayPanelController?.forward();
+          _hintPanelController?.reverse();
+          //  _hintPayPanelController?.forward();
         }
       });
     } else {
@@ -738,6 +739,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   Widget _buildHintPanel(BuildContext context) {
     if (_hintItem1 != null && _hintItem2 != null && _hintResult != null) {
       return HintBanner(
+        //    context: context,
         item1Id: _hintItem1!,
         item2Id: _hintItem2!,
         resultId: _hintResult!,
