@@ -34,6 +34,9 @@ class LevelCompletedEvent extends LevelEvent {
 
 class LevelFailedEvent extends LevelEvent {}
 
+/// ожидание подсказки
+class WaitingHint extends LevelEvent {}
+
 class ResetDiscoveryBannerEvent extends LevelEvent {}
 
 /// Событие очистки последнего обнаруженного предмета

@@ -254,13 +254,50 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     );
   }
 
+  // String get timeUntilNextHint {
+  //   if (freeHints > 0) return 'Доступно сейчас';
+
+  //   if (lastHintTime == null) return 'Доступно сейчас';
+
+  //   final now = DateTime.now();
+  //   final passed = now.difference(lastHintTime!);
+  //   final remaining = 30 - passed.inMinutes;
+
+  //   return remaining > 0
+  //     ? 'Доступно через $remaining мин'
+  //     : 'Доступно сейчас';
+  // }
+
+  void _onWaitingHint(WaitingHint event, Emitter<LevelState> emit) {
+    final now = DateTime.now();
+    state.copyWith(
+      hintsState: state.hintsState.copyWith(
+        lastHintTime: now,
+        timeHintAvailable: true,
+      ),
+    );
+  }
+
+  bool get timeUntilNextHint {
+    final now = DateTime.now();
+    if (state.hintsState.timeHintAvailable == true) {
+      return false;
+    }
+
+    final passed = now.difference(state.hintsState.lastHintTime!);
+    final remaining = state.hintsState.timeHintWait - passed.inMinutes;
+    // доступна подсказка или нет?
+    return remaining > 0;
+  }
+
+  ///
+  /// убавляем количество подсказок
+  ///
   void _onDecrementHint(DecrementHint event, Emitter<LevelState> emit) {
     print('проверяем, есть ли у нас подсказки');
 
     if (state.hintsState.freeHints > 0) {
-      print('--- убавляем freeHints ${state.hintsState.freeHints}');
       // сперва если есть бесплатные, мы вычитаем именно бесплатные
-
       emit(
         state.copyWith(
           hintsState: state.hintsState.copyWith(
@@ -274,6 +311,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       );
 
       print('--- убавляем freeHints ${state.hintsState.freeHints} = ');
+
       return;
     }
     if (state.hintsState.paidHintsAvailable > 0) {
@@ -289,8 +327,11 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           ),
         ),
       );
+
       return;
     }
+
+    ///подсказок больше нет активируем время
   }
 
   // }
@@ -314,6 +355,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   void _onUseHint(UseHintEvent event, Emitter<LevelState> emit) {
+    final now = DateTime.now();
     emit(
       state.copyWith(
         hintsState: state.hintsState.copyWith(
@@ -322,6 +364,26 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         ),
       ),
     );
+
+    if (state.hintsState.freeHints == 0 &&
+        state.hintsState.paidHintsAvailable == 0) {
+      //       state.hintsState.lastHintTime;
+
+      /// нет подсказок больше
+      /// Надо проверять, тикает ли время
+      //  if (state.hintsState.timeHintAvailable == true) {
+      // у нас идёт подсчёт времени
+      //    }
+      if (!state.hintsState.timeHintAvailable) {
+        // ставим счётчик
+        state.copyWith(
+          hintsState: state.hintsState.copyWith(
+            lastHintTime: now,
+            timeHintAvailable: true,
+          ),
+        );
+      }
+    }
   }
 
   void _onSetHint(SetHintEvent event, Emitter<LevelState> emit) {

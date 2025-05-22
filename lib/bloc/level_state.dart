@@ -161,15 +161,25 @@ class HintsState {
   @HiveField(7)
   final int countHintsAvailable; // Доступные бесплатные подсказки
 
+  @HiveField(8)
+  // идёт ли отсчёт времени?
+  final bool timeHintAvailable;
+
+  @HiveField(9)
+  /// сколько времени ждать
+  final int timeHintWait;
+
   const HintsState({
-    this.freeHintsUsed = 3,
+    this.freeHintsUsed = 1,
     this.paidHintsAvailable = 0,
     this.usedHints = const [],
     this.lastHintTime,
     this.hasPendingHint = false,
     this.currentHint = '',
-    this.freeHints = 3,
+    this.freeHints = 1,
     this.countHintsAvailable = 0,
+    this.timeHintAvailable = false,
+    this.timeHintWait = 10,
   });
 
   bool get getPaidHints {
@@ -204,8 +214,10 @@ class HintsState {
     List<String>? usedHints,
     DateTime? lastHintTime,
     bool? hasPendingHint,
+    bool? timeHintAvailable,
     String? currentHint,
     int? countHintsAvailable,
+    int? timeHintWait,
   }) {
     return HintsState(
       freeHintsUsed: freeHintsUsed ?? this.freeHintsUsed,
@@ -213,9 +225,11 @@ class HintsState {
       paidHintsAvailable: paidHintsAvailable ?? this.paidHintsAvailable,
       usedHints: usedHints ?? this.usedHints,
       lastHintTime: lastHintTime ?? this.lastHintTime,
+      timeHintAvailable: timeHintAvailable ?? this.timeHintAvailable,
       hasPendingHint: hasPendingHint ?? this.hasPendingHint,
       currentHint: currentHint ?? this.currentHint,
       countHintsAvailable: countHintsAvailable ?? this.countHintsAvailable,
+      timeHintWait: timeHintWait ?? this.timeHintWait,
     );
   }
 
@@ -229,6 +243,8 @@ class HintsState {
         other.countHintsAvailable == countHintsAvailable &&
         const ListEquality().equals(other.usedHints, usedHints) &&
         other.lastHintTime == lastHintTime &&
+        other.timeHintAvailable == timeHintAvailable &&
+        other.timeHintWait == timeHintWait &&
         other.hasPendingHint == hasPendingHint;
   }
 
@@ -239,6 +255,8 @@ class HintsState {
     paidHintsAvailable,
     const ListEquality().hash(usedHints),
     lastHintTime,
+    timeHintAvailable,
+    timeHintWait,
     hasPendingHint,
   );
 }

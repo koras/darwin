@@ -207,6 +207,16 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
   }
 
+  String get timeUntilNextHint {
+    final now = DateTime.now();
+    final passed = now.difference(
+      context.read<LevelBloc>().state.hintsState.lastHintTime!,
+    );
+    final remaining = 30 - passed.inMinutes;
+
+    return remaining > 0 ? 'Доступно через $remaining мин' : 'Доступно сейчас';
+  }
+
   @override
   void dispose() {
     _hintPanelController?.dispose();
@@ -740,6 +750,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     if (remainingTime.isNegative) {
       remainingTime = Duration.zero;
     }
+
     return WaitOrBuyHintBanner(
       // cointHint: _countHints,
       remainingTime: remainingTime,
