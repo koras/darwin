@@ -101,3 +101,6 @@ class SetHintItem extends LevelEvent {
 
   SetHintItem(this.currentHint);
 }
+
+// Таймер обновления оставшегося времени
+class HintTimerTicked extends LevelEvent {}

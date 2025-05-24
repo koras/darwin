@@ -120,7 +120,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
 
     _hintManager = HintManager(context, mergeRules);
-    _startHintTimer();
+    // _startHintTimer();
 
     _fieldManager = FieldManager(
       getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
@@ -480,7 +480,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   child: _buildHintPanel(context),
                 ),
               ),
-
               Positioned(
                 top: 100,
                 left: 0,
@@ -702,39 +701,39 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     }
   }
 
-  void _startHintTimer() {
-    // Останавливаем предыдущий таймер, если был
-    _hintTimer?.cancel();
+  // void _startHintTimer() {
+  //   // Останавливаем предыдущий таймер, если был
+  //   _hintTimer?.cancel();
 
-    // Запускаем новый таймер
-    _hintTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) return;
+  //   // Запускаем новый таймер
+  //   _hintTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (!mounted) return;
 
-      final state = context.read<LevelBloc>().state;
+  //     final state = context.read<LevelBloc>().state;
 
-      if (state.hintsState.lastHintTime != null &&
-          !state.hintsState.hasPendingHint) {
-        final now = DateTime.now();
-        final nextHintTime = state.hintsState.lastHintTime!.add(
-          const Duration(hours: 3),
-        );
+  //     if (state.hintsState.lastHintTime != null &&
+  //         !state.hintsState.hasPendingHint) {
+  //       final now = DateTime.now();
+  //       final nextHintTime = state.hintsState.lastHintTime!.add(
+  //         const Duration(hours: 3),
+  //       );
 
-        if (now.isBefore(nextHintTime)) {
-          setState(() {
-            _timeUntilNextHint = nextHintTime.difference(now);
-          });
-        } else {
-          setState(() {
-            _timeUntilNextHint = Duration.zero;
-          });
-        }
-      } else {
-        setState(() {
-          _timeUntilNextHint = Duration.zero;
-        });
-      }
-    });
-  }
+  //       if (now.isBefore(nextHintTime)) {
+  //         setState(() {
+  //           _timeUntilNextHint = nextHintTime.difference(now);
+  //         });
+  //       } else {
+  //         setState(() {
+  //           _timeUntilNextHint = Duration.zero;
+  //         });
+  //       }
+  //     } else {
+  //       setState(() {
+  //         _timeUntilNextHint = Duration.zero;
+  //       });
+  //     }
+  //   });
+  // }
 
   void onBuyHints(count, price) {
     debugPrint('onBuy5Hints');
@@ -743,6 +742,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   Widget _buildPayPanel(BuildContext context) {
     DateTime lastHintTime = DateTime.now(); // Время последней подсказки
     Duration cooldownPeriod = Duration(minutes: 30); // Время ожидания
+
     Duration remainingTime = lastHintTime
         .add(cooldownPeriod)
         .difference(DateTime.now());
@@ -751,13 +751,19 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       remainingTime = Duration.zero;
     }
 
+    // if (_showHintPanel) {
+    //   print('_showHintPanel true');
+    // } else {
+    //   print(' _showHintPanel false');
+    // }
+
     return WaitOrBuyHintBanner(
       // cointHint: _countHints,
       remainingTime: remainingTime,
       onBuyHints: (count, price) => onBuyHints(count, price),
       onClose: () {
         setState(() {
-          _showHintPanel = !_showHintPanel;
+          //      _showHintPanel = !_showHintPanel;
           debugPrint('Логика подсказки');
           _hintPayPanelController?.reverse();
           // Логика подсказки

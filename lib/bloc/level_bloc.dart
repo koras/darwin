@@ -128,24 +128,10 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
     print('Загрузка уровня ${event.levelId}');
 
-    //  final levelData = LevelsRepository.levelsData[event.levelId];
-
     print('event.levelId ${event.levelId}');
-    //if (event.levelId != null) {
-    //     final keyTitle = levelData['title'];
-    //   final l10n = AppLocalizations.of(event.context)!.keyTitle;
-    //   print('1111keyTitle ${keyTitle}');
-    //  final l10n = AppLocalizations.of(event.context)!;
-    // Получаем локализованный заголовок
 
-    //  final localizedTitle = _getLocalizedString(l10n, keyTitle);
-    //   AppLocalizations.of(event.context)!.title_compatibility
-    // Сохраняем уже открытые предметы
     final currentDiscovered = state.discoveredItems;
     // Начальные предметы уровня + уже открытые
-
-    //    print('keyTitle ${localizedTitle}');
-    // AppLocalizations.of(context)!.yourStringKey
     final allAvailable =
         [
           ...List<String>.from(event.imageItems),

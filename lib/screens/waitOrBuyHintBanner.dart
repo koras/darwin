@@ -18,13 +18,13 @@ class WaitOrBuyHintBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Получаем данные элементов
-
     // Форматируем оставшееся время
     final minutes = remainingTime.inMinutes;
     final seconds = remainingTime.inSeconds % 60;
     final timeText =
         '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
 
+    print('время $timeText');
     return Center(
       child: Material(
         color: Colors.transparent,
