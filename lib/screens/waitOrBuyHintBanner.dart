@@ -24,7 +24,8 @@ class WaitOrBuyHintBanner extends StatelessWidget {
     final timeText =
         '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
 
-    print('время $timeText');
+    //   print('время $timeText');
+
     return Center(
       child: Material(
         color: Colors.transparent,

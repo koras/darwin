@@ -506,6 +506,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       if (!hintsState.hasPendingHint) {
         // что-то видимо есть.
         context.read<LevelBloc>().add(DecrementHint());
+
         debugPrint('вычисляем подсказки');
         // когда мы открываем подсказку мы помечаем её как прочитанную
         // Ждем завершения обработки события
@@ -700,40 +701,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       });
     }
   }
-
-  // void _startHintTimer() {
-  //   // Останавливаем предыдущий таймер, если был
-  //   _hintTimer?.cancel();
-
-  //   // Запускаем новый таймер
-  //   _hintTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     if (!mounted) return;
-
-  //     final state = context.read<LevelBloc>().state;
-
-  //     if (state.hintsState.lastHintTime != null &&
-  //         !state.hintsState.hasPendingHint) {
-  //       final now = DateTime.now();
-  //       final nextHintTime = state.hintsState.lastHintTime!.add(
-  //         const Duration(hours: 3),
-  //       );
-
-  //       if (now.isBefore(nextHintTime)) {
-  //         setState(() {
-  //           _timeUntilNextHint = nextHintTime.difference(now);
-  //         });
-  //       } else {
-  //         setState(() {
-  //           _timeUntilNextHint = Duration.zero;
-  //         });
-  //       }
-  //     } else {
-  //       setState(() {
-  //         _timeUntilNextHint = Duration.zero;
-  //       });
-  //     }
-  //   });
-  // }
 
   void onBuyHints(count, price) {
     debugPrint('onBuy5Hints');

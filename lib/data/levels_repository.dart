@@ -12,26 +12,17 @@ class LevelsRepository {
   static Map<int, Map<String, dynamic>> get levelsData {
     return {
       1: {
-        'imageItems': ['water', 'mammal', 'tree', 'time'],
-        'result': 'cloud',
+        'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
+        'result': 'dolphin',
         'title': _l10n.create_sun,
-        'hints': [
-          'cloud',
-          'sky',
-          'monkey',
-          'man',
-          'enchantress',
-          'sorcery',
-          'witch',
-          'flying',
-        ],
+        'hints': ['cloud', 'sky', 'monkey', 'man'],
         'background': 'level2.png',
       },
       2: {
-        'imageItems': ['time', 'flower'],
+        'imageItems': ['flower'],
         'result': 'dolphin',
         'title': 'Создайте дракона',
-        'hints': ['sky', 'grimoire', 'enchantress'],
+        'hints': ['sky', 'monkey', 'grimoire'],
         'background': 'level7.png',
       },
 

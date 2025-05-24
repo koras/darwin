@@ -1,6 +1,7 @@
 part of 'level_bloc.dart';
 // Добавьте эту строку
 
+// flutter pub run build_runner build
 @HiveType(typeId: 1)
 class LevelState {
   /// Текущий уровень игры (нумерация начинается с 0)
@@ -43,13 +44,22 @@ class LevelState {
 
   @HiveField(10)
   final HintsState hintsState;
+
   @HiveField(11)
   final String? background;
+
+  @HiveField(12)
+  final String? timeUntilNextHint;
+
+  @HiveField(13)
+  /// Все элементы, которые игрок уже открыл за уровень
+  final List<String> discoveredItemsLevel;
 
   /// Конструктор состояния уровня
   const LevelState({
     required this.currentLevel,
     required this.availableItems,
+    required this.discoveredItemsLevel,
     required this.discoveredItems,
     required this.targetItem,
     required this.levelTitle,
@@ -60,6 +70,7 @@ class LevelState {
     this.completedItemId,
     this.hintsState = const HintsState(),
     this.background,
+    this.timeUntilNextHint,
   });
 
   /// Начальное состояние уровня
@@ -67,6 +78,7 @@ class LevelState {
     return LevelState(
       currentLevel: 0,
       availableItems: [],
+      discoveredItemsLevel: [],
       discoveredItems: [], // Инициализируем пустым списком
       targetItem: '',
       levelTitle: '',
@@ -77,6 +89,7 @@ class LevelState {
       completedItemId: null,
       hintsState: HintsState(),
       background: 'level1.png',
+      timeUntilNextHint: null,
     );
   }
 
@@ -84,6 +97,7 @@ class LevelState {
   LevelState copyWith({
     int? currentLevel,
     List<String>? availableItems,
+    List<String>? discoveredItemsLevel,
     List<String>? discoveredItems,
     String? targetItem,
     String? levelTitle,
@@ -94,10 +108,12 @@ class LevelState {
     String? completedItemId,
     HintsState? hintsState,
     String? background,
+    String? timeUntilNextHint,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
       availableItems: availableItems ?? this.availableItems,
+      discoveredItemsLevel: discoveredItemsLevel ?? this.discoveredItemsLevel,
       discoveredItems: discoveredItems ?? this.discoveredItems,
       targetItem: targetItem ?? this.targetItem,
       levelTitle: levelTitle ?? this.levelTitle,
@@ -108,6 +124,7 @@ class LevelState {
       completedItemId: completedItemId ?? this.completedItemId,
       hintsState: hintsState ?? this.hintsState,
       background: background ?? this.background,
+      timeUntilNextHint: timeUntilNextHint ?? this.timeUntilNextHint,
     );
   }
 
@@ -117,10 +134,15 @@ class LevelState {
     return other is LevelState &&
         other.currentLevel == currentLevel &&
         const ListEquality().equals(other.availableItems, availableItems) &&
+        const ListEquality().equals(
+          other.discoveredItemsLevel,
+          discoveredItemsLevel,
+        ) &&
         const ListEquality().equals(other.discoveredItems, discoveredItems) &&
         const ListEquality().equals(other.gameItems, gameItems) &&
         other.targetItem == targetItem &&
         other.hintsState == hintsState &&
+        other.timeUntilNextHint == timeUntilNextHint &&
         other.background == background;
   }
 
@@ -129,11 +151,13 @@ class LevelState {
   int get hashCode => Object.hash(
     currentLevel,
     const ListEquality().hash(availableItems),
+    const ListEquality().hash(discoveredItemsLevel),
     const ListEquality().hash(discoveredItems),
     const ListEquality().hash(gameItems),
     targetItem,
     hintsState,
     background,
+    timeUntilNextHint,
   );
 }
 
@@ -176,7 +200,7 @@ class HintsState {
     this.lastHintTime,
     this.hasPendingHint = false,
     this.currentHint = '',
-    this.freeHints = 1,
+    this.freeHints = 3,
     this.countHintsAvailable = 0,
     this.timeHintAvailable = false,
     this.timeHintWait = 10,

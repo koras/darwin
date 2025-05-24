@@ -9,34 +9,14 @@ import 'package:darwin/services/hive_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:hive/hive.dart';
+import 'dart:async'; // Для Timer
+
 part 'level_event.dart';
 part 'level_state.dart';
 part 'level_bloc.g.dart'; // Добавлено для генерации
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {
-    // Загружаем сохраненный уровень
-    // final savedLevel = HiveService.loadLevel();
-
-    // Загружаем данные уровня
-    // final levelData =
-    //     LevelsRepository.levelsData[savedLevel] ??
-    //     LevelsRepository.levelsData[1]!;
-
-    //  final firstLevelData = LevelsRepository.levelsData[1]!;
-
-    // Загружаем первый уровень при инициализации
-    // emit(
-    //   LevelState(
-    //     currentLevel: savedLevel,
-    //     availableItems: List<String>.from(levelData['imageItems']),
-    //     discoveredItems: List<String>.from(levelData['imageItems']),
-    //     targetItem: levelData['result'],
-    //     levelTitle: levelData['title'],
-    //     hints: List<String>.from(levelData['hints']),
-    //   ),
-    // );
-
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
     on<ItemDiscoveredEvent>(_onItemDiscovered);
@@ -58,6 +38,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<DecrementHint>(_onDecrementHint);
 
     on<SetHintItem>(_onSetHintItem);
+    on<HintTimerTicked>(_onHintTimerTicked);
 
     //  on<BuyHintsEvent>(_onBuyHints);
     // on<MarkHintUsedEvent>(_onMarkHintUsed);
@@ -78,7 +59,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
     // Добавляем новый элемент
     updatedItems.add(event.itemToAdd);
-
     emit(state.copyWith(gameItems: updatedItems));
   }
 
@@ -127,7 +107,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
     print('Загрузка уровня ${event.levelId}');
-
     print('event.levelId ${event.levelId}');
 
     final currentDiscovered = state.discoveredItems;
@@ -141,7 +120,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     emit(
       LevelState(
         currentLevel: event.levelId,
-        availableItems: allAvailable,
+        availableItems: event.imageItems,
+        discoveredItemsLevel: [],
         discoveredItems: currentDiscovered,
         targetItem: event.result,
         //  levelTitle: l10n.level1Title,
@@ -158,20 +138,26 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
   // все новые предметы здесь
   void _onItemDiscovered(ItemDiscoveredEvent event, Emitter<LevelState> emit) {
-    print('${state.hintsState.currentHint} state.hintsState.currentHint ');
-    print('${event.itemId} event.itemId');
+    //   print('${state.hintsState.currentHint} state.hintsState.currentHint ');
+    //   print('${event.itemId} event.itemId');
 
     if (state.discoveredItems.contains(event.itemId)) return;
 
     // Проверяем, был ли предмет ранее доступен
     final isNew = !state.availableItems.contains(event.itemId);
 
+    print('Нашли новый элемент _onItemDiscovered ${event.itemId}');
     final newDiscovered = [...state.discoveredItems, event.itemId];
     final newAvailable = [...state.availableItems, event.itemId];
 
+    final newDiscoveredItemsLevel = [
+      ...state.discoveredItemsLevel,
+      event.itemId,
+    ];
+
     emit(
       state.copyWith(
-        //   hintsState: state.hintsState.copyWith(hasPendingHint: false,currentHint: currentHint:''),
+        discoveredItemsLevel: newDiscoveredItemsLevel,
         discoveredItems: newDiscovered,
         availableItems: newAvailable,
         lastDiscoveredItem: isNew ? event.itemId : null,
@@ -217,6 +203,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       LevelState(
         currentLevel: nextLevel,
         availableItems: allAvailable,
+        discoveredItemsLevel: [],
         discoveredItems: currentDiscovered, // Переносим все открытые
         targetItem: levelData['result'],
         levelTitle: levelData['title'],
@@ -237,30 +224,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   ) {
     emit(
       state.copyWith(showLevelComplete: true, completedItemId: event.itemId),
-    );
-  }
-
-  // String get timeUntilNextHint {
-  //   if (freeHints > 0) return 'Доступно сейчас';
-
-  //   if (lastHintTime == null) return 'Доступно сейчас';
-
-  //   final now = DateTime.now();
-  //   final passed = now.difference(lastHintTime!);
-  //   final remaining = 30 - passed.inMinutes;
-
-  //   return remaining > 0
-  //     ? 'Доступно через $remaining мин'
-  //     : 'Доступно сейчас';
-  // }
-
-  void _onWaitingHint(WaitingHint event, Emitter<LevelState> emit) {
-    final now = DateTime.now();
-    state.copyWith(
-      hintsState: state.hintsState.copyWith(
-        lastHintTime: now,
-        timeHintAvailable: true,
-      ),
     );
   }
 
@@ -313,7 +276,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           ),
         ),
       );
-
       return;
     }
 
@@ -377,6 +339,38 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       state.copyWith(
         hintsState: state.hintsState.copyWith(hasPendingHint: true),
       ),
+    );
+  }
+
+  Timer? _hintTimer;
+  // Таймер обновляет оставшееся время
+  void _onHintTimerTicked(HintTimerTicked event, Emitter<LevelState> emit) {
+    final hintsState = state.hintsState;
+    final now = DateTime.now();
+
+    if (hintsState.lastHintTime != null) {
+      final passed = now.difference(hintsState.lastHintTime!);
+      final remaining = 1800 - passed.inSeconds; // 30 минут в секундах
+
+      // Форматируем время "MM:SS"
+      final minutes = (remaining ~/ 60).toString().padLeft(2, '0');
+      final seconds = (remaining % 60).toString().padLeft(2, '0');
+      final timeStr = '$minutes:$seconds';
+
+      emit(state.copyWith(timeUntilNextHint: timeStr));
+
+      // Останавливаем таймер, если время вышло
+      if (remaining <= 0) {
+        _hintTimer?.cancel();
+      }
+    }
+  }
+
+  void _startHintTimer() {
+    _hintTimer?.cancel();
+    _hintTimer = Timer.periodic(
+      Duration(seconds: 1),
+      (_) => add(HintTimerTicked()),
     );
   }
 }
