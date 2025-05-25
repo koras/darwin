@@ -49,6 +49,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   void _onMergeItemsEvent(MergeItemsEvent event, Emitter<LevelState> emit) {
+    /// Если подсказок нет, то надо включить учёт времени
+
     final currentItems = state.gameItems ?? [];
 
     // Удаляем старые элементы
