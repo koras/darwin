@@ -13,7 +13,7 @@ class LevelsRepository {
     return {
       1: {
         'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
-        'result': 'dolphin',
+        'result': 'man',
         'title': _l10n.create_sun,
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'background': 'level2.png',

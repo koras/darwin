@@ -14,21 +14,22 @@ class HintManager {
 
   // Находит элемент, которого нет в открытых подсказках
   String? findUnusedHint() {
-    print('--------------findUnusedHint--------------------------------------');
-    print('Находит элемент, которого нет в открытых подсказках  ');
+    //  print('--------------findUnusedHint--------------------------------------');
+    print(
+      'Находит элемент, которого нет в открытых подсказках  findUnusedHint',
+    );
     final state = context.read<LevelBloc>().state;
     final discoveredItemsLevel = state.discoveredItemsLevel;
     // Элементы которые
     // final availableItems = state.availableItems;
 
-    discoveredItemsLevel.forEach((item) {
-      print('Item: $item');
-    });
+    //  discoveredItemsLevel.forEach((item) {
+    //    print('Item: $item');
+    //});
 
     for (final hint in state.hints) {
       if (!discoveredItemsLevel.contains(hint)) {
-        print('hint  = $hint');
-
+        //  print('hint  = $hint');
         return hint;
       }
     }
