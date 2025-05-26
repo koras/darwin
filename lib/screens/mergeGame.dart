@@ -54,9 +54,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   Animation<Offset>? _hintBunnerAnimation;
   Animation<Offset>? _hintPayBunnerAnimation;
 
-  Timer? _hintTimer;
-  Duration _timeUntilNextHint = Duration.zero;
-
   // Добавляем BLoC
   // late final LevelBloc _levelBloc;
 
