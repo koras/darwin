@@ -3,6 +3,7 @@ import 'package:darwin/screens/mainMenu.dart';
 import 'package:darwin/screens/showMerge.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/bloc/level_bloc.dart';
+import 'package:darwin/screens/feedback_screen.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
   const CustomBottomAppBar({super.key});
@@ -46,6 +47,24 @@ class CustomBottomAppBar extends StatelessWidget {
               );
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.feedback),
+            onPressed: () {
+              // Действие при нажатии на домой
+              final currentState = context.read<LevelBloc>().state;
+              print('Действие при нажатии Статистика');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => FeedbackScreen(
+                        // Ваш список правил соединений
+                      ),
+                ),
+              );
+            },
+          ),
+
           // Иконка Выключить звук
           IconButton(
             icon: const Icon(Icons.volume_off),

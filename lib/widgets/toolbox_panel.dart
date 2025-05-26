@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:darwin/data/image_item.dart';
 import 'package:darwin/models/game_item.dart';
 import 'toolbox_item.dart';
+import 'package:darwin/constants/colors.dart';
 
 class ToolboxPanel extends StatefulWidget {
   final double initialHeightPercentage; // Начальная высота в процентах
@@ -53,12 +54,12 @@ class _ToolboxPanelState extends State<ToolboxPanel> {
             },
             child: Container(
               height: 24,
-              color: Colors.blueGrey[300],
+              color: AppColors.border,
               child: Center(
                 child: Container(
                   width: 60,
                   height: 4,
-                  color: Colors.blueGrey[500],
+                  color: AppColors.borderCenter,
                 ),
               ),
             ),
