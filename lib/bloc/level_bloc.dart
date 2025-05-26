@@ -169,7 +169,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   String _getLocalizedString(AppLocalizations l10n, String key) {
-    return 'asdfasdf';
     try {
       return (l10n as dynamic)[key] as String? ?? key;
     } catch (e) {
@@ -178,9 +177,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
-    //  print('Загрузка уровня ${event.levelId}');
-    //   print('event.levelId ${event.levelId}');
-
     final currentDiscovered = state.discoveredItems;
     // Начальные предметы уровня + уже открытые
     final allAvailable =
@@ -196,10 +192,11 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         discoveredItemsLevel: [],
         discoveredItems: currentDiscovered,
         targetItem: event.result,
-        //  levelTitle: l10n.level1Title,
         levelTitle: event.title,
         hints: event.hints,
         background: event.background,
+        freeHints: event.freeHints,
+        timeHintWait: event.timeHintWait,
       ),
     );
   }
@@ -232,12 +229,12 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     // Проверяем, был ли предмет ранее доступен
     final isNew = !state.availableItems.contains(event.itemId);
 
-    print('Нашли новый элемент _onItemDiscovered ${event.itemId}');
+    debugPrint('Нашли новый элемент _onItemDiscovered ${event.itemId}');
     final newDiscovered = [...state.discoveredItems, event.itemId];
     final newAvailable = [...state.availableItems, event.itemId];
 
     final newDiscoveredItemsLevel = [
-      ...state.discoveredItemsLevel,
+      ...state.discoveredItemsLevel.where((item) => item != event.itemId),
       event.itemId,
     ];
 
@@ -295,6 +292,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         levelTitle: levelData['title'],
         hints: levelData['hints'],
         background: levelData['background'],
+        freeHints: levelData['freeHints'],
+        timeHintWait: levelData['timeHintWait'],
       ),
     );
 

@@ -57,6 +57,12 @@ class LevelState {
 
   final String? timeStr;
 
+  @HiveField(14)
+  final int freeHints;
+  // сколько бесплатных подсказок на уровне
+  @HiveField(15)
+  final int timeHintWait;
+
   /// Конструктор состояния уровня
   const LevelState({
     required this.currentLevel,
@@ -74,6 +80,8 @@ class LevelState {
     this.background,
     this.timeUntilNextHint,
     this.timeStr,
+    required this.freeHints,
+    required this.timeHintWait,
   });
 
   /// Начальное состояние уровня
@@ -94,6 +102,8 @@ class LevelState {
       background: 'level1.png',
       timeUntilNextHint: null,
       timeStr: null,
+      freeHints: 0,
+      timeHintWait: 0,
     );
   }
 
@@ -114,6 +124,8 @@ class LevelState {
     String? background,
     String? timeUntilNextHint,
     String? timeStr,
+    int? freeHints,
+    int? timeHintWait,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -131,6 +143,9 @@ class LevelState {
       background: background ?? this.background,
       timeUntilNextHint: timeUntilNextHint ?? this.timeUntilNextHint,
       timeStr: timeStr ?? this.timeStr,
+
+      freeHints: freeHints ?? this.freeHints,
+      timeHintWait: timeHintWait ?? this.timeHintWait,
     );
   }
 
@@ -149,6 +164,8 @@ class LevelState {
         other.targetItem == targetItem &&
         other.hintsState == hintsState &&
         other.timeStr == timeStr &&
+        other.timeHintWait == timeHintWait &&
+        other.freeHints == freeHints &&
         other.timeUntilNextHint == timeUntilNextHint &&
         other.background == background;
   }
@@ -164,6 +181,8 @@ class LevelState {
     targetItem,
     hintsState,
     timeStr,
+    freeHints,
+    timeUntilNextHint,
     background,
     timeUntilNextHint,
   );
@@ -292,7 +311,8 @@ class HintsState {
     lastHintTime,
     currentHint,
     timeHintAvailable,
-    timeHintWait,
     hasPendingHint,
+
+    timeHintWait,
   );
 }

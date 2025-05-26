@@ -113,6 +113,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         levelData['hints'],
         levelData['imageItems'],
         levelData['background'],
+        levelData['freeHints'],
+        levelData['timeHintWait'],
       ),
     );
 

@@ -10,6 +10,8 @@ class LoadLevelEvent extends LevelEvent {
   final List<String> hints;
   final List<String> imageItems;
   final String background;
+  final int freeHints;
+  final int timeHintWait;
 
   LoadLevelEvent(
     this.levelId,
@@ -18,6 +20,8 @@ class LoadLevelEvent extends LevelEvent {
     this.hints,
     this.imageItems,
     this.background,
+    this.freeHints,
+    this.timeHintWait,
   );
 }
 

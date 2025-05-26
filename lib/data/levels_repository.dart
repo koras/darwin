@@ -12,7 +12,8 @@ class LevelsRepository {
   static Map<int, Map<String, dynamic>> get levelsData {
     return {
       1: {
-        'result': 'monkey',
+        //   'result': 'monkey',
+        'result': 'man',
         'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
@@ -21,7 +22,7 @@ class LevelsRepository {
         'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
       2: {
-        'result': 'monkey',
+        'result': 'man',
         'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
