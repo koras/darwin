@@ -96,34 +96,9 @@ class DragAndMergeManager {
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
         final result = await mergeHandler.tryMergeItems(movedItem, item);
-        if (result) {
-          context.read<LevelBloc>().add(UseHintEvent());
-        }
+
         return result;
         //   return; // Сливаем только с одним элементом за раз
-      }
-    }
-    return false;
-  }
-
-  Future<bool> _checkForMerge1111(
-    GameItem movedItem,
-    int newX,
-    int newY,
-  ) async {
-    final items = context.read<LevelBloc>().state.gameItems ?? [];
-    final itemsInCell =
-        items.where((item) {
-          return newX == item.gridX && newY == item.gridY && item != movedItem;
-        }).toList();
-
-    for (final item in itemsInCell) {
-      if (getMergeResult(movedItem.id, item.id) != null) {
-        final result = await mergeHandler.tryMergeItems(movedItem, item);
-        if (result) {
-          context.read<LevelBloc>().add(UseHintEvent());
-        }
-        return result;
       }
     }
     return false;

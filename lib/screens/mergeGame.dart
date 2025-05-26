@@ -120,7 +120,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
 
     _hintManager = HintManager(context, mergeRules);
-    _startHintTimer();
+    // _startHintTimer();
 
     _fieldManager = FieldManager(
       getItems: () => context.read<LevelBloc>().state.gameItems ?? [],
@@ -205,6 +205,16 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         curve: Curves.easeInOut,
       ),
     );
+  }
+
+  String get timeUntilNextHint {
+    final now = DateTime.now();
+    final passed = now.difference(
+      context.read<LevelBloc>().state.hintsState.lastHintTime!,
+    );
+    final remaining = 30 - passed.inMinutes;
+
+    return remaining > 0 ? 'Доступно через $remaining мин' : 'Доступно сейчас';
   }
 
   @override
@@ -312,9 +322,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   name: "Задание",
                   stars: 100,
                   taskDescription: state.levelTitle,
-                  time: "02:45",
+                  time: context.read<LevelBloc>().state.timeStr ?? '',
                   onHintPressed: () {
-                    debugPrint("Логика подсказки");
                     _toggleHintPanel();
                   },
                   onClearPressed: _handleClearField, // Изменяем обработчик () {
@@ -470,7 +479,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   child: _buildHintPanel(context),
                 ),
               ),
-
               Positioned(
                 top: 100,
                 left: 0,
@@ -486,17 +494,27 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     );
   }
 
+  // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
+  // пользователь уже имеет открытый элемент, и надо дать пользователю
+  // именно элемент которого у него нет
+  // Соответственно, надо взять подсказки и вычесть элементы которые уже открыты.
+  // при нахождении. При это мы не даём ему воспользоваться следующей подсказкой,
+  // пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
+  // чтобы пользователь понимал что с чем соеденить.
+
   Future<void> _toggleHintPanel() async {
     final state = context.read<LevelBloc>().state;
     final hintsState = state.hintsState;
     // Есть или бесплатные или платные подсказки.
-    if (hintsState.canGetFreeHint ||
-        hintsState.getPaidHints ||
+
+    if (hintsState.freeHints > 0 ||
+        hintsState.paidHintsAvailable > 0 ||
         hintsState.hasPendingHint) {
       // у нас есть открытая подсказка
       if (!hintsState.hasPendingHint) {
         // что-то видимо есть.
         context.read<LevelBloc>().add(DecrementHint());
+        // помечаем что подсказка активна и не использована
         debugPrint('вычисляем подсказки');
         // когда мы открываем подсказку мы помечаем её как прочитанную
         // Ждем завершения обработки события
@@ -504,14 +522,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
       } else {
         debugPrint('не забираем подсказку');
       }
-
-      // у нас есть подсказки, теперь надо получить подсказку. Мы подразумеваем что
-      // пользователь уже имеет открытый элемент, и надо дать пользователю
-      // именно элемент которого у него нет
-      // Соответственно, надо взять подсказки и вычесть элементы которые уже открыты.
-      // при нахождении. При это мы не даём ему воспользоваться следующей подсказкой,
-      // пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
-      // чтобы пользователь понимал что с чем соеденить.
 
       final components = await _hintManager.showHint();
       if (components != null) {
@@ -521,15 +531,15 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
           _hintItem2 = components['item2'];
           _hintResult = components['result'];
         });
-        context.read<LevelBloc>().add(SetHintItem(_hintResult!));
-      }
 
+        debugPrint('-------------------------------${components['result']}');
+
+        context.read<LevelBloc>().add(SetHintItem(components['result']!));
+        //    context.read<LevelBloc>().add(SetHintItem(_hintResult!));
+      }
       // Теперь получаем актуальное состояние после уменьшения
       final updatedState = context.read<LevelBloc>().state;
-      // помечаем что подсказка активна и не использована
-      context.read<LevelBloc>().add(SetHintEvent());
 
-      // Логика подсказки
       setState(() {
         _countHints = updatedState.hintsState.countHintsAvailable;
         _showHintPanel = !_showHintPanel;
@@ -664,9 +674,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
         final result = await _mergeHandler.tryMergeItems(movedItem, item);
-        if (result) {
-          context.read<LevelBloc>().add(UseHintEvent());
-        }
+
         return result;
       }
     }
@@ -692,40 +700,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     }
   }
 
-  void _startHintTimer() {
-    // Останавливаем предыдущий таймер, если был
-    _hintTimer?.cancel();
-
-    // Запускаем новый таймер
-    _hintTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) return;
-
-      final state = context.read<LevelBloc>().state;
-
-      if (state.hintsState.lastHintTime != null &&
-          !state.hintsState.hasPendingHint) {
-        final now = DateTime.now();
-        final nextHintTime = state.hintsState.lastHintTime!.add(
-          const Duration(hours: 3),
-        );
-
-        if (now.isBefore(nextHintTime)) {
-          setState(() {
-            _timeUntilNextHint = nextHintTime.difference(now);
-          });
-        } else {
-          setState(() {
-            _timeUntilNextHint = Duration.zero;
-          });
-        }
-      } else {
-        setState(() {
-          _timeUntilNextHint = Duration.zero;
-        });
-      }
-    });
-  }
-
   void onBuyHints(count, price) {
     debugPrint('onBuy5Hints');
   }
@@ -733,6 +707,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   Widget _buildPayPanel(BuildContext context) {
     DateTime lastHintTime = DateTime.now(); // Время последней подсказки
     Duration cooldownPeriod = Duration(minutes: 30); // Время ожидания
+
     Duration remainingTime = lastHintTime
         .add(cooldownPeriod)
         .difference(DateTime.now());
@@ -740,14 +715,21 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     if (remainingTime.isNegative) {
       remainingTime = Duration.zero;
     }
+
+    // if (_showHintPanel) {
+    //   print('_showHintPanel true');
+    // } else {
+    //   print(' _showHintPanel false');
+    // }
+
     return WaitOrBuyHintBanner(
       // cointHint: _countHints,
       remainingTime: remainingTime,
       onBuyHints: (count, price) => onBuyHints(count, price),
       onClose: () {
         setState(() {
-          _showHintPanel = !_showHintPanel;
-          debugPrint('Логика подсказки');
+          //      _showHintPanel = !_showHintPanel;
+          debugPrint('Логика покупки');
           _hintPayPanelController?.reverse();
           // Логика подсказки
           //    _showHintBanner = false;

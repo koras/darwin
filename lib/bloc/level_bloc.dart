@@ -9,34 +9,14 @@ import 'package:darwin/services/hive_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:hive/hive.dart';
+import 'dart:async'; // Для Timer
+
 part 'level_event.dart';
 part 'level_state.dart';
 part 'level_bloc.g.dart'; // Добавлено для генерации
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
   LevelBloc() : super(LevelState.initial()) {
-    // Загружаем сохраненный уровень
-    // final savedLevel = HiveService.loadLevel();
-
-    // Загружаем данные уровня
-    // final levelData =
-    //     LevelsRepository.levelsData[savedLevel] ??
-    //     LevelsRepository.levelsData[1]!;
-
-    //  final firstLevelData = LevelsRepository.levelsData[1]!;
-
-    // Загружаем первый уровень при инициализации
-    // emit(
-    //   LevelState(
-    //     currentLevel: savedLevel,
-    //     availableItems: List<String>.from(levelData['imageItems']),
-    //     discoveredItems: List<String>.from(levelData['imageItems']),
-    //     targetItem: levelData['result'],
-    //     levelTitle: levelData['title'],
-    //     hints: List<String>.from(levelData['hints']),
-    //   ),
-    // );
-
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
     on<ItemDiscoveredEvent>(_onItemDiscovered);
@@ -58,6 +38,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<DecrementHint>(_onDecrementHint);
 
     on<SetHintItem>(_onSetHintItem);
+    on<HintTimerTicked>(_onHintTimerTicked);
 
     //  on<BuyHintsEvent>(_onBuyHints);
     // on<MarkHintUsedEvent>(_onMarkHintUsed);
@@ -67,7 +48,44 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     emit(state.copyWith(gameItems: []));
   }
 
+  // событие слияния
   void _onMergeItemsEvent(MergeItemsEvent event, Emitter<LevelState> emit) {
+    /// Если подсказок нет, то надо включить учёт времени
+    ///
+    ///
+    debugPrint(
+      'Текущая подсказка перед слиянием: ${state.hintsState.currentHint}',
+    );
+    debugPrint(
+      'подсказка найдена ${event.itemToAdd.id} == ${state.hintsState.currentHint}',
+    );
+    if (event.itemToAdd.id == state.hintsState.currentHint) {
+      debugPrint('подсказка найдена');
+      emit(
+        state.copyWith(
+          hintsState: state.hintsState.copyWith(
+            hasPendingHint: false,
+            currentHint: '',
+          ),
+        ),
+      );
+    }
+
+    final now = DateTime.now();
+
+    if (state.hintsState.freeHints == 0 &&
+        state.hintsState.paidHintsAvailable == 0 &&
+        //  !state.hintsState.timeHintAvailable &&
+        !state.hintsState.hasPendingHint) {
+      // запускаем отсчёт времени. Надо знать когда будет доступна подсказка
+
+      debugPrint('запускаем......................');
+      add(UseHintEvent());
+      _startHintTimer();
+    } else {
+      print('Нет просчёта времени');
+    }
+
     final currentItems = state.gameItems ?? [];
 
     // Удаляем старые элементы
@@ -80,6 +98,40 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     updatedItems.add(event.itemToAdd);
 
     emit(state.copyWith(gameItems: updatedItems));
+  }
+
+  void _onUseHint(UseHintEvent event, Emitter<LevelState> emit) {
+    final now = DateTime.now();
+    emit(
+      state.copyWith(
+        hintsState: state.hintsState.copyWith(
+          hasPendingHint: false,
+          currentHint: '',
+        ),
+      ),
+    );
+    print(
+      '+++++++++++++++state.hintsState.freeHints ${state.hintsState.freeHints}',
+    );
+
+    if (state.hintsState.freeHints == 0 &&
+        state.hintsState.paidHintsAvailable == 0) {
+      if (!state.hintsState.timeHintAvailable) {
+        // ставим счётчик
+        debugPrint('ставим счётчик+++++++++++++');
+
+        emit(
+          state.copyWith(
+            hintsState: state.hintsState.copyWith(
+              lastHintTime: now,
+              timeHintAvailable: true,
+            ),
+          ),
+        );
+
+        _startHintTimer();
+      }
+    }
   }
 
   /**
@@ -126,26 +178,11 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
-    print('Загрузка уровня ${event.levelId}');
+    //  print('Загрузка уровня ${event.levelId}');
+    //   print('event.levelId ${event.levelId}');
 
-    //  final levelData = LevelsRepository.levelsData[event.levelId];
-
-    print('event.levelId ${event.levelId}');
-    //if (event.levelId != null) {
-    //     final keyTitle = levelData['title'];
-    //   final l10n = AppLocalizations.of(event.context)!.keyTitle;
-    //   print('1111keyTitle ${keyTitle}');
-    //  final l10n = AppLocalizations.of(event.context)!;
-    // Получаем локализованный заголовок
-
-    //  final localizedTitle = _getLocalizedString(l10n, keyTitle);
-    //   AppLocalizations.of(event.context)!.title_compatibility
-    // Сохраняем уже открытые предметы
     final currentDiscovered = state.discoveredItems;
     // Начальные предметы уровня + уже открытые
-
-    //    print('keyTitle ${localizedTitle}');
-    // AppLocalizations.of(context)!.yourStringKey
     final allAvailable =
         [
           ...List<String>.from(event.imageItems),
@@ -155,7 +192,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     emit(
       LevelState(
         currentLevel: event.levelId,
-        availableItems: allAvailable,
+        availableItems: event.imageItems,
+        discoveredItemsLevel: [],
         discoveredItems: currentDiscovered,
         targetItem: event.result,
         //  levelTitle: l10n.level1Title,
@@ -172,20 +210,40 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
   // все новые предметы здесь
   void _onItemDiscovered(ItemDiscoveredEvent event, Emitter<LevelState> emit) {
-    print('${state.hintsState.currentHint} state.hintsState.currentHint ');
-    print('${event.itemId} event.itemId');
+    //   print('${state.hintsState.currentHint} state.hintsState.currentHint ');
+    //   print('${event.itemId} event.itemId');
+
+    if (event.itemId == state.hintsState.currentHint) {
+      debugPrint(' забираем подсказку ${state.hintsState.currentHint} ');
+
+      /// забираем подсказку
+      emit(
+        state.copyWith(
+          hintsState: state.hintsState.copyWith(
+            hasPendingHint: false,
+            currentHint: '',
+          ),
+        ),
+      );
+    }
 
     if (state.discoveredItems.contains(event.itemId)) return;
 
     // Проверяем, был ли предмет ранее доступен
     final isNew = !state.availableItems.contains(event.itemId);
 
+    print('Нашли новый элемент _onItemDiscovered ${event.itemId}');
     final newDiscovered = [...state.discoveredItems, event.itemId];
     final newAvailable = [...state.availableItems, event.itemId];
 
+    final newDiscoveredItemsLevel = [
+      ...state.discoveredItemsLevel,
+      event.itemId,
+    ];
+
     emit(
       state.copyWith(
-        //   hintsState: state.hintsState.copyWith(hasPendingHint: false,currentHint: currentHint:''),
+        discoveredItemsLevel: newDiscoveredItemsLevel,
         discoveredItems: newDiscovered,
         availableItems: newAvailable,
         lastDiscoveredItem: isNew ? event.itemId : null,
@@ -231,6 +289,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       LevelState(
         currentLevel: nextLevel,
         availableItems: allAvailable,
+        discoveredItemsLevel: [],
         discoveredItems: currentDiscovered, // Переносим все открытые
         targetItem: levelData['result'],
         levelTitle: levelData['title'],
@@ -254,16 +313,36 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     );
   }
 
+  bool get timeUntilNextHint {
+    final now = DateTime.now();
+    if (state.hintsState.timeHintAvailable) {
+      //  return false;
+    }
+
+    final passed = now.difference(state.hintsState.lastHintTime!);
+    final remaining = state.hintsState.timeHintWait - passed.inMinutes;
+    // доступна подсказка или нет?
+    // print('доступна подсказка или нет?');
+    return remaining > 0;
+  }
+
+  ///
+  /// убавляем количество подсказок
+  ///
   void _onDecrementHint(DecrementHint event, Emitter<LevelState> emit) {
+    // emit(
+    //   state.copyWith(
+    //     hintsState: state.hintsState.copyWith(hasPendingHint: true),
+    //   ),
+    // );
+
     print('проверяем, есть ли у нас подсказки');
-
     if (state.hintsState.freeHints > 0) {
-      print('--- убавляем freeHints ${state.hintsState.freeHints}');
       // сперва если есть бесплатные, мы вычитаем именно бесплатные
-
       emit(
         state.copyWith(
           hintsState: state.hintsState.copyWith(
+            hasPendingHint: true,
             freeHints: state.hintsState.freeHints - 1,
             countHintsAvailable:
                 state.hintsState.freeHints -
@@ -272,15 +351,16 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           ),
         ),
       );
-
       print('--- убавляем freeHints ${state.hintsState.freeHints} = ');
       return;
     }
+
     if (state.hintsState.paidHintsAvailable > 0) {
       // проверяем, если есть купленные подсказки, то вычитаем из купленных подсказок;
       emit(
         state.copyWith(
           hintsState: state.hintsState.copyWith(
+            hasPendingHint: true,
             paidHintsAvailable: state.hintsState.paidHintsAvailable - 1,
             countHintsAvailable:
                 state.hintsState.freeHints +
@@ -289,8 +369,12 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
           ),
         ),
       );
+
+      print('--- убавляем paidHintsAvailable ${state.hintsState.freeHints} = ');
       return;
     }
+
+    ///подсказок больше нет активируем время
   }
 
   // }
@@ -305,31 +389,80 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   void _onSetHintItem(SetHintItem event, Emitter<LevelState> emit) {
-    print(' подсказка ${event.currentHint} ');
-    emit(
-      state.copyWith(
-        hintsState: state.hintsState.copyWith(currentHint: event.currentHint),
-      ),
-    );
-  }
-
-  void _onUseHint(UseHintEvent event, Emitter<LevelState> emit) {
     emit(
       state.copyWith(
         hintsState: state.hintsState.copyWith(
-          hasPendingHint: false,
-          currentHint: '',
+          currentHint: event.currentHint,
+          hasPendingHint: true,
         ),
       ),
     );
   }
 
-  void _onSetHint(SetHintEvent event, Emitter<LevelState> emit) {
-    emit(
-      state.copyWith(
-        hintsState: state.hintsState.copyWith(hasPendingHint: true),
-      ),
+  Timer? _hintTimer;
+  // Таймер обновляет оставшееся время
+  void _onHintTimerTicked(HintTimerTicked event, Emitter<LevelState> emit) {
+    // debugPrint('каждая секунда. ');
+
+    final hintsState = state.hintsState;
+    final now = DateTime.now();
+    if (hintsState.lastHintTime != null) {
+      final passed = now.difference(hintsState.lastHintTime!);
+      //      final remaining = 1800 - passed.inSeconds; // 30 минут в секундах
+      final remaining = 5 - passed.inSeconds; // 30 минут в секундах
+
+      // Форматируем время "MM:SS"
+      final minutes = (remaining ~/ 60).toString().padLeft(2, '0');
+      final seconds = (remaining % 60).toString().padLeft(2, '0');
+      final timeStr = '$minutes:$seconds';
+      emit(
+        state.copyWith(
+          timeStr: timeStr,
+
+          //timeUntilNextHint: timeStr
+        ),
+      );
+
+      debugPrint(' timeStr ${timeStr}');
+
+      // Останавливаем таймер, если время вышло
+      if (remaining <= 0) {
+        _hintTimer?.cancel();
+
+        /// даём подсказку
+
+        debugPrint('даём подсказку');
+        emit(
+          state.copyWith(
+            hintsState: hintsState.copyWith(
+              timeHintAvailable: false,
+              lastHintTime: null,
+              freeHints: 1,
+            ),
+            //     timeUntilNextHint: null,
+          ),
+        );
+      }
+    } else {
+      debugPrint('нет отсчёта времени ');
+    }
+  }
+
+  void _startHintTimer() {
+    debugPrint('_startHintTimer');
+    _hintTimer?.cancel();
+    _hintTimer = Timer.periodic(
+      Duration(seconds: 1),
+      (_) => add(HintTimerTicked()),
     );
+  }
+
+  void _onSetHint(SetHintEvent event, Emitter<LevelState> emit) {
+    // emit(
+    //   state.copyWith(
+    //     hintsState: state.hintsState.copyWith(hasPendingHint: true),
+    //   ),
+    // );
   }
 }
 

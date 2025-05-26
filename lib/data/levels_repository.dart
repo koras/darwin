@@ -1,11 +1,6 @@
 // levels_repository.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Основной импорт
-
-import 'package:darwin/bloc/level_bloc.dart';
-import 'package:darwin/services/hive_service.dart';
-import 'package:darwin/screens/mergeGame.dart';
 
 class LevelsRepository {
   static late AppLocalizations _l10n;
@@ -17,44 +12,34 @@ class LevelsRepository {
   static Map<int, Map<String, dynamic>> get levelsData {
     return {
       1: {
-        'imageItems': ['water', 'mammal', 'tree', 'time'],
-        'result': 'cloud',
+        'result': 'monkey',
+        'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
+        'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
-        'hints': [
-          'cloud',
-          'sky',
-          'monkey',
-          'man',
-          'enchantress',
-          'sorcery',
-          'witch',
-          'flying',
-        ],
-        'background': 'level2.png',
+        'background': 'level2.png', // количество подсказок на уровне
+        'freeHints': 1, // сколько бесплатных подсказок на уровне
+        'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
       2: {
-        'imageItems': ['time', 'flower'],
-        'result': 'dolphin',
-        'title': 'Создайте дракона',
-        'hints': ['sky', 'grimoire', 'enchantress'],
+        'result': 'monkey',
+        'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
+        'hints': ['cloud', 'sky', 'monkey', 'man'],
+        'title': _l10n.create_sun,
         'background': 'level7.png',
+        'freeHints': 2, // сколько бесплатных подсказок на уровне
+        'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
 
       // Уровень 3: "Создайте город"
       3: {
-        'imageItems': ['new_year', 'tree', 'village'],
-        'result': 'city',
-        'title': 'Создайте мегаполис',
-        'hints': [
-          'cloud',
-          'sky',
-          'grimoire',
-          'enchantress',
-          'sorcery',
-          'witch',
-          'flying',
-        ],
-        'background': 'level3.png', // Секретное улучшение
+        'result': 'monkey',
+        'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
+        'hints': ['cloud', 'sky', 'monkey', 'man'],
+        'title': _l10n.create_sun,
+        'background': 'level3.png',
+        'freeHints': 1, // сколько бесплатных подсказок на уровне
+        'timeHintWait':
+            10, // сколько ждать чтобы получить подсказку бесплатно // Секретное улучшение
       },
       //Уровень 4: "Рождественское чудо"
       4: {
@@ -71,6 +56,8 @@ class LevelsRepository {
           'flying',
         ],
         'background': 'level4.png',
+        'freeHints': 1, // сколько бесплатных подсказок на уровне
+        'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
     };
   }

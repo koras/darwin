@@ -39,11 +39,6 @@ class FieldManager {
 
     final sameTypeCount = items.where((i) => i.id == item.id).length;
 
-    for (final item in items) {
-      print('ID: ${item.gridX}');
-      print('ID: ${item.gridY}');
-      print('ID: ${item.assetPath}');
-    }
     if (sameTypeCount >= maxSameType) {
       GameSnackbar.show(context, 'Максимум $maxSameType элементов одного типа');
       return null;
@@ -72,7 +67,7 @@ class FieldManager {
       gridX: randomCell.x,
       gridY: randomCell.y,
     );
-    print('ключи тест ${newItem.key}');
+    //  print('ключи тест ${newItem.key}');
     // addItem(newItem);
     // onAdd(newItem);
 

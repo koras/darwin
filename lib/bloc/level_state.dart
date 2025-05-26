@@ -1,6 +1,7 @@
 part of 'level_bloc.dart';
 // Добавьте эту строку
 
+// flutter pub run build_runner build
 @HiveType(typeId: 1)
 class LevelState {
   /// Текущий уровень игры (нумерация начинается с 0)
@@ -43,13 +44,24 @@ class LevelState {
 
   @HiveField(10)
   final HintsState hintsState;
+
   @HiveField(11)
   final String? background;
+
+  @HiveField(12)
+  final String? timeUntilNextHint;
+
+  @HiveField(13)
+  /// Все элементы, которые игрок уже открыл за уровень
+  final List<String> discoveredItemsLevel;
+
+  final String? timeStr;
 
   /// Конструктор состояния уровня
   const LevelState({
     required this.currentLevel,
     required this.availableItems,
+    required this.discoveredItemsLevel,
     required this.discoveredItems,
     required this.targetItem,
     required this.levelTitle,
@@ -60,6 +72,8 @@ class LevelState {
     this.completedItemId,
     this.hintsState = const HintsState(),
     this.background,
+    this.timeUntilNextHint,
+    this.timeStr,
   });
 
   /// Начальное состояние уровня
@@ -67,6 +81,7 @@ class LevelState {
     return LevelState(
       currentLevel: 0,
       availableItems: [],
+      discoveredItemsLevel: [],
       discoveredItems: [], // Инициализируем пустым списком
       targetItem: '',
       levelTitle: '',
@@ -77,6 +92,8 @@ class LevelState {
       completedItemId: null,
       hintsState: HintsState(),
       background: 'level1.png',
+      timeUntilNextHint: null,
+      timeStr: null,
     );
   }
 
@@ -84,6 +101,7 @@ class LevelState {
   LevelState copyWith({
     int? currentLevel,
     List<String>? availableItems,
+    List<String>? discoveredItemsLevel,
     List<String>? discoveredItems,
     String? targetItem,
     String? levelTitle,
@@ -94,10 +112,13 @@ class LevelState {
     String? completedItemId,
     HintsState? hintsState,
     String? background,
+    String? timeUntilNextHint,
+    String? timeStr,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
       availableItems: availableItems ?? this.availableItems,
+      discoveredItemsLevel: discoveredItemsLevel ?? this.discoveredItemsLevel,
       discoveredItems: discoveredItems ?? this.discoveredItems,
       targetItem: targetItem ?? this.targetItem,
       levelTitle: levelTitle ?? this.levelTitle,
@@ -108,6 +129,8 @@ class LevelState {
       completedItemId: completedItemId ?? this.completedItemId,
       hintsState: hintsState ?? this.hintsState,
       background: background ?? this.background,
+      timeUntilNextHint: timeUntilNextHint ?? this.timeUntilNextHint,
+      timeStr: timeStr ?? this.timeStr,
     );
   }
 
@@ -117,10 +140,16 @@ class LevelState {
     return other is LevelState &&
         other.currentLevel == currentLevel &&
         const ListEquality().equals(other.availableItems, availableItems) &&
+        const ListEquality().equals(
+          other.discoveredItemsLevel,
+          discoveredItemsLevel,
+        ) &&
         const ListEquality().equals(other.discoveredItems, discoveredItems) &&
         const ListEquality().equals(other.gameItems, gameItems) &&
         other.targetItem == targetItem &&
         other.hintsState == hintsState &&
+        other.timeStr == timeStr &&
+        other.timeUntilNextHint == timeUntilNextHint &&
         other.background == background;
   }
 
@@ -129,11 +158,14 @@ class LevelState {
   int get hashCode => Object.hash(
     currentLevel,
     const ListEquality().hash(availableItems),
+    const ListEquality().hash(discoveredItemsLevel),
     const ListEquality().hash(discoveredItems),
     const ListEquality().hash(gameItems),
     targetItem,
     hintsState,
+    timeStr,
     background,
+    timeUntilNextHint,
   );
 }
 
@@ -141,6 +173,7 @@ class LevelState {
 class HintsState {
   @HiveField(0)
   final int freeHintsUsed; // Использованные бесплатные подсказки (0-3)
+
   @HiveField(1)
   final int paidHintsAvailable; // Доступные платные подсказки
 
@@ -161,15 +194,26 @@ class HintsState {
   @HiveField(7)
   final int countHintsAvailable; // Доступные бесплатные подсказки
 
+  @HiveField(8)
+  // идёт ли отсчёт времени?
+  final bool timeHintAvailable;
+
+  @HiveField(9)
+  /// сколько времени ждать
+  final int timeHintWait;
+
   const HintsState({
-    this.freeHintsUsed = 3,
+    this.freeHintsUsed = 1,
     this.paidHintsAvailable = 0,
     this.usedHints = const [],
     this.lastHintTime,
     this.hasPendingHint = false,
     this.currentHint = '',
-    this.freeHints = 3,
+    // количество подсказок на уровне
+    this.freeHints = 1,
     this.countHintsAvailable = 0,
+    this.timeHintAvailable = false,
+    this.timeHintWait = 10,
   });
 
   bool get getPaidHints {
@@ -204,8 +248,10 @@ class HintsState {
     List<String>? usedHints,
     DateTime? lastHintTime,
     bool? hasPendingHint,
+    bool? timeHintAvailable,
     String? currentHint,
     int? countHintsAvailable,
+    int? timeHintWait,
   }) {
     return HintsState(
       freeHintsUsed: freeHintsUsed ?? this.freeHintsUsed,
@@ -213,9 +259,11 @@ class HintsState {
       paidHintsAvailable: paidHintsAvailable ?? this.paidHintsAvailable,
       usedHints: usedHints ?? this.usedHints,
       lastHintTime: lastHintTime ?? this.lastHintTime,
+      timeHintAvailable: timeHintAvailable ?? this.timeHintAvailable,
       hasPendingHint: hasPendingHint ?? this.hasPendingHint,
       currentHint: currentHint ?? this.currentHint,
       countHintsAvailable: countHintsAvailable ?? this.countHintsAvailable,
+      timeHintWait: timeHintWait ?? this.timeHintWait,
     );
   }
 
@@ -225,10 +273,13 @@ class HintsState {
     return other is HintsState &&
         other.freeHintsUsed == freeHintsUsed &&
         other.freeHints == freeHints &&
+        other.currentHint == currentHint &&
         other.paidHintsAvailable == paidHintsAvailable &&
         other.countHintsAvailable == countHintsAvailable &&
         const ListEquality().equals(other.usedHints, usedHints) &&
         other.lastHintTime == lastHintTime &&
+        other.timeHintAvailable == timeHintAvailable &&
+        other.timeHintWait == timeHintWait &&
         other.hasPendingHint == hasPendingHint;
   }
 
@@ -239,6 +290,9 @@ class HintsState {
     paidHintsAvailable,
     const ListEquality().hash(usedHints),
     lastHintTime,
+    currentHint,
+    timeHintAvailable,
+    timeHintWait,
     hasPendingHint,
   );
 }

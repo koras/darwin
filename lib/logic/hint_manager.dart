@@ -14,11 +14,22 @@ class HintManager {
 
   // Находит элемент, которого нет в открытых подсказках
   String? findUnusedHint() {
+    //  print('--------------findUnusedHint--------------------------------------');
+    print(
+      'Находит элемент, которого нет в открытых подсказках  findUnusedHint',
+    );
     final state = context.read<LevelBloc>().state;
-    final discoveredItems = state.discoveredItems;
+    final discoveredItemsLevel = state.discoveredItemsLevel;
+    // Элементы которые
+    // final availableItems = state.availableItems;
+
+    //  discoveredItemsLevel.forEach((item) {
+    //    print('Item: $item');
+    //});
 
     for (final hint in state.hints) {
-      if (!discoveredItems.contains(hint)) {
+      if (!discoveredItemsLevel.contains(hint)) {
+        //  print('hint  = $hint');
         return hint;
       }
     }
@@ -50,7 +61,9 @@ class HintManager {
         .toList();
   }
 
-  // Обрабатывает логику показа подсказки
+  /// Обрабатывает логику показа подсказки
+  /// Здесь надо найти элемент который покажем
+  ///
   Future<Map<String, String>?> showHint() async {
     final element = findUnusedHint();
     if (element == null) return null;

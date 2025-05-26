@@ -71,6 +71,7 @@ class MergeHandler {
       levelBloc.add(
         MergeItemsEvent(itemsToRemove: [item1, item2], itemToAdd: mergedItem),
       );
+
       // Вызываем колбэк, уведомляющий о завершении слияния
       onMergeComplete(mergedItem);
 

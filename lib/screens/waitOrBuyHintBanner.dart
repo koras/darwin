@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/models/game_item.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:darwin/bloc/level_bloc.dart';
+
 class WaitOrBuyHintBanner extends StatelessWidget {
   final Duration remainingTime;
   final VoidCallback onClose;
@@ -18,13 +22,8 @@ class WaitOrBuyHintBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Получаем данные элементов
-
     // Форматируем оставшееся время
-    final minutes = remainingTime.inMinutes;
-    final seconds = remainingTime.inSeconds % 60;
-    final timeText =
-        '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-
+    final timeText = context.read<LevelBloc>().state.timeStr ?? '';
     return Center(
       child: Material(
         color: Colors.transparent,
@@ -113,7 +112,6 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 const Color.fromARGB(255, 202, 201, 255),
               ),
               const SizedBox(height: 40),
-
               // Кнопка закрытия
               TextButton(
                 onPressed: onClose,
