@@ -73,24 +73,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
     final now = DateTime.now();
 
-    debugPrint(
-      'запускаем отсчёт времени. Надо знать когда будет доступна подсказка',
-    );
-    print('freeHints == ${state.hintsState.freeHints}');
-    print('paidHintsAvailable ${state.hintsState.paidHintsAvailable}');
-
-    if (state.hintsState.hasPendingHint) {
-      // здесь
-      debugPrint('hasPendingHint ${state.hintsState.hasPendingHint}');
-      debugPrint('У нас открытая подсказка');
-    }
-
-    if (state.hintsState.timeHintAvailable) {
-      debugPrint('timeHintAvailable true');
-    } else {
-      debugPrint('timeHintAvailable false');
-    }
-
     if (state.hintsState.freeHints == 0 &&
         state.hintsState.paidHintsAvailable == 0 &&
         //  !state.hintsState.timeHintAvailable &&
@@ -420,19 +402,11 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   Timer? _hintTimer;
   // Таймер обновляет оставшееся время
   void _onHintTimerTicked(HintTimerTicked event, Emitter<LevelState> emit) {
-    debugPrint('каждая секунда. ');
+    // debugPrint('каждая секунда. ');
 
     final hintsState = state.hintsState;
     final now = DateTime.now();
-
-    if (state.hintsState.timeHintAvailable) {
-      debugPrint('timeHintAvailable1 true');
-    } else {
-      debugPrint('timeHintAvailable1 false');
-    }
-
     if (hintsState.lastHintTime != null) {
-      debugPrint('+++++++++++++++++++++ ${hintsState.lastHintTime}');
       final passed = now.difference(hintsState.lastHintTime!);
       //      final remaining = 1800 - passed.inSeconds; // 30 минут в секундах
       final remaining = 5 - passed.inSeconds; // 30 минут в секундах

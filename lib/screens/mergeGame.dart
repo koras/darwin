@@ -506,11 +506,6 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     final state = context.read<LevelBloc>().state;
     final hintsState = state.hintsState;
     // Есть или бесплатные или платные подсказки.
-    if (hintsState.hasPendingHint) {
-      debugPrint('Есть открытая подсказка');
-    } else {
-      debugPrint('Открытых подсказок нет');
-    }
 
     if (hintsState.freeHints > 0 ||
         hintsState.paidHintsAvailable > 0 ||
