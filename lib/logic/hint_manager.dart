@@ -19,21 +19,20 @@ class HintManager {
     //  print('--------------findUnusedHint--------------------------------------');
     debugPrint('Находит элемент, которого нет в открытых подсказках');
     final state = context.read<LevelBloc>().state;
-    final discoveredItemsLevel = state.discoveredItemsLevel;
+    // final discoveredItemsLevel = state.discoveredItemsLevel;
     // Элементы которые
     // final availableItems = state.availableItems;
 
-    state.availableItems.forEach((item) {
-      debugPrint('Item----: $item');
-    });
+    // state.availableItems.forEach((item) {
+    //   debugPrint('Item----: $item');
+    // });
 
     for (final hint in state.hints) {
       if (!state.availableItems.contains(hint)) {
-        debugPrint('hint  = $hint');
+        // debugPrint('hint  = $hint');
         return hint;
       }
     }
-    print('HintManager');
     return null;
   }
 

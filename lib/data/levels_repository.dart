@@ -22,7 +22,7 @@ class LevelsRepository {
         'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
       2: {
-        'result': 'man',
+        'result': 'sky',
         'imageItems': ['water'],
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
