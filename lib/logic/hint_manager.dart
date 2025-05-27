@@ -12,27 +12,28 @@ class HintManager {
 
   HintManager(this.context, this.mergeRules);
 
-  // Находит элемент, которого нет в открытых подсказках
+  /// Находит элемент, которого нет в открытых подсказках
+  /// Мы ищем подсказку которую ранее не показывали.
+  /// этого элемента не должно быть в state.availableItems
   String? findUnusedHint() {
     //  print('--------------findUnusedHint--------------------------------------');
-    print(
-      'Находит элемент, которого нет в открытых подсказках  findUnusedHint',
-    );
+    debugPrint('Находит элемент, которого нет в открытых подсказках');
     final state = context.read<LevelBloc>().state;
     final discoveredItemsLevel = state.discoveredItemsLevel;
     // Элементы которые
     // final availableItems = state.availableItems;
 
-    //  discoveredItemsLevel.forEach((item) {
-    //    print('Item: $item');
-    //});
+    state.availableItems.forEach((item) {
+      debugPrint('Item----: $item');
+    });
 
     for (final hint in state.hints) {
-      if (!discoveredItemsLevel.contains(hint)) {
-        //  print('hint  = $hint');
+      if (!state.availableItems.contains(hint)) {
+        debugPrint('hint  = $hint');
         return hint;
       }
     }
+    print('HintManager');
     return null;
   }
 
