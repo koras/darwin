@@ -1,6 +1,7 @@
 import '../models/game_item.dart';
 import '../widgets/game_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:darwin/data/audio_manager.dart';
 import 'dart:math';
 
 class FieldManager {
@@ -57,6 +58,9 @@ class FieldManager {
       GameSnackbar.show(context, 'Нет свободных ячеек');
       return null;
     }
+
+    AudioManager.playAddItemSound();
+
     // Выбираем случайную свободную ячейку
     final randomCell = freeCells[_random.nextInt(freeCells.length)];
     final newItem = GameItem(

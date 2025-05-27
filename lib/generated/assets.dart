@@ -212,5 +212,13 @@ class Assets {
   static const String imagesYoungGirl = 'assets/images/young_girl.png';
   static const String imagesYoungGuy = 'assets/images/young_guy.png';
   static const String imagesZombie = 'assets/images/zombie.png';
+  static const String soundsAdd3 = 'assets/sounds/add3.mp3';
+  static const String soundsAdd4 = 'assets/sounds/add4.mp3';
+  static const String soundsClear = 'assets/sounds/clear.mp3';
+  static const String soundsFailMerge = 'assets/sounds/fail_merge.mp3';
+  static const String soundsGluhoy-zvuk-odinochnogo-najatiya = 'assets/sounds/gluhoy-zvuk-odinochnogo-najatiya.mp3';
+  static const String soundsHint = 'assets/sounds/hint.mp3';
+  static const String soundsNextLevel = 'assets/sounds/next_level.mp3';
+  static const String soundsZvukovyie-effektyi-applikatsii-zagolovka-klipa-41544 = 'assets/sounds/zvukovyie-effektyi-applikatsii-zagolovka-klipa-41544.mp3';
 
 }

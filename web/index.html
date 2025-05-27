@@ -32,10 +32,22 @@
   <title>darwin</title>
   <link rel="manifest" href="manifest.json">
   <script>
+
+ 
   window.flutterWebRenderer = "html"; // или "canvaskit" если хотите использовать CanvasKit
 </script>
 </head>
 <body>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.flutterWebRenderer === 'html') {
+      const preload = document.createElement('audio');
+      preload.src = 'assets/sounds/good_merge_web.mp3';
+      preload.preload = 'auto';
+      document.body.appendChild(preload);
+    }
+  });
+</script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

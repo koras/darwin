@@ -22,6 +22,7 @@ import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/discoveryBanner.dart';
 import 'package:darwin/screens/mergeSuccessBanner.dart';
 import 'package:darwin/screens/waitOrBuyHintBanner.dart';
+import 'package:darwin/data/audio_manager.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
@@ -255,6 +256,9 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
 
               setState(() {
                 _mergedItem = mergedItem;
+
+                AudioManager.playNextLevelSound();
+                debugPrint('ПОБЕДА');
                 _showMergeBanner = true;
               });
 
@@ -543,6 +547,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
         _countHints = updatedState.hintsState.countHintsAvailable;
         _showHintPanel = !_showHintPanel;
         if (_showHintPanel) {
+          AudioManager.playOpenHintSound();
           _hintPanelController?.forward();
           //    _hintPayPanelController?.forward();
         } else {
@@ -559,11 +564,11 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   }
 
   void _handleClearField() async {
+    AudioManager.playClearSound();
     debugPrint("Логика очистки экрана");
     // Анимируем кнопку
     await _clearButtonController.forward();
     await _clearButtonController.reverse();
-
     context.read<LevelBloc>().add(ClearGameFieldEvent());
   }
 
@@ -673,10 +678,11 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     for (final item in itemsInCell) {
       if (getMergeResult(movedItem.id, item.id) != null) {
         final result = await _mergeHandler.tryMergeItems(movedItem, item);
-
         return result;
       }
     }
+
+    AudioManager.playMergeFailSound();
     return false;
   }
 

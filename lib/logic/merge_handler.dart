@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/models/game_item.dart';
 import 'package:darwin/data/image_item.dart';
+import 'package:darwin/data/audio_manager.dart';
+
 import 'package:darwin/logic/merge_logic.dart';
 import 'package:darwin/widgets/game_snackbar.dart';
 import 'package:darwin/widgets/merge_animation_widget.dart';
@@ -37,7 +39,10 @@ class MergeHandler {
       // Позиция нового элемента будет на месте второго элемента
 
       // Если слияние невозможно, возвращаем false
-      if (resultId == null) return false;
+      if (resultId == null) {
+        // 1. Добавляем звуковой эффект в начале слияния
+        return false;
+      }
 
       // Отправляем событие о новом обнаруженном предмете
       levelBloc.add(ItemDiscoveredEvent(itemId: resultId));
@@ -72,6 +77,7 @@ class MergeHandler {
         MergeItemsEvent(itemsToRemove: [item1, item2], itemToAdd: mergedItem),
       );
 
+      AudioManager.playMergeGoodSound();
       // Вызываем колбэк, уведомляющий о завершении слияния
       onMergeComplete(mergedItem);
 
