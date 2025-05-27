@@ -31,6 +31,8 @@ class LevelStateAdapter extends TypeAdapter<LevelState> {
       hintsState: fields[10] as HintsState,
       background: fields[11] as String?,
       timeUntilNextHint: fields[12] as String?,
+      freeHints: fields[14] as int,
+      timeHintWait: fields[15] as int,
     );
   }
 

@@ -12,21 +12,22 @@ class LevelsRepository {
   static Map<int, Map<String, dynamic>> get levelsData {
     return {
       1: {
-        'result': 'monkey',
+        //   'result': 'monkey',
+        'result': 'sky',
         'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
         'background': 'level2.png', // количество подсказок на уровне
-        'freeHints': 1, // сколько бесплатных подсказок на уровне
+        'freeHints': 3, // сколько бесплатных подсказок на уровне
         'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
       2: {
-        'result': 'monkey',
-        'imageItems': ['water', 'mammal', 'tree', 'tree', 'time'],
+        'result': 'sky',
+        'imageItems': ['water'],
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
         'background': 'level7.png',
-        'freeHints': 2, // сколько бесплатных подсказок на уровне
+        'freeHints': 3, // сколько бесплатных подсказок на уровне
         'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
       },
 
@@ -37,7 +38,7 @@ class LevelsRepository {
         'hints': ['cloud', 'sky', 'monkey', 'man'],
         'title': _l10n.create_sun,
         'background': 'level3.png',
-        'freeHints': 1, // сколько бесплатных подсказок на уровне
+        'freeHints': 3, // сколько бесплатных подсказок на уровне
         'timeHintWait':
             10, // сколько ждать чтобы получить подсказку бесплатно // Секретное улучшение
       },

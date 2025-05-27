@@ -97,7 +97,22 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     // Добавляем новый элемент
     updatedItems.add(event.itemToAdd);
 
-    emit(state.copyWith(gameItems: updatedItems));
+    // final newDiscoveredItemsLevel = [
+    //   ...state.discoveredItemsLevel.where((item) => item != state.hintsState.currentHint),
+    //   state.hintsState.currentHint,
+    // ];
+    debugPrint(' Добавляем новый элемент ${event.itemToAdd.id}');
+    final newDiscoveredItemsLevel = [
+      ...state.discoveredItemsLevel.where((item) => item != event.itemToAdd.id),
+      event.itemToAdd.id,
+    ];
+
+    emit(
+      state.copyWith(
+        discoveredItemsLevel: newDiscoveredItemsLevel,
+        gameItems: updatedItems,
+      ),
+    );
   }
 
   void _onUseHint(UseHintEvent event, Emitter<LevelState> emit) {
@@ -169,7 +184,6 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   String _getLocalizedString(AppLocalizations l10n, String key) {
-    return 'asdfasdf';
     try {
       return (l10n as dynamic)[key] as String? ?? key;
     } catch (e) {
@@ -178,16 +192,13 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   }
 
   void _onLoadLevel(LoadLevelEvent event, Emitter<LevelState> emit) {
-    //  print('Загрузка уровня ${event.levelId}');
-    //   print('event.levelId ${event.levelId}');
-
     final currentDiscovered = state.discoveredItems;
     // Начальные предметы уровня + уже открытые
-    final allAvailable =
-        [
-          ...List<String>.from(event.imageItems),
-          ...currentDiscovered,
-        ].toSet().toList(); // Убираем дубликаты
+    // final allAvailable =
+    //     [
+    //       ...List<String>.from(event.imageItems),
+    //       ...currentDiscovered,
+    //     ].toSet().toList(); // Убираем дубликаты
 
     emit(
       LevelState(
@@ -196,10 +207,11 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         discoveredItemsLevel: [],
         discoveredItems: currentDiscovered,
         targetItem: event.result,
-        //  levelTitle: l10n.level1Title,
         levelTitle: event.title,
         hints: event.hints,
         background: event.background,
+        freeHints: event.freeHints,
+        timeHintWait: event.timeHintWait,
       ),
     );
   }
@@ -227,25 +239,36 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       );
     }
 
-    if (state.discoveredItems.contains(event.itemId)) return;
+    debugPrint('Смотрим state.discoveredItems');
+
+    final newDiscoveredItemsLevel = [
+      ...state.discoveredItemsLevel.where((item) => item != event.itemId),
+      event.itemId,
+    ];
 
     // Проверяем, был ли предмет ранее доступен
     final isNew = !state.availableItems.contains(event.itemId);
 
-    print('Нашли новый элемент _onItemDiscovered ${event.itemId}');
-    final newDiscovered = [...state.discoveredItems, event.itemId];
     final newAvailable = [...state.availableItems, event.itemId];
-
-    final newDiscoveredItemsLevel = [
-      ...state.discoveredItemsLevel,
-      event.itemId,
-    ];
-
     emit(
       state.copyWith(
         discoveredItemsLevel: newDiscoveredItemsLevel,
-        discoveredItems: newDiscovered,
+        //    discoveredItems: newDiscovered,
         availableItems: newAvailable,
+        //   lastDiscoveredItem: isNew ? event.itemId : null,
+      ),
+    );
+
+    if (state.discoveredItems.contains(event.itemId)) return;
+
+    debugPrint('Нашли новый элемент _onItemDiscovered ${event.itemId}');
+    final newDiscovered = [...state.discoveredItems, event.itemId];
+
+    emit(
+      state.copyWith(
+        //   discoveredItemsLevel: newDiscoveredItemsLevel,
+        discoveredItems: newDiscovered,
+        //    availableItems: newAvailable,
         lastDiscoveredItem: isNew ? event.itemId : null,
       ),
     );
@@ -279,22 +302,25 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     // Сохраняем все открытые предметы
     final currentDiscovered = state.discoveredItems;
     // Объединяем начальные предметы нового уровня и открытые ранее
-    final allAvailable =
-        [
-          ...List<String>.from(levelData['imageItems']),
-          ...currentDiscovered,
-        ].toSet().toList();
+    // final allAvailable =
+    //     [
+    //       ...List<String>.from(levelData['imageItems']),
+    //       ...currentDiscovered,
+    //     ].toSet().toList();
 
     emit(
       LevelState(
         currentLevel: nextLevel,
-        availableItems: allAvailable,
+        //  availableItems: allAvailable,
+        availableItems: levelData['imageItems'],
         discoveredItemsLevel: [],
         discoveredItems: currentDiscovered, // Переносим все открытые
         targetItem: levelData['result'],
         levelTitle: levelData['title'],
         hints: levelData['hints'],
         background: levelData['background'],
+        freeHints: levelData['freeHints'],
+        timeHintWait: levelData['timeHintWait'],
       ),
     );
 
@@ -444,7 +470,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         );
       }
     } else {
-      debugPrint('нет отсчёта времени ');
+      //  debugPrint('нет отсчёта времени ');
     }
   }
 
