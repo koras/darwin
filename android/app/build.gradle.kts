@@ -39,7 +39,13 @@ android {
         }
     }
 }
-
+dependencies {
+    // Добавьте эту зависимость для In-App Purchases
+    implementation("com.android.billingclient:billing:6.1.0")
+    
+    // Для Kotlin-разработчиков рекомендуется добавить:
+    implementation("com.android.billingclient:billing-ktx:6.1.0")
+}
 flutter {
     source = "../.."
 }

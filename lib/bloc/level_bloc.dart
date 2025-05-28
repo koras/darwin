@@ -6,6 +6,8 @@ import 'package:darwin/data/levels_repository.dart';
 import 'package:darwin/models/game_item.dart';
 import 'package:darwin/services/hive_service.dart';
 
+import 'package:in_app_purchase/in_app_purchase.dart';
+
 import 'package:darwin/gen_l10n/app_localizations.dart';
 
 import 'package:hive/hive.dart';
@@ -16,6 +18,15 @@ part 'level_state.dart';
 part 'level_bloc.g.dart'; // Добавлено для генерации
 
 class LevelBloc extends Bloc<LevelEvent, LevelState> {
+  final InAppPurchase _iap = InAppPurchase.instance;
+  static const Set<String> _hintProductIds = {
+    'hints_3',
+    'hints_5',
+    'hints_10',
+    'hints_20',
+  };
+  StreamSubscription? _purchaseSubscription;
+
   LevelBloc() : super(LevelState.initial()) {
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
@@ -40,8 +51,13 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<SetHintItem>(_onSetHintItem);
     on<HintTimerTicked>(_onHintTimerTicked);
 
-    //  on<BuyHintsEvent>(_onBuyHints);
-    // on<MarkHintUsedEvent>(_onMarkHintUsed);
+    // Добавляем новые обработчики
+    on<BuyHintsEvent>(_onBuyHints);
+    on<RestorePurchasesEvent>(_onRestorePurchases);
+    on<IAPInitializedEvent>(_initializeIAP);
+
+    // Добавляем инициализацию IAP
+    add(IAPInitializedEvent());
   }
 
   void _onClearGameField(ClearGameFieldEvent event, Emitter<LevelState> emit) {
@@ -71,7 +87,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       );
     }
 
-   // final now = DateTime.now();
+    // final now = DateTime.now();
 
     if (state.hintsState.freeHints == 0 &&
         state.hintsState.paidHintsAvailable == 0 &&
@@ -489,6 +505,116 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     //     hintsState: state.hintsState.copyWith(hasPendingHint: true),
     //   ),
     // );
+  }
+
+  //  оплата
+  Future<void> _initializeIAP(
+    IAPInitializedEvent event,
+    Emitter<LevelState> emit,
+  ) async {
+    try {
+      debugPrint('[IAP] Starting IAP initialization...');
+
+      // 1. Проверяем доступность IAP
+      final isAvailable = await _iap.isAvailable();
+      debugPrint('[IAP] IAP available: $isAvailable');
+
+      if (!isAvailable) {
+        debugPrint('[IAP] In-App Purchases not available on this device');
+        return;
+      }
+
+      // 2. Загружаем доступные продукты
+      debugPrint('[IAP] Loading products...');
+      final response = await _iap.queryProductDetails(_hintProductIds);
+      debugPrint('[IAP] Found ${response.productDetails.length} products');
+
+      // 3. Подписываемся на поток покупок
+      debugPrint('[IAP] Setting up purchase listener...');
+      _purchaseSubscription = _iap.purchaseStream.listen((purchases) {
+        debugPrint('[IAP] Received ${purchases.length} purchase updates');
+
+        for (final purchase in purchases) {
+          debugPrint(
+            '[IAP] Processing purchase: ${purchase.productID}, status: ${purchase.status}',
+          );
+
+          if (purchase.status == PurchaseStatus.purchased) {
+            final hints = _getHintsCountFromProductId(purchase.productID);
+            debugPrint(
+              '[IAP] Purchased ${hints} hints (product: ${purchase.productID})',
+            );
+
+            if (hints > 0 && purchase.pendingCompletePurchase) {
+              debugPrint('[IAP] Completing purchase...');
+              _iap.completePurchase(purchase);
+
+              debugPrint('[IAP] Adding ${hints} hints via BuyHintsEvent');
+              add(BuyHintsEvent(hints));
+            }
+          }
+        }
+      });
+
+      debugPrint('[IAP] Initialization completed successfully');
+    } catch (e, stackTrace) {
+      debugPrint('[IAP] Initialization error: $e');
+      debugPrint('[IAP] Stack trace: $stackTrace');
+    }
+  }
+
+  Future<void> _onBuyHints(
+    BuyHintsEvent event,
+    Emitter<LevelState> emit,
+  ) async {
+    final hintsToAdd = event.count.toInt();
+
+    print('попутка купить _onBuyHints');
+    emit(
+      state.copyWith(
+        hintsState: state.hintsState.copyWith(
+          paidHintsAvailable: state.hintsState.paidHintsAvailable + hintsToAdd,
+          countHintsAvailable:
+              state.hintsState.freeHints +
+              state.hintsState.paidHintsAvailable +
+              hintsToAdd,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onRestorePurchases(
+    RestorePurchasesEvent event,
+    Emitter<LevelState> emit,
+  ) async {
+    print(' _onRestorePurchases');
+    try {
+      await _iap.restorePurchases();
+    } catch (e) {
+      debugPrint('Restore purchases error: $e');
+    }
+  }
+
+  int _getHintsCountFromProductId(String productId) {
+    switch (productId) {
+      case 'hints_3':
+        return 3;
+      case 'hints_5':
+        return 5;
+      case 'hints_10':
+        return 10;
+      case 'hints_20':
+        return 20;
+      default:
+        return 0;
+    }
+  }
+
+  // Обновляем метод close для отписки
+  @override
+  Future<void> close() {
+    _purchaseSubscription?.cancel();
+    return super.close();
   }
 }
 

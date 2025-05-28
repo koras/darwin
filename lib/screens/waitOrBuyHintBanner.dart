@@ -29,6 +29,10 @@ class WaitOrBuyHintBanner extends StatelessWidget {
       _PurchaseOption(20, const Color.fromARGB(255, 202, 201, 255)),
     ];
 
+    return _buildContent(context, purchaseOptions);
+  }
+
+  Widget _buildContent(BuildContext context, List<_PurchaseOption> options) {
     // Получаем данные элементов
     // Форматируем оставшееся время
     final timeText = context.read<LevelBloc>().state.timeStr ?? '';
@@ -83,14 +87,13 @@ class WaitOrBuyHintBanner extends StatelessWidget {
               const SizedBox(height: 15),
 
               // Кнопки покупки подсказок
-              ...purchaseOptions.map(
+              ...options.map(
                 (option) => Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: _buildPurchaseOption(
                     context,
                     option.count,
                     _getCost(context, option.count),
-                    () => onBuyHints(option.count),
                     option.color,
                   ),
                 ),
@@ -117,18 +120,24 @@ class WaitOrBuyHintBanner extends StatelessWidget {
 
   Widget _buildPurchaseOption(
     BuildContext context,
-    int title,
+    int count,
     String price,
-    VoidCallback onPressed,
+    //VoidCallback onPressed,
     Color color,
   ) {
-    final textInfo = AppLocalizations.of(context)!.hints_left(title);
+    final textInfo = AppLocalizations.of(context)!.hints_left(count);
 
     return SizedBox(
       width:
           MediaQuery.of(context).size.width * 0.8, // Задаем ширину 80% экрана
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed:
+            () => {
+              print('попытка купить $count'),
+
+              context.read<LevelBloc>().add(BuyHintsEvent(count)),
+            },
+        //        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(

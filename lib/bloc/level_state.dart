@@ -229,7 +229,7 @@ class HintsState {
     this.hasPendingHint = false,
     this.currentHint = '',
     // количество подсказок на уровне
-    this.freeHints = 1,
+    this.freeHints = 0,
     this.countHintsAvailable = 0,
     this.timeHintAvailable = false,
     this.timeHintWait = 10,

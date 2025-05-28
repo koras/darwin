@@ -8,19 +8,29 @@ import 'package:darwin/data/levels_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:darwin/gen_l10n/app_localizations.dart'; // Основной импорт
 
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/services/hive_service.dart';
 import 'package:darwin/screens/mergeGame.dart';
+import 'package:flutter/foundation.dart'; // Добавьте эту строку
+import 'dart:async';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Инициализируем In-App Purchase
+  if (kIsWeb) {
+    debugPrint('In-App Purchases are not supported on web platform');
+  } else {
+    await InAppPurchase.instance.isAvailable();
+  }
   // Инициализация Hive
   await HiveService.init();
 
   // Открытие бокса для сохранения состояния
   await Hive.openBox<LevelState>('gameState');
 
+  // Уменьшаем уровень логов
   runApp(const MyApp());
 
   // runApp(

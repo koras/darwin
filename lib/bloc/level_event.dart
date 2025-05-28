@@ -79,11 +79,6 @@ class ClearGameFieldEvent extends LevelEvent {}
 class DecrementHint extends LevelEvent {}
 
 // Событие покупки подсказок
-class BuyHintsEvent extends LevelEvent {
-  final int amount;
-  BuyHintsEvent(this.amount);
-}
-
 // Событие отметки подсказки как использованной
 class MarkHintUsedEvent extends LevelEvent {
   final String itemId;
@@ -108,3 +103,12 @@ class SetHintItem extends LevelEvent {
 
 // Таймер обновления оставшегося времени
 class HintTimerTicked extends LevelEvent {}
+
+class BuyHintsEvent extends LevelEvent {
+  final int count;
+  BuyHintsEvent(this.count);
+}
+
+class RestorePurchasesEvent extends LevelEvent {}
+
+class IAPInitializedEvent extends LevelEvent {}
