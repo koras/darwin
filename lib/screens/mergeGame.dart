@@ -705,7 +705,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     }
   }
 
-  void onBuyHints(count, price) {
+  void onBuyHints(count) {
     debugPrint('onBuy5Hints');
   }
 
@@ -730,7 +730,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
     return WaitOrBuyHintBanner(
       // cointHint: _countHints,
       remainingTime: remainingTime,
-      onBuyHints: (count, price) => onBuyHints(count, price),
+      onBuyHints: (count) => onBuyHints(count),
       onClose: () {
         setState(() {
           //      _showHintPanel = !_showHintPanel;

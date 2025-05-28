@@ -10,7 +10,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
   final Duration remainingTime;
   final VoidCallback onClose;
 
-  final Function(int, int) onBuyHints;
+  final Function(int) onBuyHints;
 
   const WaitOrBuyHintBanner({
     Key? key,
@@ -84,44 +84,45 @@ class WaitOrBuyHintBanner extends StatelessWidget {
               // Кнопки покупки подсказок
               _buildPurchaseOption(
                 context,
-                '3 подсказок',
-                '100 ₽',
-                () => onBuyHints(3, 100),
+                3,
+                _get_cost(context, 3),
+                () => onBuyHints(3),
                 const Color.fromARGB(255, 214, 228, 253),
               ),
               const SizedBox(height: 10),
 
               _buildPurchaseOption(
                 context,
-                '5 подсказок',
-                '200 ₽',
-                () => onBuyHints(5, 200),
+                5,
+                _get_cost(context, 5),
+                () => onBuyHints(5),
                 const Color.fromARGB(255, 220, 240, 221),
               ),
               const SizedBox(height: 10),
 
               _buildPurchaseOption(
                 context,
-                '10 подсказок',
-                '300 ₽',
-                () => onBuyHints(10, 300),
-                const Color.fromARGB(255, 247, 201, 255),
+                10,
+                _get_cost(context, 10),
+                () => onBuyHints(10),
+                const Color.fromARGB(255, 255, 250, 201),
               ),
               const SizedBox(height: 10),
 
               _buildPurchaseOption(
                 context,
-                '20 подсказок',
-                '500 ₽',
-                () => onBuyHints(20, 500),
+                20,
+                _get_cost(context, 20),
+
+                () => onBuyHints(20),
                 const Color.fromARGB(255, 202, 201, 255),
               ),
               const SizedBox(height: 40),
               // Кнопка закрытия
               TextButton(
                 onPressed: onClose,
-                child: const Text(
-                  'Продолжить без подсказок',
+                child: Text(
+                  AppLocalizations.of(context)!.continueWithoutHints,
                   style: TextStyle(
                     fontSize: 18,
                     color: Color.fromARGB(255, 25, 82, 32),
@@ -138,7 +139,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
 
   Widget _buildPurchaseOption(
     BuildContext context,
-    String title,
+    int title,
     String price,
     VoidCallback onPressed,
     Color color,
@@ -165,7 +166,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
               MainAxisSize.min, // Чтобы Row не растягивался на всю ширину
           children: [
             Text(
-              title,
+              AppLocalizations.of(context)!.hints_left(title),
               style: const TextStyle(
                 fontSize: 18, // Увеличили размер текста
                 fontWeight: FontWeight.bold,
@@ -231,5 +232,26 @@ class WaitOrBuyHintBanner extends StatelessWidget {
   Color _generateCalmColor(String input) {
     final hash = input.hashCode;
     return HSLColor.fromAHSL(1.0, (hash % 360).toDouble(), 0.4, 0.7).toColor();
+  }
+
+  String _get_cost(context, int count) {
+    final String price = AppLocalizations.of(context)!.hints_cost;
+    String cost = '$count --';
+    switch (count) {
+      case 3:
+        cost = '100 $price';
+        break;
+      case 5:
+        cost = '200 $price';
+        break;
+      case 10:
+        cost = '300 $price';
+        break;
+      case 20:
+        cost = '500 $price';
+        break;
+      default:
+    }
+    return cost;
   }
 }

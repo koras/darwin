@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
 
-  "level_task": "Task",
+  "level_task": "level assignment",
   "@level_task": {
     "description": "Label for task in current level"
   },
@@ -45,11 +45,25 @@
   "@merge_result": {
     "description": "Column or label for result"
   },
+  
 
-  "hints_left": "Hints left",
+  "hints_left": "{count, plural, =1{Hint left} other{Hints left}}: {count}",
   "@hints_left": {
-    "description": "Indicates how many hints are remaining"
+    "description": "Displays the number of hints remaining . Indicates how many hints are remainin",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
   },
+  
+
+  "hints_cost": "$",
+    "@hints_cost": {
+    "description": "Currency in which you can buy a hint"
+  },
+  
 
   "run_out_of_hints": "You've run out of hints",
   "@run_out_of_hints": {
