@@ -22,9 +22,12 @@ class WaitOrBuyHintBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String hint_until_next_free =
-        AppLocalizations.of(context)!.hint_until_next_free;
-    final String or_buy_a_hint = AppLocalizations.of(context)!.or_buy_a_hint;
+    final purchaseOptions = [
+      _PurchaseOption(3, const Color.fromARGB(255, 214, 228, 253)),
+      _PurchaseOption(5, const Color.fromARGB(255, 220, 240, 221)),
+      _PurchaseOption(10, const Color.fromARGB(255, 255, 250, 201)),
+      _PurchaseOption(20, const Color.fromARGB(255, 202, 201, 255)),
+    ];
 
     // Получаем данные элементов
     // Форматируем оставшееся время
@@ -51,7 +54,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
             children: [
               // Заголовок
               Text(
-                hint_until_next_free,
+                AppLocalizations.of(context)!.hint_until_next_free,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -76,46 +79,23 @@ class WaitOrBuyHintBanner extends StatelessWidget {
 
               // Текст предложения купить
               Text(
-                or_buy_a_hint,
+                AppLocalizations.of(context)!.or_buy_a_hint,
                 style: TextStyle(fontSize: 16, color: Colors.black54),
               ),
               const SizedBox(height: 15),
 
               // Кнопки покупки подсказок
-              _buildPurchaseOption(
-                context,
-                3,
-                _get_cost(context, 3),
-                () => onBuyHints(3),
-                const Color.fromARGB(255, 214, 228, 253),
-              ),
-              const SizedBox(height: 10),
-
-              _buildPurchaseOption(
-                context,
-                5,
-                _get_cost(context, 5),
-                () => onBuyHints(5),
-                const Color.fromARGB(255, 220, 240, 221),
-              ),
-              const SizedBox(height: 10),
-
-              _buildPurchaseOption(
-                context,
-                10,
-                _get_cost(context, 10),
-                () => onBuyHints(10),
-                const Color.fromARGB(255, 255, 250, 201),
-              ),
-              const SizedBox(height: 10),
-
-              _buildPurchaseOption(
-                context,
-                20,
-                _get_cost(context, 20),
-
-                () => onBuyHints(20),
-                const Color.fromARGB(255, 202, 201, 255),
+              ...purchaseOptions.map(
+                (option) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _buildPurchaseOption(
+                    context,
+                    option.count,
+                    _getCost(context, option.count),
+                    () => onBuyHints(option.count),
+                    option.color,
+                  ),
+                ),
               ),
               const SizedBox(height: 40),
               // Кнопка закрытия
@@ -144,6 +124,8 @@ class WaitOrBuyHintBanner extends StatelessWidget {
     VoidCallback onPressed,
     Color color,
   ) {
+    final textInfo = AppLocalizations.of(context)!.hints_left(title);
+
     return SizedBox(
       width:
           MediaQuery.of(context).size.width * 0.8, // Задаем ширину 80% экрана
@@ -166,7 +148,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
               MainAxisSize.min, // Чтобы Row не растягивался на всю ширину
           children: [
             Text(
-              AppLocalizations.of(context)!.hints_left(title),
+              '$textInfo - $price',
               style: const TextStyle(
                 fontSize: 18, // Увеличили размер текста
                 fontWeight: FontWeight.bold,
@@ -178,80 +160,33 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 ), // Белый текст для лучшей читаемости
               ),
             ),
-            const SizedBox(width: 12), // Увеличили отступ между текстами
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
-              child: Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 18, // Увеличили размер текста
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 53, 53, 53), // Белый текст
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildItemWidget(GameItem item) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: _generateCalmColor(item.id), width: 2),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 5,
-                spreadRadius: 1,
-                offset: const Offset(2, 2),
-              ),
-            ],
-          ),
-          child: ClipOval(
-            child: Image.asset(item.assetPath, fit: BoxFit.cover),
-          ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          item.id,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Color _generateCalmColor(String input) {
-    final hash = input.hashCode;
-    return HSLColor.fromAHSL(1.0, (hash % 360).toDouble(), 0.4, 0.7).toColor();
-  }
-
-  String _get_cost(context, int count) {
+  String _getCost(BuildContext context, int count) {
     final String price = AppLocalizations.of(context)!.hints_cost;
-    String cost = '$count --';
     switch (count) {
       case 3:
-        cost = '100 $price';
-        break;
+        return '100 $price';
       case 5:
-        cost = '200 $price';
-        break;
+        return '200 $price';
       case 10:
-        cost = '300 $price';
-        break;
+        return '300 $price';
       case 20:
-        cost = '500 $price';
-        break;
+        return '500 $price';
       default:
+        return '$count --';
     }
-    return cost;
   }
+}
+
+// Вспомогательный класс для хранения данных о вариантах покупки
+class _PurchaseOption {
+  final int count;
+  final Color color;
+
+  const _PurchaseOption(this.count, this.color);
 }

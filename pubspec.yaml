@@ -13,7 +13,8 @@ dependencies:
   package_info_plus: ^8.0.0
   flutter_svg: ^2.0.7 
   cupertino_icons: ^1.0.8
-
+  in_app_purchase: ^5.0.1
+  
   soundpool: ^2.3.0
   provider: ^6.1.1
   flutter_bloc: ^8.1.3
