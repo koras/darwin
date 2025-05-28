@@ -1,243 +1,1133 @@
 {
   "@@locale": "ru",
+  
   "level_task": "Задание",
+  "@level_task": {
+    "description": "Название задания в текущем уровне"
+  },
+  
   "new_level_element_title": "Поздравляю!",
+  "@new_level_element_title": {
+    "description": "Заголовок при переходе на новый уровень"
+  },
+  
   "new_level_element_text": "Вы перешли на следующий уровень:",
+  "@new_level_element_text": {
+    "description": "Текст сообщения о повышении уровня"
+  },
+  
   "new_level_element_button_text": "Следующий уровень",
+  "@new_level_element_button_text": {
+    "description": "Кнопка продолжения после перехода на новый уровень"
+  },
+  
   "merge_all_title": "Все комбинации",
+  "@merge_all_title": {
+    "description": "Заголовок экрана со всеми возможными комбинациями"
+  },
+  
   "merge_all_title_you": "Открытые вами комбинации:",
+  "@merge_all_title_you": {
+    "description": "Подзаголовок списка открытых пользователем комбинаций"
+  },
+  
   "merge_all_title_all": "Все возможные комбинации:",
+  "@merge_all_title_all": {
+    "description": "Подзаголовок списка всех доступных комбинаций"
+  },
+  
   "merge_element": "Элемент",
+  "@merge_element": {
+    "description": "Заголовок столбца или текста для элемента"
+  },
+  
   "merge_result": "Результат",
- 
-  "hints_left": "Осталось подсказок" ,
-  "run_out_of_hints": "У вас закончились подсказки" ,
- 
-  "arya_stark_from_game_of_thrones":"Ария Старк",
-  "jon_snow_from_game_of_thrones":"Джон Сноу", 
-
-    "combinationsTitle": "Все комбинации",
-    "discoveredCombinations": "Открытые вами комбинации:",
-    "allCombinations": "Все возможные комбинации:",
-    "continueWithoutHints": "Продолжить без подсказок",
-
-
-  "hints_hints":"Подсказка",
-  "hints_good":"Понятно",
+  "@merge_result": {
+    "description": "Заголовок столбца или текста для результата слияния"
+  },
   
-
-
+  "hints_left": "Осталось подсказок",
+  "@hints_left": {
+    "description": "Индикатор количества доступных подсказок"
+  },
+  
+  "run_out_of_hints": "У вас закончились подсказки",
+  "@run_out_of_hints": {
+    "description": "Сообщение о том, что подсказки закончились"
+  },
+  
+  "arya_stark_from_game_of_thrones": "Ария Старк",
+  "@arya_stark_from_game_of_thrones": {
+    "description": "Персонаж из Игры Престолов"
+  },
+  
+  "jon_snow_from_game_of_thrones": "Джон Сноу",
+  "@jon_snow_from_game_of_thrones": {
+    "description": "Персонаж из Игры Престолов"
+  },
+  
+  "combinationsTitle": "Все комбинации",
+  "@combinationsTitle": {
+    "description": "Заголовок раздела 'Все комбинации'"
+  },
+  
+  "discoveredCombinations": "Открытые вами комбинации:",
+  "@discoveredCombinations": {
+    "description": "Текст перед списком найденных игроком комбинаций"
+  },
+  
+  "allCombinations": "Все возможные комбинации:",
+  "@allCombinations": {
+    "description": "Текст перед полным списком комбинаций"
+  },
+  
+  "continueWithoutHints": "Продолжить без подсказок",
+  "@continueWithoutHints": {
+    "description": "Кнопка или ссылка для продолжения без использования подсказки"
+  },
+  
+  "or_buy_a_hint": "или купите подсказку",
+  "@or_buy_a_hint": {
+    "description": "Текст предложения купить подсказку"
+  },
+  
+  "hints_hints": "Подсказка",
+  "@hints_hints": {
+    "description": "Заголовок или название подсказки"
+  },
+  
+  "hints_good": "Понятно",
+  "@hints_good": {
+    "description": "Кнопка или ответ для закрытия подсказки"
+  },
+  
+  "task_level": "Задание",
+  "@task_level": {
+    "description": "Название уровня задания"
+  },
+  
+  "new_item": "Новый предмет",
+  "@new_item": {
+    "description": "Сообщение о получении нового элемента"
+  },
+  
+  "statistics": "Статистика",
+  "@statistics": {
+    "description": "Заголовок страницы статистики"
+  },
+  
+  "hint_until_next_free": "До следующей бесплатной подсказки",
+  "@hint_until_next_free": {
+    "description": "Информация о времени до следующей бесплатной подсказки"
+  },
+  
   "time": "Время",
+  "@time": {
+    "description": "Элемент: время"
+  },
+  
   "water": "Вода",
+  "@water": {
+    "description": "Элемент: вода"
+  },
+ 
   "cloud": "Облако",
+  "@cloud": {
+    "description": "Элемент: Облако"
+  },
+  
   "dna": "ДНК",
+  "@dna": {
+    "description": "Элемент: ДНК"
+  },
+  
   "man": "Человек",
+  "@man": {
+    "description": "Элемент: Человек"
+  },
+  
   "morning": "Утро",
+  "@morning": {
+    "description": "Элемент: Утро"
+  },
+  
   "mushroom": "Гриб",
+  "@mushroom": {
+    "description": "Элемент: Гриб"
+  },
+  
   "sky": "Небо",
+  "@sky": {
+    "description": "Элемент: Небо"
+  },
+  
   "sugar": "Сахар",
+  "@sugar": {
+    "description": "Элемент: Сахар"
+  },
+  
   "wind": "Ветер",
+  "@wind": {
+    "description": "Элемент: Ветер"
+  },
+  
   "explosion": "Взрыв",
+  "@explosion": {
+    "description": "Элемент: Взрыв"
+  },
+  
   "radiation": "Радиация",
+  "@radiation": {
+    "description": "Элемент: Радиация"
+  },
+  
   "grape": "Виноград",
+  "@grape": {
+    "description": "Элемент: Виноград"
+  },
+  
   "holiday": "Праздник",
+  "@holiday": {
+    "description": "Элемент: Праздник"
+  },
+  
   "knight": "Рыцарь",
+  "@knight": {
+    "description": "Элемент: Рыцарь"
+  },
+  
   "plane": "Самолёт",
+  "@plane": {
+    "description": "Элемент: Самолёт"
+  },
+  
   "phone": "Телефон",
+  "@phone": {
+    "description": "Элемент: Телефон"
+  },
+  
   "car": "Автомобиль",
+  "@car": {
+    "description": "Элемент: Автомобиль"
+  },
+  
   "barista": "Бариста",
+  "@barista": {
+    "description": "Элемент: Бариста"
+  },
+  
   "phone_old": "Старинный телефон",
+  "@phone_old": {
+    "description": "Элемент: Старинный телефон"
+  },
+  
   "wooden": "Деревянный предмет",
+  "@wooden": {
+    "description": "Элемент: Деревянный предмет"
+  },
+  
   "plankton": "Планктон",
+  "@plankton": {
+    "description": "Элемент: Планктон"
+  },
+  
   "spider": "Паук",
+  "@spider": {
+    "description": "Элемент: Паук"
+  },
+  
   "glacier": "Ледник",
+  "@glacier": {
+    "description": "Элемент: Ледник"
+  },
+  
   "bacteria": "Бактерии",
+  "@bacteria": {
+    "description": "Элемент: Бактерии"
+  },
+  
   "fish": "Рыба",
+  "@fish": {
+    "description": "Элемент: Рыба"
+  },
+  
   "tool": "Инструмент",
+  "@tool": {
+    "description": "Элемент: Инструмент"
+  },
+  
   "bicycle": "Велосипед",
+  "@bicycle": {
+    "description": "Элемент: Велосипед"
+  },
+  
   "wheel": "Колесо",
+  "@wheel": {
+    "description": "Элемент: Колесо"
+  },
+  
   "crowd_of_people": "Толпа людей",
-  "alcohol": "Алкоголь",
+  "@crowd_of_people": {
+    "description": "Элемент: Толпа людей"
+  },
+
+
+ "alcohol": "Алкоголь",
+  "@alcohol": {
+    "description": "Элемент: Алкоголь"
+  },
+  
   "stone": "Камень",
+  "@stone": {
+    "description": "Элемент: Камень"
+  },
+  
   "lizard": "Ящерица",
+  "@lizard": {
+    "description": "Элемент: Ящерица"
+  },
+  
   "tree": "Дерево",
+  "@tree": {
+    "description": "Элемент: Дерево"
+  },
+  
   "swamp": "Болото",
+  "@swamp": {
+    "description": "Элемент: Болото"
+  },
+  
   "flour": "Мука",
+  "@flour": {
+    "description": "Элемент: Мука"
+  },
+  
   "bread": "Хлеб",
+  "@bread": {
+    "description": "Элемент: Хлеб"
+  },
+  
   "banana": "Банан",
+  "@banana": {
+    "description": "Элемент: Банан"
+  },
+  
   "factory": "Фабрика",
+  "@factory": {
+    "description": "Элемент: Фабрика"
+  },
+  
   "volcano": "Вулкан",
+  "@volcano": {
+    "description": "Элемент: Вулкан"
+  },
+  
   "city": "Город",
+  "@city": {
+    "description": "Элемент: Город"
+  },
+  
   "hungover_saturday_morning": "Похмельное утро",
+  "@hungover_saturday_morning": {
+    "description": "Элемент: Похмельное утро"
+  },
+  
   "cake": "Торт",
+  "@cake": {
+    "description": "Элемент: Торт"
+  },
+  
   "sailing_ship": "Парусник",
+  "@sailing_ship": {
+    "description": "Элемент: Парусник"
+  },
+  
   "sand_mountain": "Песчаная гора",
+  "@sand_mountain": {
+    "description": "Элемент: Песчаная гора"
+  },
+  
   "stone_mountain": "Каменная гора",
+  "@stone_mountain": {
+    "description": "Элемент: Каменная гора"
+  },
+  
   "metropolis": "Мегаполис",
+  "@metropolis": {
+    "description": "Элемент: Мегаполис"
+  },
+  
   "village": "Деревня",
+  "@village": {
+    "description": "Элемент: Деревня"
+  },
+  
   "snowman": "Снеговик",
+  "@snowman": {
+    "description": "Элемент: Снеговик"
+  },
+  
   "love": "Любовь",
+  "@love": {
+    "description": "Элемент: Любовь"
+  },
+  
   "sea": "Море",
+  "@sea": {
+    "description": "Элемент: Море"
+  },
+  
   "bacterium": "Бактерия",
+  "@bacterium": {
+    "description": "Элемент: Бактерия"
+  },
+  
   "monkey": "Обезьяна",
+  "@monkey": {
+    "description": "Элемент: Обезьяна"
+  },
+  
   "money": "Деньги",
+  "@money": {
+    "description": "Элемент: Деньги"
+  },
+  
   "santa_claus": "Санта-Клаус",
+  "@santa_claus": {
+    "description": "Элемент: Санта-Клаус"
+  },
+  
   "new_year_tree": "Новогодняя ёлка",
+  "@new_year_tree": {
+    "description": "Элемент: Новогодняя ёлка"
+  },
+  
   "penguin": "Пингвин",
+  "@penguin": {
+    "description": "Элемент: Пингвин"
+  },
+  
   "witch": "Ведьма",
+  "@witch": {
+    "description": "Элемент: Ведьма"
+  },
+  
   "big_crowd_of_people": "Толпа людей",
+  "@big_crowd_of_people": {
+    "description": "Элемент: Толпа людей"
+  },
+  
   "noisy_friday_party": "Пятничная вечеринка",
+  "@noisy_friday_party": {
+    "description": "Элемент: Пятничная вечеринка"
+  },
+  
   "dragon": "Дракон",
+  "@dragon": {
+    "description": "Элемент: Дракон"
+  },
+  
   "book": "Книга",
+  "@book": {
+    "description": "Элемент: Книга"
+  },
+  
   "cow": "Корова",
+  "@cow": {
+    "description": "Элемент: Корова"
+  },
+  
   "cocktail": "Коктейль",
+  "@cocktail": {
+    "description": "Элемент: Коктейль"
+  },
+  
   "cupid": "Амур/Купидон",
+  "@cupid": {
+    "description": "Элемент: Амур/Купидон"
+  },
+  
   "frog": "Лягушка",
+  "@frog": {
+    "description": "Элемент: Лягушка"
+  },
+
+
   "king_of_the_hill": "Король горы",
+  "@king_of_the_hill": {
+    "description": "Элемент: Король горы"
+  },
+  
   "monument": "Памятник",
+  "@monument": {
+    "description": "Элемент: Памятник"
+  },
+  
   "sommelier": "Сомелье",
+  "@sommelier": {
+    "description": "Элемент: Сомелье"
+  },
+  
   "snow": "Снег",
+  "@snow": {
+    "description": "Элемент: Снег"
+  },
+  
   "electricity": "Электричество",
+  "@electricity": {
+    "description": "Элемент: Электричество"
+  },
+  
   "iron": "Железо",
+  "@iron": {
+    "description": "Элемент: Железо"
+  },
+  
   "acid": "Кислота",
+  "@acid": {
+    "description": "Элемент: Кислота"
+  },
+  
   "milk": "Молоко",
+  "@milk": {
+    "description": "Элемент: Молоко"
+  },
+  
   "rocket": "Ракета",
+  "@rocket": {
+    "description": "Элемент: Ракета"
+  },
+  
   "intelligence": "Интеллект",
+  "@intelligence": {
+    "description": "Элемент: Интеллект"
+  },
+  
   "wood": "Древесина",
+  "@wood": {
+    "description": "Элемент: Древесина"
+  },
+  
   "wine": "Вино",
+  "@wine": {
+    "description": "Элемент: Вино"
+  },
+  
   "sun": "Солнце",
+  "@sun": {
+    "description": "Элемент: Солнце"
+  },
+  
   "spark": "Искра",
+  "@spark": {
+    "description": "Элемент: Искра"
+  },
+  
   "robot": "Робот",
+  "@robot": {
+    "description": "Элемент: Робот"
+  },
+  
   "rainbow": "Радуга",
+  "@rainbow": {
+    "description": "Элемент: Радуга"
+  },
+  
   "metal": "Металл",
+  "@metal": {
+    "description": "Элемент: Металл"
+  },
+  
   "mammal": "Млекопитающее",
+  "@mammal": {
+    "description": "Элемент: Млекопитающее"
+  },
+  
   "light": "Свет",
+  "@light": {
+    "description": "Элемент: Свет"
+  },
+  
   "life": "Жизнь",
+  "@life": {
+    "description": "Элемент: Жизнь"
+  },
+  
   "fire": "Огонь",
+  "@fire": {
+    "description": "Элемент: Огонь"
+  },
+  
   "earth": "Земля",
+  "@earth": {
+    "description": "Элемент: Земля"
+  },
+  
   "dough": "Тесто",
+  "@dough": {
+    "description": "Элемент: Тесто"
+  },
+  
   "dolphin": "Дельфин",
+  "@dolphin": {
+    "description": "Элемент: Дельфин"
+  },
+  
   "cat": "Кошка",
+  "@cat": {
+    "description": "Элемент: Кошка"
+  },
+  
   "dog": "Собака",
+  "@dog": {
+    "description": "Элемент: Собака"
+  },
+  
   "artificial_intelligence": "Искус. интеллект",
+  "@artificial_intelligence": {
+    "description": "Элемент: Искусственный интеллект"
+  },
+  
   "train": "Поезд",
+  "@train": {
+    "description": "Элемент: Поезд"
+  },
+  
   "mountain": "Гора",
+  "@mountain": {
+    "description": "Элемент: Гора"
+  },
+  
   "family": "Семья",
+  "@family": {
+    "description": "Элемент: Семья"
+  },
+  
   "leon": "Лев",
+  "@leon": {
+    "description": "Элемент: Лев"
+  },
+  
   "ballerina_cappuccino": "Балерина капучино",
+  "@ballerina_cappuccino": {
+    "description": "Элемент: Балерина капучино"
+  },
+  
   "bombardiro_crocodilo": "Бомбардир крокодил",
+  "@bombardiro_crocodilo": {
+    "description": "Элемент: Бомбардир крокодил"
+  },
+  
   "lirili_larila": "Лирили ларила",
+  "@lirili_larila": {
+    "description": "Элемент: Лирили ларила"
+  },
+  
   "tralalero_tralala": "Тралалеро тралала",
+  "@tralalero_tralala": {
+    "description": "Элемент: Тралалеро тралала"
+  },
+  
   "shark_and_nike": "Акула и найк",
+  "@shark_and_nike": {
+    "description": "Элемент: Акула и найк"
+  },
+  
   "hogwarts_school": "Школа Хогвартс",
+  "@hogwarts_school": {
+    "description": "Элемент: Школа Хогвартс"
+  },
+  
   "march_8": "8 марта",
+  "@march_8": {
+    "description": "Элемент: 8 марта"
+  },
+  
   "new_years_star": "Новогодняя звезда",
+  "@new_years_star": {
+    "description": "Элемент: Новогодняя звезда"
+  },
+  
   "thor_man": "Тор человек",
+  "@thor_man": {
+    "description": "Элемент: Тор человек"
+  },
+  
   "ancient_bird": "Древняя птица",
+  "@ancient_bird": {
+    "description": "Элемент: Древняя птица"
+  },
+  
   "ancient_marine_mammal": "Древнее млекопитающее",
+  "@ancient_marine_mammal": {
+    "description": "Элемент: Древнее морское млекопитающее"
+  },
+  
   "ancient_sea_fish": "Древняя рыба",
+  "@ancient_sea_fish": {
+    "description": "Элемент: Древняя морская рыба"
+  },
+  
   "ancient_stone_age_man_with_stone": "Древний человек",
+  "@ancient_stone_age_man_with_stone": {
+    "description": "Элемент: Древний человек каменного века"
+  },
+  
   "archangel_with_wings_and_a_sword": "Архангел",
- 
-  "bear_on_bicycle_in_circus": "Медведь на велосипеде",
+  "@archangel_with_wings_and_a_sword": {
+    "description": "Элемент: Архангел с крыльями и мечом"
+  },
+
+
+   "bear_on_bicycle_in_circus": "Медведь на велосипеде",
+  "@bear_on_bicycle_in_circus": {
+    "description": "Элемент: Медведь на велосипеде"
+  },
+  
   "bee": "Пчела",
+  "@bee": {
+    "description": "Элемент: Пчела"
+  },
+  
   "bone_dragon": "Костяной дракон",
+  "@bone_dragon": {
+    "description": "Элемент: Костяной дракон"
+  },
+  
   "burger": "Бургер",
+  "@burger": {
+    "description": "Элемент: Бургер"
+  },
+  
   "candle": "Свеча",
+  "@candle": {
+    "description": "Элемент: Свеча"
+  },
+  
   "church": "Церковь",
+  "@church": {
+    "description": "Элемент: Церковь"
+  },
+  
   "cipollino": "Чиполлино",
+  "@cipollino": {
+    "description": "Элемент: Чиполлино"
+  },
+  
   "circus": "Цирк",
+  "@circus": {
+    "description": "Элемент: Цирк"
+  },
+  
   "circus_clown": "Цирковой клоун",
+  "@circus_clown": {
+    "description": "Элемент: Цирковой клоун"
+  },
+  
   "corsair_pirate_sea": "Корсар пират море",
+  "@corsair_pirate_sea": {
+    "description": "Элемент: Корсар, пират, море"
+  },
+  
   "daenerys_targaryen": "Дейенерис Таргариен",
+  "@daenerys_targaryen": {
+    "description": "Элемент: Дейнерис Таргариен из Игры Престолов"
+  },
+  
   "fire_elemental": "Огненный элементаль",
+  "@fire_elemental": {
+    "description": "Элемент: Огненный элементаль"
+  },
+  
   "firefighter": "Пожарный",
+  "@firefighter": {
+    "description": "Элемент: Пожарный"
+  },
+  
   "fireworks": "Фейерверк",
+  "@fireworks": {
+    "description": "Элемент: Фейерверк"
+  },
+  
   "fruits": "Фрукты",
+  "@fruits": {
+    "description": "Элемент: Фрукты"
+  },
+  
   "gandalf_from_the_lord_of_the_rings": "Гэндальф",
+  "@gandalf_from_the_lord_of_the_rings": {
+    "description": "Элемент: Гэндальф из Властелина Колец"
+  },
+  
   "girl_in_love": "Девушка влюбленная",
+  "@girl_in_love": {
+    "description": "Элемент: Девушка влюбленная"
+  },
+  
   "grandmother": "Бабушка",
+  "@grandmother": {
+    "description": "Элемент: Бабушка"
+  },
+  
   "guy_in_love": "Парень влюбленный",
+  "@guy_in_love": {
+    "description": "Элемент: Парень влюбленный"
+  },
+  
   "hobbit_from_lord_of_the_rings": "Хоббит",
+  "@hobbit_from_lord_of_the_rings": {
+    "description": "Элемент: Хоббит из Властелина Колец"
+  },
+  
   "holiday_people": "Праздничные люди",
+  "@holiday_people": {
+    "description": "Элемент: Праздничные люди"
+  },
+  
   "honeycombs": "Соты",
+  "@honeycombs": {
+    "description": "Элемент: Соты"
+  },
+  
   "house_in_the_village": "Дом в деревне",
+  "@house_in_the_village": {
+    "description": "Элемент: Дом в деревне"
+  },
+  
   "institute_education": "Институт образование",
- 
+  "@institute_education": {
+    "description": "Элемент: Институт / Образование"
+  },
+  
   "lamb": "Ягненок",
+  "@lamb": {
+    "description": "Элемент: Ягнёнок"
+  },
+  
   "magic_broom": "Волшебная метла",
+  "@magic_broom": {
+    "description": "Элемент: Волшебная метла"
+  },
+  
   "magician_illusionist": "Фокусник",
+  "@magician_illusionist": {
+    "description": "Элемент: Фокусник / Иллюзионист"
+  },
+  
   "male_scientist": "Ученый мужчина",
+  "@male_scientist": {
+    "description": "Элемент: Ученый мужчина"
+  },
+  
   "masks_from_the_theater": "Маски из театра",
+  "@masks_from_the_theater": {
+    "description": "Элемент: Маски из театра"
+  },
+  
   "mermaid": "Русалка",
+  "@mermaid": {
+    "description": "Элемент: Русалка"
+  },
+  
   "microbes": "Микробы",
-  "modern_sea_deck_of_ship": "Современная палуба",
+  "@microbes": {
+    "description": "Элемент: Микробы"
+  },
+
+
+
+ "modern_sea_deck_of_ship": "Современная палуба",
+  "@modern_sea_deck_of_ship": {
+    "description": "Элемент: Современная морская палуба корабля"
+  },
+  
   "modern_tool": "Современный инструмент",
+  "@modern_tool": {
+    "description": "Элемент: Современный инструмент"
+  },
+  
   "multicolored_balloons": "Воздушные шары",
+  "@multicolored_balloons": {
+    "description": "Элемент: Воздушные шары"
+  },
+  
   "old_sea_deck_of_ship": "Морская палуба корабля",
+  "@old_sea_deck_of_ship": {
+    "description": "Элемент: Старинная морская палуба корабля"
+  },
+  
   "people": "Люди",
+  "@people": {
+    "description": "Элемент: Люди"
+  },
+  
   "pirate_ship": "Пиратский корабль",
+  "@pirate_ship": {
+    "description": "Элемент: Пиратский корабль"
+  },
+  
   "plank_stack_folded": "Сложенные доски",
+  "@plank_stack_folded": {
+    "description": "Элемент: Сложенные доски"
+  },
+  
   "prometheus_who_gave_fire": "Прометей",
+  "@prometheus_who_gave_fire": {
+    "description": "Элемент: Прометей, давший огонь людям"
+  },
+  
   "rooster": "Петух",
+  "@rooster": {
+    "description": "Элемент: Петух"
+  },
+  
   "rope": "Веревка",
+  "@rope": {
+    "description": "Элемент: Веревка"
+  },
+  
   "sea_sailing_ship": "Парусный корабль",
+  "@sea_sailing_ship": {
+    "description": "Элемент: Парусный корабль"
+  },
+  
   "spider_man": "Человек-паук",
+  "@spider_man": {
+    "description": "Элемент: Человек-паук"
+  },
+  
   "spider_web": "Паутина",
+  "@spider_web": {
+    "description": "Элемент: Паутина"
+  },
+  
   "stone_elemental": "Каменный элементаль",
+  "@stone_elemental": {
+    "description": "Элемент: Каменный элементаль"
+  },
+  
   "strong_man": "Сильный мужчина",
+  "@strong_man": {
+    "description": "Элемент: Сильный мужчина"
+  },
+  
   "student_guy": "Студент парень",
+  "@student_guy": {
+    "description": "Элемент: Студент-парень"
+  },
+  
   "students": "Студенты",
+  "@students": {
+    "description": "Элемент: Студенты"
+  },
+  
   "sword": "Меч",
+  "@sword": {
+    "description": "Элемент: Меч"
+  },
+  
   "the_plane_is_flying": "Самолет летит",
+  "@the_plane_is_flying": {
+    "description": "Элемент: Самолет в полете"
+  },
+  
   "the_witcher_man_from_the_game": "Ведьмак",
+  "@the_witcher_man_from_the_game": {
+    "description": "Элемент: Ведьмак из игры"
+  },
+  
   "theater_of_masks_play": "Театр масок",
+  "@theater_of_masks_play": {
+    "description": "Элемент: Театр масок"
+  },
+  
   "thor_s_hammer": "Молот Тора",
+  "@thor_s_hammer": {
+    "description": "Элемент: Молот Тора"
+  },
+  
   "time_machine": "Машина времени",
+  "@time_machine": {
+    "description": "Элемент: Машина времени"
+  },
+  
   "traveler": "Путешественник",
+  "@traveler": {
+    "description": "Элемент: Путешественник"
+  },
+  
   "two_students": "Два студента",
+  "@two_students": {
+    "description": "Элемент: Два студента"
+  },
+  
   "underground_metro": "Метро",
+  "@underground_metro": {
+    "description": "Элемент: Подземное метро"
+  },
+  
   "whale": "Кит",
+  "@whale": {
+    "description": "Элемент: Кит"
+  },
+  
   "young_girl": "Молодая девушка",
+  "@young_girl": {
+    "description": "Элемент: Молодая девушка"
+  },
+  
   "young_guy": "Молодой парень",
+  "@young_guy": {
+    "description": "Элемент: Молодой парень"
+  },
+  
   "frost": "Мороз",
+  "@frost": {
+    "description": "Элемент: Мороз"
+  },
+  
   "phoenix": "Феникс",
+  "@phoenix": {
+    "description": "Элемент: Феникс"
+  },
+  
   "sand": "Песок",
-  "thunderstorm_with_lightning": "Гроза с молнией",
+  "@sand": {
+    "description": "Элемент: Песок"
+  },
+
+ "thunderstorm_with_lightning": "Гроза с молнией",
+  "@thunderstorm_with_lightning": {
+    "description": "Элемент: Гроза с молнией"
+  },
+  
   "tornado": "Торнадо",
+  "@tornado": {
+    "description": "Элемент: Торнадо"
+  },
+  
   "unicorn": "Единорог",
+  "@unicorn": {
+    "description": "Элемент: Единорог"
+  },
+  
   "vampire": "Вампир",
+  "@vampire": {
+    "description": "Элемент: Вампир"
+  },
+  
   "zombie": "Зомби",
+  "@zombie": {
+    "description": "Элемент: Зомби"
+  },
+  
   "geyser": "Гейзер",
+  "@geyser": {
+    "description": "Элемент: Гейзер"
+  },
+  
   "antibiotic": "Антибиотик",
+  "@antibiotic": {
+    "description": "Элемент: Антибиотик"
+  },
+  
   "electric_battery": "Электрическая батарея",
+  "@electric_battery": {
+    "description": "Элемент: Электрическая батарея"
+  },
+  
   "molotov_cocktail": "Коктейль Молотова",
+  "@molotov_cocktail": {
+    "description": "Элемент: Коктейль Молотова"
+  },
+  
   "puss_in_boots": "Кот в сапогах",
+  "@puss_in_boots": {
+    "description": "Элемент: Кот в сапогах"
+  },
+  
   "schrodingers_cat": "Кот Шрёдингера",
+  "@schrodingers_cat": {
+    "description": "Элемент: Кот Шрёдингера"
+  },
+  
   "beehive": "Пчелиный улей",
+  "@beehive": {
+    "description": "Элемент: Пчелиный улей"
+  },
+  
   "bitcoin": "Биткоин",
+  "@bitcoin": {
+    "description": "Элемент: Биткоин"
+  },
+  
   "cheese": "Сыр",
+  "@cheese": {
+    "description": "Элемент: Сыр"
+  },
+  
   "chocolate": "Шоколад",
+  "@chocolate": {
+    "description": "Элемент: Шоколад"
+  },
+  
   "pandemic": "Пандемия",
+  "@pandemic": {
+    "description": "Элемент: Пандемия"
+  },
+  
   "shrek": "Шрек",
+  "@shrek": {
+    "description": "Элемент: Шрек"
+  },
+  
   "gameTitle": "Эволюция Дарвина",
+  "@gameTitle": {
+    "description": "Название игры"
+  },
+  
   "hintTitle": "Подсказка",
-  "create_sun": "Создайте солнце",
- 
-   "ichthyostegidae": "Ichthyostegidae",
-   "crossopterygian_fish": "Crossopterygian fish",
-   "flower": "Flower",
-   "reptile": "Reptile",
-  
-  
-  "death_star" : "Звезда смерти",
-  "jedi_from_stars_wars": "Джедай",
-  "yoda_is_a_wise_jedi": "Йода",
-
-
- 
- 
   "@hintTitle": {
-    "description": "Title for hint banner"
+    "description": "Заголовок подсказки"
+  },
+  
+  "create_sun": "Создайте солнце",
+  "@create_sun": {
+    "description": "Инструкция к заданию"
+  },
+  
+  "ichthyostegidae": "Ichthyostegidae",
+  "@ichthyostegidae": {
+    "description": "Древняя вымершая амфибия"
+  },
+  
+  "crossopterygian_fish": "Crossopterygian fish",
+  "@crossopterygian_fish": {
+    "description": "Рыба кистепёрая"
+  },
+  
+  "flower": "Цветок",
+  "@flower": {
+    "description": "Элемент: Цветок"
+  },
+  
+  "reptile": "Пресмыкающееся",
+  "@reptile": {
+    "description": "Элемент: Пресмыкающееся"
+  },
+  
+  "death_star": "Звезда смерти",
+  "@death_star": {
+    "description": "Элемент: Звезда смерти из Звёздных войн"
+  },
+  
+  "jedi_from_stars_wars": "Джедай",
+  "@jedi_from_stars_wars": {
+    "description": "Элемент: Джедай из Звёздных войн"
+  },
+  
+  "yoda_is_a_wise_jedi": "Йода",
+  "@yoda_is_a_wise_jedi": {
+    "description": "Йода из Звёздных войн"
   }
 }

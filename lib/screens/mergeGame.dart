@@ -322,7 +322,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                 right: 0,
                 height: screenSize.height * 0.20,
                 child: GamePanel(
-                  name: "Задание",
+                  name: AppLocalizations.of(context)!.task_level,
                   stars: 100,
                   taskDescription: state.levelTitle,
                   time: context.read<LevelBloc>().state.timeStr ?? '',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/bloc/level_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiscoveryBanner extends StatefulWidget {
   final String itemName;
@@ -120,6 +121,8 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
   }
 
   _newItem() {
+    final String new_item = AppLocalizations.of(context)!.new_item;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -127,7 +130,7 @@ class _DiscoveryBannerState extends State<DiscoveryBanner>
         const SizedBox(width: 15),
         Expanded(
           child: Text(
-            'Новый предмет: ${widget.itemName}',
+            '${new_item}: ${widget.itemName}',
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Статистика'),
+        title: Text(AppLocalizations.of(context)!.statistics),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(

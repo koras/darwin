@@ -29,9 +29,22 @@ extension AppLocalizationsExtensions on AppLocalizations {
         return l10n.merge_element;
       case 'hintTitle':
         return l10n.hintTitle;
+      case 'task_level':
+        return l10n.task_level;
+
+      case 'new_item':
+        return l10n.new_item;
+
+      case 'hint_until_next_free':
+        return l10n.hint_until_next_free;
+
+      case 'or_buy_a_hint':
+        return l10n.or_buy_a_hint;
 
       case 'merge_result':
         return l10n.merge_result;
+      case 'statistics':
+        return l10n.statistics;
 
       case 'time':
         return l10n.time;

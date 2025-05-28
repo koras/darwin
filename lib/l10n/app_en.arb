@@ -1,244 +1,1128 @@
 {
   "@@locale": "en",
+
   "level_task": "Task",
+  "@level_task": {
+    "description": "Label for task in current level"
+  },
+
   "new_level_element_title": "Congratulations!",
+  "@new_level_element_title": {
+    "description": "Title shown when user levels up"
+  },
+
   "new_level_element_text": "You have advanced to the next level:",
+  "@new_level_element_text": {
+    "description": "Message indicating level advancement"
+  },
+
   "new_level_element_button_text": "Next Level",
+  "@new_level_element_button_text": {
+    "description": "Button text to proceed after leveling up"
+  },
+
   "merge_all_title": "All Combinations",
+  "@merge_all_title": {
+    "description": "Title for all combinations screen"
+  },
+
   "merge_all_title_you": "Combinations you've unlocked:",
+  "@merge_all_title_you": {
+    "description": "Subtitle for list of discovered combinations"
+  },
+
   "merge_all_title_all": "All possible combinations:",
+  "@merge_all_title_all": {
+    "description": "Subtitle for full list of available combinations"
+  },
+
   "merge_element": "element",
+  "@merge_element": {
+    "description": "Column or label for element"
+  },
+
   "merge_result": "result",
+  "@merge_result": {
+    "description": "Column or label for result"
+  },
 
+  "hints_left": "Hints left",
+  "@hints_left": {
+    "description": "Indicates how many hints are remaining"
+  },
 
- "hints_left":"Осталось подсказок" ,
- "run_out_of_hints":"У вас закончились подсказки",
+  "run_out_of_hints": "You've run out of hints",
+  "@run_out_of_hints": {
+    "description": "Message displayed when user has no hints left"
+  },
 
-   "hints_hints":"Hint",
-  "hints_good":"Got it",
- 
+  "hints_hints": "Hint",
+  "@hints_hints": {
+    "description": "Label for hint"
+  },
+
+  "hints_good": "Got it",
+  "@hints_good": {
+    "description": "Button to dismiss a hint"
+  },
+
   "combinationsTitle": "All Combinations",
-  "discoveredCombinations": "Your discovered combinations:",
-  "allCombinations": "All possible combinations:",
-  "continueWithoutHints": "Continue without hints",
+  "@combinationsTitle": {
+    "description": "Title for combinations section"
+  },
 
+  "discoveredCombinations": "Your discovered combinations:",
+  "@discoveredCombinations": {
+    "description": "Text before list of unlocked combinations"
+  },
+
+  "allCombinations": "All possible combinations:",
+  "@allCombinations": {
+    "description": "Text before full list of combinations"
+  },
+
+  "continueWithoutHints": "Continue without hints",
+  "@continueWithoutHints": {
+    "description": "Option to continue without using a hint"
+  },
+
+  "task_level": "Task",
+  "@task_level": {
+    "description": "Label for level task"
+  },
+
+  "new_item": "New item",
+  "@new_item": {
+    "description": "Notification about new item discovery"
+  },
+
+  "hint_until_next_free": "Until the next free tip",
+  "@hint_until_next_free": {
+    "description": "Time until next free hint becomes available"
+  },
+
+  "or_buy_a_hint": "or buy a hint",
+  "@or_buy_a_hint": {
+    "description": "Suggestion to purchase a hint"
+  },
+
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Title for statistics screen"
+  },
 
   "time": "Time",
+  "@time": {
+    "description": "Element: Time"
+  },
+
   "water": "Water",
+  "@water": {
+    "description": "Element: Water"
+  },
+
   "cloud": "Cloud",
+  "@cloud": {
+    "description": "Element: Cloud"
+  },
+
   "dna": "DNA",
+  "@dna": {
+    "description": "Element: DNA"
+  },
+
   "man": "Man",
+  "@man": {
+    "description": "Element: Man"
+  },
+
   "morning": "Morning",
+  "@morning": {
+    "description": "Element: Morning"
+  },
+
   "mushroom": "Mushroom",
+  "@mushroom": {
+    "description": "Element: Mushroom"
+  },
+
   "sky": "Sky",
+  "@sky": {
+    "description": "Element: Sky"
+  },
+
   "sugar": "Sugar",
+  "@sugar": {
+    "description": "Element: Sugar"
+  },
+
   "wind": "Wind",
+  "@wind": {
+    "description": "Element: Wind"
+  },
+
   "explosion": "Explosion",
+  "@explosion": {
+    "description": "Element: Explosion"
+  },
+
   "radiation": "Radiation",
+  "@radiation": {
+    "description": "Element: Radiation"
+  },
+
   "grape": "Grape",
+  "@grape": {
+    "description": "Element: Grape"
+  },
+
   "holiday": "Holiday",
+  "@holiday": {
+    "description": "Element: Holiday"
+  },
+
   "knight": "Knight",
+  "@knight": {
+    "description": "Element: Knight"
+  },
+
   "plane": "Plane",
+  "@plane": {
+    "description": "Element: Plane"
+  },
+
   "phone": "Phone",
+  "@phone": {
+    "description": "Element: Phone"
+  },
+
   "car": "Car",
+  "@car": {
+    "description": "Element: Car"
+  },
+
   "barista": "Barista",
+  "@barista": {
+    "description": "Element: Barista"
+  },
+
   "phone_old": "Old phone",
+  "@phone_old": {
+    "description": "Element: Old phone"
+  },
+
   "wooden": "Wooden object",
+  "@wooden": {
+    "description": "Element: Wooden object"
+  },
+
   "plankton": "Plankton",
+  "@plankton": {
+    "description": "Element: Plankton"
+  },
+
   "spider": "Spider",
+  "@spider": {
+    "description": "Element: Spider"
+  },
+
   "glacier": "Glacier",
+  "@glacier": {
+    "description": "Element: Glacier"
+  },
+
   "bacteria": "Bacteria",
+  "@bacteria": {
+    "description": "Element: Bacteria"
+  },
+
   "fish": "Fish",
+  "@fish": {
+    "description": "Element: Fish"
+  },
+
   "tool": "Tool",
+  "@tool": {
+    "description": "Element: Tool"
+  },
+
   "bicycle": "Bicycle",
+  "@bicycle": {
+    "description": "Element: Bicycle"
+  },
+
   "wheel": "Wheel",
+  "@wheel": {
+    "description": "Element: Wheel"
+  },
+
   "crowd_of_people": "Crowd of people",
+  "@crowd_of_people": {
+    "description": "Element: Crowd of people"
+  },
+
   "alcohol": "Alcohol",
+  "@alcohol": {
+    "description": "Element: Alcohol"
+  },
+
   "stone": "Stone",
+  "@stone": {
+    "description": "Element: Stone"
+  },
+
   "lizard": "Lizard",
+  "@lizard": {
+    "description": "Element: Lizard"
+  },
+
   "tree": "Tree",
+  "@tree": {
+    "description": "Element: Tree"
+  },
+
   "swamp": "Swamp",
+  "@swamp": {
+    "description": "Element: Swamp"
+  },
+
   "flour": "Flour",
+  "@flour": {
+    "description": "Element: Flour"
+  },
+
   "bread": "Bread",
+  "@bread": {
+    "description": "Element: Bread"
+  },
+
   "banana": "Banana",
+  "@banana": {
+    "description": "Element: Banana"
+  },
+
   "factory": "Factory",
+  "@factory": {
+    "description": "Element: Factory"
+  },
+
   "volcano": "Volcano",
+  "@volcano": {
+    "description": "Element: Volcano"
+  },
+
   "city": "City",
+  "@city": {
+    "description": "Element: City"
+  },
+
   "hungover_saturday_morning": "Hungover morning",
+  "@hungover_saturday_morning": {
+    "description": "Element: Hungover Saturday morning"
+  },
+
   "cake": "Cake",
+  "@cake": {
+    "description": "Element: Cake"
+  },
+
   "sailing_ship": "Sailing ship",
+  "@sailing_ship": {
+    "description": "Element: Sailing ship"
+  },
+
   "sand_mountain": "Sand mountain/dune",
+  "@sand_mountain": {
+    "description": "Element: Sand mountain or dune"
+  },
+
   "stone_mountain": "Stone mountain",
+  "@stone_mountain": {
+    "description": "Element: Stone mountain"
+  },
+
   "metropolis": "Metropolis",
+  "@metropolis": {
+    "description": "Element: Metropolis"
+  },
+
   "village": "Village",
+  "@village": {
+    "description": "Element: Village"
+  },
+
   "snowman": "Snowman",
+  "@snowman": {
+    "description": "Element: Snowman"
+  },
+
   "love": "Love",
+  "@love": {
+    "description": "Element: Love"
+  },
+
   "sea": "Sea",
+  "@sea": {
+    "description": "Element: Sea"
+  },
+
   "bacterium": "Bacterium",
+  "@bacterium": {
+    "description": "Element: Bacterium"
+  },
+
   "monkey": "Monkey",
+  "@monkey": {
+    "description": "Element: Monkey"
+  },
+
   "money": "Money",
+  "@money": {
+    "description": "Element: Money"
+  },
+
   "santa_claus": "Santa Claus",
+  "@santa_claus": {
+    "description": "Element: Santa Claus"
+  },
+
   "new_year_tree": "New Year tree",
+  "@new_year_tree": {
+    "description": "Element: New Year tree"
+  },
+
   "penguin": "Penguin",
+  "@penguin": {
+    "description": "Element: Penguin"
+  },
+
   "witch": "Witch",
+  "@witch": {
+    "description": "Element: Witch"
+  },
+
   "big_crowd_of_people": "Crowd of people",
+  "@big_crowd_of_people": {
+    "description": "Element: Big crowd of people"
+  },
+
   "noisy_friday_party": "Friday party",
+  "@noisy_friday_party": {
+    "description": "Element: Noisy Friday party"
+  },
+
   "dragon": "Dragon",
+  "@dragon": {
+    "description": "Element: Dragon"
+  },
+
   "book": "Book",
+  "@book": {
+    "description": "Element: Book"
+  },
+
   "cow": "Cow",
+  "@cow": {
+    "description": "Element: Cow"
+  },
+
   "cocktail": "Cocktail",
+  "@cocktail": {
+    "description": "Element: Cocktail"
+  },
+
   "cupid": "Cupid",
- 
-  "arya_stark_from_game_of_thrones":"Arya Stark",
- 
-  "jon_snow_from_game_of_thrones":"Jon Snow",
+  "@cupid": {
+    "description": "Element: Cupid"
+  },
+
+  "arya_stark_from_game_of_thrones": "Arya Stark",
+  "@arya_stark_from_game_of_thrones": {
+    "description": "Character from Game of Thrones"
+  },
+
+  "jon_snow_from_game_of_thrones": "Jon Snow",
+  "@jon_snow_from_game_of_thrones": {
+    "description": "Character from Game of Thrones"
+  },
+
   "frog": "Frog",
+  "@frog": {
+    "description": "Element: Frog"
+  },
+
   "king_of_the_hill": "King of the hill",
+  "@king_of_the_hill": {
+    "description": "Element: King of the hill"
+  },
+
   "monument": "Monument",
+  "@monument": {
+    "description": "Element: Monument"
+  },
+
   "sommelier": "Sommelier",
+  "@sommelier": {
+    "description": "Element: Sommelier"
+  },
+
   "snow": "Snow",
+  "@snow": {
+    "description": "Element: Snow"
+  },
+
   "electricity": "Electricity",
+  "@electricity": {
+    "description": "Element: Electricity"
+  },
+
   "iron": "Iron",
+  "@iron": {
+    "description": "Element: Iron"
+  },
+
   "acid": "Acid",
+  "@acid": {
+    "description": "Element: Acid"
+  },
+
   "milk": "Milk",
+  "@milk": {
+    "description": "Element: Milk"
+  },
+
   "rocket": "Rocket",
+  "@rocket": {
+    "description": "Element: Rocket"
+  },
+
   "intelligence": "Intelligence",
+  "@intelligence": {
+    "description": "Element: Intelligence"
+  },
+
   "wood": "Wood",
+  "@wood": {
+    "description": "Element: Wood"
+  },
+
   "wine": "Wine",
+  "@wine": {
+    "description": "Element: Wine"
+  },
+
   "sun": "Sun",
+  "@sun": {
+    "description": "Element: Sun"
+  },
+
   "spark": "Spark",
+  "@spark": {
+    "description": "Element: Spark"
+  },
+
   "robot": "Robot",
+  "@robot": {
+    "description": "Element: Robot"
+  },
+
   "rainbow": "Rainbow",
+  "@rainbow": {
+    "description": "Element: Rainbow"
+  },
+
   "metal": "Metal",
+  "@metal": {
+    "description": "Element: Metal"
+  },
+
   "mammal": "Mammal",
+  "@mammal": {
+    "description": "Element: Mammal"
+  },
+
   "light": "Light",
+  "@light": {
+    "description": "Element: Light"
+  },
+
   "life": "Life",
+  "@life": {
+    "description": "Element: Life"
+  },
+
   "fire": "Fire",
+  "@fire": {
+    "description": "Element: Fire"
+  },
+
   "earth": "Earth",
+  "@earth": {
+    "description": "Element: Earth"
+  },
+
   "dough": "Dough",
+  "@dough": {
+    "description": "Element: Dough"
+  },
+
   "dolphin": "Dolphin",
+  "@dolphin": {
+    "description": "Element: Dolphin"
+  },
+
   "cat": "Cat",
+  "@cat": {
+    "description": "Element: Cat"
+  },
+
   "dog": "Dog",
+  "@dog": {
+    "description": "Element: Dog"
+  },
+
   "artificial_intelligence": "Artificial intelligence",
+  "@artificial_intelligence": {
+    "description": "Element: Artificial intelligence"
+  },
+
   "train": "Train",
+  "@train": {
+    "description": "Element: Train"
+  },
+
   "mountain": "Mountain",
+  "@mountain": {
+    "description": "Element: Mountain"
+  },
+
   "family": "Family",
+  "@family": {
+    "description": "Element: Family"
+  },
+
   "leon": "Lion",
+  "@leon": {
+    "description": "Element: Lion"
+  },
+
   "ballerina_cappuccino": "Ballerina cappuccino",
+  "@ballerina_cappuccino": {
+    "description": "Element: Ballerina cappuccino"
+  },
+
   "bombardiro_crocodilo": "Bombardier crocodile",
+  "@bombardiro_crocodilo": {
+    "description": "Element: Bombardier crocodile"
+  },
+
   "lirili_larila": "Lirili larila",
+  "@lirili_larila": {
+    "description": "Element: Lirili larila"
+  },
+
   "tralalero_tralala": "Tralalero tralala",
+  "@tralalero_tralala": {
+    "description": "Element: Tralalero tralala"
+  },
+
   "shark_and_nike": "Shark and Nike",
+  "@shark_and_nike": {
+    "description": "Element: Shark and Nike"
+  },
+
   "hogwarts_school": "Hogwarts School",
+  "@hogwarts_school": {
+    "description": "Element: Hogwarts School"
+  },
+
   "march_8": "March 8",
+  "@march_8": {
+    "description": "Element: March 8"
+  },
+
   "new_years_star": "New Year's star",
+  "@new_years_star": {
+    "description": "Element: New Year's star"
+  },
+
   "thor_man": "Thor man",
+  "@thor_man": {
+    "description": "Element: Thor man"
+  },
+
   "ancient_bird": "Ancient bird",
+  "@ancient_bird": {
+    "description": "Element: Ancient bird"
+  },
+
   "ancient_marine_mammal": "Ancient mammal",
+  "@ancient_marine_mammal": {
+    "description": "Element: Ancient marine mammal"
+  },
+
   "ancient_sea_fish": "Ancient sea fish",
+  "@ancient_sea_fish": {
+    "description": "Element: Ancient sea fish"
+  },
+
   "ancient_stone_age_man_with_stone": "Ancient man",
+  "@ancient_stone_age_man_with_stone": {
+    "description": "Element: Ancient man with stone"
+  },
+
   "archangel_with_wings_and_a_sword": "Archangel",
- 
+  "@archangel_with_wings_and_a_sword": {
+    "description": "Element: Archangel with wings and sword"
+  },
+
   "bear_on_bicycle_in_circus": "Bear on bicycle",
+  "@bear_on_bicycle_in_circus": {
+    "description": "Element: Bear on bicycle in circus"
+  },
+
   "bee": "Bee",
+  "@bee": {
+    "description": "Element: Bee"
+  },
+
   "bone_dragon": "Bone dragon",
+  "@bone_dragon": {
+    "description": "Element: Bone dragon"
+  },
+
   "burger": "Burger",
+  "@burger": {
+    "description": "Element: Burger"
+  },
+
   "candle": "Candle",
+  "@candle": {
+    "description": "Element: Candle"
+  },
+
   "church": "Church",
+  "@church": {
+    "description": "Element: Church"
+  },
+
   "cipollino": "Cipollino",
+  "@cipollino": {
+    "description": "Element: Cipollino"
+  },
+
   "circus": "Circus",
+  "@circus": {
+    "description": "Element: Circus"
+  },
+
   "circus_clown": "Circus clown",
+  "@circus_clown": {
+    "description": "Element: Circus clown"
+  },
+
   "corsair_pirate_sea": "Corsair pirate sea",
+  "@corsair_pirate_sea": {
+    "description": "Element: Corsair pirate at sea"
+  },
+
   "daenerys_targaryen": "Daenerys Targaryen",
+  "@daenerys_targaryen": {
+    "description": "Character from Game of Thrones"
+  },
+
   "fire_elemental": "Fire elemental",
+  "@fire_elemental": {
+    "description": "Element: Fire elemental"
+  },
+
   "firefighter": "Firefighter",
+  "@firefighter": {
+    "description": "Element: Firefighter"
+  },
+
   "fireworks": "Fireworks",
+  "@fireworks": {
+    "description": "Element: Fireworks"
+  },
+
   "fruits": "Fruits",
+  "@fruits": {
+    "description": "Element: Fruits"
+  },
+
   "gandalf_from_the_lord_of_the_rings": "Gandalf",
+  "@gandalf_from_the_lord_of_the_rings": {
+    "description": "Character from The Lord of the Rings"
+  },
+
   "girl_in_love": "Girl in love",
+  "@girl_in_love": {
+    "description": "Element: Girl in love"
+  },
+
   "grandmother": "Grandmother",
+  "@grandmother": {
+    "description": "Element: Grandmother"
+  },
+
   "guy_in_love": "Guy in love",
+  "@guy_in_love": {
+    "description": "Element: Guy in love"
+  },
+
   "hobbit_from_lord_of_the_rings": "Hobbit",
+  "@hobbit_from_lord_of_the_rings": {
+    "description": "Character from The Lord of the Rings"
+  },
+
   "holiday_people": "Holiday people",
+  "@holiday_people": {
+    "description": "Element: Holiday people"
+  },
+
   "honeycombs": "Honeycombs",
+  "@honeycombs": {
+    "description": "Element: Honeycombs"
+  },
+
   "house_in_the_village": "House in the village",
+  "@house_in_the_village": {
+    "description": "Element: House in the village"
+  },
+
   "institute_education": "Institute education",
- 
+  "@institute_education": {
+    "description": "Element: Institute / Education"
+  },
+
   "lamb": "Lamb",
+  "@lamb": {
+    "description": "Element: Lamb"
+  },
+
   "magic_broom": "Magic broom",
+  "@magic_broom": {
+    "description": "Element: Magic broom"
+  },
+
   "magician_illusionist": "Magician illusionist",
+  "@magician_illusionist": {
+    "description": "Element: Magician or illusionist"
+  },
+
   "male_scientist": "Male scientist",
+  "@male_scientist": {
+    "description": "Element: Male scientist"
+  },
+
   "masks_from_the_theater": "Masks from the theater",
+  "@masks_from_the_theater": {
+    "description": "Element: Masks from the theater"
+  },
+
   "mermaid": "Mermaid",
+  "@mermaid": {
+    "description": "Element: Mermaid"
+  },
+
   "microbes": "Microbes",
+  "@microbes": {
+    "description": "Element: Microbes"
+  },
+
   "modern_sea_deck_of_ship": "Modern deck of ship",
+  "@modern_sea_deck_of_ship": {
+    "description": "Element: Modern sea deck of ship"
+  },
+
   "modern_tool": "Modern tool",
+  "@modern_tool": {
+    "description": "Element: Modern tool"
+  },
+
   "multicolored_balloons": "Multicolored balloons",
+  "@multicolored_balloons": {
+    "description": "Element: Multicolored balloons"
+  },
+
   "old_sea_deck_of_ship": "Old sea deck",
+  "@old_sea_deck_of_ship": {
+    "description": "Element: Old sea deck of ship"
+  },
+
   "people": "People",
+  "@people": {
+    "description": "Element: People"
+  },
+
   "pirate_ship": "Pirate ship",
+  "@pirate_ship": {
+    "description": "Element: Pirate ship"
+  },
+
   "plank_stack_folded": "Plank stack folded",
+  "@plank_stack_folded": {
+    "description": "Element: Folded plank stack"
+  },
+
   "prometheus_who_gave_fire": "Prometheus",
+  "@prometheus_who_gave_fire": {
+    "description": "Element: Prometheus who gave fire to humans"
+  },
+
   "rooster": "Rooster",
+  "@rooster": {
+    "description": "Element: Rooster"
+  },
+
   "rope": "Rope",
+  "@rope": {
+    "description": "Element: Rope"
+  },
+
   "sea_sailing_ship": "Sea sailing ship",
+  "@sea_sailing_ship": {
+    "description": "Element: Sea sailing ship"
+  },
+
   "spider_man": "Spider-Man",
+  "@spider_man": {
+    "description": "Element: Spider-Man"
+  },
+
   "spider_web": "Spider web",
+  "@spider_web": {
+    "description": "Element: Spider web"
+  },
+
   "stone_elemental": "Stone elemental",
+  "@stone_elemental": {
+    "description": "Element: Stone elemental"
+  },
+
   "strong_man": "Strong man",
+  "@strong_man": {
+    "description": "Element: Strong man"
+  },
+
   "student_guy": "Student guy",
+  "@student_guy": {
+    "description": "Element: Student guy"
+  },
+
   "students": "Students",
+  "@students": {
+    "description": "Element: Students"
+  },
+
   "sword": "Sword",
+  "@sword": {
+    "description": "Element: Sword"
+  },
+
   "the_plane_is_flying": "The plane",
+  "@the_plane_is_flying": {
+    "description": "Element: The plane is flying"
+  },
+
   "the_witcher_man_from_the_game": "The Witcher",
+  "@the_witcher_man_from_the_game": {
+    "description": "Element: The Witcher from the game"
+  },
+
   "theater_of_masks_play": "Theater of masks",
+  "@theater_of_masks_play": {
+    "description": "Element: Theater of masks play"
+  },
+
   "thor_s_hammer": "Thor's hammer",
+  "@thor_s_hammer": {
+    "description": "Element: Thor's hammer"
+  },
+
   "time_machine": "Time machine",
+  "@time_machine": {
+    "description": "Element: Time machine"
+  },
+
   "traveler": "Traveler",
+  "@traveler": {
+    "description": "Element: Traveler"
+  },
+
   "two_students": "Two students",
+  "@two_students": {
+    "description": "Element: Two students"
+  },
+
   "underground_metro": "Underground metro",
+  "@underground_metro": {
+    "description": "Element: Underground metro"
+  },
+
   "whale": "Whale",
+  "@whale": {
+    "description": "Element: Whale"
+  },
+
   "young_girl": "Young girl",
+  "@young_girl": {
+    "description": "Element: Young girl"
+  },
+
   "young_guy": "Young guy",
+  "@young_guy": {
+    "description": "Element: Young guy"
+  },
+
   "frost": "Frost",
+  "@frost": {
+    "description": "Element: Frost"
+  },
+
   "phoenix": "Phoenix",
+  "@phoenix": {
+    "description": "Element: Phoenix"
+  },
+
   "sand": "Sand",
+  "@sand": {
+    "description": "Element: Sand"
+  },
+
   "thunderstorm_with_lightning": "Thunderstorm",
+  "@thunderstorm_with_lightning": {
+    "description": "Element: Thunderstorm with lightning"
+  },
+
   "tornado": "Tornado",
+  "@tornado": {
+    "description": "Element: Tornado"
+  },
+
   "unicorn": "Unicorn",
+  "@unicorn": {
+    "description": "Element: Unicorn"
+  },
+
   "vampire": "Vampire",
+  "@vampire": {
+    "description": "Element: Vampire"
+  },
+
   "zombie": "Zombie",
+  "@zombie": {
+    "description": "Element: Zombie"
+  },
+
   "geyser": "Geyser",
+  "@geyser": {
+    "description": "Element: Geyser"
+  },
+
   "antibiotic": "Antibiotic",
+  "@antibiotic": {
+    "description": "Element: Antibiotic"
+  },
+
   "electric_battery": "Electric battery",
+  "@electric_battery": {
+    "description": "Element: Electric battery"
+  },
+
   "molotov_cocktail": "Molotov cocktail",
+  "@molotov_cocktail": {
+    "description": "Element: Molotov cocktail"
+  },
+
   "puss_in_boots": "Puss in Boots",
+  "@puss_in_boots": {
+    "description": "Element: Puss in Boots"
+  },
+
   "schrodingers_cat": "Schrödinger's cat",
+  "@schrodingers_cat": {
+    "description": "Element: Schrödinger's cat"
+  },
+
   "beehive": "Beehive",
+  "@beehive": {
+    "description": "Element: Beehive"
+  },
+
   "bitcoin": "Bitcoin",
+  "@bitcoin": {
+    "description": "Element: Bitcoin"
+  },
+
   "cheese": "Cheese",
+  "@cheese": {
+    "description": "Element: Cheese"
+  },
+
   "chocolate": "Chocolate",
+  "@chocolate": {
+    "description": "Element: Chocolate"
+  },
+
   "pandemic": "Pandemic",
+  "@pandemic": {
+    "description": "Element: Pandemic"
+  },
+
   "shrek": "Shrek",
+  "@shrek": {
+    "description": "Element: Shrek"
+  },
+
   "gameTitle": "Darwin Evolution",
+  "@gameTitle": {
+    "description": "Title of the game"
+  },
+
   "hintTitle": "Hint",
-  "create_sun": "Create the sun",
-  
-  "ichthyostegidae": "Ichthyostegidae",
-  "crossopterygian_fish": "Crossopterygian fish",
-  "flower": "Flower",
-  "reptile": "Reptile",
-  
-
- 
-  "death_star" : "Death star",
-  "jedi_from_stars_wars": "Jedi",
-  "yoda_is_a_wise_jedi": "Yoda",
-
-
   "@hintTitle": {
     "description": "Title for hint banner"
+  },
+
+  "create_sun": "Create the sun",
+  "@create_sun": {
+    "description": "Instruction to create the sun"
+  },
+
+  "ichthyostegidae": "Ichthyostegidae",
+  "@ichthyostegidae": {
+    "description": "Ancient extinct amphibian"
+  },
+
+  "crossopterygian_fish": "Crossopterygian fish",
+  "@crossopterygian_fish": {
+    "description": "Element: Crossopterygian fish"
+  },
+
+  "flower": "Flower",
+  "@flower": {
+    "description": "Element: Flower"
+  },
+
+  "reptile": "Reptile",
+  "@reptile": {
+    "description": "Element: Reptile"
+  },
+
+  "death_star": "Death star",
+  "@death_star": {
+    "description": "Element: Death Star from Star Wars"
+  },
+
+  "jedi_from_stars_wars": "Jedi",
+  "@jedi_from_stars_wars": {
+    "description": "Element: Jedi from Star Wars"
+  },
+
+  "yoda_is_a_wise_jedi": "Yoda",
+  "@yoda_is_a_wise_jedi": {
+    "description": "Element: Yoda from Star Wars"
   }
-
-
 }

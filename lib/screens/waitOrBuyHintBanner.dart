@@ -3,6 +3,7 @@ import 'package:darwin/models/game_item.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 
 class WaitOrBuyHintBanner extends StatelessWidget {
@@ -21,6 +22,10 @@ class WaitOrBuyHintBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String hint_until_next_free =
+        AppLocalizations.of(context)!.hint_until_next_free;
+    final String or_buy_a_hint = AppLocalizations.of(context)!.or_buy_a_hint;
+
     // Получаем данные элементов
     // Форматируем оставшееся время
     final timeText = context.read<LevelBloc>().state.timeStr ?? '';
@@ -45,8 +50,8 @@ class WaitOrBuyHintBanner extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Заголовок
-              const Text(
-                'До следующей бесплатной подсказки',
+              Text(
+                hint_until_next_free,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -70,8 +75,8 @@ class WaitOrBuyHintBanner extends StatelessWidget {
               // Комбинация элементов (как в оригинальном баннере)
 
               // Текст предложения купить
-              const Text(
-                'Или купите подсказки сейчас:',
+              Text(
+                or_buy_a_hint,
                 style: TextStyle(fontSize: 16, color: Colors.black54),
               ),
               const SizedBox(height: 15),
