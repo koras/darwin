@@ -46,7 +46,7 @@
     "description": "Column or label for result"
   },
   
-  "hints_left": "{count, plural, =1{Hint left} other{Hints left}}: {count}",
+  "hints_left": "{count, plural, one{Hint left} other{Hints left}}: {count}",
   "@hints_left": {
     "description": "Displays the number of hints remaining . Indicates how many hints are remainin",
     "placeholders": {

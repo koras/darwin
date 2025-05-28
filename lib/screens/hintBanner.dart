@@ -1,7 +1,7 @@
 import 'package:darwin/models/game_item.dart';
 import 'package:flutter/material.dart';
 import 'package:darwin/data/image_item.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 import 'package:darwin/data/app_localizations_extensions.dart';
 
 class HintBanner extends StatelessWidget {

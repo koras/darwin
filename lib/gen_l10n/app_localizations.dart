@@ -18,7 +18,7 @@ import 'app_localizations_ru.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'gen_l10n/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -155,7 +155,7 @@ abstract class AppLocalizations {
   /// Displays the number of hints remaining . Indicates how many hints are remainin
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Hint left} other{Hints left}}: {count}'**
+  /// **'{count, plural, one{Hint left} other{Hints left}}: {count}'**
   String hints_left(int count);
 
   /// Currency in which you can buy a hint

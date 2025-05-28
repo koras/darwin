@@ -45,7 +45,7 @@ class AppLocalizationsRu extends AppLocalizations {
       few: 'Осталось подсказки',
       one: 'Осталась подсказка',
     );
-    return '$_temp0: $count';
+    return '$_temp0';
   }
 
   @override

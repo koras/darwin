@@ -6,7 +6,7 @@ import 'package:darwin/data/levels_repository.dart';
 import 'package:darwin/models/game_item.dart';
 import 'package:darwin/services/hive_service.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 
 import 'package:hive/hive.dart';
 import 'dart:async'; // Для Timer
@@ -71,7 +71,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
       );
     }
 
-    final now = DateTime.now();
+   // final now = DateTime.now();
 
     if (state.hintsState.freeHints == 0 &&
         state.hintsState.paidHintsAvailable == 0 &&

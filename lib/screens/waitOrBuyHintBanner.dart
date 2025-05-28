@@ -3,7 +3,7 @@ import 'package:darwin/models/game_item.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 
 class WaitOrBuyHintBanner extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:darwin/data/image_item.dart';
 import 'package:darwin/data/merge_rule.dart';
 import 'package:darwin/data/merge_rules.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 
 import 'package:darwin/data/app_localizations_extensions.dart';
 

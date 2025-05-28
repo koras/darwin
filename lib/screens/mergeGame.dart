@@ -4,7 +4,7 @@ import 'package:collection/collection.dart'; // Для использовани�
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 import 'package:darwin/data/levels_repository.dart';
 import 'package:darwin/screens/hintBanner.dart';
 import 'package:darwin/models/game_item.dart';

@@ -3,3 +3,4 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 use_plural: true
+output-dir: lib/gen_l10n

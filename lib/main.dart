@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:darwin/data/levels_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Основной импорт
+import 'package:darwin/gen_l10n/app_localizations.dart'; // Основной импорт
 
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/services/hive_service.dart';
@@ -31,9 +31,10 @@ Future<void> main() async {
   // );
 }
 
-const MyApp({super.key});
+//const MyApp({super.key});
 class MyApp extends StatelessWidget {
   //
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

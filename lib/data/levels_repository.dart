@@ -1,6 +1,6 @@
 // levels_repository.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Основной импорт
+import 'package:darwin/gen_l10n/app_localizations.dart';
 
 class LevelsRepository {
   static late AppLocalizations _l10n;
