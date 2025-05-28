@@ -74,9 +74,7 @@ class WaitOrBuyHintBanner extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
               // Комбинация элементов (как в оригинальном баннере)
-
               // Текст предложения купить
               Text(
                 AppLocalizations.of(context)!.or_buy_a_hint,

@@ -86,16 +86,12 @@ class AudioManager {
         print('kIsWeb');
         //     _webPlayer = AudioPlayer();
 
-        await _player.play(
-          UrlSource(
-            'assets/sounds/zvukovyie-effektyi-applikatsii-zagolovka-klipa-41544.mp3',
-          ),
-        );
+        await _player.play(UrlSource('assets/sounds/merge_good.mp3'));
       } else {
         print('mp3');
         _soundpool = Soundpool.fromOptions();
         _soundId = await rootBundle
-            .load('assets/sounds/gluhoy-zvuk-odinochnogo-najatiya.mp3')
+            .load('assets/sounds/merge_good2.mp3')
             .then((data) => _soundpool!.load(data));
       }
       debugPrint('Sound playback started');

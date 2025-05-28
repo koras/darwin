@@ -27,6 +27,15 @@ This project is a starting point for a Flutter application.
 пока не соеденить два предмета. Но при этом мы можем показать ему ту же подсказку
 чтобы пользователь понимал что с чем соеденить.
 
+## команды
+Генерация 
+
+
+flutter pub run build_runner build
+
+flutter clean
+flutter pub get
+
 
 
 дорога уровней(откладывается)

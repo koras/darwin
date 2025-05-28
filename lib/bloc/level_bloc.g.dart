@@ -39,7 +39,7 @@ class LevelStateAdapter extends TypeAdapter<LevelState> {
   @override
   void write(BinaryWriter writer, LevelState obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.currentLevel)
       ..writeByte(1)
@@ -67,7 +67,11 @@ class LevelStateAdapter extends TypeAdapter<LevelState> {
       ..writeByte(12)
       ..write(obj.timeUntilNextHint)
       ..writeByte(13)
-      ..write(obj.discoveredItemsLevel);
+      ..write(obj.discoveredItemsLevel)
+      ..writeByte(14)
+      ..write(obj.freeHints)
+      ..writeByte(15)
+      ..write(obj.timeHintWait);
   }
 
   @override
