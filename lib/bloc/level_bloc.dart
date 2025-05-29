@@ -481,11 +481,27 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
               lastHintTime: null,
               freeHints: 1,
             ),
+            timeStr: null,
             //     timeUntilNextHint: null,
           ),
         );
+      } else {
+        // emit(
+        //   state.copyWith(
+        //     timeStr: null,
+
+        //     //timeUntilNextHint: timeStr
+        //   ),
+        // );
       }
     } else {
+      // emit(
+      //   state.copyWith(
+      //     timeStr: null,
+
+      //     //timeUntilNextHint: timeStr
+      //   ),
+      // );
       //  debugPrint('нет отсчёта времени ');
     }
   }

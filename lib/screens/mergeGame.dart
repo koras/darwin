@@ -331,8 +331,8 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                   },
                   onClearPressed: _handleClearField, // Изменяем обработчик () {
                   // Логика очистки экрана
-                  scoreImagePath:
-                      'assets/images/score_icon.png', // Ваш путь к картинке,
+                  //     scoreImagePath:
+                  //        'assets/images/score_icon.png', // Ваш путь к картинке,
                   clearButtonAnimation:
                       _clearButtonAnimation, // Передаем анимацию
                 ),

@@ -9,4 +9,9 @@ class AppColors {
 
   // центр бардюр который снизу на панели
   static const Color borderCenter = Color.fromARGB(255, 96, 125, 139);
+
+  // бартдюр кнопки сверху у уровня и хинта
+  static const Color borderHint = Color.fromARGB(69, 160, 125, 0);
+  // бартдюр кнопки сверху заполнение
+  static const Color borderBackGround = Color.fromARGB(45, 252, 223, 97);
 }

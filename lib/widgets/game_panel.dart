@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:darwin/data/icons.dart';
+import 'package:darwin/constants/icons.dart';
+import 'package:darwin/constants/colors.dart';
 
 class GamePanel extends StatelessWidget {
   final String name;
@@ -9,7 +10,7 @@ class GamePanel extends StatelessWidget {
   final String time;
   final VoidCallback onHintPressed;
   final VoidCallback onClearPressed;
-  final String scoreImagePath;
+  // final String scoreImagePath;
   final Animation<double>? clearButtonAnimation; // Добавляем параметр анимации
 
   const GamePanel({
@@ -19,13 +20,23 @@ class GamePanel extends StatelessWidget {
     required this.time,
     required this.onHintPressed,
     required this.onClearPressed,
-    required this.scoreImagePath,
+    //  required this.scoreImagePath,
     Key? key,
     this.clearButtonAnimation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final level = 2;
+    final hints = 2;
+    String textHits = time;
+    print('time $time');
+
+    if (time == '' || time == '00:00') {
+      textHits = 'hints: $hints';
+    }
+
+    //   time;
     return Container(
       //  color: Colors.blueGrey[100],
       padding: EdgeInsets.only(left: 16.0, top: 40, right: 16.0),
@@ -39,21 +50,65 @@ class GamePanel extends StatelessWidget {
             children: [
               //   SizedBox(height: 30),
               // Левая часть - картинка баллов и кнопка подсказки
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 30),
-                  GestureDetector(
-                    // 👈 Оборачиваем Image.asset в GestureDetector
-                    onTap: onHintPressed, // Вешаем обработчик
-                    child: Image.asset(IconsGame.hint, height: 36),
-                  ),
-                ],
+              Container(
+                width: 100, // или любая другая фиксированная ширина
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      //    width: 80,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.borderBackGround,
+                        border: Border.all(
+                          color:
+                              AppColors
+                                  .borderHint, // немного темнее желтый для бордюра
+                          width: 2, // толщина бордюрчика
+                        ),
+                        borderRadius: BorderRadius.circular(4), // закругление
+                      ),
+                      child: Text(
+                        textHits, // здесь level - переменная, которую нужно передать
+                        style: TextStyle(fontSize: 13, color: Colors.black),
+                      ),
+                    ),
+                    // Text(
+                    //   time,
+                    //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    // ),
+                    SizedBox(height: 15),
+                    GestureDetector(
+                      // 👈 Оборачиваем Image.asset в GestureDetector
+                      onTap: onHintPressed, // Вешаем обработчик
+                      child: Image.asset(IconsGame.hint, height: 36),
+                    ),
+                  ],
+                ),
               ),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+              //   decoration: BoxDecoration(
+              //     color: Colors.yellow.shade700,
+              //     border: Border.all(
+              //       color: const Color.fromARGB(
+              //         255,
+              //         160,
+              //         125,
+              //         0,
+              //       ), // немного темнее желтый для бордюра
+              //       width: 2, // толщина бордюрчика
+              //     ),
+              //     borderRadius: BorderRadius.circular(4), // закругление
+              //   ),
+              //   child: Text(
+              //     'level $level', // здесь level - переменная, которую нужно передать
+              //     style: TextStyle(fontSize: 13, color: Colors.black),
+              //   ),
+              // ),
 
               // Центральная часть - заголовок задания
               Column(
@@ -83,39 +138,61 @@ class GamePanel extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(height: 30),
-                      Text(
-                        stars.toString(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.end,
+                  //   children: [
+                  //     SizedBox(height: 30),
+                  //     Text(
+                  //       stars.toString(),
+                  //       style: TextStyle(
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.black87,
+                  //       ),
+                  //     ),
+                  //     Image.asset(
+                  //       IconsGame.star,
+                  //       height: 24, // Высота как у текста
+                  //       width: 24, // Ширина как у текста
+                  //     ),
+                  //   ],
+                  // ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: AppColors.borderBackGround,
+                      border: Border.all(
+                        color:
+                            AppColors
+                                .borderHint, // немного темнее желтый для бордюра
+                        width: 2, // толщина бордюрчика
                       ),
-                      Image.asset(
-                        IconsGame.star,
-                        height: 24, // Высота как у текста
-                        width: 24, // Ширина как у текста
-                      ),
-                    ],
+                      borderRadius: BorderRadius.circular(4), // закругление
+                    ),
+                    child: Text(
+                      'level: $level', // здесь level - переменная, которую нужно передать
+                      style: TextStyle(fontSize: 13, color: Colors.black),
+                    ),
                   ),
 
-                  SizedBox(height: 30),
+                  SizedBox(height: 15),
 
                   // GestureDetector(
                   //   // 👈 Оборачиваем Image.asset в GestureDetector
                   //   onTap: onClearPressed, // Вешаем обработчик
                   //   child: Image.asset(IconsGame.clear, height: 36),
                   // ),
-                  ScaleTransition(
-                    scale: clearButtonAnimation ?? AlwaysStoppedAnimation(1.0),
-                    child: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: onClearPressed,
-                    ),
+                  // ScaleTransition(
+                  //   scale: clearButtonAnimation ?? AlwaysStoppedAnimation(1.0),
+                  //   child: IconButton(
+                  //     icon: Icon(Icons.delete),
+                  //     onPressed: onClearPressed,
+                  //   ),
+                  // ),
+                  GestureDetector(
+                    // 👈 Оборачиваем Image.asset в GestureDetector
+                    onTap: onClearPressed, // Вешаем обработчик
+                    child: Image.asset(IconsGame.clear, height: 36),
                   ),
                 ],
               ),
