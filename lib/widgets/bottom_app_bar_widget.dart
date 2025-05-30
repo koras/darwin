@@ -10,69 +10,78 @@ class CustomBottomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          // Иконка Домой
-          IconButton(
-            icon: const Icon(Icons.home),
-            onPressed: () {
-              // Действие при нажатии на домой
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.grey.shade400, width: 2)),
+      ),
+      child: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildCustomIconButton(
+              icon: Icons.home,
+              color: Colors.blue.shade700,
+              onPressed:
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StartPage()),
+                  ),
+            ),
 
-              print('Действие при нажатии Статистика');
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => StartPage()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.home),
-            onPressed: () {
-              // Действие при нажатии на домой
-              final currentState = context.read<LevelBloc>().state;
-              print('Действие при нажатии Статистика');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => CombinationsPage(
-                        // Ваш список правил соединений
-                        discoveredItems:
-                            currentState.discoveredItems, // Открытые элементы
-                      ),
-                ),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.feedback),
-            onPressed: () {
-              // Действие при нажатии на домой
-              final currentState = context.read<LevelBloc>().state;
-              print('Действие при нажатии Статистика');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => FeedbackScreen(
-                        // Ваш список правил соединений
-                      ),
-                ),
-              );
-            },
-          ),
+            _buildCustomIconButton(
+              icon: Icons.list_alt,
+              color: Colors.green.shade700,
+              onPressed: () {
+                final currentState = context.read<LevelBloc>().state;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => CombinationsPage(
+                          discoveredItems: currentState.discoveredItems,
+                        ),
+                  ),
+                );
+              },
+            ),
 
-          // Иконка Выключить звук
-          IconButton(
-            icon: const Icon(Icons.volume_off),
-            onPressed: () {
-              // Действие при выключении звука
-            },
-          ),
-        ],
+            _buildCustomIconButton(
+              icon: Icons.feedback,
+              color: Colors.orange.shade700,
+              onPressed:
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FeedbackScreen()),
+                  ),
+            ),
+
+            _buildCustomIconButton(
+              icon: Icons.volume_off,
+              color: Colors.red.shade700,
+              onPressed: () {}, // Пустой обработчик, но он обязателен
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomIconButton({
+    required IconData icon,
+    required Color color,
+    required VoidCallback onPressed, // Параметр обязателен
+  }) {
+    return IconButton(
+      onPressed: onPressed, // Передаем в IconButton
+      icon: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color.withOpacity(0.2),
+        ),
+        child: Icon(icon, color: color, size: 28),
       ),
     );
   }

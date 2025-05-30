@@ -112,3 +112,13 @@ class BuyHintsEvent extends LevelEvent {
 class RestorePurchasesEvent extends LevelEvent {}
 
 class IAPInitializedEvent extends LevelEvent {}
+
+class LocalChange extends LevelEvent {
+  final Locale locale;
+  LocalChange(this.locale);
+}
+
+class MusicChange extends LevelEvent {
+  final bool soundsEnabled;
+  MusicChange(this.soundsEnabled);
+}

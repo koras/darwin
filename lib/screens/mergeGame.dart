@@ -305,7 +305,7 @@ class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
                       image: DecorationImage(
                         image:
                             Image.asset(
-                              'background/${context.read<LevelBloc>().state.background}',
+                              'assets/background/${context.read<LevelBloc>().state.background}',
                             ).image,
                         fit: BoxFit.fitHeight, // Растягиваем по ширине
                         alignment: Alignment.topCenter,

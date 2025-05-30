@@ -1,13 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
-import 'package:soundpool/soundpool.dart';
+//import 'package:soundpool/soundpool.dart';
 import 'package:flutter/services.dart';
 
 class AudioManager {
   static final AudioPlayer _player = AudioPlayer();
   static bool _soundsEnabled = true;
 
-  static Soundpool? _soundpool;
+  // static Soundpool? _soundpool;
   static AudioPlayer? _webPlayer;
   static int? _soundId;
 
@@ -19,7 +19,7 @@ class AudioManager {
     try {
       await _player.stop();
       await _player.setVolume(0.3);
-      await _player.play(UrlSource('assets/sounds/add3.mp3'));
+      await _player.play(AssetSource('sounds/add3.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
     } catch (e) {
@@ -31,7 +31,7 @@ class AudioManager {
     try {
       await _player.stop();
       await _player.setVolume(0.3);
-      await _player.play(UrlSource('assets/sounds/clear.mp3'));
+      await _player.play(AssetSource('sounds/clear.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
     } catch (e) {
@@ -44,7 +44,7 @@ class AudioManager {
     try {
       await _player.stop();
       await _player.setVolume(0.3);
-      await _player.play(UrlSource('assets/sounds/fail_merge.mp3'));
+      await _player.play(AssetSource('sounds/fail_merge.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
     } catch (e) {
@@ -57,7 +57,7 @@ class AudioManager {
     try {
       await _player.stop();
       await _player.setVolume(0.3);
-      await _player.play(UrlSource('assets/sounds/hint.mp3'));
+      await _player.play(AssetSource('sounds/hint.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
     } catch (e) {
@@ -69,7 +69,7 @@ class AudioManager {
     try {
       await _player.stop();
       await _player.setVolume(0.7);
-      await _player.play(UrlSource('assets/sounds/next_level.mp3'));
+      await _player.play(AssetSource('sounds/next_level.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
     } catch (e) {
@@ -86,13 +86,14 @@ class AudioManager {
         print('kIsWeb');
         //     _webPlayer = AudioPlayer();
 
-        await _player.play(UrlSource('assets/sounds/merge_good.mp3'));
+        await _player.play(AssetSource('sounds/merge_good.mp3'));
       } else {
         print('mp3');
-        _soundpool = Soundpool.fromOptions();
-        _soundId = await rootBundle
-            .load('assets/sounds/merge_good2.mp3')
-            .then((data) => _soundpool!.load(data));
+        // _soundpool = Soundpool.fromOptions();
+        // _soundId = await rootBundle
+        //     .load('assets/sounds/merge_good2.mp3')
+        //     .then((data) => _soundpool!.load(data));
+        await _player.play(AssetSource('sounds/merge_good2.mp3'));
       }
       debugPrint('Sound playback started');
       //  if (!_soundsEnabled) return;

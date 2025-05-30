@@ -63,6 +63,12 @@ class LevelState {
   @HiveField(15)
   final int timeHintWait;
 
+  @HiveField(16)
+  final bool soundsEnabled;
+
+  @HiveField(17)
+  final Locale locale;
+
   /// Конструктор состояния уровня
   const LevelState({
     required this.currentLevel,
@@ -82,6 +88,8 @@ class LevelState {
     this.timeStr,
     required this.freeHints,
     required this.timeHintWait,
+    required this.soundsEnabled,
+    required this.locale,
   });
 
   /// Начальное состояние уровня
@@ -104,6 +112,8 @@ class LevelState {
       timeStr: null,
       freeHints: 0,
       timeHintWait: 0,
+      soundsEnabled: true,
+      locale: Locale('en'),
     );
   }
 
@@ -126,6 +136,8 @@ class LevelState {
     String? timeStr,
     int? freeHints,
     int? timeHintWait,
+    bool? soundsEnabled,
+    Locale? locale,
   }) {
     return LevelState(
       currentLevel: currentLevel ?? this.currentLevel,
@@ -143,9 +155,10 @@ class LevelState {
       background: background ?? this.background,
       timeUntilNextHint: timeUntilNextHint ?? this.timeUntilNextHint,
       timeStr: timeStr ?? this.timeStr,
-
       freeHints: freeHints ?? this.freeHints,
       timeHintWait: timeHintWait ?? this.timeHintWait,
+      soundsEnabled: soundsEnabled ?? this.soundsEnabled,
+      locale: locale ?? this.locale,
     );
   }
 
@@ -167,6 +180,8 @@ class LevelState {
         other.timeHintWait == timeHintWait &&
         other.freeHints == freeHints &&
         other.timeUntilNextHint == timeUntilNextHint &&
+        other.soundsEnabled == soundsEnabled &&
+        other.locale == locale &&
         other.background == background;
   }
 
@@ -185,6 +200,8 @@ class LevelState {
     timeUntilNextHint,
     background,
     timeUntilNextHint,
+    locale,
+    soundsEnabled,
   );
 }
 
@@ -229,7 +246,7 @@ class HintsState {
     this.hasPendingHint = false,
     this.currentHint = '',
     // количество подсказок на уровне
-    this.freeHints = 0,
+    this.freeHints = 1,
     this.countHintsAvailable = 0,
     this.timeHintAvailable = false,
     this.timeHintWait = 10,
@@ -299,6 +316,7 @@ class HintsState {
         other.lastHintTime == lastHintTime &&
         other.timeHintAvailable == timeHintAvailable &&
         other.timeHintWait == timeHintWait &&
+        other.timeHintWait == timeHintWait &&
         other.hasPendingHint == hasPendingHint;
   }
 
@@ -311,8 +329,10 @@ class HintsState {
     lastHintTime,
     currentHint,
     timeHintAvailable,
+    timeHintWait,
     hasPendingHint,
 
+    freeHints,
     timeHintWait,
   );
 }

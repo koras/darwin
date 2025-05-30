@@ -9,7 +9,7 @@ import 'package:darwin/services/hive_service.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'package:darwin/gen_l10n/app_localizations.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'dart:async'; // Для Timer
 
@@ -58,10 +58,21 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
 
     // Добавляем инициализацию IAP
     add(IAPInitializedEvent());
+
+    on<MusicChange>(_onMusicChange);
+    on<LocalChange>(_onLocalChange);
   }
 
   void _onClearGameField(ClearGameFieldEvent event, Emitter<LevelState> emit) {
     emit(state.copyWith(gameItems: []));
+  }
+
+  void _onMusicChange(MusicChange event, Emitter<LevelState> emit) {
+    emit(state.copyWith(soundsEnabled: event.soundsEnabled));
+  }
+
+  void _onLocalChange(LocalChange event, Emitter<LevelState> emit) {
+    emit(state.copyWith(locale: event.locale));
   }
 
   // событие слияния
@@ -228,6 +239,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         background: event.background,
         freeHints: event.freeHints,
         timeHintWait: event.timeHintWait,
+        soundsEnabled: state.soundsEnabled,
+        locale: state.locale,
       ),
     );
   }
@@ -337,6 +350,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
         background: levelData['background'],
         freeHints: levelData['freeHints'],
         timeHintWait: levelData['timeHintWait'],
+        soundsEnabled: state.soundsEnabled,
+        locale: state.locale,
       ),
     );
 
