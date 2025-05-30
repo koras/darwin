@@ -157,6 +157,7 @@ class LevelState {
       timeStr: timeStr ?? this.timeStr,
       freeHints: freeHints ?? this.freeHints,
       timeHintWait: timeHintWait ?? this.timeHintWait,
+
       soundsEnabled: soundsEnabled ?? this.soundsEnabled,
       locale: locale ?? this.locale,
     );
@@ -336,3 +337,38 @@ class HintsState {
     timeHintWait,
   );
 }
+
+// class HintsStateAdapter extends TypeAdapter<HintsState> {
+//   @override
+//   final int typeId = 4; // Должен совпадать с typeId в аннотации HiveType
+
+//   @override
+//   HintsState read(BinaryReader reader) {
+//     return HintsState(
+//       freeHintsUsed: reader.read(),
+//       paidHintsAvailable: reader.read(),
+//       usedHints: List<String>.from(reader.read()),
+//       lastHintTime: reader.read(),
+//       hasPendingHint: reader.read(),
+//       currentHint: reader.read(),
+//       freeHints: reader.read(),
+//       countHintsAvailable: reader.read(),
+//       timeHintAvailable: reader.read(),
+//       timeHintWait: reader.read(),
+//     );
+//   }
+
+//   @override
+//   void write(BinaryWriter writer, HintsState obj) {
+//     writer.write(obj.freeHintsUsed);
+//     writer.write(obj.paidHintsAvailable);
+//     writer.write(obj.usedHints);
+//     writer.write(obj.lastHintTime);
+//     writer.write(obj.hasPendingHint);
+//     writer.write(obj.currentHint);
+//     writer.write(obj.freeHints);
+//     writer.write(obj.countHintsAvailable);
+//     writer.write(obj.timeHintAvailable);
+//     writer.write(obj.timeHintWait);
+//   }
+// }

@@ -1,6 +1,38 @@
 {
   "@@locale": "en",
 
+
+  "@settings": {
+    "description": "Title for the settings screen"
+  },
+  "settings": "Settings",
+
+  "@language": {
+    "description": "Label for language selection option"
+  },
+  "language": "Language",
+
+  "@sound": {
+    "description": "Label for sound toggle option"
+  },
+  "sound": "Sound",
+
+  "@testNotification": {
+    "description": "Button text for sending a test notification"
+  },
+  "testNotification": "Test notification",
+
+  "@testNotificationSent": {
+    "description": "Message shown after test notification is sent"
+  },
+  "testNotificationSent": "Test notification sent!",
+
+  "@backToMenu": {
+    "description": "Button text to return to main menu"
+  },
+  "backToMenu": "Back to menu",
+
+
   "level_task": "level assignment",
   "@level_task": {
     "description": "Label for task in current level"

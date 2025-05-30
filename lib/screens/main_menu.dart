@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/screens/mergeGame.dart';
+import 'package:darwin/screens/show_merge.dart';
+import 'package:darwin/widgets/rounded_button.dart';
 
-class StartPage extends StatelessWidget {
+import 'package:darwin/screens/settings.dart';
+import 'package:darwin/screens/feedback_screen.dart';
+
+class MainMenu extends StatelessWidget {
   final Color textColor = const Color.fromARGB(255, 122, 80, 0);
-  final String appVersion = "1.0.0"; // Замените на вашу версию
+  final String appVersion = "0.1.5"; // Замените на вашу версию
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +28,16 @@ class StartPage extends StatelessWidget {
                 children: [
                   // Название игры
                   Text(
-                    'Merge game',
+                    'Darwin: The Beginning',
                     style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
                       color: textColor,
                       shadows: [
                         Shadow(
-                          blurRadius: 1.0,
-                          color: Colors.black,
-                          offset: Offset(1.0, 1.0),
+                          blurRadius: 0.2,
+                          color: const Color.fromARGB(255, 13, 67, 129),
+                          offset: Offset(0.6, 0.2),
                         ),
                       ],
                     ),
@@ -40,7 +45,7 @@ class StartPage extends StatelessWidget {
                   SizedBox(height: 50),
 
                   // Кнопка "Играть"
-                  _buildRoundedButton('Играть', () {
+                  buildRoundedButton('Творить', () {
                     // Действие при нажатии
                     print('Действие при нажатии Играть');
 
@@ -52,11 +57,32 @@ class StartPage extends StatelessWidget {
                   SizedBox(height: 20),
 
                   // Кнопка "Находки"
-                  _buildRoundedButton('Находки', () {
-                    // Действие при нажатии
-                    print('Действие при нажатии Находки');
+                  buildRoundedButton('Находки', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CombinationsPage(),
+                      ),
+                    );
                   }),
 
+                  SizedBox(height: 20),
+                  // Кнопка "Находки"
+                  buildRoundedButton('Настройки', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Settings()),
+                    );
+                  }),
+
+                  SizedBox(height: 20),
+                  // Кнопка "Находки"
+                  buildRoundedButton('Написать', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FeedbackScreen()),
+                    );
+                  }),
                   // SizedBox(height: 20),
                 ],
               ),
@@ -72,39 +98,6 @@ class StartPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildRoundedButton(String text, VoidCallback onPressed) {
-    return Material(
-      borderRadius: BorderRadius.circular(30),
-      elevation: 5,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: textColor, width: 2),
-        ),
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor:
-                Colors.transparent, // заменили primary на backgroundColor
-            shadowColor: Colors.transparent,
-            padding: EdgeInsets.symmetric(horizontal: 35, vertical: 15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          ),
-        ),
       ),
     );
   }

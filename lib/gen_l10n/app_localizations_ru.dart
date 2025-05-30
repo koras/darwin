@@ -9,6 +9,24 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get settings => 'Настройки';
+
+  @override
+  String get language => 'Язык';
+
+  @override
+  String get sound => 'Звук';
+
+  @override
+  String get testNotification => 'Тестовое уведомление';
+
+  @override
+  String get testNotificationSent => 'Тестовое уведомление отправлено!';
+
+  @override
+  String get backToMenu => 'Вернуться в меню';
+
+  @override
   String get level_task => 'Задание уровня';
 
   @override

@@ -3,16 +3,14 @@ import 'package:darwin/models/game_item.dart';
 import 'package:darwin/data/image_item.dart';
 import 'package:darwin/data/merge_rule.dart';
 import 'package:darwin/data/merge_rules.dart';
-
+import 'package:darwin/bloc/level_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/gen_l10n/app_localizations.dart';
 
 import 'package:darwin/data/app_localizations_extensions.dart';
 
 class CombinationsPage extends StatelessWidget {
-  final List<String> discoveredItems;
-
-  const CombinationsPage({Key? key, required this.discoveredItems})
-    : super(key: key);
+  const CombinationsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +33,9 @@ class CombinationsPage extends StatelessWidget {
   }
 
   Widget _buildDiscoveredSection(BuildContext context) {
+    List<String> discoveredItems =
+        context.read<LevelBloc>().state.discoveredItems;
+
     final discoveredRules =
         mergeRules
             .where((rule) => discoveredItems.contains(rule.resultImageId))

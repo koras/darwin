@@ -12,6 +12,8 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/services/hive_service.dart';
 import 'package:darwin/screens/mergeGame.dart';
+import 'package:darwin/screens/settings.dart';
+import 'package:darwin/screens/main_menu.dart';
 import 'package:flutter/foundation.dart'; // Добавьте эту строку
 import 'dart:async';
 
@@ -25,60 +27,89 @@ Future<void> main() async {
     await InAppPurchase.instance.isAvailable();
   }
   // Инициализация Hive
-  await HiveService.init();
-
+  await Hive.initFlutter();
   // Открытие бокса для сохранения состояния
   await Hive.openBox<LevelState>('gameState');
 
   // Уменьшаем уровень логов
   runApp(const MyApp());
-
-  // runApp(
-  //   ChangeNotifierProvider(
-  //     create: (context) => AppLevelProviders(),
-  //     child: const MyApp(),
-  //   ),
-  // );
 }
 
 //const MyApp({super.key});
-class MyApp extends StatelessWidget {
-  //
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Box<LevelState> _settingsBox;
+
+  @override
+  void initState() {
+    super.initState();
+    _initHive();
+  }
+
+  Future<void> _initHive() async {
+    await Hive.initFlutter();
+
+    // Очистка старых данных (раскомментируйте если нужно)
+    //  await Hive.deleteBoxFromDisk('settings');
+    //  await Hive.deleteBoxFromDisk('gameState');
+
+    Hive.registerAdapter(LevelStateAdapter());
+    Hive.registerAdapter(HintsStateAdapter());
+    _settingsBox = await Hive.openBox<LevelState>('settings');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Merger',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: BlocProvider(
-        create: (context) => LevelBloc(),
-        child: Builder(
-          builder: (context) {
-            // Инициализация репозитория с локализацией
-            LevelsRepository.initialize(context);
-            return MergeGame();
-          },
-        ),
+    return BlocProvider(
+      create: (context) => LevelBloc(),
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<LevelBloc, LevelState>(
+            builder: (context, state) {
+              return MaterialApp(
+                title: 'Merger',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: Colors.deepPurple,
+                  ),
+                ),
+                locale: context.select((LevelBloc bloc) => bloc.state.locale),
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: AppLocalizations.supportedLocales,
+                home: BlocProvider(
+                  create: (context) => LevelBloc(),
+                  child: Builder(
+                    builder: (context) {
+                      LevelsRepository.initialize(context);
+                      return MainMenu();
+                    },
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
-}
 
-// Логика подсказок.
-// 
-// Для прохождения уровня необходимо определённое количество подсказок, но не менее 3
-// Первые 10 подсказок бесплатны.
-// На каждыю уровень доступно 3 подсказки 
-// Следующий бесплатная подсказка доступна через 3 часа.
-// Если игрок нашёл совпадение которое есть в подсказке, то такая подсказка снимается или помечается как открытая.
-// возможно купить подсказки 1,3,5,10,20
+  @override
+  void dispose() {
+    _settingsBox.close();
+    super.dispose();
+  }
+}

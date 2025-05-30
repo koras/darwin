@@ -1,6 +1,36 @@
 {
   "@@locale": "ru",
   
+    "@settings": {
+    "description": "Заголовок экрана настроек"
+  },
+  "settings": "Настройки",
+
+  "@language": {
+    "description": "Надпись для выбора языка"
+  },
+  "language": "Язык",
+
+  "@sound": {
+    "description": "Надпись для переключателя звука"
+  },
+  "sound": "Звук",
+
+  "@testNotification": {
+    "description": "Текст кнопки для отправки тестового уведомления"
+  },
+  "testNotification": "Тестовое уведомление",
+
+  "@testNotificationSent": {
+    "description": "Сообщение после отправки тестового уведомления"
+  },
+  "testNotificationSent": "Тестовое уведомление отправлено!",
+
+  "@backToMenu": {
+    "description": "Текст кнопки для возврата в главное меню"
+  },
+  "backToMenu": "Вернуться в меню",
+
   "level_task": "Задание уровня",
   "@level_task": {
     "description": "Название задания в текущем уровне"

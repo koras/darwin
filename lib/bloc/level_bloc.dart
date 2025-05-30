@@ -28,6 +28,8 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
   StreamSubscription? _purchaseSubscription;
 
   LevelBloc() : super(LevelState.initial()) {
+    _loadInitialState();
+
     on<LoadLevelEvent>(_onLoadLevel);
     on<LevelCompletedEvent>(_onLevelCompleted);
     on<ItemDiscoveredEvent>(_onItemDiscovered);
@@ -63,16 +65,47 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
     on<LocalChange>(_onLocalChange);
   }
 
+  Future<void> _loadInitialState() async {
+    try {
+      final box = await Hive.openBox<LevelState>('settings');
+      final savedState = box.get('main');
+      if (savedState != null) {
+        emit(savedState);
+      }
+    } catch (e) {
+      debugPrint('Error loading initial state: $e');
+    }
+  }
+
+  Future<void> _saveState(LevelState newState) async {
+    try {
+      final box = await Hive.openBox<LevelState>('settings');
+      await box.put('main', newState);
+    } catch (e) {
+      debugPrint('Error saving state: $e');
+    }
+  }
+
   void _onClearGameField(ClearGameFieldEvent event, Emitter<LevelState> emit) {
     emit(state.copyWith(gameItems: []));
   }
 
   void _onMusicChange(MusicChange event, Emitter<LevelState> emit) {
-    emit(state.copyWith(soundsEnabled: event.soundsEnabled));
+    final newState = state.copyWith(soundsEnabled: event.soundsEnabled);
+    _saveState(newState);
+    emit(newState);
   }
 
   void _onLocalChange(LocalChange event, Emitter<LevelState> emit) {
-    emit(state.copyWith(locale: event.locale));
+    try {
+      final newState = state.copyWith(locale: event.locale);
+      emit(newState);
+      _saveState(newState);
+    } catch (e) {
+      debugPrint('Error changing locale: $e');
+      // Можно добавить обработку ошибки, например:
+      // addError(e, stackTrace);
+    }
   }
 
   // событие слияния
@@ -500,24 +533,7 @@ class LevelBloc extends Bloc<LevelEvent, LevelState> {
             //     timeUntilNextHint: null,
           ),
         );
-      } else {
-        // emit(
-        //   state.copyWith(
-        //     timeStr: null,
-
-        //     //timeUntilNextHint: timeStr
-        //   ),
-        // );
       }
-    } else {
-      // emit(
-      //   state.copyWith(
-      //     timeStr: null,
-
-      //     //timeUntilNextHint: timeStr
-      //   ),
-      // );
-      //  debugPrint('нет отсчёта времени ');
     }
   }
 

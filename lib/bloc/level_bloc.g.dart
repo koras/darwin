@@ -33,13 +33,15 @@ class LevelStateAdapter extends TypeAdapter<LevelState> {
       timeUntilNextHint: fields[12] as String?,
       freeHints: fields[14] as int,
       timeHintWait: fields[15] as int,
+      soundsEnabled: fields[16] as bool,
+      locale: fields[17] as Locale,
     );
   }
 
   @override
   void write(BinaryWriter writer, LevelState obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(18)
       ..writeByte(0)
       ..write(obj.currentLevel)
       ..writeByte(1)
@@ -71,7 +73,11 @@ class LevelStateAdapter extends TypeAdapter<LevelState> {
       ..writeByte(14)
       ..write(obj.freeHints)
       ..writeByte(15)
-      ..write(obj.timeHintWait);
+      ..write(obj.timeHintWait)
+      ..writeByte(16)
+      ..write(obj.soundsEnabled)
+      ..writeByte(17)
+      ..write(obj.locale);
   }
 
   @override

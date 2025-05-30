@@ -98,6 +98,42 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
+  /// Title for the settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// Label for language selection option
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Label for sound toggle option
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get sound;
+
+  /// Button text for sending a test notification
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification'**
+  String get testNotification;
+
+  /// Message shown after test notification is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification sent!'**
+  String get testNotificationSent;
+
+  /// Button text to return to main menu
+  ///
+  /// In en, this message translates to:
+  /// **'Back to menu'**
+  String get backToMenu;
+
   /// Label for task in current level
   ///
   /// In en, this message translates to:

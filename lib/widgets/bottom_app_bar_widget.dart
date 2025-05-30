@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:darwin/screens/mainMenu.dart';
-import 'package:darwin/screens/showMerge.dart';
+import 'package:darwin/screens/main_menu.dart';
+import 'package:darwin/screens/show_merge.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/feedback_screen.dart';
@@ -26,7 +26,7 @@ class CustomBottomAppBar extends StatelessWidget {
               onPressed:
                   () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StartPage()),
+                    MaterialPageRoute(builder: (context) => MainMenu()),
                   ),
             ),
 
@@ -37,12 +37,7 @@ class CustomBottomAppBar extends StatelessWidget {
                 final currentState = context.read<LevelBloc>().state;
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => CombinationsPage(
-                          discoveredItems: currentState.discoveredItems,
-                        ),
-                  ),
+                  MaterialPageRoute(builder: (context) => CombinationsPage()),
                 );
               },
             ),
