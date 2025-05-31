@@ -13,12 +13,12 @@ class WaitOrBuyHintBanner extends StatelessWidget {
   final Function(int) onBuyHints;
 
   const WaitOrBuyHintBanner({
-    Key? key,
+    super.key,
 
     required this.remainingTime,
     required this.onClose,
     required this.onBuyHints,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

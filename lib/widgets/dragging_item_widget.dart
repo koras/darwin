@@ -8,11 +8,11 @@ class DraggingItemWidget extends StatelessWidget {
   scaleFactor; // Добавляем коэффициент масштабирования при перетаскивании
 
   const DraggingItemWidget({
-    Key? key,
+    super.key,
     required this.item,
     required this.cellSize,
     this.scaleFactor = 1.1, // Элемент немного увеличивается при перетаскивании
-  }) : super(key: key);
+  });
 
   // Генерация спокойного цвета на основе строки
   Color _generateCalmColor(String input) {

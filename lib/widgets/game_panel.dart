@@ -21,9 +21,9 @@ class GamePanel extends StatelessWidget {
     required this.onHintPressed,
     required this.onClearPressed,
     //  required this.scoreImagePath,
-    Key? key,
+    super.key,
     this.clearButtonAnimation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

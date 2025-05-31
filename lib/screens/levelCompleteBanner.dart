@@ -8,12 +8,12 @@ class LevelCompleteBanner extends StatelessWidget {
   final VoidCallback onMainMenu;
 
   const LevelCompleteBanner({
-    Key? key,
+    super.key,
     required this.itemName,
     required this.imagePath,
     required this.onNextLevel,
     required this.onMainMenu,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

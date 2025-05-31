@@ -10,11 +10,11 @@ class DiscoveryBanner extends StatefulWidget {
   final String messageType; // 'discovery' или 'clear'
 
   const DiscoveryBanner({
-    Key? key,
+    super.key,
     this.itemName = "",
     this.imagePath = "",
     this.messageType = 'discovery',
-  }) : super(key: key);
+  });
 
   @override
   _DiscoveryBannerState createState() => _DiscoveryBannerState();

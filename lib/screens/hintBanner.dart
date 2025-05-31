@@ -13,14 +13,14 @@ class HintBanner extends StatelessWidget {
   final VoidCallback onClose;
 
   const HintBanner({
-    Key? key,
+    super.key,
     // required this.context,
     required this.item1Id,
     required this.item2Id,
     required this.resultId,
     required this.cointHint,
     required this.onClose,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

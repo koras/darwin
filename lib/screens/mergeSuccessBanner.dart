@@ -19,8 +19,8 @@ class MergeSuccessBanner extends StatelessWidget {
     required this.onClose,
     required this.opacityAnimation,
     required this.scaleAnimation,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
