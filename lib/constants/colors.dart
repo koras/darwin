@@ -14,4 +14,12 @@ class AppColors {
   static const Color borderHint = Color.fromARGB(69, 160, 125, 0);
   // бартдюр кнопки сверху заполнение
   static const Color borderBackGround = Color.fromARGB(45, 252, 223, 97);
+
+  // цвет текста в игре, где уровень и подсказки
+  static const Color colorGameinfo = Colors.black87;
+}
+
+class AppInfo {
+  // размер текста
+  static const double infoText = 15;
 }

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:darwin/constants/icons.dart';
 import 'package:darwin/constants/colors.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
+import 'package:darwin/bloc/level_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GamePanel extends StatelessWidget {
   final String name;
@@ -27,13 +30,18 @@ class GamePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final level = 2;
-    final hints = 2;
+    int level = context.read<LevelBloc>().state.currentLevel;
+    int hints =
+        context.read<LevelBloc>().state.hintsState.freeHints +
+        context.read<LevelBloc>().state.hintsState.paidHintsAvailable;
+    String textHints = AppLocalizations.of(context)!.textHints;
+    String textLevels = AppLocalizations.of(context)!.textLevels;
+
     String textHits = time;
     print('time $time');
 
     if (time == '' || time == '00:00') {
-      textHits = 'hints: $hints';
+      textHits = '$textHints: $hints';
     }
 
     //   time;
@@ -51,29 +59,29 @@ class GamePanel extends StatelessWidget {
               //   SizedBox(height: 30),
               // Левая часть - картинка баллов и кнопка подсказки
               Container(
-                width: 100, // или любая другая фиксированная ширина
+                width: 150, // или любая другая фиксированная ширина
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       //    width: 80,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.borderBackGround,
-                        border: Border.all(
-                          color:
-                              AppColors
-                                  .borderHint, // немного темнее желтый для бордюра
-                          width: 2, // толщина бордюрчика
-                        ),
-                        borderRadius: BorderRadius.circular(4), // закругление
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                      // decoration: BoxDecoration(
+                      //   color: AppColors.borderBackGround,
+                      //   border: Border.all(
+                      //     color:
+                      //         AppColors
+                      //             .borderHint, // немного темнее желтый для бордюра
+                      //     width: 2, // толщина бордюрчика
+                      //   ),
+                      //   borderRadius: BorderRadius.circular(4), // закругление
+                      // ),
                       child: Text(
                         textHits, // здесь level - переменная, которую нужно передать
-                        style: TextStyle(fontSize: 13, color: Colors.black),
+                        style: TextStyle(
+                          fontSize: AppInfo.infoText,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                     // Text(
@@ -128,7 +136,7 @@ class GamePanel extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: AppColors.colorGameinfo,
                     ),
                   ),
                 ],
@@ -159,19 +167,22 @@ class GamePanel extends StatelessWidget {
                   // ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: AppColors.borderBackGround,
-                      border: Border.all(
-                        color:
-                            AppColors
-                                .borderHint, // немного темнее желтый для бордюра
-                        width: 2, // толщина бордюрчика
-                      ),
-                      borderRadius: BorderRadius.circular(4), // закругление
-                    ),
+                    // decoration: BoxDecoration(
+                    //   color: AppColors.borderBackGround,
+                    //   border: Border.all(
+                    //     color:
+                    //         AppColors
+                    //             .borderHint, // немного темнее желтый для бордюра
+                    //     width: 2, // толщина бордюрчика
+                    //   ),
+                    //   borderRadius: BorderRadius.circular(4), // закругление
+                    // ),
                     child: Text(
-                      'level: $level', // здесь level - переменная, которую нужно передать
-                      style: TextStyle(fontSize: 13, color: Colors.black),
+                      '$textLevels: $level', // здесь level - переменная, которую нужно передать
+                      style: TextStyle(
+                        fontSize: AppInfo.infoText,
+                        color: AppColors.colorGameinfo,
+                      ),
                     ),
                   ),
 

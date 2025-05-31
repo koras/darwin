@@ -14,6 +14,11 @@
   "writeToUs": "Написать нам",
   "finds":"Находки",
   "startGame":"Творить",
+  "textHints":"подсказка",
+
+  "textLevels":"уровень",
+
+
 
   "@sound": {
     "description": "Надпись для переключателя звука"

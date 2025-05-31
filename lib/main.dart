@@ -27,12 +27,20 @@ Future<void> main() async {
     await InAppPurchase.instance.isAvailable();
   }
   // Инициализация Hive
-  await Hive.initFlutter();
-  // Открытие бокса для сохранения состояния
-  await Hive.openBox<LevelState>('gameState');
+  // await Hive.initFlutter();
+  // // Открытие бокса для сохранения состояния
+  // await Hive.openBox<LevelState>('gameState');
 
-  // Уменьшаем уровень логов
-  runApp(const MyApp());
+  // // Уменьшаем уровень логов
+  // runApp(const MyApp());
+
+  try {
+    await HiveService.init();
+    runApp(const MyApp());
+  } catch (e) {
+    debugPrint('Hive initialization error: $e');
+    // Можно добавить fallback-логику
+  }
 }
 
 //const MyApp({super.key});

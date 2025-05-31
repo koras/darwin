@@ -12,6 +12,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings => 'Настройки';
 
   @override
+  String get textHints => 'подсказка';
+
+  @override
+  String get textLevels => 'уровень';
+
+  @override
   String get language => 'Язык';
 
   @override

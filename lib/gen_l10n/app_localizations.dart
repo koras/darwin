@@ -104,6 +104,18 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @textHints.
+  ///
+  /// In en, this message translates to:
+  /// **'hints'**
+  String get textHints;
+
+  /// No description provided for @textLevels.
+  ///
+  /// In en, this message translates to:
+  /// **'level'**
+  String get textLevels;
+
   /// Label for language selection option
   ///
   /// In en, this message translates to:

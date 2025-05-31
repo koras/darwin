@@ -9,10 +9,14 @@ class HiveService {
   static const String hintsKey = 'hints';
   static const String levelKey = 'level';
 
+  static Box<LevelState>? _gameStateBox;
+  static Box? _settingsBox;
+  static Box? _levelProgressBox;
+
   static Future<void> init() async {
     // Инициализация Hive
     await Hive.initFlutter();
-    Hive.registerAdapter(LevelStateAdapter());
+    // Hive.registerAdapter(LevelStateAdapter());
 
     // Регистрация адаптеров (если есть кастомные модели)
     // Hive.registerAdapter(MyModelAdapter());
@@ -20,6 +24,10 @@ class HiveService {
     // Открытие боксов (аналог таблиц в SQL)
     await Hive.openBox<LevelState>(gameStateBox);
     await Hive.openBox(settingsBox);
+
+    _gameStateBox ??= await Hive.openBox<LevelState>('gameState');
+    _settingsBox ??= await Hive.openBox('settings');
+    _levelProgressBox ??= await Hive.openBox('gameProgress');
   }
 
   // Сохранение информации о подсказках
@@ -42,15 +50,18 @@ class HiveService {
   }
 
   // Сохранение на каком уровне
+  // static Future<void> saveLevel(int level) async {
+  //   final box = Hive.box(settingsBox);
+  //   await box.put(levelKey, level);
+  // }
   static Future<void> saveLevel(int level) async {
-    final box = Hive.box(settingsBox);
-    await box.put(levelKey, level);
+    await init(); // Убедимся, что бокс открыт
+    await _settingsBox?.put('level', level);
   }
 
   // Загрузка текущего уровня
   static int loadLevel() {
-    final box = Hive.box(settingsBox);
-    return box.get(levelKey, defaultValue: 1);
+    return _settingsBox?.get('level', defaultValue: 1) ?? 1;
   }
 
   // Сохранение всего состояния уровня (если нужно)

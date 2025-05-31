@@ -11,6 +11,13 @@
   },
   "settings": "Settings",
 
+  "textHints":"hints",
+
+  "textLevels":"level",
+
+ 
+
+
   "@language": {
     "description": "Label for language selection option"
   },

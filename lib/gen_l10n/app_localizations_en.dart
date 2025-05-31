@@ -12,6 +12,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get textHints => 'hints';
+
+  @override
+  String get textLevels => 'level';
+
+  @override
   String get language => 'Language';
 
   @override

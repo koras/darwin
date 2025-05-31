@@ -26,11 +26,13 @@ import 'package:darwin/data/audio_manager.dart';
 
 // Основной виджет игры, объединяющий игровое поле и панель инструментов
 class MergeGame extends StatefulWidget {
+  const MergeGame({super.key});
+
   @override
-  _MergeGameState createState() => _MergeGameState();
+  MergeGameState createState() => MergeGameState();
 }
 
-class _MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
+class MergeGameState extends State<MergeGame> with TickerProviderStateMixin {
   late AnimationController _clearButtonController;
   late Animation<double> _clearButtonAnimation;
 
