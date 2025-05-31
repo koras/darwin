@@ -17,8 +17,8 @@ class ToolboxPanel extends StatefulWidget {
     //  required this.fieldManager,
     required this.onHeightChanged,
     required this.onItemAdded,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _ToolboxPanelState createState() => _ToolboxPanelState();

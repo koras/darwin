@@ -14,12 +14,12 @@ class ToolboxItemWidget extends StatelessWidget {
   final Function(GameItem) onItemAdded;
 
   const ToolboxItemWidget({
-    Key? key,
+    super.key,
     required this.imgItem,
     required this.size,
     //   required this.context,
     required this.onItemAdded,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

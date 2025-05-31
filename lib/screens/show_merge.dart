@@ -11,7 +11,7 @@ import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 import 'package:darwin/data/app_localizations_extensions.dart';
 
 class CombinationsPage extends StatelessWidget {
-  const CombinationsPage({Key? key}) : super(key: key);
+  const CombinationsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

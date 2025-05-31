@@ -6,11 +6,11 @@ class GameGrid extends StatelessWidget {
   final double cellSize;
 
   const GameGrid({
-    Key? key,
+    super.key,
     this.rows = 5,
     this.columns = 5,
     this.cellSize = 60.0, // Размер ячейки по умолчанию
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

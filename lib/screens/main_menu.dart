@@ -11,6 +11,8 @@ class MainMenu extends StatelessWidget {
   final Color textColor = const Color.fromARGB(255, 122, 80, 0);
   final String appVersion = "0.1.5"; // Замените на вашу версию
 
+  const MainMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

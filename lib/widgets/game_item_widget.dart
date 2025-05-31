@@ -13,8 +13,7 @@ class GameItemWidget extends StatelessWidget {
   final GameItem item;
   final double cellSize;
 
-  const GameItemWidget({Key? key, required this.item, required this.cellSize})
-    : super(key: key);
+  const GameItemWidget({super.key, required this.item, required this.cellSize});
 
   // Генерация спокойного цвета на основе строки
   // Color _generateCalmColor(String input) {
