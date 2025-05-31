@@ -1,6 +1,46 @@
 {
   "@@locale": "ru",
-  
+    "@feedbackThanks": {
+    "description": "Благодарность за отзыв пользователя"
+  },
+  "feedbackThanks": "Спасибо за ваш отзыв!",
+
+  "@contactUs": {
+    "description": "Заголовок раздела связи с нами"
+  },
+  "contactUs": "Связаться с нами",
+
+  "@contactEmailLabel": {
+    "description": "Подпись поля ввода email"
+  },
+  "contactEmailLabel": "Ваш email для связи",
+
+  "@contactEmailHint": {
+    "description": "Подсказка в поле ввода email"
+  },
+  "contactEmailHint": "Пожалуйста, введите email",
+
+  "@contactMessageLabel": {
+    "description": "Подпись поля ввода сообщения"
+  },
+  "contactMessageLabel": "Ваше сообщение",
+
+  "@contactMessageHint": {
+    "description": "Подсказка в поле ввода сообщения"
+  },
+  "contactMessageHint": "Опишите вашу проблему или предложение...",
+
+  "@contactMessageError": {
+    "description": "Ошибка о слишком коротком сообщении"
+  },
+  "contactMessageError": "Сообщение должно быть не менее 10 символов",
+
+  "@sendButton": {
+    "description": "Текст кнопки отправки"
+  },
+  "sendButton": "Отправить",
+
+
     "@settings": {
     "description": "Заголовок экрана настроек"
   },

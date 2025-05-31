@@ -2,7 +2,45 @@
   "@@locale": "en",
 
 
+  "@feedbackThanks": {
+    "description": "Thank you message for user feedback"
+  },
+  "feedbackThanks": "Thank you for your feedback!",
 
+  "@contactUs": {
+    "description": "Title for contact us section"
+  },
+  "contactUs": "Contact us",
+
+  "@contactEmailLabel": {
+    "description": "Label for email input field"
+  },
+  "contactEmailLabel": "Your contact email",
+
+  "@contactEmailHint": {
+    "description": "Hint text for email input field"
+  },
+  "contactEmailHint": "Please enter email",
+
+  "@contactMessageLabel": {
+    "description": "Label for message input field"
+  },
+  "contactMessageLabel": "Your message",
+
+  "@contactMessageHint": {
+    "description": "Hint text for message input field"
+  },
+  "contactMessageHint": "Describe your issue or suggestion...",
+
+  "@contactMessageError": {
+    "description": "Error message for too short message"
+  },
+  "contactMessageError": "Message must be at least 10 characters",
+
+  "@sendButton": {
+    "description": "Text for send button"
+  },
+  "sendButton": "Send",
 
 
 

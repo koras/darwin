@@ -54,11 +54,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/hint.png
   AssetGenImage get hint => const AssetGenImage('assets/icons/hint.png');
 
+  /// File path: assets/icons/show_merge.png
+  AssetGenImage get showMerge =>
+      const AssetGenImage('assets/icons/show_merge.png');
+
   /// File path: assets/icons/star.png
   AssetGenImage get star => const AssetGenImage('assets/icons/star.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [clear, hint, star];
+  List<AssetGenImage> get values => [clear, hint, showMerge, star];
 }
 
 class $AssetsImagesGen {

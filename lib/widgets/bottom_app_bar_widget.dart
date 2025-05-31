@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/screens/main_menu.dart';
 import 'package:darwin/screens/show_merge.dart';
+import 'package:darwin/constants/icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/feedback_screen.dart';
@@ -12,27 +13,36 @@ class CustomBottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.grey.shade400, width: 2)),
+        border: Border(top: BorderSide(color: Colors.grey.shade300, width: 1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, -2),
+          ),
+        ],
       ),
       child: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
+        height: 70, // Увеличиваем высоту панели
+        padding: EdgeInsets.zero,
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildCustomIconButton(
-              icon: Icons.home,
+            _buildAppBarButton(
+              icon: IconsGame.home,
               color: Colors.blue.shade700,
+              label: 'Главная',
               onPressed:
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MainMenu()),
                   ),
             ),
-
-            _buildCustomIconButton(
-              icon: Icons.list_alt,
+            _buildAppBarButton(
+              icon: IconsGame.showMerge,
               color: Colors.green.shade700,
+              label: 'Подсказки',
               onPressed: () {
                 final currentState = context.read<LevelBloc>().state;
                 Navigator.push(
@@ -47,21 +57,35 @@ class CustomBottomAppBar extends StatelessWidget {
     );
   }
 
-  Widget _buildCustomIconButton({
-    required IconData icon,
+  Widget _buildAppBarButton({
+    required String icon,
     required Color color,
-    required VoidCallback onPressed, // Параметр обязателен
+    required String label,
+    required VoidCallback onPressed,
   }) {
-    return IconButton(
-      onPressed: onPressed, // Передаем в IconButton
-      icon: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color.withOpacity(0.2),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(24),
+          child: Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: color, width: 2), // Бордюр
+            ),
+            child: ClipOval(
+              // Обрезает изображение по кругу
+              child: Image.asset(
+                icon,
+                fit: BoxFit.cover, // Заполняет круг, обрезая лишнее
+              ),
+            ),
+          ),
         ),
-        child: Icon(icon, color: color, size: 28),
-      ),
+      ],
     );
   }
 }

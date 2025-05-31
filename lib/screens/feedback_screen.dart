@@ -5,11 +5,12 @@ import 'package:darwin/constants/colors.dart';
 import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 
 class FeedbackScreen extends StatefulWidget {
+  const FeedbackScreen({super.key});
   @override
-  _FeedbackScreenState createState() => _FeedbackScreenState();
+  FeedbackScreenState createState() => FeedbackScreenState();
 }
 
-class _FeedbackScreenState extends State<FeedbackScreen> {
+class FeedbackScreenState extends State<FeedbackScreen> {
   final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
@@ -54,12 +55,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         Navigator.pop(context);
       } else {
         setState(() {
-          _errorMessage = 'Ошибка сервера (${response.statusCode})';
+          _errorMessage = 'error server (${response.statusCode})';
         });
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Ошибка соединения: ${e.toString()}';
+        _errorMessage = 'error connect: ${e.toString()}';
       });
     } finally {
       setState(() {
