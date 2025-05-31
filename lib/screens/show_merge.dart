@@ -18,6 +18,7 @@ class CombinationsPage extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: const CustomBottomAppBar(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.merge_all_title),
         centerTitle: true,
       ),

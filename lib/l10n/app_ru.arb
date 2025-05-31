@@ -16,7 +16,6 @@
   },
   "emailValidationError": "Введите корректный email",
 
-
   "@contactUs": {
     "description": "Заголовок раздела связи с нами"
   },

@@ -49,6 +49,7 @@ class MainMenu extends StatelessWidget {
 
                   // Кнопка "Играть"
                   buildRoundedButton(
+                    context,
                     AppLocalizations.of(context)!.startGame,
                     () {
                       // Действие при нажатии
@@ -63,18 +64,23 @@ class MainMenu extends StatelessWidget {
                   SizedBox(height: 20),
 
                   // Кнопка "Находки"
-                  buildRoundedButton(AppLocalizations.of(context)!.finds, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CombinationsPage(),
-                      ),
-                    );
-                  }),
+                  buildRoundedButton(
+                    context,
+                    AppLocalizations.of(context)!.finds,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CombinationsPage(),
+                        ),
+                      );
+                    },
+                  ),
 
                   SizedBox(height: 20),
                   // Кнопка "Находки"
                   buildRoundedButton(
+                    context,
                     AppLocalizations.of(context)!.settings,
                     () {
                       Navigator.push(
@@ -87,6 +93,7 @@ class MainMenu extends StatelessWidget {
                   SizedBox(height: 20),
                   // Кнопка "Находки"
                   buildRoundedButton(
+                    context,
                     AppLocalizations.of(context)!.writeToUs,
                     () {
                       Navigator.push(

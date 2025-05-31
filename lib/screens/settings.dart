@@ -25,6 +25,7 @@ class Settings extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: const CustomBottomAppBar(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.settings),
         centerTitle: true,
         backgroundColor: Colors.transparent, // Прозрачный AppBar
@@ -58,10 +59,18 @@ class Settings extends StatelessWidget {
                     return Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(
-                          0.8,
-                        ), // Полупрозрачный белый фон
+                        color: Colors.white.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          // Добавляем бордюр
+                          color: const Color.fromARGB(
+                            255,
+                            94,
+                            178,
+                            247,
+                          ), // Цвет бордюра
+                          width: 2.0, // Толщина бордюра
+                        ),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

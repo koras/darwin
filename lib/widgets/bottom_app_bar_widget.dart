@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:darwin/screens/main_menu.dart';
 import 'package:darwin/screens/show_merge.dart';
+import 'package:darwin/screens/settings.dart';
 import 'package:darwin/constants/icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/bloc/level_bloc.dart';
@@ -32,7 +33,7 @@ class CustomBottomAppBar extends StatelessWidget {
             _buildAppBarButton(
               icon: IconsGame.home,
               color: Colors.blue.shade700,
-              label: 'Главная',
+
               onPressed:
                   () => Navigator.push(
                     context,
@@ -42,12 +43,24 @@ class CustomBottomAppBar extends StatelessWidget {
             _buildAppBarButton(
               icon: IconsGame.showMerge,
               color: Colors.green.shade700,
-              label: 'Подсказки',
+
               onPressed: () {
                 final currentState = context.read<LevelBloc>().state;
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CombinationsPage()),
+                );
+              },
+            ),
+            _buildAppBarButton(
+              icon: IconsGame.settings,
+              color: Colors.green.shade700,
+
+              onPressed: () {
+                final currentState = context.read<LevelBloc>().state;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
                 );
               },
             ),
@@ -60,7 +73,7 @@ class CustomBottomAppBar extends StatelessWidget {
   Widget _buildAppBarButton({
     required String icon,
     required Color color,
-    required String label,
+
     required VoidCallback onPressed,
   }) {
     return Column(

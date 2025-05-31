@@ -4,4 +4,5 @@ class IconsGame {
   static const star = 'assets/icons/star.png';
   static const showMerge = 'icons/show_merge.png';
   static const home = 'icons/home.png';
+  static const settings = 'icons/settings.png';
 }
