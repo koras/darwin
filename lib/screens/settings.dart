@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/gen_l10n/app_localizations.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/screens/main_menu.dart';
+import 'package:darwin/widgets/bottom_app_bar_widget.dart';
+import 'package:darwin/widgets/rounded_button.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:darwin/main.dart';
 
@@ -21,6 +23,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const CustomBottomAppBar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
         centerTitle: true,
@@ -80,9 +83,8 @@ class Settings extends StatelessWidget {
                           _buildSoundTile(context, state),
                           const Divider(height: 40),
 
-                          _buildNotificationTile(context),
-                          const Divider(height: 40),
-
+                          // _buildNotificationTile(context),
+                          // const Divider(height: 40),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20),
                             child: _buildBackButton(context),

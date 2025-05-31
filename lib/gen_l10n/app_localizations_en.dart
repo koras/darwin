@@ -15,6 +15,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
+  String get writeToUs => 'Write to us';
+
+  @override
+  String get finds => 'Finds';
+
+  @override
+  String get startGame => 'Create';
+
+  @override
   String get sound => 'Sound';
 
   @override
@@ -24,7 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testNotificationSent => 'Test notification sent!';
 
   @override
-  String get backToMenu => 'Back to menu';
+  String get backToMenu => 'To menu';
 
   @override
   String get level_task => 'level assignment';

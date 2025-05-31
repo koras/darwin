@@ -6,6 +6,7 @@ import 'package:darwin/data/merge_rules.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:darwin/gen_l10n/app_localizations.dart';
+import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 
 import 'package:darwin/data/app_localizations_extensions.dart';
 
@@ -15,6 +16,7 @@ class CombinationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const CustomBottomAppBar(),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.merge_all_title),
         centerTitle: true,

@@ -11,6 +11,10 @@
   },
   "language": "Язык",
 
+  "writeToUs": "Написать нам",
+  "finds":"Находки",
+  "startGame":"Творить",
+
   "@sound": {
     "description": "Надпись для переключателя звука"
   },
@@ -29,7 +33,7 @@
   "@backToMenu": {
     "description": "Текст кнопки для возврата в главное меню"
   },
-  "backToMenu": "Вернуться в меню",
+  "backToMenu": "В меню",
 
   "level_task": "Задание уровня",
   "@level_task": {

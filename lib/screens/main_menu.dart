@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:darwin/screens/mergeGame.dart';
+import 'package:darwin/screens/merge_game.dart';
 import 'package:darwin/screens/show_merge.dart';
 import 'package:darwin/widgets/rounded_button.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 
 import 'package:darwin/screens/settings.dart';
 import 'package:darwin/screens/feedback_screen.dart';
@@ -45,19 +46,22 @@ class MainMenu extends StatelessWidget {
                   SizedBox(height: 50),
 
                   // Кнопка "Играть"
-                  buildRoundedButton('Творить', () {
-                    // Действие при нажатии
-                    print('Действие при нажатии Играть');
+                  buildRoundedButton(
+                    AppLocalizations.of(context)!.startGame,
+                    () {
+                      // Действие при нажатии
+                      print('Действие при нажатии Играть');
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MergeGame()),
-                    );
-                  }),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MergeGame()),
+                      );
+                    },
+                  ),
                   SizedBox(height: 20),
 
                   // Кнопка "Находки"
-                  buildRoundedButton('Находки', () {
+                  buildRoundedButton(AppLocalizations.of(context)!.finds, () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -68,21 +72,29 @@ class MainMenu extends StatelessWidget {
 
                   SizedBox(height: 20),
                   // Кнопка "Находки"
-                  buildRoundedButton('Настройки', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Settings()),
-                    );
-                  }),
+                  buildRoundedButton(
+                    AppLocalizations.of(context)!.settings,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Settings()),
+                      );
+                    },
+                  ),
 
                   SizedBox(height: 20),
                   // Кнопка "Находки"
-                  buildRoundedButton('Написать', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FeedbackScreen()),
-                    );
-                  }),
+                  buildRoundedButton(
+                    AppLocalizations.of(context)!.writeToUs,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FeedbackScreen(),
+                        ),
+                      );
+                    },
+                  ),
                   // SizedBox(height: 20),
                 ],
               ),

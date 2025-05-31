@@ -110,6 +110,24 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get language;
 
+  /// No description provided for @writeToUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Write to us'**
+  String get writeToUs;
+
+  /// No description provided for @finds.
+  ///
+  /// In en, this message translates to:
+  /// **'Finds'**
+  String get finds;
+
+  /// No description provided for @startGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get startGame;
+
   /// Label for sound toggle option
   ///
   /// In en, this message translates to:
@@ -131,7 +149,7 @@ abstract class AppLocalizations {
   /// Button text to return to main menu
   ///
   /// In en, this message translates to:
-  /// **'Back to menu'**
+  /// **'To menu'**
   String get backToMenu;
 
   /// Label for task in current level

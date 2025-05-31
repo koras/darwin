@@ -41,22 +41,6 @@ class CustomBottomAppBar extends StatelessWidget {
                 );
               },
             ),
-
-            _buildCustomIconButton(
-              icon: Icons.feedback,
-              color: Colors.orange.shade700,
-              onPressed:
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FeedbackScreen()),
-                  ),
-            ),
-
-            _buildCustomIconButton(
-              icon: Icons.volume_off,
-              color: Colors.red.shade700,
-              onPressed: () {}, // Пустой обработчик, но он обязателен
-            ),
           ],
         ),
       ),

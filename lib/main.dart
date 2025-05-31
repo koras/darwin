@@ -11,7 +11,7 @@ import 'package:darwin/gen_l10n/app_localizations.dart'; // Основной и�
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:darwin/bloc/level_bloc.dart';
 import 'package:darwin/services/hive_service.dart';
-import 'package:darwin/screens/mergeGame.dart';
+import 'package:darwin/screens/merge_game.dart';
 import 'package:darwin/screens/settings.dart';
 import 'package:darwin/screens/main_menu.dart';
 import 'package:flutter/foundation.dart'; // Добавьте эту строку

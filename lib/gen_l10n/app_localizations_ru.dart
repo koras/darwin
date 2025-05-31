@@ -15,6 +15,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get language => 'Язык';
 
   @override
+  String get writeToUs => 'Написать нам';
+
+  @override
+  String get finds => 'Находки';
+
+  @override
+  String get startGame => 'Творить';
+
+  @override
   String get sound => 'Звук';
 
   @override
@@ -24,7 +33,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testNotificationSent => 'Тестовое уведомление отправлено!';
 
   @override
-  String get backToMenu => 'Вернуться в меню';
+  String get backToMenu => 'В меню';
 
   @override
   String get level_task => 'Задание уровня';

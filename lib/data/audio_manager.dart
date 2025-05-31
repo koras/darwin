@@ -18,7 +18,7 @@ class AudioManager {
   static Future<void> playAddItemSound() async {
     try {
       await _player.stop();
-      await _player.setVolume(0.3);
+      await _player.setVolume(0.7);
       await _player.play(AssetSource('sounds/add3.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
@@ -30,7 +30,7 @@ class AudioManager {
   static Future<void> playClearSound() async {
     try {
       await _player.stop();
-      await _player.setVolume(0.3);
+      await _player.setVolume(0.7);
       await _player.play(AssetSource('sounds/clear.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
@@ -43,7 +43,7 @@ class AudioManager {
   static Future<void> playMergeFailSound() async {
     try {
       await _player.stop();
-      await _player.setVolume(0.3);
+      await _player.setVolume(0.7);
       await _player.play(AssetSource('sounds/fail_merge.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
@@ -56,7 +56,7 @@ class AudioManager {
   static Future<void> playOpenHintSound() async {
     try {
       await _player.stop();
-      await _player.setVolume(0.3);
+      await _player.setVolume(0.7);
       await _player.play(AssetSource('sounds/hint.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));
@@ -68,7 +68,7 @@ class AudioManager {
   static Future<void> playNextLevelSound() async {
     try {
       await _player.stop();
-      await _player.setVolume(0.7);
+      await _player.setVolume(0.9);
       await _player.play(AssetSource('sounds/next_level.mp3'));
       //     if (!_soundsEnabled) return;
       //     await _player.play(AssetSource('sounds/fail_merge.ogg'));

@@ -2,6 +2,10 @@
   "@@locale": "en",
 
 
+
+
+
+
   "@settings": {
     "description": "Title for the settings screen"
   },
@@ -11,7 +15,9 @@
     "description": "Label for language selection option"
   },
   "language": "Language",
-
+  "writeToUs": "Write to us",
+  "finds":"Finds",
+  "startGame":"Create",
   "@sound": {
     "description": "Label for sound toggle option"
   },
@@ -30,7 +36,7 @@
   "@backToMenu": {
     "description": "Button text to return to main menu"
   },
-  "backToMenu": "Back to menu",
+  "backToMenu": "To menu",
 
 
   "level_task": "level assignment",

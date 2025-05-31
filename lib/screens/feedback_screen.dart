@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:darwin/constants/colors.dart';
+import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -73,6 +74,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      bottomNavigationBar: const CustomBottomAppBar(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
