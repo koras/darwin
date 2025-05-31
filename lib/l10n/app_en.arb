@@ -2,6 +2,17 @@
   "@@locale": "en",
 
 
+  "@messageSuccessTitle": {
+    "description": "Success notification title after sending message"
+  },
+  "messageSuccessTitle": "Thank you for your message!",
+
+  
+  "@emailValidationError": {
+    "description": "Error message for invalid email format"
+  },
+  "emailValidationError": "Please enter a valid email",
+ 
   "@feedbackThanks": {
     "description": "Thank you message for user feedback"
   },

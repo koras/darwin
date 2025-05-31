@@ -98,6 +98,66 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
+  /// Success notification title after sending message
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your message!'**
+  String get messageSuccessTitle;
+
+  /// Error message for invalid email format
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get emailValidationError;
+
+  /// Thank you message for user feedback
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your feedback!'**
+  String get feedbackThanks;
+
+  /// Title for contact us section
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us'**
+  String get contactUs;
+
+  /// Label for email input field
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact email'**
+  String get contactEmailLabel;
+
+  /// Hint text for email input field
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter email'**
+  String get contactEmailHint;
+
+  /// Label for message input field
+  ///
+  /// In en, this message translates to:
+  /// **'Your message'**
+  String get contactMessageLabel;
+
+  /// Hint text for message input field
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your issue or suggestion...'**
+  String get contactMessageHint;
+
+  /// Error message for too short message
+  ///
+  /// In en, this message translates to:
+  /// **'Message must be at least 10 characters'**
+  String get contactMessageError;
+
+  /// Text for send button
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get sendButton;
+
   /// Title for the settings screen
   ///
   /// In en, this message translates to:

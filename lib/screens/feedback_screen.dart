@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:darwin/constants/colors.dart';
+import 'package:darwin/gen_l10n/app_localizations.dart';
 import 'package:darwin/widgets/bottom_app_bar_widget.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -49,9 +50,11 @@ class FeedbackScreenState extends State<FeedbackScreen> {
       );
 
       if (response.statusCode == 201) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Спасибо за ваш отзыв!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.messageSuccessTitle),
+          ),
+        );
         Navigator.pop(context);
       } else {
         setState(() {
@@ -88,7 +91,7 @@ class FeedbackScreenState extends State<FeedbackScreen> {
             children: [
               // Заголовок
               Text(
-                'Обратная связь',
+                AppLocalizations.of(context)!.contactUs,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
@@ -104,17 +107,22 @@ class FeedbackScreenState extends State<FeedbackScreen> {
                         TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
-                            labelText: 'Ваш email для связи',
+                            labelText:
+                                AppLocalizations.of(context)!.contactEmailLabel,
                             hintText: 'example@mail.com',
                             border: OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Пожалуйста, введите email';
+                              return AppLocalizations.of(
+                                context,
+                              )!.contactEmailHint;
                             }
                             if (!_emailRegex.hasMatch(value)) {
-                              return 'Введите корректный email';
+                              return AppLocalizations.of(
+                                context,
+                              )!.emailValidationError;
                             }
                             return null;
                           },
@@ -125,9 +133,14 @@ class FeedbackScreenState extends State<FeedbackScreen> {
                           child: TextFormField(
                             controller: _messageController,
                             decoration: InputDecoration(
-                              labelText: 'Ваше сообщение',
+                              labelText:
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.contactMessageLabel,
                               hintText:
-                                  'Опишите вашу проблему или предложение...',
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.contactMessageHint,
                               border: OutlineInputBorder(),
                               alignLabelWithHint: true,
                             ),
@@ -136,10 +149,14 @@ class FeedbackScreenState extends State<FeedbackScreen> {
                             textAlignVertical: TextAlignVertical.top,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Пожалуйста, введите сообщение';
+                                return AppLocalizations.of(
+                                  context,
+                                )!.contactMessageLabel;
                               }
                               if (value.length < 10) {
-                                return 'Сообщение должно быть не менее 10 символов';
+                                return AppLocalizations.of(
+                                  context,
+                                )!.contactMessageError;
                               }
                               return null;
                             },
@@ -164,7 +181,7 @@ class FeedbackScreenState extends State<FeedbackScreen> {
                                 _isLoading
                                     ? CircularProgressIndicator()
                                     : Text(
-                                      'Отправить',
+                                      AppLocalizations.of(context)!.sendButton,
                                       style: TextStyle(fontSize: 20),
                                     ),
                           ),

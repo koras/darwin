@@ -9,6 +9,37 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get messageSuccessTitle => 'Спасибо за ваше сообщение!';
+
+  @override
+  String get emailValidationError => 'Введите корректный email';
+
+  @override
+  String get feedbackThanks => 'Спасибо за ваш отзыв!';
+
+  @override
+  String get contactUs => 'Связаться с нами';
+
+  @override
+  String get contactEmailLabel => 'Ваш email для связи';
+
+  @override
+  String get contactEmailHint => 'Пожалуйста, введите email';
+
+  @override
+  String get contactMessageLabel => 'Ваше сообщение';
+
+  @override
+  String get contactMessageHint => 'Опишите вашу проблему или предложение...';
+
+  @override
+  String get contactMessageError =>
+      'Сообщение должно быть не менее 10 символов';
+
+  @override
+  String get sendButton => 'Отправить';
+
+  @override
   String get settings => 'Настройки';
 
   @override

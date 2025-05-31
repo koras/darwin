@@ -85,10 +85,10 @@ class Settings extends StatelessWidget {
 
                           // _buildNotificationTile(context),
                           // const Divider(height: 40),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: _buildBackButton(context),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(bottom: 20),
+                          //   child: _buildBackButton(context),
+                          // ),
                         ],
                       ),
                     );

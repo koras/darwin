@@ -9,6 +9,36 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get messageSuccessTitle => 'Thank you for your message!';
+
+  @override
+  String get emailValidationError => 'Please enter a valid email';
+
+  @override
+  String get feedbackThanks => 'Thank you for your feedback!';
+
+  @override
+  String get contactUs => 'Contact us';
+
+  @override
+  String get contactEmailLabel => 'Your contact email';
+
+  @override
+  String get contactEmailHint => 'Please enter email';
+
+  @override
+  String get contactMessageLabel => 'Your message';
+
+  @override
+  String get contactMessageHint => 'Describe your issue or suggestion...';
+
+  @override
+  String get contactMessageError => 'Message must be at least 10 characters';
+
+  @override
+  String get sendButton => 'Send';
+
+  @override
   String get settings => 'Settings';
 
   @override

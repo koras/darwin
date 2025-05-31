@@ -5,6 +5,18 @@
   },
   "feedbackThanks": "Спасибо за ваш отзыв!",
 
+
+    "@messageSuccessTitle": {
+    "description": "Заголовок успешного уведомления после отправки"
+  },
+  "messageSuccessTitle": "Спасибо за ваше сообщение!",
+
+   "@emailValidationError": {
+    "description": "Сообщение об ошибке неверного формата email"
+  },
+  "emailValidationError": "Введите корректный email",
+
+
   "@contactUs": {
     "description": "Заголовок раздела связи с нами"
   },
