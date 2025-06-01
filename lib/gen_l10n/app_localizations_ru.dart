@@ -49,16 +49,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get textLevels => 'уровень';
 
   @override
-  String get computer => ' computer';
+  String get computer => 'Компьютер';
 
   @override
-  String get glass => ' glass';
+  String get glass => 'Стекло';
 
   @override
-  String get home => ' home';
+  String get home => 'Дом';
 
   @override
-  String get hourglass => ' hourglass';
+  String get hourglass => 'Часы';
 
   @override
   String get jazz => 'Джаз';
