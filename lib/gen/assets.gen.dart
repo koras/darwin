@@ -12,6 +12,26 @@ import 'package:flutter/widgets.dart';
 class $AssetsBackgroundGen {
   const $AssetsBackgroundGen();
 
+  /// File path: assets/background/background_5.png
+  AssetGenImage get background5 =>
+      const AssetGenImage('assets/background/background_5.png');
+
+  /// File path: assets/background/background_6.png
+  AssetGenImage get background6 =>
+      const AssetGenImage('assets/background/background_6.png');
+
+  /// File path: assets/background/background_7.png
+  AssetGenImage get background7 =>
+      const AssetGenImage('assets/background/background_7.png');
+
+  /// File path: assets/background/background_8.png
+  AssetGenImage get background8 =>
+      const AssetGenImage('assets/background/background_8.png');
+
+  /// File path: assets/background/background_9.png
+  AssetGenImage get background9 =>
+      const AssetGenImage('assets/background/background_9.png');
+
   /// File path: assets/background/level1.png
   AssetGenImage get level1 =>
       const AssetGenImage('assets/background/level1.png');
@@ -41,8 +61,20 @@ class $AssetsBackgroundGen {
       const AssetGenImage('assets/background/level7.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [level1, level2, level3, level4, level5, level6, level7];
+  List<AssetGenImage> get values => [
+        background5,
+        background6,
+        background7,
+        background8,
+        background9,
+        level1,
+        level2,
+        level3,
+        level4,
+        level5,
+        level6,
+        level7
+      ];
 }
 
 class $AssetsIconsGen {
@@ -54,6 +86,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/hint.png
   AssetGenImage get hint => const AssetGenImage('assets/icons/hint.png');
 
+  /// File path: assets/icons/home.png
+  AssetGenImage get home => const AssetGenImage('assets/icons/home.png');
+
+  /// File path: assets/icons/settings.png
+  AssetGenImage get settings =>
+      const AssetGenImage('assets/icons/settings.png');
+
   /// File path: assets/icons/show_merge.png
   AssetGenImage get showMerge =>
       const AssetGenImage('assets/icons/show_merge.png');
@@ -62,7 +101,8 @@ class $AssetsIconsGen {
   AssetGenImage get star => const AssetGenImage('assets/icons/star.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [clear, hint, showMerge, star];
+  List<AssetGenImage> get values =>
+      [clear, hint, home, settings, showMerge, star];
 }
 
 class $AssetsImagesGen {
@@ -141,9 +181,15 @@ class $AssetsImagesGen {
   /// File path: assets/images/bicycle.png
   AssetGenImage get bicycle => const AssetGenImage('assets/images/bicycle.png');
 
+  /// File path: assets/images/bier.png
+  AssetGenImage get bier => const AssetGenImage('assets/images/bier.png');
+
   /// File path: assets/images/big_crowd_of_people.png
   AssetGenImage get bigCrowdOfPeople =>
       const AssetGenImage('assets/images/big_crowd_of_people.png');
+
+  /// File path: assets/images/bird.png
+  AssetGenImage get bird => const AssetGenImage('assets/images/bird.png');
 
   /// File path: assets/images/bitcoin.png
   AssetGenImage get bitcoin => const AssetGenImage('assets/images/bitcoin.png');
@@ -177,6 +223,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/cat.png
   AssetGenImage get cat => const AssetGenImage('assets/images/cat.png');
 
+  /// File path: assets/images/centaur.png
+  AssetGenImage get centaur => const AssetGenImage('assets/images/centaur.png');
+
   /// File path: assets/images/cheese.png
   AssetGenImage get cheese => const AssetGenImage('assets/images/cheese.png');
 
@@ -207,6 +256,16 @@ class $AssetsImagesGen {
   /// File path: assets/images/cocktail.png
   AssetGenImage get cocktail =>
       const AssetGenImage('assets/images/cocktail.png');
+
+  /// File path: assets/images/coffee.png
+  AssetGenImage get coffee => const AssetGenImage('assets/images/coffee.png');
+
+  /// File path: assets/images/cold.png
+  AssetGenImage get cold => const AssetGenImage('assets/images/cold.png');
+
+  /// File path: assets/images/computer.png
+  AssetGenImage get computer =>
+      const AssetGenImage('assets/images/computer.png');
 
   /// File path: assets/images/corsair_pirate_sea.png
   AssetGenImage get corsairPirateSea =>
@@ -260,6 +319,9 @@ class $AssetsImagesGen {
   AssetGenImage get electricity =>
       const AssetGenImage('assets/images/electricity.png');
 
+  /// File path: assets/images/energy.png
+  AssetGenImage get energy => const AssetGenImage('assets/images/energy.png');
+
   /// File path: assets/images/explosion.png
   AssetGenImage get explosion =>
       const AssetGenImage('assets/images/explosion.png');
@@ -307,8 +369,14 @@ class $AssetsImagesGen {
   AssetGenImage get gandalfFromTheLordOfTheRings => const AssetGenImage(
       'assets/images/gandalf_from_the_lord_of_the_rings.png');
 
+  /// File path: assets/images/garden.png
+  AssetGenImage get garden => const AssetGenImage('assets/images/garden.png');
+
   /// File path: assets/images/geyser.png
   AssetGenImage get geyser => const AssetGenImage('assets/images/geyser.png');
+
+  /// File path: assets/images/ghost.png
+  AssetGenImage get ghost => const AssetGenImage('assets/images/ghost.png');
 
   /// File path: assets/images/girl_in_love.png
   AssetGenImage get girlInLove =>
@@ -316,6 +384,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/glacier.png
   AssetGenImage get glacier => const AssetGenImage('assets/images/glacier.png');
+
+  /// File path: assets/images/glass.png
+  AssetGenImage get glass => const AssetGenImage('assets/images/glass.png');
 
   /// File path: assets/images/grandmother.png
   AssetGenImage get grandmother =>
@@ -327,6 +398,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/guy_in_love.png
   AssetGenImage get guyInLove =>
       const AssetGenImage('assets/images/guy_in_love.png');
+
+  /// File path: assets/images/hero.png
+  AssetGenImage get hero => const AssetGenImage('assets/images/hero.png');
 
   /// File path: assets/images/hobbit_from_lord_of_the_rings.png
   AssetGenImage get hobbitFromLordOfTheRings =>
@@ -343,9 +417,22 @@ class $AssetsImagesGen {
   AssetGenImage get holidayPeople =>
       const AssetGenImage('assets/images/holiday_people.png');
 
+  /// File path: assets/images/home.png
+  AssetGenImage get home => const AssetGenImage('assets/images/home.png');
+
+  /// File path: assets/images/honey.png
+  AssetGenImage get honey => const AssetGenImage('assets/images/honey.png');
+
   /// File path: assets/images/honeycombs.png
   AssetGenImage get honeycombs =>
       const AssetGenImage('assets/images/honeycombs.png');
+
+  /// File path: assets/images/horse.png
+  AssetGenImage get horse => const AssetGenImage('assets/images/horse.png');
+
+  /// File path: assets/images/hourglass.png
+  AssetGenImage get hourglass =>
+      const AssetGenImage('assets/images/hourglass.png');
 
   /// File path: assets/images/house_in_the_village.png
   AssetGenImage get houseInTheVillage =>
@@ -366,6 +453,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/iron.png
   AssetGenImage get iron => const AssetGenImage('assets/images/iron.png');
 
+  /// File path: assets/images/jazz.png
+  AssetGenImage get jazz => const AssetGenImage('assets/images/jazz.png');
+
   /// File path: assets/images/jedi_from_stars_wars.png
   AssetGenImage get jediFromStarsWars =>
       const AssetGenImage('assets/images/jedi_from_stars_wars.png');
@@ -383,6 +473,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/lamb.png
   AssetGenImage get lamb => const AssetGenImage('assets/images/lamb.png');
+
+  /// File path: assets/images/lava.png
+  AssetGenImage get lava => const AssetGenImage('assets/images/lava.png');
 
   /// File path: assets/images/leon.png
   AssetGenImage get leon => const AssetGenImage('assets/images/leon.png');
@@ -428,6 +521,9 @@ class $AssetsImagesGen {
   AssetGenImage get masksFromTheTheater =>
       const AssetGenImage('assets/images/masks_from_the_theater.png');
 
+  /// File path: assets/images/meat.png
+  AssetGenImage get meat => const AssetGenImage('assets/images/meat.png');
+
   /// File path: assets/images/mermaid.png
   AssetGenImage get mermaid => const AssetGenImage('assets/images/mermaid.png');
 
@@ -441,6 +537,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/microbes.png
   AssetGenImage get microbes =>
       const AssetGenImage('assets/images/microbes.png');
+
+  /// File path: assets/images/microscope.png
+  AssetGenImage get microscope =>
+      const AssetGenImage('assets/images/microscope.png');
 
   /// File path: assets/images/milk.png
   AssetGenImage get milk => const AssetGenImage('assets/images/milk.png');
@@ -494,6 +594,10 @@ class $AssetsImagesGen {
   AssetGenImage get noisyFridayParty =>
       const AssetGenImage('assets/images/noisy_friday_party.png');
 
+  /// File path: assets/images/obsidian.png
+  AssetGenImage get obsidian =>
+      const AssetGenImage('assets/images/obsidian.png');
+
   /// File path: assets/images/old_sea_deck_of_ship.png
   AssetGenImage get oldSeaDeckOfShip =>
       const AssetGenImage('assets/images/old_sea_deck_of_ship.png');
@@ -525,6 +629,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/plane.png
   AssetGenImage get plane => const AssetGenImage('assets/images/plane.png');
 
+  /// File path: assets/images/planet.png
+  AssetGenImage get planet => const AssetGenImage('assets/images/planet.png');
+
   /// File path: assets/images/plank_stack_folded.png
   AssetGenImage get plankStackFolded =>
       const AssetGenImage('assets/images/plank_stack_folded.png');
@@ -533,6 +640,10 @@ class $AssetsImagesGen {
   AssetGenImage get plankton =>
       const AssetGenImage('assets/images/plankton.png');
 
+  /// File path: assets/images/poltergeist.png
+  AssetGenImage get poltergeist =>
+      const AssetGenImage('assets/images/poltergeist.png');
+
   /// File path: assets/images/prometheus_who_gave_fire.png
   AssetGenImage get prometheusWhoGaveFire =>
       const AssetGenImage('assets/images/prometheus_who_gave_fire.png');
@@ -540,6 +651,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/puss_in_boots.png
   AssetGenImage get pussInBoots =>
       const AssetGenImage('assets/images/puss_in_boots.png');
+
+  /// File path: assets/images/quantum.png
+  AssetGenImage get quantum => const AssetGenImage('assets/images/quantum.png');
 
   /// File path: assets/images/radiation.png
   AssetGenImage get radiation =>
@@ -690,6 +804,9 @@ class $AssetsImagesGen {
   AssetGenImage get timeMachine =>
       const AssetGenImage('assets/images/time_machine.png');
 
+  /// File path: assets/images/titanic.png
+  AssetGenImage get titanic => const AssetGenImage('assets/images/titanic.png');
+
   /// File path: assets/images/tool.png
   AssetGenImage get tool => const AssetGenImage('assets/images/tool.png');
 
@@ -730,6 +847,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/volcano.png
   AssetGenImage get volcano => const AssetGenImage('assets/images/volcano.png');
 
+  /// File path: assets/images/voodoo.png
+  AssetGenImage get voodoo => const AssetGenImage('assets/images/voodoo.png');
+
   /// File path: assets/images/water.png
   AssetGenImage get water => const AssetGenImage('assets/images/water.png');
 
@@ -738,6 +858,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/wheel.png
   AssetGenImage get wheel => const AssetGenImage('assets/images/wheel.png');
+
+  /// File path: assets/images/whiskey.png
+  AssetGenImage get whiskey => const AssetGenImage('assets/images/whiskey.png');
 
   /// File path: assets/images/wind.png
   AssetGenImage get wind => const AssetGenImage('assets/images/wind.png');
@@ -791,7 +914,9 @@ class $AssetsImagesGen {
         bee,
         beehive,
         bicycle,
+        bier,
         bigCrowdOfPeople,
+        bird,
         bitcoin,
         bombardiroCrocodilo,
         boneDragon,
@@ -802,6 +927,7 @@ class $AssetsImagesGen {
         candle,
         car,
         cat,
+        centaur,
         cheese,
         chocolate,
         church,
@@ -811,6 +937,9 @@ class $AssetsImagesGen {
         city,
         cloud,
         cocktail,
+        coffee,
+        cold,
+        computer,
         corsairPirateSea,
         cow,
         crossopterygianFish,
@@ -826,6 +955,7 @@ class $AssetsImagesGen {
         earth,
         electricBattery,
         electricity,
+        energy,
         explosion,
         factory,
         family,
@@ -840,27 +970,37 @@ class $AssetsImagesGen {
         frost,
         fruits,
         gandalfFromTheLordOfTheRings,
+        garden,
         geyser,
+        ghost,
         girlInLove,
         glacier,
+        glass,
         grandmother,
         grape,
         guyInLove,
+        hero,
         hobbitFromLordOfTheRings,
         hogwartsSchool,
         holiday,
         holidayPeople,
+        home,
+        honey,
         honeycombs,
+        horse,
+        hourglass,
         houseInTheVillage,
         hungoverSaturdayMorning,
         instituteEducation,
         intelligence,
         iron,
+        jazz,
         jediFromStarsWars,
         jonSnowFromGameOfThrones,
         kingOfTheHill,
         knight,
         lamb,
+        lava,
         leon,
         life,
         light,
@@ -874,10 +1014,12 @@ class $AssetsImagesGen {
         man,
         march8,
         masksFromTheTheater,
+        meat,
         mermaid,
         metal,
         metropolis,
         microbes,
+        microscope,
         milk,
         modernSeaDeckOfShip,
         modernTool,
@@ -892,6 +1034,7 @@ class $AssetsImagesGen {
         newYearTree,
         newYearsStar,
         noisyFridayParty,
+        obsidian,
         oldSeaDeckOfShip,
         pandemic,
         penguin,
@@ -901,10 +1044,13 @@ class $AssetsImagesGen {
         phoneOld,
         pirateShip,
         plane,
+        planet,
         plankStackFolded,
         plankton,
+        poltergeist,
         prometheusWhoGaveFire,
         pussInBoots,
+        quantum,
         radiation,
         rainbow,
         robot,
@@ -947,6 +1093,7 @@ class $AssetsImagesGen {
         thunderstormWithLightning,
         time,
         timeMachine,
+        titanic,
         tool,
         tornado,
         train,
@@ -959,9 +1106,11 @@ class $AssetsImagesGen {
         vampire,
         village,
         volcano,
+        voodoo,
         water,
         whale,
         wheel,
+        whiskey,
         wind,
         wine,
         witch,

@@ -65,6 +65,26 @@ final List<ImageItem> allImages =
       'crowd_of_people', // Толпа людей
       'alcohol', // Алкоголь
       'stone', // Камень
+      'bier',
+      'bird',
+      'centaur',
+      'coffee',
+      'cold',
+      'energy',
+      'garden',
+      'ghost',
+      'hero',
+      'honey',
+      'meat',
+      'microscope',
+      'obsidian',
+      'poltergeist',
+      'garden',
+      'hero',
+      'horse',
+      'lava',
+      'titanic',
+
       'lizard', // Ящерица
       'tree', // Дерево
       'swamp', // Болото
@@ -238,7 +258,15 @@ final List<ImageItem> allImages =
       'crossopterygian_fish',
       'flower',
       'reptile',
-
+      'computer',
+      'glass',
+      'home',
+      'hourglass',
+      'jazz',
+      'planet',
+      'quantum',
+      'voodoo',
+      'whiskey',
       'death_star',
       'jedi_from_stars_wars',
       'yoda_is_a_wise_jedi',

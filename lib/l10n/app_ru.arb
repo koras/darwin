@@ -15,7 +15,7 @@
     "description": "Сообщение об ошибке неверного формата email"
   },
   "emailValidationError": "Введите корректный email",
-
+ 
   "@contactUs": {
     "description": "Заголовок раздела связи с нами"
   },
@@ -69,6 +69,93 @@
 
   "textLevels":"уровень",
 
+"bier": "Пиво",
+"@bier": {
+"description": "Элемент: Пиво"
+},
+
+"bird": "Птица",
+"@bird": {
+"description": "Элемент: bird"
+},
+
+"centaur": "Кентавр",
+"@centaur": {
+"description": "Элемент: Кентавр"
+},
+
+"coffee": "Кофе",
+"@coffee": {
+"description": "Элемент: coffee"
+},
+
+"cold": "Холод",
+"@cold": {
+"description": "Элемент: cold"
+},
+
+"energy": "Энергия",
+"@energy": {
+"description": "Элемент: energy"
+},
+
+"garden": "Сад",
+"@garden": {
+"description": "Элемент: Сад"
+},
+
+"ghost": "Дух",
+"@ghost": {
+"description": "Элемент: Дух"
+},
+
+"hero": "Герой",
+"@hero": {
+"description": "Элемент: Герой"
+},
+
+"honey": "Мёд",
+"@honey": {
+"description": "Элемент: honey"
+},
+
+"meat": "Мясо",
+"@meat": {
+"description": "Элемент: meat"
+},
+
+"microscope": "Микроскоп",
+"@microscope": {
+"description": "Элемент: microscope"
+},
+
+"obsidian": "Обсидиант",
+"@obsidian": {
+"description": "Элемент: obsidian"
+},
+
+"poltergeist": "Полтергейст",
+"@poltergeist": {
+"description": "Элемент: poltergeist"
+},
+
+ 
+ 
+
+  "horse": " horse",
+  "@horse": {
+  "description": "Элемент: horse"
+  },
+
+  "lava": "Лава",
+  "@lava": {
+  "description": "Элемент: lava"
+  },
+
+  "titanic": "Титаник",
+  "@titanic": {
+  "description": "Элемент: titanic"
+  },
 
 
   "@sound": {
@@ -348,6 +435,51 @@
     "description": "Элемент: Рыба"
   },
   
+"computer": "Компьютер",
+"@computer": {
+"description": "Элемент: computer"
+},
+
+"glass": "Стекло",
+"@glass": {
+"description": "Элемент: glass"
+},
+
+"home": "Дом",
+"@home": {
+"description": "Элемент: home"
+},
+
+"hourglass": "Часы",
+"@hourglass": {
+"description": "Элемент: hourglass"
+},
+
+"jazz": "Джаз",
+"@jazz": {
+"description": "Элемент: jazz"
+},
+
+"planet": "Планета",
+"@planet": {
+"description": "Элемент: planet"
+},
+
+"quantum": "Квант",
+"@quantum": {
+"description": "Элемент: Квант"
+},
+
+"voodoo": "Вуду",
+"@voodoo": {
+"description": "Элемент: voodoo"
+},
+
+"whiskey": "Виски",
+"@whiskey": {
+"description": "Элемент: whiskey"
+},
+
   "tool": "Инструмент",
   "@tool": {
     "description": "Элемент: Инструмент"

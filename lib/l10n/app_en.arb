@@ -65,6 +65,139 @@
   "textLevels":"level",
 
  
+"computer": "Computer",
+"@computer": {
+"description": "Элемент: computer"
+},
+
+"glass": "Glass",
+"@glass": {
+"description": "Элемент: glass"
+},
+
+"home": "Home",
+"@home": {
+"description": "Элемент: home"
+},
+
+"hourglass": "Hourglass",
+"@hourglass": {
+"description": "Элемент: hourglass"
+},
+
+"jazz": "Jazz",
+"@jazz": {
+"description": "Элемент: jazz"
+},
+
+"planet": "Planet",
+"@planet": {
+"description": "Элемент: planet"
+},
+
+"quantum": "Quantum",
+"@quantum": {
+"description": "Элемент: quantum"
+},
+
+"voodoo": "Voodoo",
+"@voodoo": {
+"description": "Элемент: voodoo"
+},
+
+"whiskey": "Whiskey",
+"@whiskey": {
+"description": "Элемент: whiskey"
+},
+
+
+"bier": "Bier",
+"@bier": {
+"description": "Элемент: bier"
+},
+
+"bird": "Bird",
+"@bird": {
+"description": "Элемент: bird"
+},
+
+"centaur": "Centaur",
+"@centaur": {
+"description": "Элемент: centaur"
+},
+
+"coffee": "Coffee",
+"@coffee": {
+"description": "Элемент: coffee"
+},
+
+"cold": "Cold",
+"@cold": {
+"description": "Элемент: cold"
+},
+
+"energy": "Energy",
+"@energy": {
+"description": "Элемент: energy"
+},
+
+"garden": "Garden",
+"@garden": {
+"description": "Элемент: garden"
+},
+
+"ghost": "Ghost",
+"@ghost": {
+"description": "Элемент: ghost"
+},
+
+"hero": "Hero",
+"@hero": {
+"description": "Элемент: hero"
+},
+
+"honey": "Honey",
+"@honey": {
+"description": "Элемент: honey"
+},
+
+"meat": "Meat",
+"@meat": {
+"description": "Элемент: meat"
+},
+
+"microscope": "Microscope",
+"@microscope": {
+"description": "Элемент: microscope"
+},
+
+"obsidian": "Obsidian",
+"@obsidian": {
+"description": "Элемент: obsidian"
+},
+
+"poltergeist": "Poltergeist",
+"@poltergeist": {
+"description": "Элемент: poltergeist"
+},
+
+ 
+
+  "horse": "Horse",
+  "@horse": {
+  "description": "Элемент: horse"
+  },
+
+  "lava": "Lava",
+  "@lava": {
+  "description": "Элемент: lava"
+  },
+
+  "titanic": "Titanic",
+  "@titanic": {
+  "description": "Элемент: titanic"
+  },
+
 
 
   "@language": {

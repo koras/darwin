@@ -49,6 +49,84 @@ class AppLocalizationsRu extends AppLocalizations {
   String get textLevels => 'уровень';
 
   @override
+  String get computer => ' computer';
+
+  @override
+  String get glass => ' glass';
+
+  @override
+  String get home => ' home';
+
+  @override
+  String get hourglass => ' hourglass';
+
+  @override
+  String get jazz => 'Джаз';
+
+  @override
+  String get planet => 'Планета';
+
+  @override
+  String get quantum => 'Квант';
+
+  @override
+  String get voodoo => 'Вуду';
+
+  @override
+  String get whiskey => 'Виски';
+
+  @override
+  String get bier => 'Пиво';
+
+  @override
+  String get bird => 'Птица';
+
+  @override
+  String get centaur => 'Кентавр';
+
+  @override
+  String get coffee => 'Кофе';
+
+  @override
+  String get cold => 'Холод';
+
+  @override
+  String get energy => 'Энергия';
+
+  @override
+  String get garden => 'Сад';
+
+  @override
+  String get ghost => 'Дух';
+
+  @override
+  String get hero => 'Герой';
+
+  @override
+  String get honey => 'Мёд';
+
+  @override
+  String get meat => 'Мясо';
+
+  @override
+  String get microscope => 'Микроскоп';
+
+  @override
+  String get obsidian => 'Обсидиант';
+
+  @override
+  String get poltergeist => 'Полтергейст';
+
+  @override
+  String get horse => ' horse';
+
+  @override
+  String get lava => 'Лава';
+
+  @override
+  String get titanic => 'Титаник';
+
+  @override
   String get language => 'Язык';
 
   @override

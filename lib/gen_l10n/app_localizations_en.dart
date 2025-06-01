@@ -48,6 +48,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get textLevels => 'level';
 
   @override
+  String get computer => 'Computer';
+
+  @override
+  String get glass => 'Glass';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get hourglass => 'Hourglass';
+
+  @override
+  String get jazz => 'Jazz';
+
+  @override
+  String get planet => 'Planet';
+
+  @override
+  String get quantum => 'Quantum';
+
+  @override
+  String get voodoo => 'Voodoo';
+
+  @override
+  String get whiskey => 'Whiskey';
+
+  @override
+  String get bier => 'Bier';
+
+  @override
+  String get bird => 'Bird';
+
+  @override
+  String get centaur => 'Centaur';
+
+  @override
+  String get coffee => 'Coffee';
+
+  @override
+  String get cold => 'Cold';
+
+  @override
+  String get energy => 'Energy';
+
+  @override
+  String get garden => 'Garden';
+
+  @override
+  String get ghost => 'Ghost';
+
+  @override
+  String get hero => 'Hero';
+
+  @override
+  String get honey => 'Honey';
+
+  @override
+  String get meat => 'Meat';
+
+  @override
+  String get microscope => 'Microscope';
+
+  @override
+  String get obsidian => 'Obsidian';
+
+  @override
+  String get poltergeist => 'Poltergeist';
+
+  @override
+  String get horse => 'Horse';
+
+  @override
+  String get lava => 'Lava';
+
+  @override
+  String get titanic => 'Titanic';
+
+  @override
   String get language => 'Language';
 
   @override

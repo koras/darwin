@@ -176,6 +176,162 @@ abstract class AppLocalizations {
   /// **'level'**
   String get textLevels;
 
+  /// Элемент: computer
+  ///
+  /// In en, this message translates to:
+  /// **'Computer'**
+  String get computer;
+
+  /// Элемент: glass
+  ///
+  /// In en, this message translates to:
+  /// **'Glass'**
+  String get glass;
+
+  /// Элемент: home
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// Элемент: hourglass
+  ///
+  /// In en, this message translates to:
+  /// **'Hourglass'**
+  String get hourglass;
+
+  /// Элемент: jazz
+  ///
+  /// In en, this message translates to:
+  /// **'Jazz'**
+  String get jazz;
+
+  /// Элемент: planet
+  ///
+  /// In en, this message translates to:
+  /// **'Planet'**
+  String get planet;
+
+  /// Элемент: quantum
+  ///
+  /// In en, this message translates to:
+  /// **'Quantum'**
+  String get quantum;
+
+  /// Элемент: voodoo
+  ///
+  /// In en, this message translates to:
+  /// **'Voodoo'**
+  String get voodoo;
+
+  /// Элемент: whiskey
+  ///
+  /// In en, this message translates to:
+  /// **'Whiskey'**
+  String get whiskey;
+
+  /// Элемент: bier
+  ///
+  /// In en, this message translates to:
+  /// **'Bier'**
+  String get bier;
+
+  /// Элемент: bird
+  ///
+  /// In en, this message translates to:
+  /// **'Bird'**
+  String get bird;
+
+  /// Элемент: centaur
+  ///
+  /// In en, this message translates to:
+  /// **'Centaur'**
+  String get centaur;
+
+  /// Элемент: coffee
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee'**
+  String get coffee;
+
+  /// Элемент: cold
+  ///
+  /// In en, this message translates to:
+  /// **'Cold'**
+  String get cold;
+
+  /// Элемент: energy
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get energy;
+
+  /// Элемент: garden
+  ///
+  /// In en, this message translates to:
+  /// **'Garden'**
+  String get garden;
+
+  /// Элемент: ghost
+  ///
+  /// In en, this message translates to:
+  /// **'Ghost'**
+  String get ghost;
+
+  /// Элемент: hero
+  ///
+  /// In en, this message translates to:
+  /// **'Hero'**
+  String get hero;
+
+  /// Элемент: honey
+  ///
+  /// In en, this message translates to:
+  /// **'Honey'**
+  String get honey;
+
+  /// Элемент: meat
+  ///
+  /// In en, this message translates to:
+  /// **'Meat'**
+  String get meat;
+
+  /// Элемент: microscope
+  ///
+  /// In en, this message translates to:
+  /// **'Microscope'**
+  String get microscope;
+
+  /// Элемент: obsidian
+  ///
+  /// In en, this message translates to:
+  /// **'Obsidian'**
+  String get obsidian;
+
+  /// Элемент: poltergeist
+  ///
+  /// In en, this message translates to:
+  /// **'Poltergeist'**
+  String get poltergeist;
+
+  /// Элемент: horse
+  ///
+  /// In en, this message translates to:
+  /// **'Horse'**
+  String get horse;
+
+  /// Элемент: lava
+  ///
+  /// In en, this message translates to:
+  /// **'Lava'**
+  String get lava;
+
+  /// Элемент: titanic
+  ///
+  /// In en, this message translates to:
+  /// **'Titanic'**
+  String get titanic;
+
   /// Label for language selection option
   ///
   /// In en, this message translates to:
