@@ -57,7 +57,7 @@ final List<MergeRule> mergeRules = [
   MergeRule('milk', 'bacteria', 'cheese'),
   MergeRule('flour', 'water', 'dough'),
   MergeRule('dough', 'fire', 'bread'),
-  MergeRule('bread', 'meat', 'sandwich'),
+  MergeRule('bread', 'meat', 'burger'),
   MergeRule('coffee', 'water', 'americano'),
   MergeRule('fruit', 'sugar', 'jam'),
   MergeRule('wheat', 'stone', 'flour'),

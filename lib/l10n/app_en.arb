@@ -64,7 +64,6 @@
 
   "textLevels":"level",
 
- 
 "computer": "Computer",
 "@computer": {
 "description": "Элемент: computer"

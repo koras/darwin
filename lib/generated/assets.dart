@@ -167,7 +167,6 @@ class Assets {
   static const String imagesPeople = 'assets/images/people.png';
   static const String imagesPhoenix = 'assets/images/phoenix.png';
   static const String imagesPhone = 'assets/images/phone.png';
-  static const String imagesPhoneOld = 'assets/images/phone_old.png';
   static const String imagesPirateShip = 'assets/images/pirate_ship.png';
   static const String imagesPlane = 'assets/images/plane.png';
   static const String imagesPlanet = 'assets/images/planet.png';
