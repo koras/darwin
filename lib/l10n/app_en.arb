@@ -87,12 +87,7 @@
 "@forest": {
 "description": "Элемент: forest"
 },
-
-"grandmother": "Grandmother",
-"@grandmother": {
-"description": "Элемент: grandmother"
-},
-
+ 
 "lightning": "Lightning",
 "@lightning": {
 "description": "Элемент: lightning"
