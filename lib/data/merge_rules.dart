@@ -65,8 +65,7 @@ final List<MergeRule> mergeRules = [
 
   //  Мифология и фэнтези
   MergeRule('unicorn', 'rainbow', 'magic'),
-  MergeRule('dragon', 'man', 'knight'),
-  MergeRule('knight', 'dragon', 'hero'),
+
   MergeRule('sword', 'stone', 'excalibur'),
   MergeRule('wizard', 'school', 'hogwarts_school'),
   MergeRule('ghost', 'energy', 'poltergeist'),
@@ -104,7 +103,7 @@ final List<MergeRule> mergeRules = [
   MergeRule('zombie', 'pandemic', 'walking_dead'),
   MergeRule('shark', 'nike', 'shark_and_nike'),
   MergeRule('bear', 'bicycle', 'bear_on_bicycle_in_circus'),
-  MergeRule('student', 'coffee', 'zombie'), // Для мема "студент на сессии")
+
   // Космос и футуризм
   MergeRule('rocket', 'satellite', 'space_station'),
   MergeRule('metal', 'star', 'death_star'),
@@ -121,7 +120,7 @@ final List<MergeRule> mergeRules = [
   MergeRule('philosopher_stone', 'lead', 'gold'),
   MergeRule('moonlight', 'flower', 'potion_of_invisibility'),
   MergeRule('vampire', 'werewolf', 'hybrid'),
-  MergeRule('necronomicon', 'blood', 'summoning'),
+
   MergeRule('fairy', 'dust', 'pixie'),
   // Транспорт и машины
   MergeRule('engine', 'bicycle', 'motorcycle'),
@@ -211,7 +210,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('white_elixir', 'sunlight', 'philosopher_stone'),
 
   // Создание дракона:
-  MergeRule('lizard', 'fire', 'dragon'),
   MergeRule('dinosaur', 'magic', 'dragon'),
   MergeRule('snake', 'feathers', 'aztec_dragon'),
   // Меняющиеся комбинации:
@@ -232,8 +230,6 @@ final List<MergeRule> mergeRules = [
   // Технологии
   MergeRule('ai', 'quantum', 'singularity'),
   MergeRule('robot', 'law', 'three_laws'), // Законы робототехники
-  MergeRule('bitcoin', 'energy', 'carbon_footprint'),
-
   // Marvel
   MergeRule('spider', 'man', 'spiderman'),
   MergeRule('iron', 'genius', 'iron_man'),
@@ -251,7 +247,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('zombie', 'flower', 'lawnmower'), // Plants vs Zombies
   // Неожиданные комбинации
   MergeRule('philosopher', 'stone', 'harry_potter'), // Умышленная путаница
-  MergeRule('nothing', 'nothing', 'something'), // Парадокс
   // Для фанатов абсурда
   MergeRule('conspiracy', 'coffee', 'wake_up_sheeple'),
 
@@ -263,9 +258,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('unicorn', 'blood', 'dark_ritual'), // Игра с тропами
   MergeRule('wizard', 'hat', 'hogwarts_letter'),
 
-  // Киберпанк
-  MergeRule('brain', 'internet', 'mind_upload'),
-  MergeRule('corpo', 'dystopia', 'night_city'),
   // Классическая алхимия
   MergeRule('lead', 'philosopher_stone', 'gold'),
   MergeRule('mandrake', 'silver_knife', 'homunculus'),

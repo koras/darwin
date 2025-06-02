@@ -78,7 +78,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get satellite => 'Satellite';
 
   @override
-  String get scentist => 'Scentist';
+  String get scientist => 'Scientist';
 
   @override
   String get smartphone => 'Smartphone';

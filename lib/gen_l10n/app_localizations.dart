@@ -239,8 +239,8 @@ abstract class AppLocalizations {
   /// Элемент: scentist
   ///
   /// In en, this message translates to:
-  /// **'Scentist'**
-  String get scentist;
+  /// **'Scientist'**
+  String get scientist;
 
   /// Элемент: smartphone
   ///

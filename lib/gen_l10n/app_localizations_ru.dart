@@ -79,7 +79,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get satellite => 'Сателлит';
 
   @override
-  String get scentist => 'Учёный';
+  String get scientist => 'Учёный';
 
   @override
   String get smartphone => 'Смартфон';
