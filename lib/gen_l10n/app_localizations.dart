@@ -206,12 +206,6 @@ abstract class AppLocalizations {
   /// **'Forest'**
   String get forest;
 
-  /// Element: Grandmother
-  ///
-  /// In en, this message translates to:
-  /// **'Grandmother'**
-  String get grandmother;
-
   /// Элемент: lightning
   ///
   /// In en, this message translates to:
@@ -1400,6 +1394,12 @@ abstract class AppLocalizations {
   /// **'Girl in love'**
   String get girl_in_love;
 
+  /// Element: Grandmother
+  ///
+  /// In en, this message translates to:
+  /// **'Grandmother'**
+  String get grandmother;
+
   /// Element: Guy in love
   ///
   /// In en, this message translates to:
@@ -1831,6 +1831,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yoda'**
   String get yoda_is_a_wise_jedi;
+
+  /// Элемент: bat
+  ///
+  /// In en, this message translates to:
+  /// **'Bat'**
+  String get bat;
+
+  /// Элемент: batman
+  ///
+  /// In en, this message translates to:
+  /// **'Batman'**
+  String get batman;
+
+  /// Элемент: block
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get block;
+
+  /// Элемент: box
+  ///
+  /// In en, this message translates to:
+  /// **'Box'**
+  String get box;
+
+  /// Элемент: gold
+  ///
+  /// In en, this message translates to:
+  /// **'Gold'**
+  String get gold;
+
+  /// Элемент: harry_potter
+  ///
+  /// In en, this message translates to:
+  /// **'Harry_potter'**
+  String get harry_potter;
+
+  /// Элемент: hogwarts_letter
+  ///
+  /// In en, this message translates to:
+  /// **'Hogwarts_letter'**
+  String get hogwarts_letter;
+
+  /// Элемент: jurassic_park
+  ///
+  /// In en, this message translates to:
+  /// **'Jurassic_park'**
+  String get jurassic_park;
+
+  /// Элемент: kryptonite
+  ///
+  /// In en, this message translates to:
+  /// **'Kryptonite'**
+  String get kryptonite;
+
+  /// Элемент: lawnmower
+  ///
+  /// In en, this message translates to:
+  /// **'Lawnmower'**
+  String get lawnmower;
+
+  /// Элемент: mario
+  ///
+  /// In en, this message translates to:
+  /// **'Mario'**
+  String get mario;
+
+  /// Элемент: minecraft
+  ///
+  /// In en, this message translates to:
+  /// **'Minecraft'**
+  String get minecraft;
+
+  /// Элемент: philosopher
+  ///
+  /// In en, this message translates to:
+  /// **'Philosopher'**
+  String get philosopher;
+
+  /// Элемент: pickaxe
+  ///
+  /// In en, this message translates to:
+  /// **'Pickaxe'**
+  String get pickaxe;
+
+  /// Элемент: plumber
+  ///
+  /// In en, this message translates to:
+  /// **'Plumber'**
+  String get plumber;
+
+  /// Элемент: ring
+  ///
+  /// In en, this message translates to:
+  /// **'Ring'**
+  String get ring;
+
+  /// Элемент: school
+  ///
+  /// In en, this message translates to:
+  /// **'School'**
+  String get school;
+
+  /// Элемент: trauma
+  ///
+  /// In en, this message translates to:
+  /// **'Trauma'**
+  String get trauma;
+
+  /// Элемент: walking_dead
+  ///
+  /// In en, this message translates to:
+  /// **'Walking_dead'**
+  String get walking_dead;
+
+  /// Элемент: weakness
+  ///
+  /// In en, this message translates to:
+  /// **'Weakness'**
+  String get weakness;
+
+  /// Элемент: wizard
+  ///
+  /// In en, this message translates to:
+  /// **'Wizard'**
+  String get wizard;
 }
 
 class _AppLocalizationsDelegate

@@ -100,11 +100,10 @@ final List<MergeRule> mergeRules = [
   // Мемы и поп-культура
   MergeRule('cat', 'boots', 'puss_in_boots'),
   MergeRule('man', 'hammer', 'thor'),
-  MergeRule('dragon', 'woman', 'daenerys'),
-  MergeRule('wizard', 'school', 'hogwarts'),
+  MergeRule('dragon', 'woman', 'daenerys_targaryen'),
   MergeRule('zombie', 'pandemic', 'walking_dead'),
   MergeRule('shark', 'nike', 'shark_and_nike'),
-  MergeRule('bear', 'bicycle', 'circus_bear'),
+  MergeRule('bear', 'bicycle', 'bear_on_bicycle_in_circus'),
   MergeRule('student', 'coffee', 'zombie'), // Для мема "студент на сессии")
   // Космос и футуризм
   MergeRule('rocket', 'satellite', 'space_station'),
@@ -230,7 +229,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('carbon', 'pressure', 'diamond'),
   MergeRule('uranium', 'neutron', 'nuclear_reaction'),
   MergeRule('lightning', 'sand', 'glass'),
-  MergeRule('mercury', 'aluminum', 'thermite'), // Реакция с выделением тепла
   // Биология
   MergeRule('dna', 'virus', 'vaccine'),
   MergeRule('frog', 'radiation', 'giant_monster'), // Отсылка к 1950s B-movies
@@ -243,7 +241,7 @@ final List<MergeRule> mergeRules = [
   MergeRule('bitcoin', 'energy', 'carbon_footprint'),
 
   // Marvel
-  MergeRule('spider', 'radioactivity', 'spiderman'),
+  MergeRule('spider', 'man', 'spiderman'),
   MergeRule('iron', 'genius', 'iron_man'),
   MergeRule('infinity_stones', 'gauntlet', 'thanos_snap'),
 
@@ -251,26 +249,16 @@ final List<MergeRule> mergeRules = [
   MergeRule('bat', 'trauma', 'batman'),
   MergeRule('kryptonite', 'superman', 'weakness'),
 
-  // Классика кино
-  MergeRule('shark', 'beach', 'jaws'),
   MergeRule('dinosaurs', 'dna', 'jurassic_park'),
   MergeRule('ring', 'videotape', 'sadako'), // «Звонок»
   // Игры
   MergeRule('plumber', 'mushroom', 'mario'),
   MergeRule('block', 'pickaxe', 'minecraft'),
-  MergeRule('zombie', 'plants', 'lawnmower'), // Plants vs Zombies
-  // Интернет-мемы
-  MergeRule('banana', 'scale', 'banana_for_scale'),
-  MergeRule('dog', 'cheems', 'doge'),
-  MergeRule('avocado', 'toast', 'millennial_crisis'),
-
+  MergeRule('zombie', 'flower', 'lawnmower'), // Plants vs Zombies
   // Неожиданные комбинации
   MergeRule('philosopher', 'stone', 'harry_potter'), // Умышленная путаница
   MergeRule('nothing', 'nothing', 'something'), // Парадокс
-  MergeRule('cat', 'keyboard', 'cat_meme_2025'),
-
   // Для фанатов абсурда
-  MergeRule('flat_earth', 'rocket', 'space_denial'),
   MergeRule('conspiracy', 'coffee', 'wake_up_sheeple'),
 
   // Космоопера
@@ -288,10 +276,7 @@ final List<MergeRule> mergeRules = [
   MergeRule('lead', 'philosopher_stone', 'gold'),
   MergeRule('mandrake', 'silver_knife', 'homunculus'),
 
-  // Мифы
-  MergeRule('apple', 'discord', 'troyan_war'), // Яблоко раздора
-  MergeRule('pandora', 'box', 'all_evils'),
-  MergeRule('minotaur', 'thread', 'escape'), // Нить Ариадны
+  // Нить Ариадны
   // Исторические артефакты
   MergeRule('sand', 'time', 'hourglass'),
   MergeRule('ivory', 'black_market', 'blood_diamond'),

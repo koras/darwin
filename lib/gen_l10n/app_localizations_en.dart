@@ -63,9 +63,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forest => 'Forest';
 
   @override
-  String get grandmother => 'Grandmother';
-
-  @override
   String get lightning => 'Lightning';
 
   @override
@@ -668,6 +665,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get girl_in_love => 'Girl in love';
 
   @override
+  String get grandmother => 'Grandmother';
+
+  @override
   String get guy_in_love => 'Guy in love';
 
   @override
@@ -882,4 +882,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yoda_is_a_wise_jedi => 'Yoda';
+
+  @override
+  String get bat => 'Bat';
+
+  @override
+  String get batman => 'Batman';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get box => 'Box';
+
+  @override
+  String get gold => 'Gold';
+
+  @override
+  String get harry_potter => 'Harry_potter';
+
+  @override
+  String get hogwarts_letter => 'Hogwarts_letter';
+
+  @override
+  String get jurassic_park => 'Jurassic_park';
+
+  @override
+  String get kryptonite => 'Kryptonite';
+
+  @override
+  String get lawnmower => 'Lawnmower';
+
+  @override
+  String get mario => 'Mario';
+
+  @override
+  String get minecraft => 'Minecraft';
+
+  @override
+  String get philosopher => 'Philosopher';
+
+  @override
+  String get pickaxe => 'Pickaxe';
+
+  @override
+  String get plumber => 'Plumber';
+
+  @override
+  String get ring => 'Ring';
+
+  @override
+  String get school => 'School';
+
+  @override
+  String get trauma => 'Trauma';
+
+  @override
+  String get walking_dead => 'Walking_dead';
+
+  @override
+  String get weakness => 'Weakness';
+
+  @override
+  String get wizard => 'Wizard';
 }

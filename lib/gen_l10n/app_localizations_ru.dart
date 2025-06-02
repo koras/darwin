@@ -49,49 +49,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get textLevels => 'уровень';
 
   @override
-  String get boots => 'Boots';
+  String get boots => 'Сапоги';
 
   @override
-  String get carriage => 'Carriage';
+  String get carriage => 'Повозка';
 
   @override
-  String get cart => 'Cart';
+  String get cart => 'Тележка';
 
   @override
   String get cloth => 'Cloth';
 
   @override
-  String get forest => 'Forest';
+  String get forest => 'Лес';
 
   @override
-  String get grandmother => 'Бабушка';
+  String get lightning => 'Молния';
 
   @override
-  String get lightning => 'Lightning';
+  String get mead => 'Медовуха';
 
   @override
-  String get mead => 'Mead';
+  String get rain => 'Дождь';
 
   @override
-  String get rain => 'Rain';
+  String get sandstorm => 'Песчанный шторм';
 
   @override
-  String get sandstorm => 'Sandstorm';
+  String get satellite => 'Сателлит';
 
   @override
-  String get satellite => 'Satellite';
+  String get scentist => 'Учёный';
 
   @override
-  String get scentist => 'Scentist';
+  String get smartphone => 'Смартфон';
 
   @override
-  String get smartphone => 'Smartphone';
+  String get spaceship => 'Звёздный корабль';
 
   @override
-  String get spaceship => 'Spaceship';
-
-  @override
-  String get steam => 'Steam';
+  String get steam => 'Пар';
 
   @override
   String get storm => 'Storm';
@@ -671,6 +668,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get girl_in_love => 'Девушка влюбленная';
 
   @override
+  String get grandmother => 'Grandmother';
+
+  @override
   String get guy_in_love => 'Парень влюбленный';
 
   @override
@@ -885,4 +885,67 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get yoda_is_a_wise_jedi => 'Йода';
+
+  @override
+  String get bat => 'Bat';
+
+  @override
+  String get batman => 'Batman';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get box => 'Box';
+
+  @override
+  String get gold => 'Gold';
+
+  @override
+  String get harry_potter => 'Harry_potter';
+
+  @override
+  String get hogwarts_letter => 'Hogwarts_letter';
+
+  @override
+  String get jurassic_park => 'Jurassic_park';
+
+  @override
+  String get kryptonite => 'Kryptonite';
+
+  @override
+  String get lawnmower => 'Lawnmower';
+
+  @override
+  String get mario => 'Mario';
+
+  @override
+  String get minecraft => 'Minecraft';
+
+  @override
+  String get philosopher => 'Philosopher';
+
+  @override
+  String get pickaxe => 'Pickaxe';
+
+  @override
+  String get plumber => 'Plumber';
+
+  @override
+  String get ring => 'Ring';
+
+  @override
+  String get school => 'School';
+
+  @override
+  String get trauma => 'Trauma';
+
+  @override
+  String get walking_dead => 'Walking_dead';
+
+  @override
+  String get weakness => 'Weakness';
+
+  @override
+  String get wizard => 'Wizard';
 }
