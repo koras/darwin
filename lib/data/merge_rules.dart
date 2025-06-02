@@ -204,13 +204,7 @@ final List<MergeRule> mergeRules = [
 
   // Техно-комбинации
   MergeRule('quantum', 'computer', 'time_machine'),
-  MergeRule('nanotech', 'skin', 'invisibility_suit'),
-  MergeRule('hologram', 'touch', 'hardlight'),
 
-  // Особые секретные комбинации
-  MergeRule('konami', 'code', 'secret_weapon'), // Easter egg
-  MergeRule('dev', 'password', 'unlock_all'), // Для тестирования
-  MergeRule('infinity', 'gauntlet', 'snap'), // Для фанатов Marvel
   // Для создания философского камня:
   MergeRule('mercury', 'sulfur', 'prima_materia'),
   MergeRule('prima_materia', 'moonlight', 'white_elixir'),

@@ -489,8 +489,8 @@
 "description": "Элемент: satellite"
 },
 
-"scentist": "Учёный",
-"@scentist": {
+"scientist": "Учёный",
+"@scientist": {
 "description": "Элемент: Учёный"
 },
 

@@ -113,7 +113,6 @@ class Assets {
   static const String imagesGlass = 'assets/images/glass.png';
   static const String imagesGold = 'assets/images/gold.png';
   static const String imagesGrandmother = 'assets/images/grandmother.png';
-  static const String imagesGrandmother copy = 'assets/images/grandmother copy.png';
   static const String imagesGrape = 'assets/images/grape.png';
   static const String imagesGuyInLove = 'assets/images/guy_in_love.png';
   static const String imagesHarryPotter = 'assets/images/harry_potter.png';

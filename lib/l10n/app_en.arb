@@ -113,8 +113,8 @@
 "description": "Элемент: satellite"
 },
 
-"scentist": "Scentist",
-"@scentist": {
+"scientist": "Scientist",
+"@scientist": {
 "description": "Элемент: scentist"
 },
 
