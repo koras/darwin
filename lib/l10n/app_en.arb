@@ -63,7 +63,90 @@
   "textHints":"hints",
 
   "textLevels":"level",
+"boots": "Boots",
+"@boots": {
+"description": "Элемент: boots"
+},
 
+"carriage": "Carriage",
+"@carriage": {
+"description": "Элемент: carriage"
+},
+
+"cart": "Cart",
+"@cart": {
+"description": "Элемент: cart"
+},
+
+"cloth": "Cloth",
+"@cloth": {
+"description": "Элемент: cloth"
+},
+
+"forest": "Forest",
+"@forest": {
+"description": "Элемент: forest"
+},
+
+"grandmother": "Grandmother",
+"@grandmother": {
+"description": "Элемент: grandmother"
+},
+
+"lightning": "Lightning",
+"@lightning": {
+"description": "Элемент: lightning"
+},
+
+"mead": "Mead",
+"@mead": {
+"description": "Элемент: mead"
+},
+
+"rain": "Rain",
+"@rain": {
+"description": "Элемент: rain"
+},
+
+"sandstorm": "Sandstorm",
+"@sandstorm": {
+"description": "Элемент: sandstorm"
+},
+
+"satellite": "Satellite",
+"@satellite": {
+"description": "Элемент: satellite"
+},
+
+"scentist": "Scentist",
+"@scentist": {
+"description": "Элемент: scentist"
+},
+
+"smartphone": "Smartphone",
+"@smartphone": {
+"description": "Элемент: smartphone"
+},
+
+"spaceship": "Spaceship",
+"@spaceship": {
+"description": "Элемент: spaceship"
+},
+
+"steam": "Steam",
+"@steam": {
+"description": "Элемент: steam"
+},
+
+"storm": "Storm",
+"@storm": {
+"description": "Элемент: storm"
+},
+
+"wireless": "Wireless",
+"@wireless": {
+"description": "Элемент: wireless"
+},
 "computer": "Computer",
 "@computer": {
 "description": "Элемент: computer"

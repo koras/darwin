@@ -84,7 +84,23 @@ final List<ImageItem> allImages =
       'horse',
       'lava',
       'titanic',
-
+      'boots',
+      'carriage',
+      'cart',
+      'cloth',
+      'forest',
+      'grandmother',
+      'lightning',
+      'mead',
+      'rain',
+      'sandstorm',
+      'satellite',
+      'scentist',
+      'smartphone',
+      'spaceship',
+      'steam',
+      'storm',
+      'wireless',
       'lizard', // Ящерица
       'tree', // Дерево
       'swamp', // Болото

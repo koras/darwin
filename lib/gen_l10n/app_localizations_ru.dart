@@ -49,6 +49,57 @@ class AppLocalizationsRu extends AppLocalizations {
   String get textLevels => 'уровень';
 
   @override
+  String get boots => 'Boots';
+
+  @override
+  String get carriage => 'Carriage';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get cloth => 'Cloth';
+
+  @override
+  String get forest => 'Forest';
+
+  @override
+  String get grandmother => 'Бабушка';
+
+  @override
+  String get lightning => 'Lightning';
+
+  @override
+  String get mead => 'Mead';
+
+  @override
+  String get rain => 'Rain';
+
+  @override
+  String get sandstorm => 'Sandstorm';
+
+  @override
+  String get satellite => 'Satellite';
+
+  @override
+  String get scentist => 'Scentist';
+
+  @override
+  String get smartphone => 'Smartphone';
+
+  @override
+  String get spaceship => 'Spaceship';
+
+  @override
+  String get steam => 'Steam';
+
+  @override
+  String get storm => 'Storm';
+
+  @override
+  String get wireless => 'Wireless';
+
+  @override
   String get computer => 'Компьютер';
 
   @override
@@ -618,9 +669,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get girl_in_love => 'Девушка влюбленная';
-
-  @override
-  String get grandmother => 'Бабушка';
 
   @override
   String get guy_in_love => 'Парень влюбленный';

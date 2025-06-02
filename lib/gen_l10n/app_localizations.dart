@@ -176,6 +176,108 @@ abstract class AppLocalizations {
   /// **'level'**
   String get textLevels;
 
+  /// Элемент: boots
+  ///
+  /// In en, this message translates to:
+  /// **'Boots'**
+  String get boots;
+
+  /// Элемент: carriage
+  ///
+  /// In en, this message translates to:
+  /// **'Carriage'**
+  String get carriage;
+
+  /// Элемент: cart
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cart;
+
+  /// Элемент: cloth
+  ///
+  /// In en, this message translates to:
+  /// **'Cloth'**
+  String get cloth;
+
+  /// Элемент: forest
+  ///
+  /// In en, this message translates to:
+  /// **'Forest'**
+  String get forest;
+
+  /// Element: Grandmother
+  ///
+  /// In en, this message translates to:
+  /// **'Grandmother'**
+  String get grandmother;
+
+  /// Элемент: lightning
+  ///
+  /// In en, this message translates to:
+  /// **'Lightning'**
+  String get lightning;
+
+  /// Элемент: mead
+  ///
+  /// In en, this message translates to:
+  /// **'Mead'**
+  String get mead;
+
+  /// Элемент: rain
+  ///
+  /// In en, this message translates to:
+  /// **'Rain'**
+  String get rain;
+
+  /// Элемент: sandstorm
+  ///
+  /// In en, this message translates to:
+  /// **'Sandstorm'**
+  String get sandstorm;
+
+  /// Элемент: satellite
+  ///
+  /// In en, this message translates to:
+  /// **'Satellite'**
+  String get satellite;
+
+  /// Элемент: scentist
+  ///
+  /// In en, this message translates to:
+  /// **'Scentist'**
+  String get scentist;
+
+  /// Элемент: smartphone
+  ///
+  /// In en, this message translates to:
+  /// **'Smartphone'**
+  String get smartphone;
+
+  /// Элемент: spaceship
+  ///
+  /// In en, this message translates to:
+  /// **'Spaceship'**
+  String get spaceship;
+
+  /// Элемент: steam
+  ///
+  /// In en, this message translates to:
+  /// **'Steam'**
+  String get steam;
+
+  /// Элемент: storm
+  ///
+  /// In en, this message translates to:
+  /// **'Storm'**
+  String get storm;
+
+  /// Элемент: wireless
+  ///
+  /// In en, this message translates to:
+  /// **'Wireless'**
+  String get wireless;
+
   /// Элемент: computer
   ///
   /// In en, this message translates to:
@@ -1297,12 +1399,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Girl in love'**
   String get girl_in_love;
-
-  /// Element: Grandmother
-  ///
-  /// In en, this message translates to:
-  /// **'Grandmother'**
-  String get grandmother;
 
   /// Element: Guy in love
   ///
