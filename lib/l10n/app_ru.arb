@@ -434,19 +434,19 @@
   "@fish": {
     "description": "Элемент: Рыба"
   },
-  "boots": "Boots",
+  "boots": "Сапоги",
 "@boots": {
-"description": "Элемент: boots"
+"description": "Элемент: Сапоги"
 },
 
-"carriage": "Carriage",
+"carriage": "Повозка",
 "@carriage": {
-"description": "Элемент: carriage"
+"description": "Элемент: Повозка"
 },
 
-"cart": "Cart",
+"cart": "Тележка",
 "@cart": {
-"description": "Элемент: cart"
+"description": "Элемент: Тележка"
 },
 
 "cloth": "Cloth",
@@ -454,9 +454,9 @@
 "description": "Элемент: cloth"
 },
 
-"forest": "Forest",
+"forest": "Лес",
 "@forest": {
-"description": "Элемент: forest"
+"description": "Элемент: лес"
 },
 
 "grandmother": "Grandmother",
@@ -464,47 +464,47 @@
 "description": "Элемент: grandmother"
 },
 
-"lightning": "Lightning",
+"lightning": "Молния",
 "@lightning": {
-"description": "Элемент: lightning"
+"description": "Элемент: Молния"
 },
 
-"mead": "Mead",
+"mead": "Медовуха",
 "@mead": {
-"description": "Элемент: mead"
+"description": "Элемент: Медовуха"
 },
 
-"rain": "Rain",
+"rain": "Дождь",
 "@rain": {
 "description": "Элемент: rain"
 },
 
-"sandstorm": "Sandstorm",
+"sandstorm": "Песчанный шторм",
 "@sandstorm": {
 "description": "Элемент: sandstorm"
 },
 
-"satellite": "Satellite",
+"satellite": "Сателлит",
 "@satellite": {
 "description": "Элемент: satellite"
 },
 
-"scentist": "Scentist",
+"scentist": "Учёный",
 "@scentist": {
-"description": "Элемент: scentist"
+"description": "Элемент: Учёный"
 },
 
-"smartphone": "Smartphone",
+"smartphone": "Смартфон",
 "@smartphone": {
 "description": "Элемент: smartphone"
 },
 
-"spaceship": "Spaceship",
+"spaceship": "Звёздный корабль",
 "@spaceship": {
 "description": "Элемент: spaceship"
 },
 
-"steam": "Steam",
+"steam": "Пар",
 "@steam": {
 "description": "Элемент: steam"
 },
@@ -1076,10 +1076,7 @@
     "description": "Элемент: Девушка влюбленная"
   },
   
-  "grandmother": "Бабушка",
-  "@grandmother": {
-    "description": "Элемент: Бабушка"
-  },
+
   
   "guy_in_love": "Парень влюбленный",
   "@guy_in_love": {
