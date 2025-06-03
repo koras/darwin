@@ -254,12 +254,6 @@ abstract class AppLocalizations {
   /// **'Spaceship'**
   String get spaceship;
 
-  /// Элемент: steam
-  ///
-  /// In en, this message translates to:
-  /// **'Steam'**
-  String get steam;
-
   /// Элемент: storm
   ///
   /// In en, this message translates to:
@@ -1295,7 +1289,7 @@ abstract class AppLocalizations {
   /// Element: Bear on bicycle in circus
   ///
   /// In en, this message translates to:
-  /// **'Bear on bicycle'**
+  /// **'BicycleBear on bicycle'**
   String get bear_on_bicycle_in_circus;
 
   /// Element: Bee
@@ -1933,6 +1927,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'School'**
   String get school;
+
+  /// Элемент: steam
+  ///
+  /// In en, this message translates to:
+  /// **'Steam'**
+  String get steam;
 
   /// Элемент: trauma
   ///

@@ -90,8 +90,8 @@ final List<MergeRule> mergeRules = [
   MergeRule('xray', 'bone', 'diagnosis'),
   // Праздники и события
   MergeRule('man', 'gift', 'santa'),
-  MergeRule('tree', 'decorations', 'christmas_tree'),
-  MergeRule('cake', 'candles', 'birthday'),
+  MergeRule('tree', 'decorations', 'new_year_tree'),
+  MergeRule('cake', 'candle', 'birthday'),
   MergeRule('fire', 'sky', 'fireworks'),
   MergeRule('costume', 'party', 'halloween'),
   MergeRule('champagne', 'night', 'new_year'),
@@ -103,7 +103,7 @@ final List<MergeRule> mergeRules = [
   MergeRule('shark', 'nike', 'shark_and_nike'),
   MergeRule('bear', 'bicycle', 'bear_on_bicycle_in_circus'),
 
-  MergeRule('metal', 'star', 'death_star'),
+  MergeRule('metal', 'planet', 'death_star'),
   MergeRule('astronaut', 'alien', 'first_contact'),
   MergeRule('energy', 'crystal', 'lightsaber'),
   MergeRule('spaceship', 'city', 'coruscant'),
@@ -120,6 +120,7 @@ final List<MergeRule> mergeRules = [
 
   MergeRule('fairy', 'dust', 'pixie'),
   // Транспорт и машины
+  MergeRule('steam', 'metal', 'engine'),
   MergeRule('engine', 'bicycle', 'motorcycle'),
   MergeRule('car', 'boat', 'amphibious_vehicle'),
   MergeRule('helicopter', 'submarine', 'osprey'),

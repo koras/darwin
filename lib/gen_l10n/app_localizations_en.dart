@@ -87,9 +87,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spaceship => 'Spaceship';
 
   @override
-  String get steam => 'Steam';
-
-  @override
   String get storm => 'Storm';
 
   @override
@@ -614,7 +611,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get archangel_with_wings_and_a_sword => 'Archangel';
 
   @override
-  String get bear_on_bicycle_in_circus => 'Bear on bicycle';
+  String get bear_on_bicycle_in_circus => 'BicycleBear on bicycle';
 
   @override
   String get bee => 'Bee';
@@ -933,6 +930,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get school => 'School';
+
+  @override
+  String get steam => 'Steam';
 
   @override
   String get trauma => 'Trauma';
