@@ -49,6 +49,129 @@ class AppLocalizationsRu extends AppLocalizations {
   String get textLevels => 'уровень';
 
   @override
+  String get boots => 'Сапоги';
+
+  @override
+  String get carriage => 'Повозка';
+
+  @override
+  String get cart => 'Тележка';
+
+  @override
+  String get cloth => 'Cloth';
+
+  @override
+  String get forest => 'Лес';
+
+  @override
+  String get lightning => 'Молния';
+
+  @override
+  String get mead => 'Медовуха';
+
+  @override
+  String get rain => 'Дождь';
+
+  @override
+  String get sandstorm => 'Песчанный шторм';
+
+  @override
+  String get satellite => 'Сателлит';
+
+  @override
+  String get scientist => 'Учёный';
+
+  @override
+  String get smartphone => 'Смартфон';
+
+  @override
+  String get spaceship => 'Звёздный корабль';
+
+  @override
+  String get storm => 'Шторм';
+
+  @override
+  String get wireless => 'Wireless';
+
+  @override
+  String get computer => 'Компьютер';
+
+  @override
+  String get glass => 'Стекло';
+
+  @override
+  String get home => 'Дом';
+
+  @override
+  String get hourglass => 'Часы';
+
+  @override
+  String get jazz => 'Джаз';
+
+  @override
+  String get planet => 'Планета';
+
+  @override
+  String get quantum => 'Квант';
+
+  @override
+  String get voodoo => 'Вуду';
+
+  @override
+  String get whiskey => 'Виски';
+
+  @override
+  String get bier => 'Пиво';
+
+  @override
+  String get bird => 'Птица';
+
+  @override
+  String get centaur => 'Кентавр';
+
+  @override
+  String get coffee => 'Кофе';
+
+  @override
+  String get cold => 'Холод';
+
+  @override
+  String get energy => 'Энергия';
+
+  @override
+  String get garden => 'Сад';
+
+  @override
+  String get ghost => 'Дух';
+
+  @override
+  String get hero => 'Герой';
+
+  @override
+  String get honey => 'Мёд';
+
+  @override
+  String get meat => 'Мясо';
+
+  @override
+  String get microscope => 'Микроскоп';
+
+  @override
+  String get obsidian => 'Обсидиант';
+
+  @override
+  String get poltergeist => 'Полтергейст';
+
+  @override
+  String get horse => ' horse';
+
+  @override
+  String get lava => 'Лава';
+
+  @override
+  String get titanic => 'Титаник';
+
+  @override
   String get language => 'Язык';
 
   @override
@@ -491,7 +614,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get archangel_with_wings_and_a_sword => 'Архангел';
 
   @override
-  String get bear_on_bicycle_in_circus => 'Медведь на велосипеде';
+  String get bear_on_bicycle_in_circus => 'ВелоМедведь';
 
   @override
   String get bee => 'Пчела';
@@ -542,7 +665,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get girl_in_love => 'Девушка влюбленная';
 
   @override
-  String get grandmother => 'Бабушка';
+  String get grandmother => 'Grandmother';
 
   @override
   String get guy_in_love => 'Парень влюбленный';
@@ -759,4 +882,70 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get yoda_is_a_wise_jedi => 'Йода';
+
+  @override
+  String get bat => 'Bat';
+
+  @override
+  String get batman => 'Batman';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get box => 'Box';
+
+  @override
+  String get gold => 'Gold';
+
+  @override
+  String get harry_potter => 'Harry_potter';
+
+  @override
+  String get hogwarts_letter => 'Hogwarts_letter';
+
+  @override
+  String get jurassic_park => 'Jurassic_park';
+
+  @override
+  String get kryptonite => 'Kryptonite';
+
+  @override
+  String get lawnmower => 'Lawnmower';
+
+  @override
+  String get mario => 'Mario';
+
+  @override
+  String get minecraft => 'Minecraft';
+
+  @override
+  String get philosopher => 'Philosopher';
+
+  @override
+  String get pickaxe => 'Pickaxe';
+
+  @override
+  String get plumber => 'Plumber';
+
+  @override
+  String get ring => 'Ring';
+
+  @override
+  String get school => 'School';
+
+  @override
+  String get steam => 'Пар';
+
+  @override
+  String get trauma => 'Trauma';
+
+  @override
+  String get walking_dead => 'Walking_dead';
+
+  @override
+  String get weakness => 'Weakness';
+
+  @override
+  String get wizard => 'Wizard';
 }

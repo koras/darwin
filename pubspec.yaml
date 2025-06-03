@@ -47,13 +47,16 @@ flutter:
   generate: true
 
   assets:
-    - assets/sounds/
+    - assets/icons/
     - assets/images/
-    - assets/icons/ 
+    - assets/sounds/
     - assets/background/
 
-# flutter_gen:
-#   output: lib/gen/  # Папка для генерации файлов
+
+
+
+flutter_gen:
+  output: lib/gen/  # Папка для генерации файлов
 #   line_length: 80
 #   integrations:
 #     flutter_svg: true  # Если используете flutter_svg

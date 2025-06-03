@@ -15,7 +15,7 @@
     "description": "Сообщение об ошибке неверного формата email"
   },
   "emailValidationError": "Введите корректный email",
-
+ 
   "@contactUs": {
     "description": "Заголовок раздела связи с нами"
   },
@@ -69,6 +69,93 @@
 
   "textLevels":"уровень",
 
+"bier": "Пиво",
+"@bier": {
+"description": "Элемент: Пиво"
+},
+
+"bird": "Птица",
+"@bird": {
+"description": "Элемент: bird"
+},
+
+"centaur": "Кентавр",
+"@centaur": {
+"description": "Элемент: Кентавр"
+},
+
+"coffee": "Кофе",
+"@coffee": {
+"description": "Элемент: coffee"
+},
+
+"cold": "Холод",
+"@cold": {
+"description": "Элемент: cold"
+},
+
+"energy": "Энергия",
+"@energy": {
+"description": "Элемент: energy"
+},
+
+"garden": "Сад",
+"@garden": {
+"description": "Элемент: Сад"
+},
+
+"ghost": "Дух",
+"@ghost": {
+"description": "Элемент: Дух"
+},
+
+"hero": "Герой",
+"@hero": {
+"description": "Элемент: Герой"
+},
+
+"honey": "Мёд",
+"@honey": {
+"description": "Элемент: honey"
+},
+
+"meat": "Мясо",
+"@meat": {
+"description": "Элемент: meat"
+},
+
+"microscope": "Микроскоп",
+"@microscope": {
+"description": "Элемент: microscope"
+},
+
+"obsidian": "Обсидиант",
+"@obsidian": {
+"description": "Элемент: obsidian"
+},
+
+"poltergeist": "Полтергейст",
+"@poltergeist": {
+"description": "Элемент: poltergeist"
+},
+
+ 
+ 
+
+  "horse": " horse",
+  "@horse": {
+  "description": "Элемент: horse"
+  },
+
+  "lava": "Лава",
+  "@lava": {
+  "description": "Элемент: lava"
+  },
+
+  "titanic": "Титаник",
+  "@titanic": {
+  "description": "Элемент: titanic"
+  },
 
 
   "@sound": {
@@ -136,7 +223,7 @@
     "description": "Заголовок столбца или текста для результата слияния"
   },
   
-  "hints_left": "{count, plural, one{Осталась подсказка} few{Осталось подсказки} many{Осталось подсказок} other{Осталось подсказок}}",
+  "hints_left": "{ count, plural, one{Осталась подсказка} few{Осталось подсказки} many{Осталось подсказок} other{Осталось подсказок}}",
   "@hints_left": {
     "description": "Количество оставшихся подсказок"
   },
@@ -347,7 +434,135 @@
   "@fish": {
     "description": "Элемент: Рыба"
   },
-  
+  "boots": "Сапоги",
+"@boots": {
+"description": "Элемент: Сапоги"
+},
+
+"carriage": "Повозка",
+"@carriage": {
+"description": "Элемент: Повозка"
+},
+
+"cart": "Тележка",
+"@cart": {
+"description": "Элемент: Тележка"
+},
+
+"cloth": "Cloth",
+"@cloth": {
+"description": "Элемент: cloth"
+},
+
+"forest": "Лес",
+"@forest": {
+"description": "Элемент: лес"
+},
+
+"grandmother": "Grandmother",
+"@grandmother": {
+"description": "Элемент: grandmother"
+},
+
+"lightning": "Молния",
+"@lightning": {
+"description": "Элемент: Молния"
+},
+
+"mead": "Медовуха",
+"@mead": {
+"description": "Элемент: Медовуха"
+},
+
+"rain": "Дождь",
+"@rain": {
+"description": "Элемент: rain"
+},
+
+"sandstorm": "Песчанный шторм",
+"@sandstorm": {
+"description": "Элемент: sandstorm"
+},
+
+"satellite": "Сателлит",
+"@satellite": {
+"description": "Элемент: satellite"
+},
+
+"scientist": "Учёный",
+"@scientist": {
+"description": "Элемент: Учёный"
+},
+
+"smartphone": "Смартфон",
+"@smartphone": {
+"description": "Элемент: smartphone"
+},
+
+"spaceship": "Звёздный корабль",
+"@spaceship": {
+"description": "Элемент: spaceship"
+},
+
+"steam": "Пар",
+"@steam": {
+"description": "Элемент: steam"
+},
+
+"storm": "Шторм",
+"@storm": {
+"description": "Элемент: Шторм"
+},
+
+"wireless": "Wireless",
+"@wireless": {
+"description": "Элемент: wireless"
+},
+"computer": "Компьютер",
+"@computer": {
+"description": "Элемент: computer"
+},
+
+"glass": "Стекло",
+"@glass": {
+"description": "Элемент: glass"
+},
+
+"home": "Дом",
+"@home": {
+"description": "Элемент: home"
+},
+
+"hourglass": "Часы",
+"@hourglass": {
+"description": "Элемент: hourglass"
+},
+
+"jazz": "Джаз",
+"@jazz": {
+"description": "Элемент: jazz"
+},
+
+"planet": "Планета",
+"@planet": {
+"description": "Элемент: planet"
+},
+
+"quantum": "Квант",
+"@quantum": {
+"description": "Элемент: Квант"
+},
+
+"voodoo": "Вуду",
+"@voodoo": {
+"description": "Элемент: voodoo"
+},
+
+"whiskey": "Виски",
+"@whiskey": {
+"description": "Элемент: whiskey"
+},
+
   "tool": "Инструмент",
   "@tool": {
     "description": "Элемент: Инструмент"
@@ -776,7 +991,7 @@
   },
 
 
-   "bear_on_bicycle_in_circus": "Медведь на велосипеде",
+   "bear_on_bicycle_in_circus": "ВелоМедведь",
   "@bear_on_bicycle_in_circus": {
     "description": "Элемент: Медведь на велосипеде"
   },
@@ -861,10 +1076,7 @@
     "description": "Элемент: Девушка влюбленная"
   },
   
-  "grandmother": "Бабушка",
-  "@grandmother": {
-    "description": "Элемент: Бабушка"
-  },
+
   
   "guy_in_love": "Парень влюбленный",
   "@guy_in_love": {
@@ -1226,5 +1438,111 @@
   "yoda_is_a_wise_jedi": "Йода",
   "@yoda_is_a_wise_jedi": {
     "description": "Йода из Звёздных войн"
-  }
+  },
+
+  "bat": "Bat",
+"@bat": {
+"description": "Элемент: bat"
+},
+
+"batman": "Batman",
+"@batman": {
+"description": "Элемент: batman"
+},
+
+"block": "Block",
+"@block": {
+"description": "Элемент: block"
+},
+
+"box": "Box",
+"@box": {
+"description": "Элемент: box"
+},
+
+"gold": "Gold",
+"@gold": {
+"description": "Элемент: gold"
+},
+
+"harry_potter": "Harry_potter",
+"@harry_potter": {
+"description": "Элемент: harry_potter"
+},
+
+"hogwarts_letter": "Hogwarts_letter",
+"@hogwarts_letter": {
+"description": "Элемент: hogwarts_letter"
+},
+
+"jurassic_park": "Jurassic_park",
+"@jurassic_park": {
+"description": "Элемент: jurassic_park"
+},
+
+"kryptonite": "Kryptonite",
+"@kryptonite": {
+"description": "Элемент: kryptonite"
+},
+
+"lawnmower": "Lawnmower",
+"@lawnmower": {
+"description": "Элемент: lawnmower"
+},
+
+"mario": "Mario",
+"@mario": {
+"description": "Элемент: mario"
+},
+
+"minecraft": "Minecraft",
+"@minecraft": {
+"description": "Элемент: minecraft"
+},
+
+"philosopher": "Philosopher",
+"@philosopher": {
+"description": "Элемент: philosopher"
+},
+
+"pickaxe": "Pickaxe",
+"@pickaxe": {
+"description": "Элемент: pickaxe"
+},
+
+"plumber": "Plumber",
+"@plumber": {
+"description": "Элемент: plumber"
+},
+
+"ring": "Ring",
+"@ring": {
+"description": "Элемент: ring"
+},
+
+"school": "School",
+"@school": {
+"description": "Элемент: school"
+},
+
+ 
+"trauma": "Trauma",
+"@trauma": {
+"description": "Элемент: trauma"
+},
+
+"walking_dead": "Walking_dead",
+"@walking_dead": {
+"description": "Элемент: walking_dead"
+},
+
+"weakness": "Weakness",
+"@weakness": {
+"description": "Элемент: weakness"
+},
+
+"wizard": "Wizard",
+"@wizard": {
+"description": "Элемент: wizard"
+}
 }

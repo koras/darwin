@@ -63,8 +63,214 @@
   "textHints":"hints",
 
   "textLevels":"level",
+"boots": "Boots",
+"@boots": {
+"description": "Элемент: boots"
+},
+
+"carriage": "Carriage",
+"@carriage": {
+"description": "Элемент: carriage"
+},
+
+"cart": "Cart",
+"@cart": {
+"description": "Элемент: cart"
+},
+
+"cloth": "Cloth",
+"@cloth": {
+"description": "Элемент: cloth"
+},
+
+"forest": "Forest",
+"@forest": {
+"description": "Элемент: forest"
+},
+ 
+"lightning": "Lightning",
+"@lightning": {
+"description": "Элемент: lightning"
+},
+
+"mead": "Mead",
+"@mead": {
+"description": "Элемент: mead"
+},
+
+"rain": "Rain",
+"@rain": {
+"description": "Элемент: rain"
+},
+
+"sandstorm": "Sandstorm",
+"@sandstorm": {
+"description": "Элемент: sandstorm"
+},
+
+"satellite": "Satellite",
+"@satellite": {
+"description": "Элемент: satellite"
+},
+
+"scientist": "Scientist",
+"@scientist": {
+"description": "Элемент: scentist"
+},
+
+"smartphone": "Smartphone",
+"@smartphone": {
+"description": "Элемент: smartphone"
+},
+
+"spaceship": "Spaceship",
+"@spaceship": {
+"description": "Элемент: spaceship"
+},
+ 
+
+"storm": "Storm",
+"@storm": {
+"description": "Элемент: storm"
+},
+
+"wireless": "Wireless",
+"@wireless": {
+"description": "Элемент: wireless"
+},
+"computer": "Computer",
+"@computer": {
+"description": "Элемент: computer"
+},
+
+"glass": "Glass",
+"@glass": {
+"description": "Элемент: glass"
+},
+
+"home": "Home",
+"@home": {
+"description": "Элемент: home"
+},
+
+"hourglass": "Hourglass",
+"@hourglass": {
+"description": "Элемент: hourglass"
+},
+
+"jazz": "Jazz",
+"@jazz": {
+"description": "Элемент: jazz"
+},
+
+"planet": "Planet",
+"@planet": {
+"description": "Элемент: planet"
+},
+
+"quantum": "Quantum",
+"@quantum": {
+"description": "Элемент: quantum"
+},
+
+"voodoo": "Voodoo",
+"@voodoo": {
+"description": "Элемент: voodoo"
+},
+
+"whiskey": "Whiskey",
+"@whiskey": {
+"description": "Элемент: whiskey"
+},
+
+
+"bier": "Bier",
+"@bier": {
+"description": "Элемент: bier"
+},
+
+"bird": "Bird",
+"@bird": {
+"description": "Элемент: bird"
+},
+
+"centaur": "Centaur",
+"@centaur": {
+"description": "Элемент: centaur"
+},
+
+"coffee": "Coffee",
+"@coffee": {
+"description": "Элемент: coffee"
+},
+
+"cold": "Cold",
+"@cold": {
+"description": "Элемент: cold"
+},
+
+"energy": "Energy",
+"@energy": {
+"description": "Элемент: energy"
+},
+
+"garden": "Garden",
+"@garden": {
+"description": "Элемент: garden"
+},
+
+"ghost": "Ghost",
+"@ghost": {
+"description": "Элемент: ghost"
+},
+
+"hero": "Hero",
+"@hero": {
+"description": "Элемент: hero"
+},
+
+"honey": "Honey",
+"@honey": {
+"description": "Элемент: honey"
+},
+
+"meat": "Meat",
+"@meat": {
+"description": "Элемент: meat"
+},
+
+"microscope": "Microscope",
+"@microscope": {
+"description": "Элемент: microscope"
+},
+
+"obsidian": "Obsidian",
+"@obsidian": {
+"description": "Элемент: obsidian"
+},
+
+"poltergeist": "Poltergeist",
+"@poltergeist": {
+"description": "Элемент: poltergeist"
+},
 
  
+
+  "horse": "Horse",
+  "@horse": {
+  "description": "Элемент: horse"
+  },
+
+  "lava": "Lava",
+  "@lava": {
+  "description": "Элемент: lava"
+  },
+
+  "titanic": "Titanic",
+  "@titanic": {
+  "description": "Элемент: titanic"
+  },
+
 
 
   "@language": {
@@ -782,7 +988,7 @@
     "description": "Element: Archangel with wings and sword"
   },
 
-  "bear_on_bicycle_in_circus": "Bear on bicycle",
+  "bear_on_bicycle_in_circus": "BicycleBear on bicycle",
   "@bear_on_bicycle_in_circus": {
     "description": "Element: Bear on bicycle in circus"
   },
@@ -1230,5 +1436,115 @@
   "yoda_is_a_wise_jedi": "Yoda",
   "@yoda_is_a_wise_jedi": {
     "description": "Element: Yoda from Star Wars"
-  }
+  },
+
+  "bat": "Bat",
+"@bat": {
+"description": "Элемент: bat"
+},
+
+"batman": "Batman",
+"@batman": {
+"description": "Элемент: batman"
+},
+
+"block": "Block",
+"@block": {
+"description": "Элемент: block"
+},
+
+"box": "Box",
+"@box": {
+"description": "Элемент: box"
+},
+
+"gold": "Gold",
+"@gold": {
+"description": "Элемент: gold"
+},
+
+"harry_potter": "Harry_potter",
+"@harry_potter": {
+"description": "Элемент: harry_potter"
+},
+
+"hogwarts_letter": "Hogwarts_letter",
+"@hogwarts_letter": {
+"description": "Элемент: hogwarts_letter"
+},
+
+"jurassic_park": "Jurassic_park",
+"@jurassic_park": {
+"description": "Элемент: jurassic_park"
+},
+
+"kryptonite": "Kryptonite",
+"@kryptonite": {
+"description": "Элемент: kryptonite"
+},
+
+"lawnmower": "Lawnmower",
+"@lawnmower": {
+"description": "Элемент: lawnmower"
+},
+
+"mario": "Mario",
+"@mario": {
+"description": "Элемент: mario"
+},
+
+"minecraft": "Minecraft",
+"@minecraft": {
+"description": "Элемент: minecraft"
+},
+
+"philosopher": "Philosopher",
+"@philosopher": {
+"description": "Элемент: philosopher"
+},
+
+"pickaxe": "Pickaxe",
+"@pickaxe": {
+"description": "Элемент: pickaxe"
+},
+
+"plumber": "Plumber",
+"@plumber": {
+"description": "Элемент: plumber"
+},
+
+"ring": "Ring",
+"@ring": {
+"description": "Элемент: ring"
+},
+
+"school": "School",
+"@school": {
+"description": "Элемент: school"
+},
+
+"steam": "Steam",
+"@steam": {
+"description": "Элемент: steam"
+},
+
+"trauma": "Trauma",
+"@trauma": {
+"description": "Элемент: trauma"
+},
+
+"walking_dead": "Walking_dead",
+"@walking_dead": {
+"description": "Элемент: walking_dead"
+},
+
+"weakness": "Weakness",
+"@weakness": {
+"description": "Элемент: weakness"
+},
+
+"wizard": "Wizard",
+"@wizard": {
+"description": "Элемент: wizard"
+}
 }

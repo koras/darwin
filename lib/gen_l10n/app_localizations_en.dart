@@ -48,6 +48,129 @@ class AppLocalizationsEn extends AppLocalizations {
   String get textLevels => 'level';
 
   @override
+  String get boots => 'Boots';
+
+  @override
+  String get carriage => 'Carriage';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get cloth => 'Cloth';
+
+  @override
+  String get forest => 'Forest';
+
+  @override
+  String get lightning => 'Lightning';
+
+  @override
+  String get mead => 'Mead';
+
+  @override
+  String get rain => 'Rain';
+
+  @override
+  String get sandstorm => 'Sandstorm';
+
+  @override
+  String get satellite => 'Satellite';
+
+  @override
+  String get scientist => 'Scientist';
+
+  @override
+  String get smartphone => 'Smartphone';
+
+  @override
+  String get spaceship => 'Spaceship';
+
+  @override
+  String get storm => 'Storm';
+
+  @override
+  String get wireless => 'Wireless';
+
+  @override
+  String get computer => 'Computer';
+
+  @override
+  String get glass => 'Glass';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get hourglass => 'Hourglass';
+
+  @override
+  String get jazz => 'Jazz';
+
+  @override
+  String get planet => 'Planet';
+
+  @override
+  String get quantum => 'Quantum';
+
+  @override
+  String get voodoo => 'Voodoo';
+
+  @override
+  String get whiskey => 'Whiskey';
+
+  @override
+  String get bier => 'Bier';
+
+  @override
+  String get bird => 'Bird';
+
+  @override
+  String get centaur => 'Centaur';
+
+  @override
+  String get coffee => 'Coffee';
+
+  @override
+  String get cold => 'Cold';
+
+  @override
+  String get energy => 'Energy';
+
+  @override
+  String get garden => 'Garden';
+
+  @override
+  String get ghost => 'Ghost';
+
+  @override
+  String get hero => 'Hero';
+
+  @override
+  String get honey => 'Honey';
+
+  @override
+  String get meat => 'Meat';
+
+  @override
+  String get microscope => 'Microscope';
+
+  @override
+  String get obsidian => 'Obsidian';
+
+  @override
+  String get poltergeist => 'Poltergeist';
+
+  @override
+  String get horse => 'Horse';
+
+  @override
+  String get lava => 'Lava';
+
+  @override
+  String get titanic => 'Titanic';
+
+  @override
   String get language => 'Language';
 
   @override
@@ -488,7 +611,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get archangel_with_wings_and_a_sword => 'Archangel';
 
   @override
-  String get bear_on_bicycle_in_circus => 'Bear on bicycle';
+  String get bear_on_bicycle_in_circus => 'BicycleBear on bicycle';
 
   @override
   String get bee => 'Bee';
@@ -756,4 +879,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yoda_is_a_wise_jedi => 'Yoda';
+
+  @override
+  String get bat => 'Bat';
+
+  @override
+  String get batman => 'Batman';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get box => 'Box';
+
+  @override
+  String get gold => 'Gold';
+
+  @override
+  String get harry_potter => 'Harry_potter';
+
+  @override
+  String get hogwarts_letter => 'Hogwarts_letter';
+
+  @override
+  String get jurassic_park => 'Jurassic_park';
+
+  @override
+  String get kryptonite => 'Kryptonite';
+
+  @override
+  String get lawnmower => 'Lawnmower';
+
+  @override
+  String get mario => 'Mario';
+
+  @override
+  String get minecraft => 'Minecraft';
+
+  @override
+  String get philosopher => 'Philosopher';
+
+  @override
+  String get pickaxe => 'Pickaxe';
+
+  @override
+  String get plumber => 'Plumber';
+
+  @override
+  String get ring => 'Ring';
+
+  @override
+  String get school => 'School';
+
+  @override
+  String get steam => 'Steam';
+
+  @override
+  String get trauma => 'Trauma';
+
+  @override
+  String get walking_dead => 'Walking_dead';
+
+  @override
+  String get weakness => 'Weakness';
+
+  @override
+  String get wizard => 'Wizard';
 }
