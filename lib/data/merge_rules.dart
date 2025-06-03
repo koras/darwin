@@ -19,7 +19,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('bacteria', 'time', 'plankton'),
   MergeRule('plankton', 'water', 'fish'),
   MergeRule('fish', 'earth', 'mammal'),
-  MergeRule('mammal', 'mountain', 'dragon'),
   MergeRule('mammal', 'swamp', 'frog'),
   MergeRule('fish', 'time', 'dolphin'),
   MergeRule('tree', 'tree', 'forest'),
@@ -104,8 +103,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('shark', 'nike', 'shark_and_nike'),
   MergeRule('bear', 'bicycle', 'bear_on_bicycle_in_circus'),
 
-  // Космос и футуризм
-  MergeRule('rocket', 'satellite', 'space_station'),
   MergeRule('metal', 'star', 'death_star'),
   MergeRule('astronaut', 'alien', 'first_contact'),
   MergeRule('energy', 'crystal', 'lightsaber'),
@@ -145,7 +142,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('mermaid', 'net', 'captured_dream'),
   MergeRule('leviathan', 'ship', 'kraken_attack'),
   MergeRule('algae', 'light', 'underwater_farm'),
-  MergeRule('sunken', 'city', 'atlantis'),
   // Средневековье и фэнтези-мир
   MergeRule('castle', 'dragon', 'siege'),
   MergeRule('alchemist', 'laboratory', 'elixir'),
@@ -210,7 +206,6 @@ final List<MergeRule> mergeRules = [
   MergeRule('white_elixir', 'sunlight', 'philosopher_stone'),
 
   // Создание дракона:
-  MergeRule('dinosaur', 'magic', 'dragon'),
   MergeRule('snake', 'feathers', 'aztec_dragon'),
   // Меняющиеся комбинации:
   MergeRule('season', 'time', 'next_season'), // Цикл

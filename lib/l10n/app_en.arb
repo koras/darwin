@@ -127,11 +127,7 @@
 "@spaceship": {
 "description": "Элемент: spaceship"
 },
-
-"steam": "Steam",
-"@steam": {
-"description": "Элемент: steam"
-},
+ 
 
 "storm": "Storm",
 "@storm": {
