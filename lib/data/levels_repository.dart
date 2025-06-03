@@ -18,12 +18,13 @@ class LevelsRepository {
         // от сюда игрок может взять элемент много раз и добавить на игровое поле
         // например добавить на игровое поле 4 water для того чтобы соеденить  их между собой
         'imageItems': ['water', 'wind'],
-
         // здесь подсказка, конечный результат соеденения и так же сюда добавляется вся цепочка для того чтобы достигнуть результата
         'hints': [
-          // цепочка уровня
+          // цепочка уровня, элемент из соеденения
+          // 'water' + 'wind' = 'cloud'
           'cloud',
-          // конечный результат
+          // 'cloud' + 'cloud' = 'sky'
+          // конечный результат, элемент из соеденения
           'sky',
         ],
         // Какое задание получает игрок
@@ -40,128 +41,71 @@ class LevelsRepository {
         'story': '',
       },
       2: {
-        'result': 'rain',
-        'imageItems': ['water', 'wind', 'water'],
-        'hints': ['cloud', 'sky', 'monkey', 'man'],
-        'title': 'Вызови дождь',
-        'background': 'level7.png',
-        'freeHints': 3, // сколько бесплатных подсказок на уровне
-        'timeHintWait': 10, // сколько ждать чтобы получить подсказку бесплатно
-        'description': 'Повтори природный цикл: испарение -> облака -> осадки',
-        'story': 'Капли воды мечтают вернуться на землю. Помоги им!',
+        'result': 'rainbow',
+        'imageItems': ['water', 'wind', 'fire'],
+        'hints': ['cloud', 'rain', 'rainbow'],
+        'title': 'Создай радугу',
+        'background': 'level_rainbow.png',
+        'freeHints': 2,
+        'timeHintWait': 15,
+        'description':
+            'Используй природные явления, чтобы создать разноцветное чудо',
+        'story': 'После дождя всегда появляется возможность для чуда!',
       },
 
-      // Уровень 3: "Создайте город"
+      // Земля + Вода = Пшеница → Пшеница + Камень = Мука → Мука + Вода = Тесто → Тесто + Огонь = Хлеб
       3: {
-        'result': 'rainbow',
-        'imageItems': ['water', 'wind', 'fire', 'water'],
-        'hints': ['fire', 'water'],
-        'title': 'Создай радугу',
-        'background': 'level3.png',
-        'freeHints': 3, // сколько бесплатных подсказок на уровне
-        'timeHintWait': 10,
-        'description': 'Тебе понадобятся дождь и солнечный свет',
-        'story':
-            'После дождя на небе появляется волшебство. Сможешь его повторить?',
+        'result': 'bread',
+        'imageItems': ['earth', 'water', 'stone', 'fire'],
+        'hints': ['wheat', 'flour', 'dough', 'bread'],
+        'title': 'Испеки хлеб',
+        'background': 'level_farm.png',
+        'freeHints': 1,
+        'timeHintWait': 30,
+        'description': 'Повтори путь от зерна до ароматной буханки',
+        'story': 'Хлеб — всему голова! Научись создавать его с нуля.',
       },
       4: {
-        'result': 'mountain',
-        'imageItems': ['earth', 'earth', 'water'],
-        'hints': ['earth', 'water'],
-        'title': 'Построй гору',
-        'description': 'Соедини элементы земли, затем добавь воду',
-        'story':
-            'Давным-давно тектонические плиты создали величественные горы...',
-        'background': 'level2.png',
-        'freeHints': 3, // сколько бесплатных подсказок на уровне
-        'timeHintWait': 10,
+        'result': 'computer',
+        'imageItems': ['sand', 'fire', 'metal', 'electricity', 'glass'],
+        'hints': [
+          'silicon',
+          'chip',
+          'circuit',
+          'processor',
+          'monitor',
+          'computer',
+        ],
+        'title': 'Собери компьютер',
+        'background': 'level_tech.png',
+        'freeHints': 0,
+        'timeHintWait': 45,
+        'description':
+            'От песка до искусственного интеллекта — путь технологий',
+        'story': 'Знаешь ли ты, что твой смартфон начинался с горстки песка?',
       },
       5: {
-        'result': 'fish',
-        'imageItems': ['earth', 'water', 'water', 'time'],
-        'hints': ['time'],
-        'title': 'Создай первую рыбу',
-        'description': 'Начни с бактерий и дай им время развиться',
-        'story': 'Жизнь зародилась в океане... Проследи эволюцию!',
+        'result': 'honey',
+        'imageItems': ['earth', 'water', 'sun', 'wind'],
+        'hints': ['flower', 'bee', 'honey'],
+        'title': 'Добыча мёда',
+        'background': 'level_garden.png',
+        'freeHints': 3,
+        'timeHintWait': 20,
+        'description': 'Помоги пчёлам создать сладкое золото',
+        'story': 'Для одной ложки мёда пчела пролетает вокруг Земли дважды!',
       },
+      // Металл + Огонь = Сталь → Сталь + Электричество = Двигатель → Двигатель + Огонь = Ракета → Песок + Огонь = Стекло → Стекло + Металл = Спутник → Ракета + Спутник = Космический корабль
       6: {
-        'result': 'storm',
-        'imageItems': ['water', 'wind', 'wind', 'water', 'cloud'],
-        'hints': ['wind', 'cloud'],
-        'title': 'Вызови бурю',
-        'description': 'Тебе понадобятся облака и электричество',
-        'story': 'Небо темнеет... Чувствуешь напряжение в воздухе?',
-      },
-      7: {
-        'result': 'tool',
-        'imageItems': ['earth', 'fire', 'water', 'earth', 'man'],
-        'hints': ['fire', 'man'],
-        'title': 'Изобрети первый инструмент',
-        'description': 'Человеку нужен камень и огонь, чтобы начать прогресс',
-        'story': 'Первый шаг к цивилизации...',
-      },
-      8: {
-        'result': 'forest',
-        'imageItems': ['earth', 'water', 'wind', 'fire', 'time', 'earth'],
-        'hints': ['time', 'wind'],
-        'title': 'Вырасти лес',
-        'description': 'Начни с болота, добавь время и стихии',
-        'story': 'Даже магия начинается с маленького ростка...',
-      },
-      9: {
-        'result': 'lightning',
-        'imageItems': ['fire', 'wind', 'cloud', 'wind'],
-        'hints': ['fire', 'wind'],
-        'title': 'Приручи молнию',
-        'description': 'Огонь и ветер могут создать нечто мощное...',
-        'story': 'Зевс не одобряет, но мы попробуем!',
-      },
-      10: {
-        'result': 'wine',
-        'imageItems': ['earth', 'water', 'time', 'grape'],
-        'hints': ['time', 'grape'],
-        'title': 'Приготовь вино',
-        'description': 'Ферментация требует терпения...',
-        'story': 'Древние греки знали толк в этом искусстве!',
-      },
-      11: {
-        'result': 'dragon',
-        'imageItems': ['fire', 'earth', 'lizard', 'swamp', 'time'],
-        'hints': ['lizard', 'time'],
-        'title': 'Создай дракона',
-        'description': 'Рептилия + магия стихий = легенда',
-        'story': 'Мифы становятся реальностью...',
-      },
-      12: {
-        'result': 'city',
-        'imageItems': ['earth', 'fire', 'man', 'wood', 'stone', 'tool'],
-        'hints': ['man', 'tool'],
-        'title': 'Основать город',
-        'description': 'Начни с инструментов и объедини людей',
-        'story': 'От хижины к метрополису...',
-      },
-      13: {
         'result': 'spaceship',
-        'imageItems': [
-          'metal',
-          'fire',
-          'wind',
-          'electricity',
-          'computer',
-          'satellite',
-        ],
-        'hints': ['electricity', 'computer'],
-        'title': 'Запусти ракету',
-        'description': 'От пара до искусственного интеллекта...',
-        'story': 'Мечта Циолковского становится реальностью!',
-      },
-      14: {
-        'result':
-            'hero', // Можно получить через knight + dragon ИЛИ scientist + book
-        'imageItems': ['man', 'sword', 'dragon', 'book'],
-        'hints': ['sword', 'book'],
-        'title': 'Стань героем',
-        'description': 'Сила или знание? Выбери путь!',
+        'imageItems': ['metal', 'fire', 'electricity', 'wind', 'sand'],
+        'hints': ['steel', 'engine', 'rocket', 'satellite', 'spaceship'],
+        'title': 'Космическая программа',
+        'background': 'level_space.png',
+        'freeHints': 1,
+        'timeHintWait': 60,
+        'description': 'От куска металла до межзвёздного корабля',
+        'story': 'Человечество всегда мечтало о звёздах...',
       },
     };
   }
